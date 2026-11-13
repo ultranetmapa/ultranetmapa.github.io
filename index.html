@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0056b3">
+<meta name="application-name" content="Ultranet">
+<meta name="apple-mobile-web-app-title" content="Ultranet">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="msapplication-TileColor" content="#0056b3">
+<title>Ultranet</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/@mapbox/togeojson@0.16.2/togeojson.js"></script>
+<style>
+  html,body{height:100%;margin:0;overscroll-behavior:none;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+  #map{position:absolute;inset:0;z-index:0}
+  .pill{display:inline-block;transform:translate(-50%,-50%);white-space:nowrap;font-weight:700;font-size:11px;line-height:1;padding:4px 7px;border-radius:999px;border:2px solid #fff;color:#fff;box-shadow:0 1px 4px rgba(0,0,0,.6)}
+  .pill.ok{background:#16a34a}
+  .pill.full{background:#dc2626;font-size:12px;padding:5px 9px;border-width:3px;box-shadow:0 0 0 3px rgba(220,38,38,.45),0 1px 5px rgba(0,0,0,.7);animation:pulse 1.8s infinite}
+  .pill.ceo{background:#2563eb}
+  .pill.imenda{background:#6b7280}
+  .pill.loja{background:#7c3aed}
+  @keyframes pulse{50%{box-shadow:0 0 0 7px rgba(220,38,38,.15),0 1px 5px rgba(0,0,0,.7)}}
+  #sheet{transition:transform .25s ease;max-height:68vh}
+  #sheet.closed{transform:translateY(105%)}
+  .leaflet-control-layers{margin-top:70px!important}
+  button{touch-action:manipulation}
+  .pill.warn{background:#f59e0b;color:#1c1400}
+  .pill.hl{animation:hlp 1s infinite;transform:translate(-50%,-50%) scale(1.3);position:relative;z-index:5;box-shadow:0 0 0 4px #fff,0 0 0 8px rgba(14,165,233,.9),0 0 22px 10px rgba(14,165,233,.7)}
+  @keyframes hlp{50%{box-shadow:0 0 0 4px #fff,0 0 0 15px rgba(14,165,233,.25),0 0 30px 14px rgba(14,165,233,.5)}}
+  .pill.dim{opacity:.2;filter:grayscale(.7)}
+  .st{display:none;position:absolute;left:0;top:0;white-space:nowrap;pointer-events:none;font:700 10px/1 system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#fff;text-shadow:0 0 3px #000,0 0 3px #000,0 1px 2px #000}
+  .zl16 .st.long,.zl17 .st{display:block}
+  .st.on{color:#38bdf8;font-size:12px}
+  .leaflet-control-layers{margin-top:100px!important}
+  /* Identidade Ultranet */
+  #hdr{background:rgba(0,86,179,.97)}
+  #hdr input#search{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.4);color:#fff}
+  #hdr input#search::placeholder{color:#cfe3ff}
+  #hdr input#search:focus{border-color:#fff}
+  #hdr #btnMenu{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.4)}
+  /* Modo edição */
+  .sw{position:relative;flex:none;width:52px;height:30px}
+  .sw input{position:absolute;inset:0;opacity:0;width:100%;height:100%;margin:0;z-index:2;cursor:pointer}
+  .sw i{position:absolute;inset:0;border-radius:999px;background:#cbd5e1;transition:.2s}
+  .sw i:after{content:"";position:absolute;left:3px;top:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.4);transition:.2s}
+  .sw input:checked+i{background:#16a34a}
+  .sw input:checked+i:after{transform:translateX(22px)}
+  .editing .pill:not(.ceo):not(.imenda):not(.loja){outline:2px dashed #fff;outline-offset:3px;cursor:grab}
+  .placing.leaflet-container,.placing .leaflet-interactive{cursor:crosshair!important}
+  .pill.plan{border-style:dashed;border-width:2px}
+</style>
+</head>
+<body class="bg-slate-900">
+
+<!-- Cabeçalho -->
+<div id="hdr" class="fixed top-0 inset-x-0 z-[1000] text-white shadow-lg" style="padding-top:env(safe-area-inset-top)">
+  <div class="flex items-center gap-2 px-3 pt-2">
+    <input id="search" type="search" placeholder="Buscar rua, caixa (Q3), cliente, PON 8, CARD 2…" class="flex-1 min-w-0 rounded-lg bg-slate-800 border border-slate-700 px-3 py-2 text-sm placeholder-slate-400 focus:outline-none focus:border-sky-500">
+    <button id="btnMenu" class="rounded-lg bg-slate-800 border border-slate-700 px-3 py-2 text-sm font-semibold">⚙ Dados</button>
+  </div>
+  <div class="flex gap-1.5 px-3 py-2 overflow-x-auto text-sm" id="tabs"></div>
+  <div id="hlChip" class="hidden flex items-center justify-between gap-2 mx-3 mb-2 rounded-lg bg-slate-900 px-3 py-1.5 text-xs font-semibold"><span class="truncate"></span><button id="hlClear" class="text-base leading-none px-1" title="Limpar destaque">✕</button></div>
+  <div id="results" class="hidden max-h-56 overflow-y-auto bg-slate-800 border-t border-slate-700"></div>
+</div>
+
+<div id="map"></div>
+
+<!-- Estatísticas -->
+<div id="stats" class="fixed left-2 z-[900] bg-slate-900/90 text-white text-xs rounded-lg px-3 py-1.5 shadow" style="bottom:calc(env(safe-area-inset-bottom) + 12px)"></div>
+
+<!-- Barra do modo edição -->
+<div id="editBar" class="hidden fixed z-[950] left-2 right-2 flex items-center justify-between gap-2 rounded-xl bg-[#0056b3] text-white text-sm shadow-xl px-3 py-2" style="bottom:calc(env(safe-area-inset-bottom) + 72px)"></div>
+
+<!-- GPS -->
+<button id="btnGps" title="Minha localização" class="fixed right-3 z-[900] w-12 h-12 rounded-full bg-sky-600 text-white text-xl shadow-xl active:scale-95" style="bottom:calc(env(safe-area-inset-bottom) + 12px)">📍</button>
+
+<!-- Painel inferior -->
+<div id="sheet" class="closed fixed inset-x-0 bottom-0 z-[1100] bg-white rounded-t-2xl shadow-2xl flex flex-col" style="padding-bottom:env(safe-area-inset-bottom)">
+  <div class="flex justify-center pt-2"><div class="w-10 h-1.5 rounded-full bg-slate-300"></div></div>
+  <div id="sheetBody" class="overflow-y-auto px-4 pb-4"></div>
+</div>
+
+<!-- Menu de dados -->
+<div id="menu" class="hidden fixed inset-0 z-[1200] bg-black/60 flex items-end sm:items-center justify-center">
+  <div class="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-4 space-y-2 max-h-[92vh] overflow-y-auto" style="padding-bottom:calc(env(safe-area-inset-bottom) + 16px)">
+    <div class="flex justify-between items-center mb-1"><h2 class="font-bold text-slate-800">Dados e backup</h2><button id="menuClose" class="text-2xl text-slate-500 px-2">×</button></div>
+    <label class="flex items-center justify-between gap-3 rounded-lg border-2 border-sky-300 bg-sky-50 px-3 py-3 cursor-pointer">
+      <span class="text-sm font-semibold text-slate-800">✏ Modo Edição do Mapa (Mover / Adicionar Caixas)<span class="block text-xs font-normal text-slate-500 mt-0.5">Desativado: caixas travadas para operar em campo sem toques acidentais.</span></span>
+      <span class="sw"><input type="checkbox" id="editToggle"><i></i></span>
+    </label>
+    <button id="btnStreets" class="w-full rounded-lg bg-[#0056b3] text-white py-3 font-semibold">🛣 Renomear ruas (São Geraldo / Laranjeira)</button>
+    <button id="btnExport" class="w-full rounded-lg bg-emerald-600 text-white py-3 font-semibold">⬇ Exportar backup (JSON)</button>
+    <button id="btnImport" class="w-full rounded-lg bg-sky-600 text-white py-3 font-semibold">⬆ Importar backup (JSON)</button>
+    <button id="btnKml" class="w-full rounded-lg bg-slate-700 text-white py-3 font-semibold">🗺 Importar novo KML (substitui a rede)</button>
+    <button id="btnReset" class="w-full rounded-lg bg-white border border-red-300 text-red-600 py-3 font-semibold">Apagar todos os cadastros (clientes, caixas novas, nomes)</button>
+    <p class="text-xs text-slate-500 pt-1">Tudo é salvo automaticamente neste aparelho (localStorage). Faça backup com frequência: limpar os dados do navegador apaga os cadastros.</p>
+    <input id="fileJson" type="file" accept=".json,application/json" class="hidden">
+    <input id="fileKml" type="file" accept=".kml,.xml,application/vnd.google-earth.kml+xml" class="hidden">
+  </div>
+</div>
+
+<!-- Nova caixa -->
+<div id="nbModal" class="hidden fixed inset-0 z-[1300] bg-black/60 flex items-end sm:items-center justify-center">
+  <div class="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-4 space-y-3 max-h-[92vh] overflow-y-auto" style="padding-bottom:calc(env(safe-area-inset-bottom) + 16px)">
+    <h2 class="font-bold text-slate-800">+ Nova caixa</h2>
+    <label class="block text-xs text-slate-500">Nome da caixa<input id="nbName" maxlength="40" placeholder="Ex.: Q9" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2.5 text-base text-slate-900 focus:outline-none focus:border-sky-500"></label>
+    <label class="block text-xs text-slate-500">Rua<input id="nbSt" list="nbList" maxlength="80" placeholder="Digite ou escolha (vazio = automática)" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2.5 text-base text-slate-900 focus:outline-none focus:border-sky-500"><datalist id="nbList"></datalist></label>
+    <div class="rounded-lg border-2 border-dashed border-violet-300 bg-violet-50 px-3 py-2">
+      <label class="flex items-center gap-2 text-sm font-semibold text-violet-900"><input type="checkbox" id="nbPlan">Caixa Planejada / A Instalar</label>
+      <div id="nbPlanBox" class="hidden mt-2">
+        <div class="text-xs text-violet-800">Cor do pino no mapa</div>
+        <div class="mt-1 flex flex-wrap items-center gap-2"><span id="nbSw" class="flex flex-wrap items-center gap-2"></span><input type="color" id="nbColor" value="#9333ea" title="Outra cor" class="w-9 h-8 p-0 border-0 bg-transparent cursor-pointer"></div>
+      </div>
+    </div>
+    <p class="text-xs text-slate-500">Caixa normal: nasce com 16 vagas livres, cores automáticas e salvamento local. Caixa planejada: pino na cor escolhida até você desmarcar a opção.</p>
+    <div class="grid grid-cols-2 gap-2"><button id="nbCancel" class="rounded-lg border border-slate-300 text-slate-700 py-3 font-semibold">Cancelar</button><button id="nbOk" class="rounded-lg bg-[#0056b3] text-white py-3 font-bold">Criar caixa</button></div>
+  </div>
+</div>
+
+<!-- Renomear ruas -->
+<div id="stModal" class="hidden fixed inset-0 z-[1250] bg-black/60 flex items-end sm:items-center justify-center">
+  <div class="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-4 max-h-[92vh] flex flex-col" style="padding-bottom:calc(env(safe-area-inset-bottom) + 16px)">
+    <div class="flex justify-between items-center"><h2 class="font-bold text-slate-800">🛣 Renomear ruas</h2><button id="stClose" class="text-2xl text-slate-500 px-2">×</button></div>
+    <p class="text-xs text-slate-500 mt-1">Digite o nome real e toque fora do campo (ou Enter) para salvar. Use 📍 para ver a rua no mapa. Deixe vazio para não exibir rótulo.</p>
+    <div id="stList" class="overflow-y-auto flex-1 min-h-0 mt-1"></div>
+    <button id="stDone" class="mt-3 w-full rounded-lg bg-[#0056b3] text-white py-3 font-semibold">Concluir</button>
+  </div>
+</div>
+
+<script>
+/* ======================= DADOS DO KML (extraídos de "Meus lugares.kml") ======================= */
+// [nome, lng, lat, descrição]
+const PTS = [
+["Q1",-41.36025,-18.91608,""],["Q1",-41.36074,-18.91518,""],
+["Q5",-41.49176,-18.94619,""],["Q3",-41.49066,-18.94647,""],["Q4",-41.48956,-18.94677,""],["Q2",-41.48962,-18.94792,""],["Q1",-41.48995,-18.94726,""],["CEO",-41.48992,-18.94733,""],
+["Q5",-41.35991,-18.91745,""],
+["CEO",-41.36068,-18.91529,"F7 - CARD2 - PON1 - T2 verde"],
+["CEO",-41.36023,-18.91613,"F8 - CARD2 - PON2 - T2 AMARELA"],
+["Q2",-41.36133,-18.91602,""],["Q3",-41.35968,-18.91478,""],["Q6",-41.36007,-18.91292,""],["Q5",-41.36031,-18.91507,""],["Q4",-41.35898,-18.91458,""],
+["Q2",-41.36103,-18.91411,""],["Q3",-41.36178,-18.91478,""],["Q4",-41.36149,-18.91520,""],
+["CEO",-41.36061,-18.91809,"F9 - CARD2 - PON-3 - T2 BRANCA [VERMELHA T4 VERMELHA F23 O LINK] LINK VALENET RURAL - FUSAO EM CFO-06 LIGADA NA FIBRA-23 CFO 24"],
+["CEO",-41.36208,-18.91947,"F10-CAD2 - T2 AZUL / PON-4"],
+["CEO",-41.36254,-18.91993,"F11-CAD2 - T2 -VERMELHA / PON-5"],
+["CEO",-41.36203,-18.92193,"F12-CAD2 - T2- ROXA / PON-6"],
+["CEO",-41.36052,-18.92054,"F13-CAD2 - T3 - VERDE / PON-7"],
+["CEO",-41.35938,-18.91946,"F14-CAD2- T3 - AMARELA / PON-8"],
+["CEO",-41.35845,-18.91859,"F15-CAD3- T3- BRANCA / PON-1"],
+["CEO",-41.35735,-18.91758,"F16-CAD3- T3 AZUL / PON-2"],
+["CEO",-41.35634,-18.91666,"F17-CAD3- T3 VERMELHA / PON-3"],
+["CEO",-41.35533,-18.91573,"F18-CAD3- T3 ROXA / PON-4 — CAIXA COM AS 8 PORTAS LOTADAS!! SE PRECISAR ABRIR MAIS CAIXAS TEM QUE ABRIR CEO NOSSA!"],
+["CEO",-41.35628,-18.91441,"F19-CAD3- T4 VERDE / PON-5"],
+["Q2",-41.35461,-18.91669,""],["Q2",-41.35563,-18.91732,""],["Q2",-41.35672,-18.91826,"caixa cheia !!"],["Q2",-41.35782,-18.91923,""],["Q2",-41.35873,-18.92000,""],["Q2",-41.35996,-18.92111,""],
+["Q4",-41.36148,-18.92240,""],
+["Q1",-41.36201,-18.92190,""],["Q1",-41.36053,-18.92056,""],["Q1",-41.35935,-18.91946,""],["Q1",-41.35844,-18.91858,""],["Q1",-41.35736,-18.91759,""],["Q1",-41.35632,-18.91665,""],["Q1",-41.35530,-18.91575,""],
+["Q7",-41.35571,-18.91519,"CDA Q7 COM FIBRA TROCADA [ROXA] caixa lotada!!"],
+["Q3",-41.35696,-18.91603,""],["Q3",-41.35798,-18.91696,"caixa lotada!!"],["Q3",-41.35908,-18.91797,"caixa cheia!! apenas uma vaga"],["Q3",-41.35993,-18.91878,""],["Q3",-41.36120,-18.91994,""],
+["Q2",-41.36227,-18.92095,""],
+["Q3",-41.35395,-18.91763,""],["Q5",-41.35415,-18.91636,""],["Q6",-41.35475,-18.91528,""],["Q1",-41.35626,-18.91441,""],["Q2",-41.35490,-18.91354,""],["Q3",-41.35387,-18.91281,""],["Q4",-41.35379,-18.91221,""],
+["Q6",-41.35714,-18.91496,""],["Q4",-41.35762,-18.91543,""],["Q5",-41.35814,-18.91589,""],["Q4",-41.35858,-18.91630,"caixa lotada!!!!"],["Q5",-41.35925,-18.91688,""],["Q4",-41.35964,-18.91739,""],
+["Q1",-41.36061,-18.91811,""],["Q4",-41.36050,-18.91822,""],["Q5",-41.36122,-18.91888,""],["Q4",-41.36178,-18.91941,""],["Q1",-41.36209,-18.91949,""],["Q1",-41.36255,-18.91995,""],
+["Q2",-41.36370,-18.92057,""],["Q3",-41.36406,-18.92001,""],["Q4",-41.36313,-18.91948,""],["Q4",-41.36438,-18.91943,""],["Q5",-41.36470,-18.91884,""],
+["Q7",-41.36387,-18.91748,""],["Q6",-41.36339,-18.91795,""],["Q6",-41.36393,-18.91845,""],["Q5",-41.36353,-18.91896,""],["Q3",-41.36248,-18.91892,""],
+["Q7",-41.36140,-18.91788,""],["Q2",-41.36112,-18.91762,""],["Q3",-41.36234,-18.91789,""],["Q4",-41.36263,-18.91750,""],["Q5",-41.36291,-18.91842,""],
+["Q3",-41.36158,-18.92151,""],["Q2",-41.36146,-18.91893,""],
+["CEO DE IMENDA",-41.35560,-18.91533,"[CABO PRIMARIO DE 24 JÁ FOI ROMPIDO] UMA CAIXA DE EMENDA AQUI, COM UM CABO DE 6 DESATIVADO!! PASSAMOS UM CABO DE 6 DA CEO PARA A Q7 E UM PEDAÇO PARA A Q8..... RUA SANTA LUZIA"],
+["CASA/ LOJA-ULTRANET",-41.35463,-18.91692,""],
+["Q7",-41.35891,-18.91782,""],["Q6",-41.35796,-18.91698,""],["Q6",-41.35825,-18.91842,""],["Q7",-41.35671,-18.91827,""],["Q7",-41.35664,-18.91574,""],
+["Q8",-41.35585,-18.91502,"FIBRA AMARELA"],
+["Q6",-41.36144,-18.92015,""]
+];
+// [tipo, [[lng,lat],...]]   tipo: "p" = cabo primário 24 fibras, "f" = cabo de 6
+const LINES = [
+["p",[[-41.36210,-18.91154],[-41.36171,-18.91244],[-41.36125,-18.91363],[-41.36104,-18.91410],[-41.36069,-18.91507],[-41.36075,-18.91518],[-41.36070,-18.91529],[-41.36033,-18.91586],[-41.36026,-18.91597],[-41.36025,-18.91607],[-41.36024,-18.91612],[-41.36007,-18.91637],[-41.35984,-18.91671],[-41.35974,-18.91685],[-41.35973,-18.91686],[-41.36016,-18.91721],[-41.35992,-18.91744],[-41.36062,-18.91808],[-41.36062,-18.91811],[-41.36147,-18.91892],[-41.36209,-18.91948],[-41.36210,-18.91948],[-41.36255,-18.91993],[-41.36256,-18.91994],[-41.36228,-18.92094],[-41.36202,-18.92189],[-41.36150,-18.92143],[-41.36053,-18.92053],[-41.35938,-18.91945],[-41.35935,-18.91945],[-41.35846,-18.91859],[-41.35844,-18.91858],[-41.35735,-18.91758],[-41.35635,-18.91665],[-41.35533,-18.91572],[-41.35572,-18.91516],[-41.35628,-18.91440],[-41.35491,-18.91353],[-41.35410,-18.91300],[-41.35388,-18.91281],[-41.35379,-18.91220]]],
+["f",[[-41.36027,-18.91606],[-41.35977,-18.91583],[-41.35970,-18.91475],[-41.35997,-18.91344],[-41.36008,-18.91289],[-41.35996,-18.91348],[-41.35970,-18.91472],[-41.35899,-18.91455]]],
+["f",[[-41.36026,-18.91606],[-41.36136,-18.91601]]],
+["f",[[-41.36066,-18.91352],[-41.36032,-18.91506],[-41.36075,-18.91517],[-41.36104,-18.91410],[-41.36107,-18.91421],[-41.36179,-18.91476],[-41.36150,-18.91519]]],
+["f",[[-41.35992,-18.91744],[-41.35965,-18.91737],[-41.35908,-18.91797],[-41.35845,-18.91857],[-41.35784,-18.91919]]],
+["f",[[-41.36053,-18.91820],[-41.35995,-18.91877],[-41.35938,-18.91942],[-41.35876,-18.91993]]],
+["f",[[-41.35997,-18.92109],[-41.36055,-18.92054],[-41.36123,-18.91991],[-41.36180,-18.91938],[-41.36124,-18.91885]]],
+["f",[[-41.36147,-18.92238],[-41.36202,-18.92188],[-41.36227,-18.92093]]],
+["f",[[-41.36257,-18.91993],[-41.36375,-18.92055],[-41.36411,-18.91997],[-41.36444,-18.91940],[-41.36474,-18.91880]]],
+["f",[[-41.36062,-18.91807],[-41.36062,-18.91810],[-41.36113,-18.91761],[-41.36162,-18.91721],[-41.36235,-18.91788],[-41.36264,-18.91749]]],
+["f",[[-41.36141,-18.91786],[-41.36250,-18.91890],[-41.36211,-18.91948],[-41.36147,-18.91891]]],
+["f",[[-41.36250,-18.91890],[-41.36315,-18.91947],[-41.36356,-18.91894]]],
+["f",[[-41.36235,-18.91788],[-41.36292,-18.91841],[-41.36340,-18.91794]]],
+["f",[[-41.35671,-18.91827],[-41.35736,-18.91757],[-41.35798,-18.91695],[-41.35860,-18.91628],[-41.35928,-18.91686]]],
+["f",[[-41.35564,-18.91730],[-41.35634,-18.91663],[-41.35698,-18.91602],[-41.35763,-18.91540],[-41.35715,-18.91493]]],
+["f",[[-41.35763,-18.91540],[-41.35815,-18.91587]]],
+["f",[[-41.35628,-18.91440],[-41.35627,-18.91440],[-41.35491,-18.91353],[-41.35409,-18.91298],[-41.35386,-18.91281],[-41.35379,-18.91221]]],
+["f",[[-41.35476,-18.91526],[-41.35416,-18.91634],[-41.35463,-18.91667],[-41.35531,-18.91573]]],
+["f",[[-41.35463,-18.91667],[-41.35396,-18.91761]]],
+["f",[[-41.35586,-18.91500],[-41.35532,-18.91572]]],
+["f",[[-41.36202,-18.92188],[-41.36158,-18.92149]]],
+["f",[[-41.35696,-18.91603],[-41.35665,-18.91573]]],
+["f",[[-41.35891,-18.91782],[-41.35909,-18.91797]]],
+["f",[[-41.35844,-18.91858],[-41.35825,-18.91842]]],
+["f",[[-41.36120,-18.91993],[-41.36144,-18.92015]]],
+["f",[[-41.49067,-18.94644],[-41.49065,-18.94645],[-41.49036,-18.94625],[-41.49013,-18.94613],[-41.48981,-18.94648],[-41.48964,-18.94668],[-41.48957,-18.94677]]],
+["f",[[-41.49178,-18.94612],[-41.49071,-18.94642],[-41.48995,-18.94722],[-41.48961,-18.94789]]]
+];
+
+/* ======================= CONFIG / ESTADO ======================= */
+const CAP = 16, WARN_FROM = 11;
+const REGIONS = { sgb:"São Geraldo do Baixio", laranjeira:"Laranjeira" };
+const KEY_STATE = "ftth_state_v1", KEY_NET = "ftth_net_v1";
+const jget = (k,d)=>{ try{ const v=localStorage.getItem(k); return v?JSON.parse(v):d; }catch(e){ return d; } };
+const jset = (k,v)=>{ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){ alert("Não foi possível salvar (armazenamento cheio ou bloqueado)."); } };
+const regionOf = lng => lng < -41.45 ? "laranjeira" : "sgb";
+const norm = s => String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().trim();
+
+/* Ruas (rótulos no mapa): [id, região, nome padrão, traçado [[lng,lat],...]].
+   Traçados derivados do alinhamento dos cabos/caixas do KML. Nomes em branco = rua ainda sem nome (digite o nome real em ⚙ Dados > Renomear ruas).
+   "Rua Santa Luzia" vem da própria descrição do KML. */
+const STREETS = [
+["msg","sgb","",[[-41.36202,-18.92189],[-41.36053,-18.92053],[-41.35938,-18.91945],[-41.35846,-18.91859],[-41.35735,-18.91758],[-41.35635,-18.91665],[-41.35533,-18.91572]]],
+["slz","sgb","Rua Santa Luzia",[[-41.35533,-18.91573],[-41.35572,-18.91516],[-41.35628,-18.9144]]],
+["b","sgb","",[[-41.35996,-18.92111],[-41.35873,-18.92],[-41.35782,-18.91923],[-41.35672,-18.91826],[-41.35563,-18.91732],[-41.35461,-18.91669]]],
+["c","sgb","",[[-41.3612,-18.91994],[-41.35993,-18.91878],[-41.35908,-18.91797],[-41.35798,-18.91696],[-41.35696,-18.91603],[-41.35665,-18.91574]]],
+["d","sgb","",[[-41.36178,-18.91941],[-41.36122,-18.91888],[-41.3605,-18.91822],[-41.35964,-18.91739],[-41.35925,-18.91688],[-41.35858,-18.9163],[-41.35814,-18.91589],[-41.35762,-18.91543],[-41.35714,-18.91496]]],
+["e","sgb","",[[-41.3621,-18.91154],[-41.36171,-18.91244],[-41.36125,-18.91363],[-41.36104,-18.9141],[-41.36069,-18.91507],[-41.36025,-18.91607],[-41.35984,-18.91671]]],
+["f","sgb","",[[-41.36027,-18.91606],[-41.35977,-18.91583],[-41.3597,-18.91475],[-41.35997,-18.91344],[-41.36008,-18.91289]]],
+["g","sgb","",[[-41.36104,-18.9141],[-41.36179,-18.91476],[-41.3615,-18.91519]]],
+["h","sgb","",[[-41.36026,-18.91606],[-41.36136,-18.91601]]],
+["i","sgb","",[[-41.36062,-18.91808],[-41.36147,-18.91892],[-41.36209,-18.91948],[-41.36255,-18.91993]]],
+["j","sgb","",[[-41.36255,-18.91993],[-41.36375,-18.92055],[-41.36411,-18.91997],[-41.36444,-18.9194],[-41.36474,-18.9188]]],
+["k","sgb","",[[-41.36147,-18.92238],[-41.36202,-18.92188],[-41.36227,-18.92093],[-41.36255,-18.91993]]],
+["l","sgb","",[[-41.36062,-18.91807],[-41.36113,-18.91761],[-41.36162,-18.91721],[-41.36235,-18.91788],[-41.36264,-18.91749]]],
+["m","sgb","",[[-41.36141,-18.91786],[-41.3625,-18.9189],[-41.36315,-18.91947],[-41.36356,-18.91894]]],
+["n","sgb","",[[-41.36235,-18.91788],[-41.36292,-18.91841],[-41.3634,-18.91794]]],
+["o","sgb","",[[-41.35628,-18.9144],[-41.35491,-18.91353],[-41.35409,-18.91298],[-41.35386,-18.91281],[-41.35379,-18.91221]]],
+["p","sgb","",[[-41.35476,-18.91526],[-41.35416,-18.91634],[-41.35463,-18.91667],[-41.35396,-18.91761]]],
+["l1","laranjeira","",[[-41.49178,-18.94612],[-41.49067,-18.94644],[-41.48957,-18.94677]]],
+["l2","laranjeira","",[[-41.48995,-18.94722],[-41.48961,-18.94789]]]
+];
+
+function buildItems(net){
+  const out = net.pts.map((p,i)=>{
+    const n = (p[0]||"").toUpperCase().trim();
+    let type = "cto";
+    if(n.startsWith("CEO DE")||n.includes("EMENDA")||n.includes("IMENDA")) type="imenda";
+    else if(n.startsWith("CEO")) type="ceo";
+    else if(n.startsWith("CASA")||n.includes("LOJA")) type="loja";
+    const desc = p[3]||"";
+    const seedFull = type==="cto" && /lotad|cheia/i.test(desc) && !/vaga/i.test(desc);
+    const seedWarn = type==="cto" && !seedFull && /vaga/i.test(desc);
+    return { id:"n"+i, name:p[0], lng:p[1], lat:p[2], lng0:p[1], lat0:p[2], desc, type, region:regionOf(p[1]), seedFull, seedWarn };
+  });
+  // Posições movidas pelo usuário: ficam à parte (state.pos); o KML original nunca é alterado
+  out.forEach(it=>{ const o=state.pos[it.id]; if(o && isFinite(o[0]) && isFinite(o[1])){ it.lat=o[0]; it.lng=o[1]; } });
+  // Caixas criadas pelo usuário (state.custom)
+  state.custom.forEach(c=>out.push({ id:c.id, name:c.name, lng:c.lng, lat:c.lat, lng0:c.lng, lat0:c.lat, desc:"", type:"cto", region:c.region||regionOf(c.lng), seedFull:false, seedWarn:false, custom:true }));
+  return out;
+}
+
+let net   = jget(KEY_NET, null) || { pts:PTS, lines:LINES };
+let state = jget(KEY_STATE, null);
+function fixState(){
+  if(!state||typeof state!=="object") state={};
+  ["clients","full","warn","names","notes","links","sn","so","pos","plan"].forEach(k=>{ if(!state[k]||typeof state[k]!=="object"||Array.isArray(state[k])) state[k]={}; });
+  ["custom","cst"].forEach(k=>{ if(!Array.isArray(state[k])) state[k]=[]; });   // caixas criadas / ruas criadas
+}
+fixState();
+let _sm = null;
+const streetsAll = () => _sm || (_sm = STREETS.concat(state.cst.map(c=>[c.id,c.region,c.name,[]])));
+let items = [], byId = {};
+function rebuild(){ _sm=null; items=buildItems(net); byId=Object.fromEntries(items.map(i=>[i.id,i])); }
+rebuild();
+const save = ()=> jset(KEY_STATE, state);
+
+// clientes: {n:nome, p:porta}. Cadastros antigos (texto) são convertidos na leitura.
+const clientsOf = id => { const a = state.clients[id] || (state.clients[id]=[]); a.forEach((c,i)=>{ if(typeof c==="string") a[i]={n:c,p:""}; }); return a; };
+const nameOf    = it => state.names[it.id] || it.name;
+const forcedFull= it => (it.id in state.full) ? state.full[it.id] : it.seedFull;
+const forcedWarn= it => (it.id in state.warn) ? state.warn[it.id] : it.seedWarn;
+// Verde 0–10 · Amarelo 11–15 (ou forçado) · Vermelho 16 (ou lotada forçada)
+function status(it){
+  if(it.type!=="cto") return null;
+  const c = clientsOf(it.id).length;
+  if(c>=CAP || forcedFull(it)) return "full";
+  if(c>=WARN_FROM || forcedWarn(it)) return "warn";
+  return "ok";
+}
+const isFull = it => status(it)==="full";
+/* Caixas planejadas / a instalar: guardadas à parte em state.plan[id] = {on, color}. Não mexem nas regras de cor automática. */
+const HEX = /^#[0-9a-f]{6}$/i, PLAN_DEF = "#9333ea";
+const PLAN_COLORS = [["Roxo","#9333ea"],["Preto","#000000"],["Laranja","#ea580c"],["Rosa","#db2777"],["Cinza","#475569"]];
+const planOf = it => { const p=state.plan[it.id]; return (it.type==="cto" && p && p.on) ? {color: HEX.test(p.color||"") ? p.color : PLAN_DEF} : null; };
+const isPlanned = it => !!planOf(it);
+function textOn(hex){ const n=parseInt(hex.slice(1),16), r=n>>16, g=(n>>8)&255, b=n&255; return (0.299*r+0.587*g+0.114*b)>150 ? "#111" : "#fff"; }
+function swatches(sel, attr){
+  return PLAN_COLORS.map(([n,c])=>`<button type="button" ${attr} data-c="${c}" title="${n}" class="w-8 h-8 rounded-full shadow border-2 ${String(sel).toLowerCase()===c?'border-sky-500 ring-2 ring-sky-300':'border-white'}" style="background:${c}"></button>`).join("");
+}
+function planEditor(it){
+  if(!editMode || it.type!=="cto") return "";
+  const p=state.plan[it.id]||{}, on=!!p.on, col=HEX.test(p.color||"")?p.color:PLAN_DEF;
+  return `<div class="mt-3 rounded-lg border-2 border-dashed border-violet-300 bg-violet-50 px-3 py-2">
+      <label class="flex items-center gap-2 text-sm font-semibold text-violet-900"><input type="checkbox" data-a="planchk" ${on?'checked':''}>Caixa Planejada / A Instalar</label>
+      ${on?`<div class="mt-2 text-xs text-violet-800">Cor do pino no mapa</div>
+      <div class="mt-1 flex flex-wrap items-center gap-2">${swatches(col,'data-a="plancolor"')}<input type="color" data-a="plancustom" value="${col}" title="Outra cor" class="w-9 h-8 p-0 border-0 bg-transparent cursor-pointer"></div>`:""}
+    </div>`;
+}
+const esc = s => String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+/* ---- Rua de cada ponto (mais próxima do traçado, na mesma região) ---- */
+let autoSt = {};
+function segD(p,a,b){
+  const k=Math.cos(18.9*Math.PI/180), ax=(a[0]-p[0])*k, ay=a[1]-p[1], bx=(b[0]-p[0])*k, by=b[1]-p[1];
+  const dx=bx-ax, dy=by-ay, l=dx*dx+dy*dy; let t=l?-(ax*dx+ay*dy)/l:0; t=Math.max(0,Math.min(1,t));
+  return Math.hypot(ax+t*dx,ay+t*dy)*111000;
+}
+function computeStreets(){
+  autoSt={};
+  items.forEach(it=>{
+    let best=null,bd=150;
+    streetsAll().forEach(s=>{ if(s[1]!==it.region) return; const l=s[3];
+      for(let i=1;i<l.length;i++){ const d=segD([it.lng,it.lat],l[i-1],l[i]); if(d<bd){bd=d;best=s[0];} } });
+    if(best) autoSt[it.id]=best;
+  });
+}
+const stOf   = it => state.so[it.id] || autoSt[it.id] || null;
+const stName = id => { const s=streetsAll().find(x=>x[0]===id); if(!s) return ""; return (id in state.sn) ? state.sn[id] : s[2]; };
+const stLabel= id => { const n=stName(id); if(n) return n; const s=streetsAll().find(x=>x[0]===id); if(!s) return ""; return "Rua sem nome #"+(streetsAll().filter(x=>x[1]===s[1]).findIndex(x=>x[0]===id)+1); };
+function ensureStreet(name,reg){
+  const n=norm(name), f=streetsAll().find(x=>x[1]===reg && norm(stName(x[0]))===n);
+  if(f) return f[0];
+  const id="cs"+Date.now().toString(36)+Math.random().toString(36).slice(2,4);
+  state.cst.push({id,region:reg,name:name.trim()}); _sm=null; return id;
+}
+const boxesOn= id => items.filter(i=>i.type==="cto" && stOf(i)===id);
+
+let region = "sgb", currentId = null, editMode = false, placing = false;
+let hl = null, hlSt = new Set(), hlLabel = "";   // destaque de busca
+
+/* ======================= MAPA ======================= */
+const sat = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {maxZoom:20,maxNativeZoom:19,attribution:"Esri"});
+const streets = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {maxZoom:20,maxNativeZoom:19,attribution:"© OpenStreetMap"});
+const map = L.map("map",{zoomControl:false}).setView([-18.9175,-41.3590],16);
+sat.addTo(map);
+L.control.layers({"Satélite":sat,"Ruas":streets},null,{position:"topright"}).addTo(map);
+L.control.zoom({position:"topright"}).addTo(map);
+
+const lineLayer = L.layerGroup().addTo(map);
+const streetLayer = L.layerGroup().addTo(map);
+const markLayer = L.layerGroup().addTo(map);
+const markers = {}, stMk = {};
+function zoomCls(){ const z=map.getZoom(), c=map.getContainer().classList; c.toggle("zl16",z>=16); c.toggle("zl17",z>=17); }
+map.on("zoomend",zoomCls); zoomCls();
+
+function iconFor(it){
+  let cls, label, sty=""; const st=status(it), pl=planOf(it);
+  if(pl){
+    cls="plan"; sty=` style="background:${pl.color};color:${textOn(pl.color)}"`;
+    label=`🛠 ${esc(nameOf(it))} [A INSTALAR]`;
+  } else if(st){
+    const c=clientsOf(it.id).length;
+    cls=st;
+    label=`${st==="warn"&&c<WARN_FROM?"⚠ ":""}${esc(nameOf(it))} [${(st==="full"&&c<CAP)?"LOTADA":c+"/"+CAP}]`;
+  } else { cls=it.type; label=(it.type==="loja"?"🏠 ":"")+esc(nameOf(it)); }
+  if(hl) cls += hl.has(it.id) ? " hl" : " dim";
+  return L.divIcon({className:"",html:`<span class="pill ${cls}"${sty}>${label}</span>`,iconSize:[0,0]});
+}
+const zOf = it => (hl&&hl.has(it.id)) ? 2000 : (isFull(it)&&!isPlanned(it)) ? 1000 : it.type==="cto" ? 500 : 0;
+function stIcon(o){
+  return L.divIcon({className:"",iconSize:[0,0],html:`<span class="st${o.tot>220?" long":""}${hlSt.has(o.s[0])?" on":""}" style="transform:translate(-50%,-50%) rotate(${o.ang.toFixed(1)}deg) translateY(-17px)">${esc(stName(o.s[0]))}</span>`});
+}
+
+function render(){
+  lineLayer.clearLayers(); markLayer.clearLayers(); streetLayer.clearLayers();
+  Object.keys(markers).forEach(k=>delete markers[k]); Object.keys(stMk).forEach(k=>delete stMk[k]);
+  const bounds = [];
+  net.lines.forEach(([t,c])=>{
+    if(regionOf(c[0][0])!==region) return;
+    const ll = c.map(p=>[p[1],p[0]]);
+    L.polyline(ll, t==="p" ? {color:"#f59e0b",weight:4,opacity:.9} : {color:"#22d3ee",weight:2.5,opacity:.9}).addTo(lineLayer);
+    bounds.push(...ll);
+  });
+  streetsAll().forEach(s=>{
+    if(s[1]!==region) return;
+    const l=s[3], seg=[]; let tot=0;
+    if(l.length<2 || !stName(s[0])) return;   // rua sem traçado ou ainda sem nome: sem rótulo no mapa
+    for(let i=1;i<l.length;i++){ const d=dist(l[i-1],l[i]); seg.push(d); tot+=d; }
+    let h=tot/2, i=0; while(i<seg.length-1 && h>seg[i]){ h-=seg[i]; i++; }
+    const a=l[i], b=l[i+1], t=seg[i]?h/seg[i]:0;
+    let ang=Math.atan2(-(b[1]-a[1]),(b[0]-a[0])*0.9467)*180/Math.PI;
+    if(ang>90) ang-=180; if(ang<-90) ang+=180;
+    const o={s,ang,tot};
+    o.m=L.marker([a[1]+(b[1]-a[1])*t,a[0]+(b[0]-a[0])*t],{icon:stIcon(o),interactive:false,keyboard:false,zIndexOffset:-1000}).addTo(streetLayer);
+    stMk[s[0]]=o;
+  });
+  items.forEach(it=>{
+    if(it.region!==region) return;
+    const canDrag = editMode && it.type==="cto";
+    const m = L.marker([it.lat,it.lng],{icon:iconFor(it),zIndexOffset:zOf(it),riseOnHover:true,draggable:canDrag}).addTo(markLayer);
+    m.on("click",()=>{ if(placing) return; openSheet(it.id); });
+    if(canDrag){ m.on("dragstart",closeSheet); m.on("dragend",()=>onMoved(it,m)); }
+    markers[it.id]=m; bounds.push([it.lat,it.lng]);
+  });
+  updateStats();
+  return bounds;
+}
+function refreshMarker(id){ if(markers[id]){ markers[id].setIcon(iconFor(byId[id])); markers[id].setZIndexOffset(zOf(byId[id])); } updateStats(); }
+function fit(){ computeStreets(); computeLinks(); const b=render(); if(b.length) map.fitBounds(b,{padding:[40,40],maxZoom:18}); }
+
+// Destaca (brilho/pulso) os pontos de `ids` e esmaece os demais
+function setHl(ids,label,sts){
+  hl = (ids&&ids.size) ? ids : null; hlSt = sts||new Set(); hlLabel = label||"";
+  Object.entries(markers).forEach(([id,m])=>{ m.setIcon(iconFor(byId[id])); m.setZIndexOffset(zOf(byId[id])); });
+  Object.values(stMk).forEach(o=>o.m.setIcon(stIcon(o)));
+  const chip=document.getElementById("hlChip");
+  if(hl){ chip.classList.remove("hidden"); chip.querySelector("span").textContent=`🔎 ${hlLabel} · ${hl.size} destaque(s)`; }
+  else chip.classList.add("hidden");
+}
+
+function updateStats(){
+  const all = items.filter(i=>i.type==="cto" && i.region===region);
+  const plan = all.filter(isPlanned), vis = all.filter(i=>!isPlanned(i));
+  const st = vis.map(status), full=st.filter(s=>s==="full").length, warn=st.filter(s=>s==="warn").length;
+  const total = vis.reduce((s,i)=>s+clientsOf(i.id).length,0);
+  document.getElementById("stats").innerHTML =
+    `<b>${vis.length}</b> caixas · <span class="text-red-400 font-bold">${full} lotadas</span> · <span class="text-amber-400 font-bold">${warn} atenção</span> · <span class="text-emerald-400 font-bold">${vis.length-full-warn} livres</span> · ${total} clientes${plan.length?` · <span class="text-violet-300 font-bold">${plan.length} planejada${plan.length>1?"s":""}</span>`:""}`;
+}
+
+/* ======================= ABAS ======================= */
+function drawTabs(){
+  const el = document.getElementById("tabs");
+  el.innerHTML = Object.entries(REGIONS).map(([k,v])=>
+    `<button data-r="${k}" class="flex-1 whitespace-nowrap rounded-full px-3 py-1.5 font-semibold ${k===region?'bg-white text-[#0056b3]':'bg-white/15 text-white border border-white/30'}">${v}</button>`).join("");
+  el.querySelectorAll("button").forEach(b=>b.onclick=()=>{ region=b.dataset.r; closeSheet(); cancelPlacing(); drawTabs(); fit(); });
+}
+
+/* ======================= LIGAÇÃO CTO -> CEO ======================= */
+function dist(a,b){ const dx=(a[0]-b[0])*Math.cos(18.9*Math.PI/180)*111320, dy=(a[1]-b[1])*110540; return Math.hypot(dx,dy); }
+let linkMap = {};
+// Descobre a CEO de cada caixa seguindo o traçado dos cabos de 6 (menor caminho pela fibra)
+function computeLinks(){
+  linkMap = {};
+  const V = [];
+  const near = (p,r)=>{ let bi=-1,bd=r; for(let i=0;i<V.length;i++){ const d=dist(p,V[i].p); if(d<bd){bd=d;bi=i;} } return bi; };
+  net.lines.forEach(([t,c])=>{
+    if(t==="p") return;
+    let prev=-1;
+    c.forEach(p=>{
+      let i=near(p,6);
+      if(i<0){ V.push({p,adj:[]}); i=V.length-1; }
+      if(prev>=0 && prev!==i){ const d=dist(V[prev].p,V[i].p); V[prev].adj.push([i,d]); V[i].adj.push([prev,d]); }
+      prev=i;
+    });
+  });
+  const best = V.map(()=>({d:Infinity,ceo:null}));
+  const pq = [];
+  items.filter(i=>i.type==="ceo").forEach(c=>{
+    const i=near([c.lng,c.lat],20);
+    if(i>=0){ const d=dist([c.lng,c.lat],V[i].p); if(d<best[i].d){ best[i]={d,ceo:c.id}; pq.push([d,i]); } }
+  });
+  while(pq.length){
+    pq.sort((a,b)=>a[0]-b[0]);
+    const [d,i]=pq.shift(); if(d>best[i].d) continue;
+    V[i].adj.forEach(([j,w])=>{ if(d+w<best[j].d){ best[j]={d:d+w,ceo:best[i].ceo}; pq.push([d+w,j]); } });
+  }
+  items.forEach(it=>{
+    if(it.type!=="cto") return;
+    const i=near([it.lng0,it.lat0],20);   // posição original: mover a caixa não perde a CEO identificada
+    if(i>=0 && best[i].ceo) linkMap[it.id]=best[i].ceo;
+  });
+}
+function parseCeo(d){
+  d = d||"";
+  const m = r => { const x=d.match(r); return x?x[1]:null; };
+  return { fibra:m(/\bF\s*(\d+)/i), card:m(/CA[RD]{1,2}\s*(\d+)/i), pon:m(/PON\s*-?\s*(\d+)/i), tubo:m(/\bT\s*(\d)/i),
+           cor:(d.match(/VERDE|AMARELA|BRANCA|AZUL|VERMELHA|ROXA/i)||[null])[0] };
+}
+function chips(o){
+  const c=[]; if(o.fibra)c.push(["Fibra","F"+o.fibra]); if(o.card)c.push(["Card",o.card]); if(o.pon)c.push(["PON",o.pon]);
+  if(o.tubo)c.push(["Tubo","T"+o.tubo]); if(o.cor)c.push(["Cor",o.cor.toUpperCase()]);
+  return c.map(([k,v])=>`<div class="bg-white border border-indigo-200 rounded-lg px-3 py-1 text-center"><div class="text-[10px] uppercase text-indigo-400">${k}</div><div class="font-bold text-indigo-900">${esc(v)}</div></div>`).join("");
+}
+function linkBlock(it){
+  const box = inner => `<div class="mt-3 rounded-lg bg-indigo-50 border border-indigo-200 px-3 py-2">${inner}</div>`;
+  if(it.type==="cto"){
+    const man=state.links[it.id], ceo=byId[linkMap[it.id]];
+    let h=`<div class="flex justify-between items-center mb-1"><span class="text-sm font-bold text-indigo-900">🔌 Ligação (CEO / Card / PON)</span><button data-a="link" class="text-xs underline text-indigo-700">editar</button></div>`;
+    if(ceo){
+      const p=parseCeo(ceo.desc);
+      h+=`<div class="text-xs text-indigo-700 mb-1.5">Vem da <b>${esc(nameOf(ceo))}${p.fibra?" F"+p.fibra:""}</b> (pelo traçado da fibra) · <button data-a="gotoCeo" data-id="${ceo.id}" class="underline">ver no mapa</button></div>`;
+      const ch=chips(p); h+= ch ? `<div class="flex flex-wrap gap-1.5">${ch}</div>` : `<div class="text-xs text-slate-500">Essa CEO não tem Card/PON anotados no KML.</div>`;
+      if(ceo.desc) h+=`<div class="text-xs text-slate-500 mt-1.5">${esc(ceo.desc)}</div>`;
+    } else h+=`<div class="text-xs text-slate-500">CEO não identificada automaticamente. Use "editar" para anotar.</div>`;
+    if(man) h+=`<div class="mt-1.5 text-sm text-indigo-900 border-t border-indigo-200 pt-1.5">✍ ${esc(man)}</div>`;
+    return box(h);
+  }
+  if(it.type==="ceo"){
+    const ch=chips(parseCeo(it.desc)), n=items.filter(x=>linkMap[x.id]===it.id).length;
+    return box(`<div class="text-sm font-bold text-indigo-900 mb-1">🔌 Dados da CEO</div>`+(ch?`<div class="flex flex-wrap gap-1.5">${ch}</div>`:`<div class="text-xs text-slate-500">Sem Card/PON anotados no KML.</div>`)+`<div class="text-xs text-indigo-700 mt-1.5">${n} caixa(s) de cliente ligada(s) a esta CEO</div>`);
+  }
+  return "";
+}
+
+/* ======================= PAINEL ======================= */
+const sheet = document.getElementById("sheet"), body = document.getElementById("sheetBody");
+function closeSheet(){ sheet.classList.add("closed"); currentId=null; }
+function openSheet(id){
+  currentId=id; drawSheet(); sheet.classList.remove("closed");
+  const it=byId[id]; map.panTo([it.lat,it.lng],{animate:true});
+  setTimeout(()=>{ const p=map.latLngToContainerPoint([it.lat,it.lng]); const h=sheet.offsetHeight; if(p.y>window.innerHeight-h-30) map.panBy([0,p.y-(window.innerHeight-h)/2]); },300);
+}
+function drawSheet(){
+  const it=byId[currentId]; if(!it) return;
+  const cl = clientsOf(it.id), c=cl.length, st=status(it), sid=stOf(it);
+  const gm = `https://www.google.com/maps/dir/?api=1&destination=${it.lat},${it.lng}&travelmode=driving`;
+  const wz = `https://waze.com/ul?ll=${it.lat},${it.lng}&navigate=yes`;
+  const kind = it.type==="cto"?(isPlanned(it)?"Caixa planejada":"Caixa"):it.type==="ceo"?"CEO (emenda)":it.type==="imenda"?"Caixa de emenda":"Local";
+  let h = `<div class="flex items-start justify-between gap-2 mt-1">
+      <div class="min-w-0"><div class="text-xs text-slate-500">${REGIONS[it.region]} · ${kind}${sid?" · 🛣 "+esc(stLabel(sid)):""}</div>
+      <h2 class="text-xl font-extrabold text-slate-900 truncate">${esc(nameOf(it))}</h2></div>
+      <button data-a="close" class="text-3xl leading-none text-slate-400 px-2">×</button></div>`;
+  if(isPlanned(it)){
+    const pc=planOf(it).color;
+    h += `<div class="mt-2 flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-800"><span class="inline-block w-4 h-4 rounded-full border border-white shadow shrink-0" style="background:${pc};box-shadow:0 0 0 1px #94a3b8"></span>🛠 Caixa planejada / a instalar<span class="block text-xs font-normal text-slate-500 ml-auto text-right">Desmarque no Modo Edição quando instalada</span></div>`;
+  } else if(st){
+    const free = st==="full" ? 0 : CAP-c;
+    const T = {ok:["🟢 Disponível","text-emerald-600","bg-emerald-500"], warn:["🟡 Quase cheia","text-amber-600","bg-amber-400"], full:["🔴 LOTADA","text-red-600","bg-red-600"]}[st];
+    h += `<div class="mt-2 flex items-center justify-between"><span class="font-bold ${T[1]}">${T[0]} — ${c}/${CAP} ocupadas</span><span class="text-xs text-slate-500">${free} livres</span></div>
+      <div class="h-2.5 rounded-full bg-slate-200 mt-1 overflow-hidden"><div class="h-full ${T[2]}" style="width:${st==="full"?100:Math.round(c/CAP*100)}%"></div></div>`;
+    if(st==="warn") h += `<div class="mt-1.5 text-sm font-semibold text-amber-700">${forcedWarn(it)&&c<WARN_FROM?"⚠ Atenção marcada manualmente (manutenção preventiva).":`⚠ Quase cheia — restam apenas ${free} vaga${free>1?"s":""}.`}</div>`;
+  }
+  if(it.desc) h += `<div class="mt-2 text-sm bg-amber-50 border border-amber-200 text-amber-900 rounded-lg px-3 py-2">📝 ${esc(it.desc)}</div>`;
+  if(state.notes[it.id]) h += `<div class="mt-2 text-sm bg-sky-50 border border-sky-200 text-sky-900 rounded-lg px-3 py-2">🗒 ${esc(state.notes[it.id])}</div>`;
+  h += linkBlock(it);
+  h += `<div class="grid grid-cols-2 gap-2 mt-3">
+      <a href="${gm}" target="_blank" rel="noopener" class="text-center rounded-lg bg-blue-600 text-white py-2.5 font-semibold text-sm">🧭 Google Maps</a>
+      <a href="${wz}" target="_blank" rel="noopener" class="text-center rounded-lg bg-cyan-500 text-white py-2.5 font-semibold text-sm">🚗 Waze</a></div>`;
+  if(it.type==="cto"){
+    const used=new Set(cl.map(x=>String(x.p))), free=[]; for(let p=1;p<=CAP;p++) if(!used.has(String(p))) free.push(p);
+    h += `<div class="mt-4 flex gap-2">
+        <input id="newClient" type="text" maxlength="80" placeholder="Nome do cliente" class="flex-1 min-w-0 rounded-lg border border-slate-300 px-3 py-2.5 text-slate-900 focus:outline-none focus:border-sky-500" ${c>=CAP?'disabled':''}>
+        <select id="newPort" class="w-[5.5rem] rounded-lg border border-slate-300 px-1 text-slate-900" ${c>=CAP?'disabled':''}><option value="">Porta</option>${free.map((p,i)=>`<option value="${p}" ${i===0?'selected':''}>Porta ${p}</option>`).join("")}</select></div>
+      <button data-a="add" class="mt-2 w-full rounded-lg bg-emerald-600 disabled:bg-slate-300 text-white py-2.5 font-bold text-sm" ${c>=CAP?'disabled':''}>+ Adicionar cliente</button>`;
+    if(c>=CAP) h+=`<div class="text-xs text-red-600 mt-1">Caixa com ${CAP} clientes — exclua um para adicionar outro.</div>`;
+    h += `<div class="mt-3 text-sm font-semibold text-slate-700">Clientes (${c})</div><ul class="mt-1 divide-y divide-slate-100">`;
+    if(!c) h+=`<li class="py-3 text-sm text-slate-400">Nenhum cliente cadastrado.</li>`;
+    cl.map((x,i)=>i).sort((a,b)=>(+cl[a].p||99)-(+cl[b].p||99)||a-b).forEach(i=>{ const x=cl[i];
+      h+=`<li class="flex items-center gap-2 py-2"><span class="shrink-0 min-w-[3.2rem] text-center text-xs font-bold rounded bg-slate-100 text-slate-600 px-1.5 py-1">${x.p?"Porta "+esc(x.p):"s/ porta"}</span><span class="flex-1 min-w-0 text-slate-900 break-words">${esc(x.n)}</span>
+        <button data-a="edit" data-i="${i}" class="px-2 py-1 text-lg" title="Editar">✏️</button>
+        <button data-a="del" data-i="${i}" class="px-2 py-1 text-lg" title="Excluir">🗑️</button></li>`; });
+    h += `</ul>
+      <div class="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2">
+        <label class="flex items-center gap-2 text-sm text-slate-700"><input type="checkbox" data-a="force" ${forcedFull(it)?'checked':''}>Marcar caixa como lotada (sem listar clientes)</label>
+        <label class="flex items-center gap-2 text-sm text-slate-700"><input type="checkbox" data-a="warnchk" ${forcedWarn(it)?'checked':''}>Marcar caixa como quase cheia / atenção (amarela)</label></div>
+      <div class="mt-3 text-xs text-slate-500">Rua desta caixa<div class="mt-1 flex gap-2"><select data-a="street" class="flex-1 min-w-0 rounded-lg border border-slate-300 px-2 py-2 text-sm text-slate-900"><option value="">Automática${autoSt[it.id]?" ("+esc(stLabel(autoSt[it.id]))+")":""}</option>${streetsAll().filter(s=>s[1]===it.region).map(s=>`<option value="${s[0]}" ${state.so[it.id]===s[0]?'selected':''}>${esc(stLabel(s[0]))}</option>`).join("")}</select><button data-a="renst" class="shrink-0 rounded-lg border border-slate-300 text-slate-700 px-3 text-sm">✏ Renomear rua</button></div></div>${planEditor(it)}`;
+  }
+  h += `<div class="mt-3 flex gap-2 text-xs"><button data-a="rename" class="rounded-lg border border-slate-300 text-slate-600 px-3 py-2">Renomear</button><button data-a="note" class="rounded-lg border border-slate-300 text-slate-600 px-3 py-2">Anotação</button>${it.custom?`<button data-a="delbox" class="rounded-lg border border-red-300 text-red-600 px-3 py-2">🗑 Excluir caixa</button>`:""}</div>`;
+  body.innerHTML = h;
+}
+body.addEventListener("click",e=>{
+  const b=e.target.closest("[data-a]"); if(!b) return;
+  const it=byId[currentId]; if(!it) return; const a=b.dataset.a, cl=clientsOf(it.id);
+  if(a==="close") return closeSheet();
+  if(a==="add") return addClient();
+  if(a==="link"){ const n=prompt("Ligação desta caixa (ex.: CEO F9 - CARD2 - PON3 - T2 branca):",state.links[it.id]||""); if(n!==null){ if(n.trim()) state.links[it.id]=n.trim(); else delete state.links[it.id]; save(); drawSheet(); } return; }
+  if(a==="gotoCeo"){ const c=byId[b.dataset.id]; if(region!=="all"&&c.region!==region){ region=c.region; drawTabs(); render(); } map.setView([c.lat,c.lng],19); openSheet(c.id); return; }
+  if(a==="edit"){ const i=+b.dataset.i, c0=cl[i]; const n=prompt("Nome do cliente:",c0.n); if(n===null) return; const p=prompt("Porta (1-"+CAP+", vazio = sem porta):",c0.p||""); if(p===null) return; const pv=p.trim();
+    if(pv&&(!/^\d+$/.test(pv)||+pv<1||+pv>CAP)) return alert("Porta inválida."); if(pv&&cl.some((x,j)=>j!==i&&String(x.p)===pv)) return alert("Porta "+pv+" já está em uso nesta caixa.");
+    if(n.trim()){ c0.n=n.trim(); c0.p=pv; save(); drawSheet(); } return; }
+  if(a==="renst"){
+    const sid=stOf(it), n=prompt(sid?"Nome da rua (vale para todas as caixas desta rua):":"Nome da rua desta caixa:", sid?stName(sid):""); if(n===null) return; const v=n.trim();
+    if(sid) state.sn[sid]=v; else if(v) state.so[it.id]=ensureStreet(v,it.region);
+    save(); afterStreetChange(); return; }
+  if(a==="delbox"){
+    if(!confirm(`Excluir a caixa "${nameOf(it)}" e seus ${cl.length} cliente(s)? Não dá para desfazer.`)) return;
+    const id=it.id; state.custom=state.custom.filter(x=>x.id!==id);
+    ["clients","full","warn","names","notes","links","so","plan"].forEach(k=>delete state[k][id]);
+    save(); closeSheet(); rebuild(); computeStreets(); computeLinks(); render(); return; }
+  if(a==="del"){ const i=+b.dataset.i; if(confirm(`Excluir "${cl[i].n}" desta caixa?`)){ cl.splice(i,1); save(); drawSheet(); refreshMarker(it.id); } return; }
+  if(a==="rename"){ const n=prompt("Novo nome da caixa:",nameOf(it)); if(n&&n.trim()){ state.names[it.id]=n.trim(); save(); drawSheet(); refreshMarker(it.id); } return; }
+  if(a==="plancolor"){ state.plan[it.id]={on:true,color:b.dataset.c}; save(); drawSheet(); refreshMarker(it.id); return; }
+  if(a==="note"){ const n=prompt("Anotação sobre este ponto:",state.notes[it.id]||""); if(n!==null){ if(n.trim()) state.notes[it.id]=n.trim(); else delete state.notes[it.id]; save(); drawSheet(); } return; }
+});
+body.addEventListener("change",e=>{
+  const a=e.target.dataset.a, it=byId[currentId];
+  if(a==="force" && it){ state.full[it.id]=e.target.checked; save(); drawSheet(); refreshMarker(it.id); }
+  if(a==="warnchk" && it){ state.warn[it.id]=e.target.checked; save(); drawSheet(); refreshMarker(it.id); }
+  if(a==="planchk" && it){ const p=state.plan[it.id]||{}; state.plan[it.id]={on:e.target.checked,color:HEX.test(p.color||"")?p.color:PLAN_DEF}; save(); drawSheet(); refreshMarker(it.id); }
+  if(a==="plancustom" && it && HEX.test(e.target.value)){ state.plan[it.id]={on:true,color:e.target.value}; save(); drawSheet(); refreshMarker(it.id); }
+});
+// seletor de cor livre: pré-visualiza no mapa enquanto arrasta, sem redesenhar o painel (o seletor nativo fecharia)
+body.addEventListener("input",e=>{
+  if(e.target.dataset.a!=="plancustom") return;
+  const it=byId[currentId]; if(!it||!HEX.test(e.target.value)) return;
+  state.plan[it.id]={on:true,color:e.target.value}; refreshMarker(it.id);
+});
+body.addEventListener("keydown",e=>{ if(e.key==="Enter" && e.target.id==="newClient"){ e.preventDefault(); addClient(); } });
+function addClient(){
+  const it=byId[currentId], inp=document.getElementById("newClient"); if(!inp) return;
+  const n=inp.value.trim(); if(!n) return inp.focus();
+  const cl=clientsOf(it.id); if(cl.length>=CAP) return alert(`Caixa já tem ${CAP} clientes.`);
+  cl.push({n,p:document.getElementById("newPort").value}); save(); drawSheet(); refreshMarker(it.id);
+  const i2=document.getElementById("newClient"); if(i2&&cl.length<CAP) i2.focus();
+}
+body.addEventListener("change",e=>{
+  if(e.target.dataset.a!=="street") return;
+  const it=byId[currentId]; if(e.target.value) state.so[it.id]=e.target.value; else delete state.so[it.id];
+  save(); drawSheet();
+});
+map.on("click",e=>{ if(placing){ openNewBox(e.latlng); return; } closeSheet(); });
+
+/* ======================= BUSCA (rua / caixa / cliente) ======================= */
+const sInp=document.getElementById("search"), sRes=document.getElementById("results");
+let hits=[];
+/* PON / Card efetivos de uma CEO ou de uma caixa (herdados da CEO ligada pelo traçado; a ligação manual, se houver, prevalece) */
+function ponCard(it){
+  let p;
+  if(it.type==="ceo") p=parseCeo(it.desc);
+  else if(it.type==="cto"){
+    const ceo=byId[linkMap[it.id]]; p=ceo?parseCeo(ceo.desc):{fibra:null,card:null,pon:null};
+    const man=state.links[it.id]; if(man){ const o=parseCeo(man); ["fibra","card","pon"].forEach(k=>{ if(o[k]) p[k]=o[k]; }); }
+  } else return null;
+  return p;
+}
+// Busca por "PON 8", "CARD 2" ou os dois juntos ("card 2 pon 1")
+function ponCardSearch(pon,card){
+  const ids=new Set(), ceos=[], boxes=[];
+  items.forEach(it=>{
+    const p=ponCard(it); if(!p) return;
+    if(pon!==null && (p.pon==null || +p.pon!==+pon)) return;
+    if(card!==null && (p.card==null || +p.card!==+card)) return;
+    ids.add(it.id); (it.type==="ceo"?ceos:boxes).push(it);
+  });
+  const label=[pon!==null?"PON "+(+pon):"",card!==null?"CARD "+(+card):""].filter(Boolean).join(" · ");
+  const desc=it=>{ const p=ponCard(it), ceo=it.type==="ceo"?it:byId[linkMap[it.id]];
+    return [it.type==="ceo"?"CEO":(ceo?"ligada à "+nameOf(ceo):""), p.fibra?"F"+p.fibra:"", p.card?"Card "+p.card:"", p.pon?"PON "+p.pon:"", REGIONS[it.region]].filter(Boolean).join(" · "); };
+  hits=[];
+  if(ids.size) hits.push({k:"grp",ids,label,txt:"Ver todas no mapa ("+ids.size+")",sub:`${label} · ${ceos.length} CEO · ${boxes.length} caixa(s)`});
+  ceos.concat(boxes).forEach(it=>hits.push({k:"it",it,txt:nameOf(it),sub:desc(it)}));
+  setHl(ids,"🔎 "+label,new Set());
+}
+function showHits(){
+  sRes.innerHTML = hits.slice(0,30).map((h,i)=>`<button data-i="${i}" class="block w-full text-left px-4 py-2.5 border-b border-slate-700 text-sm">${h.k==="st"?"🛣 ":h.k==="grp"?"📍 ":""}<b>${esc(h.txt)}</b> <span class="text-slate-400">${esc(h.sub)}</span></button>`).join("") || `<div class="px-4 py-3 text-sm text-slate-400">Nada encontrado.</div>`;
+  sRes.classList.remove("hidden");
+}
+function runSearch(){
+  const q=norm(sInp.value);
+  if(q.length<2){ hits=[]; sRes.classList.add("hidden"); setHl(null); return; }
+  const mp=q.match(/\bpon\s*-?\s*(\d+)\b/), mc=q.match(/\b(?:card|cad|cartao)\s*-?\s*(\d+)\b/);
+  if(mp||mc){ ponCardSearch(mp?mp[1]:null, mc?mc[1]:null); showHits(); return; }
+  const toks=q.split(/\s+/), has=t=>toks.every(k=>t.includes(k));
+  const ids=new Set(), sts=new Set(); hits=[];
+  streetsAll().forEach(s=>{ if(has(norm(stName(s[0])))){ const bx=boxesOn(s[0]); bx.forEach(b=>ids.add(b.id)); sts.add(s[0]);
+    hits.push({k:"st",s,txt:stName(s[0]),sub:`rua · ${bx.length} caixa(s) · ${REGIONS[s[1]]}`}); } });
+  items.forEach(it=>{
+    const nm=nameOf(it);
+    if(has(norm(nm))||has(norm(it.desc))){ ids.add(it.id); hits.push({k:"it",it,txt:nm,sub:`${stOf(it)&&stName(stOf(it))?"🛣 "+stName(stOf(it))+" · ":""}${(it.desc||"").slice(0,40)} · ${REGIONS[it.region]}`}); }
+    clientsOf(it.id).forEach(c=>{ if(has(norm(c.n))){ ids.add(it.id); hits.push({k:"it",it,txt:c.n,sub:`cliente em ${nm}${c.p?" · porta "+c.p:""}`}); } });
+  });
+  setHl(ids,`“${sInp.value.trim()}”`,sts);   // destaque imediato enquanto digita
+  showHits();
+}
+function pick(h){
+  if(!h) return;
+  sRes.classList.add("hidden"); sInp.blur();
+  if(h.k==="grp"){
+    const list=[...h.ids].map(id=>byId[id]).filter(Boolean); if(!list.length) return;
+    if(!list.some(i=>i.region===region)){ region=list[0].region; drawTabs(); fit(); }
+    setHl(h.ids,"🔎 "+h.label,new Set()); closeSheet();
+    const pts=list.filter(i=>i.region===region).map(i=>[i.lat,i.lng]);
+    if(pts.length) map.fitBounds(pts,{padding:[70,70],maxZoom:18});
+    return;
+  }
+  const r = h.k==="st" ? h.s[1] : h.it.region;
+  if(r!==region){ region=r; drawTabs(); fit(); }
+  if(h.k==="st"){
+    const bx=boxesOn(h.s[0]);
+    setHl(new Set(bx.map(b=>b.id)),"🛣 "+h.txt,new Set([h.s[0]])); sInp.value=h.txt; closeSheet();
+    const pts=bx.map(b=>[b.lat,b.lng]).concat(h.s[3].map(p=>[p[1],p[0]]));
+    map.fitBounds(pts,{padding:[70,70],maxZoom:18});
+  } else {
+    setHl(new Set([h.it.id]),h.txt); sInp.value="";
+    map.setView([h.it.lat,h.it.lng],19); openSheet(h.it.id);
+  }
+}
+sInp.addEventListener("input",runSearch);
+sInp.addEventListener("keydown",e=>{ if(e.key==="Enter"&&hits[0]){ e.preventDefault(); pick(hits[0]); } });
+sRes.addEventListener("click",e=>{ const b=e.target.closest("button"); if(b) pick(hits[+b.dataset.i]); });
+document.getElementById("hlClear").onclick=()=>{ sInp.value=""; hits=[]; sRes.classList.add("hidden"); setHl(null); };
+
+/* ======================= RENOMEAR RUAS ======================= */
+const stModal=document.getElementById("stModal"), stList=document.getElementById("stList");
+function afterStreetChange(){ render(); if(currentId) drawSheet(); if(sInp.value.trim().length>=2) runSearch(); }
+function drawStEdit(){
+  let h="";
+  Object.entries(REGIONS).forEach(([rk,rn])=>{
+    h+=`<div class="mt-3 mb-1.5 flex items-center justify-between"><h3 class="font-bold text-slate-800 text-sm">${esc(rn)}</h3><button data-add="${rk}" class="text-xs rounded-lg border border-sky-300 text-sky-700 px-2 py-1">+ Adicionar rua</button></div>`;
+    streetsAll().filter(s=>s[1]===rk).forEach((s,i)=>{
+      const n=boxesOn(s[0]).length, canGo=(s[3]&&s[3].length)||n;
+      h+=`<div class="flex items-center gap-1 mb-1.5"><input data-id="${s[0]}" value="${esc(stName(s[0]))}" maxlength="80" placeholder="Rua sem nome #${i+1} — digite o nome real" class="flex-1 min-w-0 rounded-lg border border-slate-300 px-2.5 py-2 text-base text-slate-900 focus:outline-none focus:border-sky-500"><span class="text-[11px] text-slate-400 w-9 text-center">${n} cx</span>${canGo?`<button data-go="${s[0]}" class="px-1.5 py-1 text-lg" title="Ver no mapa">📍</button>`:""}${s[0].startsWith("cs")?`<button data-del="${s[0]}" class="px-1.5 py-1 text-lg" title="Excluir rua">🗑️</button>`:""}</div>`;
+    });
+  });
+  stList.innerHTML=h;
+}
+function goStreet(id){
+  const s=streetsAll().find(x=>x[0]===id); if(!s) return;
+  stModal.classList.add("hidden"); menu.classList.add("hidden");
+  if(s[1]!==region){ region=s[1]; drawTabs(); fit(); }
+  const bx=boxesOn(id); setHl(new Set(bx.map(b=>b.id)),"🛣 "+stLabel(id),new Set([id])); closeSheet();
+  const pts=bx.map(b=>[b.lat,b.lng]).concat(s[3].map(p=>[p[1],p[0]])); if(pts.length) map.fitBounds(pts,{padding:[70,70],maxZoom:18});
+}
+stList.addEventListener("change",e=>{ const id=e.target.dataset.id; if(!id) return; state.sn[id]=e.target.value.trim(); save(); afterStreetChange(); });
+stList.addEventListener("keydown",e=>{ if(e.key==="Enter"&&e.target.dataset.id){ e.preventDefault(); e.target.blur(); } });
+stList.addEventListener("click",e=>{
+  const b=e.target.closest("button"); if(!b) return;
+  if(b.dataset.add){ const n=prompt("Nome da nova rua ("+REGIONS[b.dataset.add]+"):"); if(n&&n.trim()){ ensureStreet(n,b.dataset.add); save(); drawStEdit(); afterStreetChange(); } return; }
+  if(b.dataset.del){ if(confirm("Excluir esta rua criada por você? As caixas voltam para a rua automática.")){ const id=b.dataset.del;
+    state.cst=state.cst.filter(x=>x.id!==id); delete state.sn[id]; Object.keys(state.so).forEach(k=>{ if(state.so[k]===id) delete state.so[k]; });
+    _sm=null; save(); drawStEdit(); afterStreetChange(); } return; }
+  if(b.dataset.go) goStreet(b.dataset.go);
+});
+document.getElementById("btnStreets").onclick=()=>{ menu.classList.add("hidden"); drawStEdit(); stModal.classList.remove("hidden"); };
+document.getElementById("stClose").onclick=()=>stModal.classList.add("hidden");
+document.getElementById("stDone").onclick=()=>{
+  stList.querySelectorAll("input[data-id]").forEach(i=>{ const id=i.dataset.id, v=i.value.trim(); if(v!==stName(id)) state.sn[id]=v; });
+  save(); afterStreetChange(); stModal.classList.add("hidden");
+};
+
+/* ======================= MODO EDIÇÃO (mover / adicionar caixas) ======================= */
+const editBar=document.getElementById("editBar"), editToggle=document.getElementById("editToggle");
+const nbModal=document.getElementById("nbModal"), nbName=document.getElementById("nbName"), nbSt=document.getElementById("nbSt");
+let pendingLL=null, nbColor=PLAN_DEF;
+const nbPlan=document.getElementById("nbPlan"), nbPlanBox=document.getElementById("nbPlanBox"), nbSw=document.getElementById("nbSw"), nbColorInp=document.getElementById("nbColor");
+function drawNbSw(){ nbSw.innerHTML=swatches(nbColor,'data-nbc="1"'); nbColorInp.value=nbColor; }
+nbPlan.addEventListener("change",()=>{ nbPlanBox.classList.toggle("hidden",!nbPlan.checked); if(nbPlan.checked) drawNbSw(); });
+nbSw.addEventListener("click",e=>{ const b=e.target.closest("[data-nbc]"); if(!b) return; nbColor=b.dataset.c; drawNbSw(); });
+nbColorInp.addEventListener("input",()=>{ if(HEX.test(nbColorInp.value)){ nbColor=nbColorInp.value; nbSw.innerHTML=swatches(nbColor,'data-nbc="1"'); } });
+function updateEditBar(){
+  editBar.classList.toggle("hidden",!editMode);
+  map.getContainer().classList.toggle("placing",placing);
+  editBar.innerHTML = placing
+    ? `<span class="font-semibold leading-tight">👆 Toque no mapa onde a nova caixa ficará</span><button data-e="cancel" class="shrink-0 rounded-lg bg-white/20 px-3 py-2 font-semibold">Cancelar</button>`
+    : `<span class="font-semibold leading-tight">✏ Edição ativa<span class="block text-xs font-normal opacity-80">arraste as caixas para movê-las</span></span><span class="flex gap-2 shrink-0"><button data-e="add" class="rounded-lg bg-emerald-500 px-3 py-2 font-bold shadow">+ Nova Caixa</button><button data-e="off" class="rounded-lg bg-white/20 px-2.5 py-2 text-xs font-semibold">🔒 Travar</button></span>`;
+}
+function setEdit(on){
+  editMode=on; placing=false; editToggle.checked=on; closeSheet();
+  map.getContainer().classList.toggle("editing",on); updateEditBar(); render();
+  if(on) menu.classList.add("hidden");
+}
+function cancelPlacing(){ if(placing){ placing=false; updateEditBar(); } }
+function onMoved(it,m){
+  const ll=m.getLatLng(); it.lat=ll.lat; it.lng=ll.lng;
+  if(it.custom){ const c=state.custom.find(x=>x.id===it.id); if(c){ c.lat=it.lat; c.lng=it.lng; } it.lat0=it.lat; it.lng0=it.lng; }
+  else state.pos[it.id]=[it.lat,it.lng];          // coordenada do KML permanece intacta; só o deslocamento é salvo
+  save(); computeStreets(); computeLinks(); refreshMarker(it.id); if(currentId===it.id) drawSheet();
+}
+function openNewBox(ll){
+  pendingLL=ll; nbName.value=""; nbSt.value="";
+  nbPlan.checked=false; nbPlanBox.classList.add("hidden"); nbColor=PLAN_DEF; drawNbSw();
+  document.getElementById("nbList").innerHTML=streetsAll().filter(s=>s[1]===region && stName(s[0])).map(s=>`<option value="${esc(stName(s[0]))}">`).join("");
+  nbModal.classList.remove("hidden"); setTimeout(()=>nbName.focus(),60);
+}
+document.getElementById("nbCancel").onclick=()=>{ nbModal.classList.add("hidden"); placing=false; updateEditBar(); };
+document.getElementById("nbOk").onclick=()=>{
+  const name=nbName.value.trim(); if(!name){ nbName.focus(); return; }
+  const id="c"+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+  state.custom.push({id,name,lat:pendingLL.lat,lng:pendingLL.lng,region});
+  const sv=nbSt.value.trim(); if(sv) state.so[id]=ensureStreet(sv,region);
+  if(nbPlan.checked) state.plan[id]={on:true,color:HEX.test(nbColor)?nbColor:PLAN_DEF};
+  save(); placing=false; nbModal.classList.add("hidden");
+  rebuild(); computeStreets(); computeLinks(); render(); updateEditBar(); openSheet(id);
+};
+nbName.addEventListener("keydown",e=>{ if(e.key==="Enter"){ e.preventDefault(); nbSt.focus(); } });
+nbSt.addEventListener("keydown",e=>{ if(e.key==="Enter"){ e.preventDefault(); document.getElementById("nbOk").click(); } });
+editBar.addEventListener("click",e=>{
+  const b=e.target.closest("button"); if(!b) return;
+  if(b.dataset.e==="add"){ placing=true; closeSheet(); updateEditBar(); }
+  else if(b.dataset.e==="cancel") cancelPlacing();
+  else if(b.dataset.e==="off") setEdit(false);
+});
+editToggle.addEventListener("change",()=>setEdit(editToggle.checked));
+
+/* ======================= GPS ======================= */
+let gpsMarker=null,gpsCircle=null;
+document.getElementById("btnGps").onclick=()=>{
+  if(!navigator.geolocation) return alert("GPS não disponível neste aparelho.");
+  navigator.geolocation.getCurrentPosition(p=>{
+    const ll=[p.coords.latitude,p.coords.longitude];
+    if(gpsMarker){ map.removeLayer(gpsMarker); map.removeLayer(gpsCircle); }
+    gpsCircle=window.L.circle(ll,{radius:p.coords.accuracy,color:"#38bdf8",weight:1,fillOpacity:.12}).addTo(map);
+    gpsMarker=window.L.circleMarker(ll,{radius:8,color:"#fff",weight:3,fillColor:"#0ea5e9",fillOpacity:1}).addTo(map);
+    map.setView(ll,Math.max(map.getZoom(),18));
+  },err=>alert("Não foi possível obter a localização: "+err.message+"\nVerifique se o GPS/permissão do navegador está ativo (use HTTPS ou abra o arquivo pelo navegador do celular)."),{enableHighAccuracy:true,timeout:15000,maximumAge:5000});
+};
+
+/* ======================= MENU / BACKUP ======================= */
+const menu=document.getElementById("menu");
+document.getElementById("btnMenu").onclick=()=>menu.classList.remove("hidden");
+document.getElementById("menuClose").onclick=()=>menu.classList.add("hidden");
+menu.onclick=e=>{ if(e.target===menu) menu.classList.add("hidden"); };
+
+document.getElementById("btnExport").onclick=()=>{
+  const data={app:"rede-ftth",version:2,exportedAt:new Date().toISOString(),state,network:(localStorage.getItem(KEY_NET)?net:null)};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob);
+  a.download="backup-rede-ftth-"+new Date().toISOString().slice(0,10)+".json"; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+};
+document.getElementById("btnImport").onclick=()=>document.getElementById("fileJson").click();
+document.getElementById("fileJson").onchange=e=>{
+  const f=e.target.files[0]; if(!f) return; const r=new FileReader();
+  r.onload=()=>{ try{
+      const d=JSON.parse(r.result); if(!d.state) throw new Error("arquivo inválido");
+      if(!confirm("Importar este backup? Os cadastros atuais serão substituídos.")) return;
+      state=d.state; fixState(); save();
+      if(d.network){ net=d.network; jset(KEY_NET,net); }
+      rebuild();   // aplica posições, caixas novas e ruas do backup
+      closeSheet(); fit(); menu.classList.add("hidden"); alert("Backup importado com sucesso.");
+    }catch(err){ alert("Erro ao importar: "+err.message); } };
+  r.readAsText(f); e.target.value="";
+};
+document.getElementById("btnReset").onclick=()=>{
+  if(confirm("Apagar TODOS os clientes cadastrados, caixas criadas, posições alteradas, nomes de ruas, renomeações e anotações? Faça um backup antes!")){
+    state={}; fixState(); save(); closeSheet(); rebuild(); computeStreets(); computeLinks(); render(); menu.classList.add("hidden"); }
+};
+document.getElementById("btnKml").onclick=()=>document.getElementById("fileKml").click();
+document.getElementById("fileKml").onchange=e=>{
+  const f=e.target.files[0]; if(!f) return; const r=new FileReader();
+  r.onload=()=>{ try{
+      const gj=toGeoJSON.kml(new DOMParser().parseFromString(r.result,"text/xml"));
+      const pts=[],lines=[];
+      gj.features.forEach(ft=>{ const g=ft.geometry; if(!g) return;
+        if(g.type==="Point") pts.push([ft.properties.name||"Ponto",g.coordinates[0],g.coordinates[1],(ft.properties.description||"").replace(/<[^>]+>/g,"")]);
+        else if(g.type==="LineString" && g.coordinates.length>1) lines.push([/24/.test(ft.properties.name||"")?"p":"f",g.coordinates.map(c=>[c[0],c[1]])]);
+      });
+      if(!pts.length&&!lines.length) throw new Error("nenhum ponto/linha encontrado");
+      if(!confirm(`Substituir a rede atual por ${pts.length} pontos e ${lines.length} linhas?\nOs cadastros de clientes são vinculados à ordem dos pontos — faça backup antes.`)) return;
+      net={pts,lines}; jset(KEY_NET,net); state.pos={}; save(); rebuild();
+      closeSheet(); fit(); menu.classList.add("hidden");
+    }catch(err){ alert("Erro ao ler KML: "+err.message); } };
+  r.readAsText(f); e.target.value="";
+};
+
+/* ======================= INÍCIO ======================= */
+drawTabs(); fit();
+</script>
+</body>
+</html>
