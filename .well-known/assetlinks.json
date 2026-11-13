@@ -1,0 +1,8 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "UltranetMapa.com",
+    "sha256_cert_fingerprints": ["D4:E6:09:99:89:35:2E:36:05:33:4B:A3:D8:48:DE:F3:49:D9:34:51:0E:17:48:26:91:14:B0:C7:A7:37:3D:E3"]
+  }
+}]
