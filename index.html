@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#0056b3">
-<meta name="application-name" content="Ultranet">
-<meta name="apple-mobile-web-app-title" content="Ultranet">
+<meta name="theme-color" content="#0128DF">
+<meta name="application-name" content="Ultranet Mapa">
+<meta name="apple-mobile-web-app-title" content="Ultranet Mapa">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="msapplication-TileColor" content="#0056b3">
-<title>Ultranet</title>
+<meta name="msapplication-TileColor" content="#0128DF">
+<title>Ultranet Mapa</title>
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
@@ -66,7 +66,7 @@
     <input id="search" type="search" placeholder="Buscar rua, caixa (Q3), cliente, PON 8, CARD 2…" class="flex-1 min-w-0 rounded-lg bg-slate-800 border border-slate-700 px-3 py-2 text-sm placeholder-slate-400 focus:outline-none focus:border-sky-500">
     <button id="btnMenu" class="rounded-lg bg-slate-800 border border-slate-700 px-3 py-2 text-sm font-semibold">⚙ Dados</button>
   </div>
-  <div class="flex gap-1.5 px-3 py-2 overflow-x-auto text-sm" id="tabs"></div>
+  <div class="flex justify-start gap-1 px-3 py-1 overflow-x-auto text-xs" id="tabs"></div>
   <div id="hlChip" class="hidden flex items-center justify-between gap-2 mx-3 mb-2 rounded-lg bg-slate-900 px-3 py-1.5 text-xs font-semibold"><span class="truncate"></span><button id="hlClear" class="text-base leading-none px-1" title="Limpar destaque">✕</button></div>
   <div id="results" class="hidden max-h-56 overflow-y-auto bg-slate-800 border-t border-slate-700"></div>
 </div>
@@ -432,7 +432,7 @@ function updateStats(){
 function drawTabs(){
   const el = document.getElementById("tabs");
   el.innerHTML = Object.entries(REGIONS).map(([k,v])=>
-    `<button data-r="${k}" class="flex-1 whitespace-nowrap rounded-full px-3 py-1.5 font-semibold ${k===region?'bg-white text-[#0056b3]':'bg-white/15 text-white border border-white/30'}">${v}</button>`).join("");
+    `<button data-r="${k}" class="shrink-0 w-auto whitespace-nowrap rounded-full px-3 py-1 text-xs font-semibold ${k===region?'bg-white text-[#0056b3]':'bg-white/15 text-white border border-white/30'}">${v}</button>`).join("");
   el.querySelectorAll("button").forEach(b=>b.onclick=()=>{ region=b.dataset.r; closeSheet(); cancelPlacing(); drawTabs(); fit(); });
 }
 
