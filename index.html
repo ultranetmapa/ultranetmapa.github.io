@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#0128DF">
-<meta name="application-name" content="Ultranet Mapa">
-<meta name="apple-mobile-web-app-title" content="Ultranet Mapa">
+<meta name="theme-color" content="#0056b3">
+<meta name="application-name" content="Ultranet">
+<meta name="apple-mobile-web-app-title" content="Ultranet">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="msapplication-TileColor" content="#0128DF">
-<title>Ultranet Mapa</title>
+<meta name="msapplication-TileColor" content="#0056b3">
+<title>Ultranet</title>
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
@@ -18,6 +18,9 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/@mapbox/togeojson@0.16.2/togeojson.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <style>
   html,body{height:100%;margin:0;overscroll-behavior:none;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
   #map{position:absolute;inset:0;z-index:0}
@@ -66,7 +69,7 @@
     <input id="search" type="search" placeholder="Buscar rua, caixa (Q3), cliente, PON 8, CARD 2…" class="flex-1 min-w-0 rounded-lg bg-slate-800 border border-slate-700 px-3 py-2 text-sm placeholder-slate-400 focus:outline-none focus:border-sky-500">
     <button id="btnMenu" class="rounded-lg bg-slate-800 border border-slate-700 px-3 py-2 text-sm font-semibold">⚙ Dados</button>
   </div>
-  <div class="flex justify-start gap-1 px-3 py-1 overflow-x-auto text-xs" id="tabs"></div>
+  <div class="flex gap-1.5 px-3 py-2 overflow-x-auto text-sm" id="tabs"></div>
   <div id="hlChip" class="hidden flex items-center justify-between gap-2 mx-3 mb-2 rounded-lg bg-slate-900 px-3 py-1.5 text-xs font-semibold"><span class="truncate"></span><button id="hlClear" class="text-base leading-none px-1" title="Limpar destaque">✕</button></div>
   <div id="results" class="hidden max-h-56 overflow-y-auto bg-slate-800 border-t border-slate-700"></div>
 </div>
@@ -88,6 +91,19 @@
   <div id="sheetBody" class="overflow-y-auto px-4 pb-4"></div>
 </div>
 
+<!-- Login (só aparece quando a nuvem está ligada) -->
+<div id="login" class="hidden fixed inset-0 z-[3000] bg-[#0056b3] flex items-center justify-center p-6">
+  <form id="loginForm" class="bg-white w-full max-w-sm rounded-2xl p-6 space-y-3 shadow-2xl">
+    <h1 class="text-xl font-bold text-slate-800 text-center">Ultranet Mapa</h1>
+    <p class="text-sm text-slate-500 text-center">Entre com seu e-mail e senha</p>
+    <input id="loginEmail" type="email" autocomplete="username" required placeholder="E-mail" class="w-full rounded-lg border border-slate-300 px-3 py-3 text-base">
+    <input id="loginPass" type="password" autocomplete="current-password" required placeholder="Senha" class="w-full rounded-lg border border-slate-300 px-3 py-3 text-base">
+    <button class="w-full rounded-lg bg-[#0056b3] text-white py-3 font-semibold">Entrar</button>
+    <p id="loginMsg" class="text-sm text-red-600 text-center min-h-[1.25rem]"></p>
+    <button type="button" id="loginReset" class="w-full text-sm text-sky-700 underline">Esqueci a senha</button>
+  </form>
+</div>
+
 <!-- Menu de dados -->
 <div id="menu" class="hidden fixed inset-0 z-[1200] bg-black/60 flex items-end sm:items-center justify-center">
   <div class="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-4 space-y-2 max-h-[92vh] overflow-y-auto" style="padding-bottom:calc(env(safe-area-inset-bottom) + 16px)">
@@ -100,8 +116,10 @@
     <button id="btnExport" class="w-full rounded-lg bg-emerald-600 text-white py-3 font-semibold">⬇ Exportar backup (JSON)</button>
     <button id="btnImport" class="w-full rounded-lg bg-sky-600 text-white py-3 font-semibold">⬆ Importar backup (JSON)</button>
     <button id="btnKml" class="w-full rounded-lg bg-slate-700 text-white py-3 font-semibold">🗺 Importar novo KML (substitui a rede)</button>
+    <p id="cloudStatus" class="hidden text-xs text-slate-600 text-center"></p>
+    <button id="btnLogout" class="hidden w-full rounded-lg bg-slate-200 text-slate-800 py-3 font-semibold">Sair da conta</button>
     <button id="btnReset" class="w-full rounded-lg bg-white border border-red-300 text-red-600 py-3 font-semibold">Apagar todos os cadastros (clientes, caixas novas, nomes)</button>
-    <p class="text-xs text-slate-500 pt-1">Tudo é salvo automaticamente neste aparelho (localStorage). Faça backup com frequência: limpar os dados do navegador apaga os cadastros.</p>
+    <p class="text-xs text-slate-500 pt-1">Os cadastros são salvos neste aparelho e, com a nuvem ligada, também online (compartilhados entre os usuários). Faça backup com frequência.</p>
     <input id="fileJson" type="file" accept=".json,application/json" class="hidden">
     <input id="fileKml" type="file" accept=".kml,.xml,application/vnd.google-earth.kml+xml" class="hidden">
   </div>
@@ -273,7 +291,7 @@ const streetsAll = () => _sm || (_sm = STREETS.concat(state.cst.map(c=>[c.id,c.r
 let items = [], byId = {};
 function rebuild(){ _sm=null; items=buildItems(net); byId=Object.fromEntries(items.map(i=>[i.id,i])); }
 rebuild();
-const save = ()=> jset(KEY_STATE, state);
+const save = ()=>{ jset(KEY_STATE, state); cloudPush(); };
 
 // clientes: {n:nome, p:porta}. Cadastros antigos (texto) são convertidos na leitura.
 const clientsOf = id => { const a = state.clients[id] || (state.clients[id]=[]); a.forEach((c,i)=>{ if(typeof c==="string") a[i]={n:c,p:""}; }); return a; };
@@ -432,7 +450,7 @@ function updateStats(){
 function drawTabs(){
   const el = document.getElementById("tabs");
   el.innerHTML = Object.entries(REGIONS).map(([k,v])=>
-    `<button data-r="${k}" class="shrink-0 w-auto whitespace-nowrap rounded-full px-3 py-1 text-xs font-semibold ${k===region?'bg-white text-[#0056b3]':'bg-white/15 text-white border border-white/30'}">${v}</button>`).join("");
+    `<button data-r="${k}" class="flex-1 whitespace-nowrap rounded-full px-3 py-1.5 font-semibold ${k===region?'bg-white text-[#0056b3]':'bg-white/15 text-white border border-white/30'}">${v}</button>`).join("");
   el.querySelectorAll("button").forEach(b=>b.onclick=()=>{ region=b.dataset.r; closeSheet(); cancelPlacing(); drawTabs(); fit(); });
 }
 
@@ -815,7 +833,7 @@ document.getElementById("fileJson").onchange=e=>{
       const d=JSON.parse(r.result); if(!d.state) throw new Error("arquivo inválido");
       if(!confirm("Importar este backup? Os cadastros atuais serão substituídos.")) return;
       state=d.state; fixState(); save();
-      if(d.network){ net=d.network; jset(KEY_NET,net); }
+      if(d.network){ net=d.network; jset(KEY_NET,net); cloudPushNet(); }
       rebuild();   // aplica posições, caixas novas e ruas do backup
       closeSheet(); fit(); menu.classList.add("hidden"); alert("Backup importado com sucesso.");
     }catch(err){ alert("Erro ao importar: "+err.message); } };
@@ -837,11 +855,89 @@ document.getElementById("fileKml").onchange=e=>{
       });
       if(!pts.length&&!lines.length) throw new Error("nenhum ponto/linha encontrado");
       if(!confirm(`Substituir a rede atual por ${pts.length} pontos e ${lines.length} linhas?\nOs cadastros de clientes são vinculados à ordem dos pontos — faça backup antes.`)) return;
-      net={pts,lines}; jset(KEY_NET,net); state.pos={}; save(); rebuild();
+      net={pts,lines}; jset(KEY_NET,net); cloudPushNet(); state.pos={}; save(); rebuild();
       closeSheet(); fit(); menu.classList.add("hidden");
     }catch(err){ alert("Erro ao ler KML: "+err.message); } };
   r.readAsText(f); e.target.value="";
 };
+
+/* ======================= NUVEM (Firebase: login + dados compartilhados) ======================= */
+/* Cole aqui a configuração do Firebase (apiKey etc.). Enquanto estiver "COLE_AQUI", o app funciona só local, como antes. */
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyAl2bnOLHwvcuXvCZG6NG9ntOzJt2tcDrY",
+  authDomain: "ultranet-mapa.firebaseapp.com",
+  projectId: "ultranet-mapa",
+  storageBucket: "ultranet-mapa.firebasestorage.app",
+  messagingSenderId: "568222191383",
+  appId: "1:568222191383:web:d2ae4d1fc232ad8e287152"
+};
+const CLOUD_ON = !!(window.firebase && FIREBASE_CONFIG.apiKey && !/COLE_AQUI/.test(FIREBASE_CONFIG.apiKey));
+let fbAuth=null, fbDb=null, cloudUser=null, unsubState=null, unsubNet=null, pushTimer=null, dirty=false, inflight=0, dirtyNet=false;
+const $c = id => document.getElementById(id);
+function setCloudStatus(t){ const el=$c("cloudStatus"); if(el){ el.textContent=t; } }
+function cloudPush(now){
+  if(!CLOUD_ON||!cloudUser) return;
+  dirty=true; clearTimeout(pushTimer); pushTimer=setTimeout(doPush, now?0:700);
+}
+function doPush(){
+  if(!cloudUser||!dirty) return;
+  const payload=JSON.stringify(state); dirty=false; inflight++;
+  fbDb.collection("rede").doc("state").set({data:payload, updatedAt:firebase.firestore.FieldValue.serverTimestamp(), by:cloudUser.email})
+    .then(()=>setCloudStatus("☁ Sincronizado"))
+    .catch(()=>{ dirty=true; setCloudStatus("☁ Sem conexão — vai tentar de novo"); })
+    .finally(()=>{ inflight--; });
+}
+function cloudPushNet(){
+  if(!CLOUD_ON||!cloudUser) return;
+  fbDb.collection("rede").doc("net").set({data:JSON.stringify(net), updatedAt:firebase.firestore.FieldValue.serverTimestamp(), by:cloudUser.email})
+    .catch(()=>alert("Não foi possível enviar a nova rede para a nuvem (arquivo grande demais ou sem conexão)."));
+}
+function refreshAll(){ rebuild(); computeStreets(); computeLinks(); render(); if(currentId && !byId[currentId]) closeSheet(); }
+function startSync(){
+  stopSync();
+  unsubNet=fbDb.collection("rede").doc("net").onSnapshot(snap=>{
+    if(snap.metadata.hasPendingWrites||!snap.exists) return;
+    const d=snap.data(); if(!d||typeof d.data!=="string"||d.data===JSON.stringify(net)) return;
+    try{ net=JSON.parse(d.data); jset(KEY_NET,net); refreshAll(); }catch(e){}
+  });
+  unsubState=fbDb.collection("rede").doc("state").onSnapshot(snap=>{
+    if(snap.metadata.hasPendingWrites) return;
+    if(!snap.exists){ dirty=true; doPush(); return; }     // 1º acesso: sobe os dados deste aparelho
+    if(dirty||inflight>0) return;                          // alteração local ainda não enviada: ela vale
+    const d=snap.data(); if(!d||typeof d.data!=="string"||d.data===JSON.stringify(state)) return;
+    try{ state=JSON.parse(d.data); }catch(e){ return; }
+    fixState(); jset(KEY_STATE,state); refreshAll(); setCloudStatus("☁ Atualizado agora há pouco");
+  }, ()=>setCloudStatus("☁ Sem conexão com a nuvem"));
+}
+function stopSync(){ if(unsubState){unsubState();unsubState=null;} if(unsubNet){unsubNet();unsubNet=null;} }
+if(CLOUD_ON){
+  firebase.initializeApp(FIREBASE_CONFIG);
+  fbAuth=firebase.auth(); fbDb=firebase.firestore();
+  $c("login").classList.remove("hidden");
+  $c("cloudStatus").classList.remove("hidden"); $c("btnLogout").classList.remove("hidden");
+  fbAuth.onAuthStateChanged(u=>{
+    cloudUser=u;
+    if(u){ $c("login").classList.add("hidden"); $c("btnLogout").textContent="Sair da conta ("+u.email+")"; setCloudStatus("☁ Conectando..."); startSync(); }
+    else { stopSync(); $c("login").classList.remove("hidden"); }
+  });
+  $c("loginForm").onsubmit=e=>{
+    e.preventDefault(); $c("loginMsg").textContent="Entrando...";
+    fbAuth.signInWithEmailAndPassword($c("loginEmail").value.trim(), $c("loginPass").value)
+      .then(()=>{ $c("loginMsg").textContent=""; $c("loginPass").value=""; })
+      .catch(err=>{ $c("loginMsg").textContent = /network/.test(err.code) ? "Sem internet." : /too-many/.test(err.code) ? "Muitas tentativas. Espere alguns minutos." : "E-mail ou senha incorretos."; });
+  };
+  $c("loginReset").onclick=()=>{
+    const em=$c("loginEmail").value.trim(); if(!em){ $c("loginMsg").textContent="Digite seu e-mail acima e toque de novo."; return; }
+    fbAuth.sendPasswordResetEmail(em).then(()=>{ $c("loginMsg").textContent="Se o e-mail estiver cadastrado, enviamos o link."; }).catch(()=>{ $c("loginMsg").textContent="Não foi possível enviar."; });
+  };
+  $c("btnLogout").onclick=()=>{
+    if(dirty||inflight>0){ alert("Aguarde alguns segundos: ainda enviando suas alterações."); return; }
+    if(!confirm("Sair da conta? Os dados deste aparelho serão removidos (continuam salvos na nuvem).")) return;
+    try{ localStorage.removeItem(KEY_STATE); localStorage.removeItem(KEY_NET); }catch(e){}
+    fbAuth.signOut().then(()=>location.reload());
+  };
+  window.addEventListener("online",()=>{ if(dirty) doPush(); });
+}
 
 /* ======================= INÍCIO ======================= */
 drawTabs(); fit();
