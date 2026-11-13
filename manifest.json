@@ -1,15 +1,15 @@
 {
   "id": "/",
   "name": "Ultranet Mapa",
-  "short_name": "Ultranet Mapa"
+  "short_name": "Ultranet Mapa",
   "description": "Gestão de rede FTTH — Ultranet",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "any",
   "lang": "pt-BR",
-  "background_color": "##0128DF",
-  "theme_color": "##0128DF",
+  "background_color": "#0128DF",
+  "theme_color": "#0128DF",
   "categories": [
     "business",
     "utilities"
