@@ -41,6 +41,7 @@
   .pill.dim{opacity:.2;filter:grayscale(.7)}
   .st{display:none;position:absolute;left:0;top:0;white-space:nowrap;pointer-events:none;font:700 10px/1 system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#fff;text-shadow:0 0 3px #000,0 0 3px #000,0 1px 2px #000}
   .zl16 .st.long,.zl17 .st{display:block}
+  .nost .st{display:none!important}
   .st.on{color:#38bdf8;font-size:12px}
   .leaflet-control-layers{margin-top:100px!important}
   /* Identidade Ultranet */
@@ -155,8 +156,9 @@
   html.dark #draftBar .bg-white{background:#0f1f4d!important}
   html.dark #btnReset{background:#0f1f4d!important}
   html.dark .leaflet-container{background:#0a1633}
+  .leaflet-tile-pane{filter:brightness(.82)}
   html.dark .leaflet-tile-pane{filter:brightness(.9)}
-  html.dark .tiles-street{filter:invert(1) hue-rotate(180deg) brightness(.95) contrast(.9)}
+  html.dark .tiles-street{filter:invert(1) hue-rotate(180deg) brightness(2.5) contrast(.9)}
   html.dark .leaflet-control-layers,html.dark .leaflet-bar a{background:#0f1f4d!important;color:#e6ecff!important;border-color:#2f4a96!important}
 </style>
 </head>
@@ -322,6 +324,7 @@
   <button data-f="info" class="w-full flex items-center gap-3 text-left"><span class="flex-1"><b>ℹ Info da fibra</b><span class="block text-xs opacity-70">Caixa / CARD / PON / Fibra / VLAN no lugar do nome</span></span><span id="swInfo" class="swt"></span></button>
   <button data-f="ceo" class="w-full flex items-center gap-3 text-left"><span class="flex-1"><b>🔵 Ver CEOs</b></span><span id="swCeo" class="swt"></span></button>
   <button data-f="cto" class="w-full flex items-center gap-3 text-left"><span class="flex-1"><b>🟢 Ver caixas de clientes</b></span><span id="swCto" class="swt"></span></button>
+  <button data-f="st" class="w-full flex items-center gap-3 text-left"><span class="flex-1"><b>🔤 Nomes das ruas (do app)</b><span class="block text-xs opacity-70">No mapa "Ruas" eles ficam escondidos sozinhos</span></span><span id="swSt" class="swt"></span></button>
 </div>
 
 <!-- Ajuda -->
@@ -463,7 +466,7 @@ function rebuildRegions(){            // nomes das cidades: padrão + renomeadas
   Object.keys(REGION_DEF).forEach(k=>{ REGIONS[k]=(state.cityNames&&state.cityNames[k])||REGION_DEF[k]; });
   (state.cityExtra||[]).forEach(c=>{ REGIONS[c.id]=c.name; });
 }
-const APP_VERSION = "3.0";
+const APP_VERSION = "3.3";
 const TEST_MODE = false;   // true = arquivo de teste (usa uma cópia dos dados) · false = site real
 const KEY_STATE = TEST_MODE?"ftth_state_test":"ftth_state_v1", KEY_NET = TEST_MODE?"ftth_net_test":"ftth_net_v1";
 const DOC_STATE = TEST_MODE?"state_teste":"state", DOC_NET = TEST_MODE?"net_teste":"net";
@@ -610,8 +613,8 @@ const selSet = new Set(); let selMode = false, rectMode = false;
 let hl = null, hlSt = new Set(), hlLabel = "";   // destaque de busca
 
 /* ======================= MAPA ======================= */
-const sat = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {maxZoom:20,maxNativeZoom:19,attribution:"Esri"});
-const streets = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {maxZoom:20,maxNativeZoom:19,attribution:"© OpenStreetMap",className:"tiles-street"});
+const sat = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {maxZoom:21,maxNativeZoom:18,attribution:"Esri"});
+const streets = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {maxZoom:21,maxNativeZoom:19,attribution:"© OpenStreetMap",className:"tiles-street"});
 const map = L.map("map",{zoomControl:false}).setView([-18.9175,-41.3590],16);
 sat.addTo(map);
 L.control.layers({"Satélite":sat,"Ruas":streets},null,{position:"topright"}).addTo(map);
@@ -625,6 +628,9 @@ let cabMode=false, cabSnap=null, cabDirty=false, cabPoly={}, cabHalo={}, cabSel=
 const markers = {}, stMk = {};
 function zoomCls(){ const z=map.getZoom(), c=map.getContainer().classList; c.toggle("zl16",z>=16); c.toggle("zl17",z>=17); }
 map.on("zoomend",zoomCls); zoomCls();
+let hideSt=false; try{ hideSt=localStorage.getItem("ftth_hidest")==="1"; }catch(e){}
+function stCls(){ map.getContainer().classList.toggle("nost", hideSt || map.hasLayer(streets)); }
+map.on("baselayerchange",stCls); stCls();
 
 function iconFor(it){
   let cls, label, sty=""; const st=status(it), pl=planOf(it);
@@ -1429,6 +1435,7 @@ function drawFibraPanel(){
   document.getElementById("swInfo").classList.toggle("on",infoMode);
   document.getElementById("swCeo").classList.toggle("on",!hideCeo);
   document.getElementById("swCto").classList.toggle("on",!hideCto);
+  document.getElementById("swSt").classList.toggle("on",!hideSt);
 }
 function openFibraPanel(open){
   if(open){ fibraPanel.style.top=Math.max(60,Math.round(document.getElementById("tabs").getBoundingClientRect().bottom+6))+"px"; drawFibraPanel(); }
@@ -1440,6 +1447,7 @@ fibraPanel.addEventListener("click",e=>{
   if(f==="info"){ infoMode=!infoMode; try{ localStorage.setItem("ftth_info",infoMode?"1":"0"); }catch(e){} applyInfo(); }
   else if(f==="ceo"){ hideCeo=!hideCeo; try{ localStorage.setItem("ftth_hideceo",hideCeo?"1":"0"); }catch(e){} if(hideCeo && currentId && byId[currentId] && byId[currentId].type==="ceo") closeSheet(); }
   else if(f==="cto"){ hideCto=!hideCto; try{ localStorage.setItem("ftth_hidecto",hideCto?"1":"0"); }catch(e){} if(hideCto && currentId && byId[currentId] && byId[currentId].type==="cto") closeSheet(); }
+  else if(f==="st"){ hideSt=!hideSt; try{ localStorage.setItem("ftth_hidest",hideSt?"1":"0"); }catch(e){} stCls(); }
   drawFibraPanel(); render();
 });
 
