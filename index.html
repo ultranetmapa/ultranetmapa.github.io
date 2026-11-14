@@ -331,36 +331,87 @@
   <button data-f="info" class="w-full flex items-center gap-3 text-left"><span class="flex-1"><b>ℹ Info da fibra</b><span class="block text-xs opacity-70">Caixa / CARD / PON / Fibra / VLAN no lugar do nome</span></span><span id="swInfo" class="swt"></span></button>
   <button data-f="fib" class="w-full flex items-center gap-3 text-left"><span class="flex-1"><b>〰 Ver fibra (cabos)</b></span><span id="swFib" class="swt"></span></button>
   <button data-f="ceo" class="w-full flex items-center gap-3 text-left"><span class="flex-1"><b>🔵 Ver CEOs</b></span><span id="swCeo" class="swt"></span></button>
+  <button data-f="oth" class="w-full flex items-center gap-3 text-left"><span class="flex-1"><b>⚪ Ver emendas, loja e outros</b><span class="block text-xs opacity-70">Ex.: CEO DE IMENDA, CASA/LOJA</span></span><span id="swOth" class="swt"></span></button>
   <button data-f="cto" class="w-full flex items-center gap-3 text-left"><span class="flex-1"><b>🟢 Ver caixas de clientes</b></span><span id="swCto" class="swt"></span></button>
 </div>
 
 <!-- Ajuda -->
 <div id="helpModal" class="hidden fixed inset-0 z-[1400] bg-black/60 flex items-end sm:items-center justify-center">
-  <div class="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-4 space-y-3 max-h-[88vh] overflow-y-auto text-sm text-slate-700" style="padding-bottom:calc(env(safe-area-inset-bottom) + 16px)">
+  <div class="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-4 space-y-2 max-h-[88vh] overflow-y-auto text-sm text-slate-700" style="padding-bottom:calc(env(safe-area-inset-bottom) + 16px)">
     <div class="flex items-center"><h2 class="font-bold text-slate-800 flex-1">❓ Como usar</h2><button id="helpClose" class="text-2xl text-slate-500 px-1 leading-none">×</button></div>
-    <div><h3 class="font-bold text-slate-800">No mapa</h3><ul class="list-disc pl-5 space-y-1 mt-1">
-      <li><b>Tocar numa caixa</b> abre a ficha: clientes, rua, VLAN e ligação (CEO / CARD / PON). Mudanças dentro da ficha só valem quando você toca em <b>Salvar</b>.</li>
-      <li><b>Cores da caixa:</b> verde = tem vaga · laranja = quase cheia (11 ou mais de 16) · vermelha = lotada · colorida com 🛠 = a instalar.</li>
-      <li><b>Segurar 1 segundo numa caixa</b> liga o modo edição. A barra azul de baixo tem: <b>+ Nova Caixa</b>, <b>☑ Selecionar</b> (escolher várias caixas e trocar de uma vez a rua, o status lotada ou a VLAN) e <b>🔒 Travar</b> para sair. Arraste uma caixa para movê-la (aparece Salvar / Cancelar).</li>
-      <li><b>ℹ Fibra</b> (no alto) abre um painel com 3 chaves: <i>Info da fibra</i> (mostra Caixa / CARD / PON / Fibra / VLAN no lugar do nome, com a borda na cor do tubo), <i>Ver CEOs</i> e <i>Ver caixas de clientes</i>. Desligando as caixas de clientes ficam só as CEOs e os cabos.</li>
-      <li><b>Ruas:</b> na ficha da caixa, em <i>Rua desta caixa</i>, dá para escolher a rua, <b>✏ Renomear</b>, <b>➕ Nova</b> rua ou abrir <b>Todas as ruas</b> para renomear ou adicionar.</li>
-      <li><b>Cabos:</b> a linha grossa azul é o cabo primário e a fina azul-clara é o de 6 fibras. As cores de cada trecho seguem a caixa onde chegam: Q1 verde, Q2 amarelo, Q3 branco, Q4 azul, Q5 vermelho, Q6 violeta, Q7 marrom, Q8 amarelo.</li>
-      <li><b>☀️/🌙</b> troca entre tema claro e escuro. <b>📍</b> mostra onde você está.</li>
-    </ul></div>
-    <div><h3 class="font-bold text-slate-800">⚙ Dados</h3><ul class="list-disc pl-5 space-y-1 mt-1">
-      <li><b>🎨 Personalizar</b> muda a cor da barra de cima, o nome das cidades e adiciona uma cidade nova (ela ganha uma aba; leve o mapa até a cidade antes de adicionar).</li>
-      <li><b>Exportar backup</b> baixa uma cópia de segurança. <b>Importar backup</b> devolve uma cópia.</li>
-      <li><b>Importar KML</b> troca a rede inteira por outro arquivo.</li>
-      <li><b>Apagar cadastros</b> limpa clientes, caixas novas e nomes (não tem volta, faça backup antes).</li>
-    </ul></div>
-    <div><h3 class="font-bold text-slate-800">Ajustar cabos, passo a passo</h3><ol class="list-decimal pl-5 space-y-1 mt-1">
+    <p class="text-xs text-slate-500">Toque num assunto para abrir os detalhes.</p>
+    <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">📍 No mapa (caixas e cores)</summary><ul class="list-disc pl-5 space-y-1 mt-2">
+      <li><b>Tocar numa caixa</b> abre a ficha dela: clientes, rua, VLAN e ligação (CEO / CARD / PON). Mudanças dentro da ficha só valem quando você toca em <b>Salvar</b> (ou <b>Cancelar</b> para desfazer).</li>
+      <li><b>Cores da caixa:</b> verde = tem vaga · amarela ⚠ = quase cheia (11 ou mais de 16) · vermelha = lotada · colorida com 🛠 = a instalar.</li>
+      <li><b>[2/16]</b> no nome da caixa quer dizer 2 portas ocupadas de 16.</li>
+      <li><b>Buscar:</b> a barra de pesquisa do alto acha rua, caixa (ex.: Q3), cliente, PON e CARD.</li>
+      <li><b>📍</b> (botão azul no canto) mostra onde você está.</li>
+      <li><b>Abas das cidades</b> (no alto) trocam de cidade.</li>
+    </ul></details>
+    <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">📦 Ficha da caixa</summary><ul class="list-disc pl-5 space-y-1 mt-2">
+      <li><b>Portas (1 a 16):</b> toque numa porta livre para escrever o nome do cliente. Toque numa ocupada para editar ou liberar.</li>
+      <li><b>☑ Marcar ocupadas:</b> liga um modo em que você só toca nas portas ocupadas, sem escrever o nome. Aparecem como “ocupada”. Toque de novo para liberar.</li>
+      <li><b>Marcar caixa como lotada:</b> deixa todas as portas cheias e a caixa vermelha, sem listar clientes.</li>
+      <li><b>Marcar como quase cheia / atenção:</b> deixa a caixa amarela mesmo com poucas portas ocupadas (manutenção preventiva).</li>
+      <li><b>Rua desta caixa:</b> escolha a rua, <b>✏ Renomear</b> (vale para todas as caixas da rua), <b>➕ Nova</b> rua ou <b>Todas as ruas</b> para renomear e adicionar. A rua é automática se você não escolher.</li>
+      <li><b>VLAN:</b> toque numa VLAN para escolher. <b>Trocar</b> mostra a lista, <b>✏</b> renomeia e <b>🗑</b> apaga uma VLAN, <b>＋ Nova</b> cria outra.</li>
+      <li><b>🔌 Ligação:</b> mostra de qual CEO a caixa vem (pelo traçado da fibra), com Card, PON, Fibra e Tubo. <b>✏ Editar</b> anota algo a mais.</li>
+      <li><b>Caixa planejada / a instalar:</b> marque a opção e escolha a cor do pino. A caixa fica colorida com 🛠 até você desmarcar.</li>
+      <li><b>Renomear · Anotação:</b> mudam o nome e guardam um recado sobre a caixa. <b>🗑 Excluir caixa</b> só aparece nas caixas que você criou.</li>
+      <li><b>🧭 Ir com Google Maps</b> abre o caminho até a caixa.</li>
+    </ul></details>
+    <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">🔵 CEO (emenda)</summary><ul class="list-disc pl-5 space-y-1 mt-2">
+      <li><b>Cor da borda:</b> a borda da CEO é da cor da fibra dela (ex.: VERMELHA no Card/PON/F anotado).</li>
+      <li><b>Lotação do split:</b> a CEO usa o mesmo sistema das caixas. Normal (azul) com saídas livres · <b>amarela ⚠</b> quando restam só 2 saídas · <b>vermelha [LOTADA]</b> quando não resta nenhuma. O nome mostra <b>[caixas/saídas]</b>, por exemplo [6/8].</li>
+      <li><b>Split 1:8:</b> o padrão é 8 saídas. Os botões <b>＋</b> e <b>−</b> na ficha da CEO aumentam ou diminuem. Cada CEO guarda o seu número. Passando do limite, aparece o aviso em vermelho, mas dá para adicionar mesmo assim.</li>
+      <li><b>Caixas desta CEO:</b> lista automática, em ordem de Q. O quadradinho na frente é a cor da fibra da caixa. Toque numa caixa para ir até ela no mapa.</li>
+      <li><b>Tirar / adicionar caixa:</b> o <b>×</b> tira a caixa da CEO. A lista <b>➕ Adicionar caixa a esta CEO…</b> coloca uma caixa que o app não ligou sozinho. Vale também para as cores dos cabos.</li>
+      <li><b>📜 Histórico da rede:</b> escreva rompimentos e serviços e toque em <b>Salvar</b>. Cada anotação guarda a data. Mostra as 3 últimas; <b>ver todos</b> mostra o resto e <b>×</b> apaga uma.</li>
+      <li><b>✏ Editar dados da CEO:</b> nas CEOs que você criou, muda Card, PON, Fibra e cor (ex.: CARD3 PON1 F17 VERMELHA).</li>
+    </ul></details>
+    <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">🧭 O que mostrar no mapa (botão ℹ Fibra)</summary><ul class="list-disc pl-5 space-y-1 mt-2">
+      <li><b>ℹ Info da fibra:</b> mostra Caixa / CARD / PON / Fibra / VLAN no lugar do nome, com a borda na cor do tubo.</li>
+      <li><b>〰 Ver fibra (cabos):</b> liga e desliga o desenho dos cabos.</li>
+      <li><b>🔵 Ver CEOs:</b> liga e desliga as CEOs.</li>
+      <li><b>⚪ Ver emendas, loja e outros:</b> liga e desliga “CEO DE EMENDA”, “CASA/LOJA” e parecidos.</li>
+      <li><b>🟢 Ver caixas de clientes:</b> liga e desliga as caixas dos clientes.</li>
+      <li>As chaves ficam lembradas no aparelho. Ao abrir o editor de cabos, os cabos aparecem de novo para você poder mexer.</li>
+    </ul></details>
+    <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">➕ Adicionar no mapa (caixa ou CEO)</summary><ul class="list-disc pl-5 space-y-1 mt-2">
+      <li><b>Segurar 1 segundo numa caixa</b> liga o modo edição. A barra de cima mostra <b>+ Nova Caixa</b>, <b>☑ Selecionar</b> e <b>🔒 Travar</b> (para sair).</li>
+      <li><b>+ Nova Caixa:</b> toque no lugar do mapa. Na janela escolha <b>📦 Caixa de cliente</b> ou <b>🔵 CEO</b>.</li>
+      <li><b>Caixa de cliente:</b> nome (ex.: Q9), rua, <b>Pertence à CEO</b> (automática pela fibra ou escolha a CEO) e, se quiser, caixa planejada. Nasce com 16 portas livres.</li>
+      <li><b>CEO:</b> nome, Card, PON, Fibra (F), cor da fibra e quantas saídas tem o split (o padrão é 8). Dá para deixar vazio e preencher depois. Se a CEO ficar em cima de um cabo de 6 fibras, ela liga as caixas sozinha; se não, adicione pela lista na ficha.</li>
+      <li><b>Arrastar</b> uma caixa (ou uma CEO criada por você) move de lugar. Aparece Salvar / Cancelar.</li>
+      <li><b>☑ Selecionar:</b> escolha várias caixas e troque de uma vez a rua, o status lotada ou a VLAN.</li>
+    </ul></details>
+    <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">🧵 Cabos e cores</summary><ul class="list-disc pl-5 space-y-1 mt-2">
+      <li>A linha grossa azul é o cabo primário (24 fibras) e a fina azul-clara é o de 6 fibras.</li>
+      <li>As cores de cada trecho seguem a caixa onde chegam: Q1 verde, Q2 amarelo, Q3 branco, Q4 azul, Q5 vermelho, Q6 violeta, Q7 marrom, Q8 amarelo.</li>
+      <li>Cabos com cor ou grossura escolhida por você ficam por cima das cores automáticas.</li>
+    </ul></details>
+    <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">✂ Ajustar cabos, passo a passo</summary><ol class="list-decimal pl-5 space-y-1 mt-2">
       <li><b>Toque em cima de um cabo</b> no mapa e depois em <b>✏ Editar cabo</b>. Aparecem bolinhas nos cabos.</li>
       <li><b>Arraste a bolinha grande</b> para a rua certa. <b>Puxe a bolinha pequena do meio</b> da linha para fazer uma curva. <b>Toque numa bolinha</b> para apagar o ponto.</li>
       <li><b>＋ Novo cabo</b>: escolha 6 ou 24 fibras, toque no mapa marcando o caminho (encostando perto de outro cabo, ele se liga) e toque em Concluir.</li>
       <li><b>Toque numa linha</b> para escolher aquele cabo. Aí aparecem <b>🎨 Estilo</b> (grossura e cor) e <b>🗑 Apagar cabo</b>. Para mudar só uma parte do cabo, toque numa bolinha e escolha <b>✂ Dividir</b>.</li>
       <li><b>↶ ↷</b> desfazem e refazem qualquer passo, quantas vezes precisar.</li>
       <li><b>💾 Salvar e ver</b> mostra como ficou, mas ainda não vale. Se gostar, toque em <b>✔ Aplicar</b>. Se não aplicar, tudo volta como estava.</li>
-    </ol></div>
+    </ol></details>
+    <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">🗺 Mapa e temas</summary><ul class="list-disc pl-5 space-y-1 mt-2">
+      <li>O botão de camadas (canto de cima, à direita) troca entre <b>Satélite</b> e <b>Ruas</b>. Os nomes das ruas que aparecem no mapa “Ruas” são do próprio mapa.</li>
+      <li>Se o zoom passar do que o satélite tem, a imagem é esticada (fica mais desfocada, mas não aparece quadrado cinza).</li>
+      <li><b>☀️/🌙</b> troca entre tema claro e escuro. No escuro a barra de cima fica preta, com a busca branca.</li>
+      <li>Para o app atualizar no celular, feche por completo e abra de novo.</li>
+    </ul></details>
+    <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">⚙ Dados</summary><ul class="list-disc pl-5 space-y-1 mt-2">
+      <li><b>🎨 Personalizar:</b> cor da barra de cima (no tema escuro ela fica preta), nome das cidades e <b>➕ Adicionar cidade</b> (leve o mapa até a cidade antes). O 📍 muda o lugar da cidade e a lixeira apaga (só se não tiver caixas nem cabos).</li>
+      <li><b>Vagas ocupadas (dentro das caixas):</b> em Personalizar, escolha a cor do fundo e a cor do nome das portas ocupadas. A prévia mostra como fica. A primeira bolinha de cada linha volta ao padrão.</li>
+      <li><b>Exportar backup</b> baixa uma cópia de segurança. <b>Importar backup</b> devolve uma cópia.</li>
+      <li><b>Importar KML</b> troca a rede inteira por outro arquivo.</li>
+      <li><b>Apagar cadastros</b> limpa clientes, caixas novas e nomes (não tem volta, faça backup antes).</li>
+      <li><b>Versão</b> do app aparece no menu. Os dados ficam salvos na nuvem e são os mesmos em todos os aparelhos com o mesmo login.</li>
+    </ul></details>
   </div>
 </div>
 
@@ -369,7 +420,22 @@
   <div class="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-4 space-y-3 max-h-[92vh] overflow-y-auto" style="padding-bottom:calc(env(safe-area-inset-bottom) + 16px)">
     <h2 class="font-bold text-slate-800">+ Nova caixa</h2>
     <label class="block text-xs text-slate-500">Nome da caixa<input id="nbName" maxlength="40" placeholder="Ex.: Q9" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2.5 text-base text-slate-900 focus:outline-none focus:border-sky-500"></label>
+    <div class="grid grid-cols-2 gap-2 text-sm font-semibold"><button type="button" id="nbTCto" class="rounded-lg border-2 border-sky-500 bg-sky-50 text-sky-900 py-2">📦 Caixa de cliente</button><button type="button" id="nbTCeo" class="rounded-lg border-2 border-slate-300 text-slate-600 py-2">🔵 CEO</button></div>
+    <div id="nbCeoBox" class="hidden space-y-2 rounded-lg border border-indigo-200 bg-indigo-50 px-3 py-2">
+      <div class="text-xs text-indigo-800 font-semibold">Dados da CEO (pode deixar vazio e preencher depois)</div>
+      <div class="grid grid-cols-3 gap-2">
+        <label class="text-xs text-slate-500">Card<input id="nbCard" inputmode="numeric" maxlength="3" class="mt-1 w-full rounded-lg border border-slate-300 px-2 py-2 text-base text-slate-900"></label>
+        <label class="text-xs text-slate-500">PON<input id="nbPon" inputmode="numeric" maxlength="3" class="mt-1 w-full rounded-lg border border-slate-300 px-2 py-2 text-base text-slate-900"></label>
+        <label class="text-xs text-slate-500">Fibra (F)<input id="nbFib" inputmode="numeric" maxlength="3" class="mt-1 w-full rounded-lg border border-slate-300 px-2 py-2 text-base text-slate-900"></label>
+      </div>
+      <div class="grid grid-cols-2 gap-2">
+        <label class="text-xs text-slate-500">Cor da fibra<select id="nbFcor" class="mt-1 w-full rounded-lg border border-slate-300 px-2 py-2 text-base text-slate-900"><option value="">—</option></select></label>
+        <label class="text-xs text-slate-500">Saídas do split (1:?)<input id="nbCap" inputmode="numeric" value="8" maxlength="2" class="mt-1 w-full rounded-lg border border-slate-300 px-2 py-2 text-base text-slate-900"></label>
+      </div>
+    </div>
+    <div id="nbCtoBox" class="space-y-3">
     <label class="block text-xs text-slate-500">Rua<input id="nbSt" list="nbList" maxlength="80" placeholder="Digite ou escolha (vazio = automática)" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2.5 text-base text-slate-900 focus:outline-none focus:border-sky-500"><datalist id="nbList"></datalist></label>
+    <label class="block text-xs text-slate-500">Pertence à CEO<select id="nbCeo" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2.5 text-base text-slate-900"></select></label>
     <div class="rounded-lg border-2 border-dashed border-violet-300 bg-violet-50 px-3 py-2">
       <label class="flex items-center gap-2 text-sm font-semibold text-violet-900"><input type="checkbox" id="nbPlan">Caixa Planejada / A Instalar</label>
       <div id="nbPlanBox" class="hidden mt-2">
@@ -378,6 +444,7 @@
       </div>
     </div>
     <p class="text-xs text-slate-500">Caixa normal: nasce com 16 vagas livres, cores automáticas e salvamento local. Caixa planejada: pino na cor escolhida até você desmarcar a opção.</p>
+    </div>
     <div class="grid grid-cols-2 gap-2"><button id="nbCancel" class="rounded-lg border border-slate-300 text-slate-700 py-3 font-semibold">Cancelar</button><button id="nbOk" class="rounded-lg bg-[#0056b3] text-white py-3 font-bold">Criar caixa</button></div>
   </div>
 </div>
@@ -473,7 +540,7 @@ function rebuildRegions(){            // nomes das cidades: padrão + renomeadas
   Object.keys(REGION_DEF).forEach(k=>{ REGIONS[k]=(state.cityNames&&state.cityNames[k])||REGION_DEF[k]; });
   (state.cityExtra||[]).forEach(c=>{ REGIONS[c.id]=c.name; });
 }
-const APP_VERSION = "3.8";
+const APP_VERSION = "3.12";
 const TEST_MODE = false;   // true = arquivo de teste (usa uma cópia dos dados) · false = site real
 const KEY_STATE = TEST_MODE?"ftth_state_test":"ftth_state_v1", KEY_NET = TEST_MODE?"ftth_net_test":"ftth_net_v1";
 const DOC_STATE = TEST_MODE?"state_teste":"state", DOC_NET = TEST_MODE?"net_teste":"net";
@@ -523,7 +590,7 @@ function buildItems(net){
   // Posições movidas pelo usuário: ficam à parte (state.pos); o KML original nunca é alterado
   out.forEach(it=>{ const o=state.pos[it.id]; if(o && isFinite(o[0]) && isFinite(o[1])){ it.lat=o[0]; it.lng=o[1]; } });
   // Caixas criadas pelo usuário (state.custom)
-  state.custom.forEach(c=>out.push({ id:c.id, name:c.name, lng:c.lng, lat:c.lat, lng0:c.lng, lat0:c.lat, desc:"", type:"cto", region:c.region||regionOf(c.lng), seedFull:false, seedWarn:false, custom:true }));
+  state.custom.forEach(c=>out.push({ id:c.id, name:c.name, lng:c.lng, lat:c.lat, lng0:c.lng, lat0:c.lat, desc:c.desc||"", type:c.type==="ceo"?"ceo":"cto", region:c.region||regionOf(c.lng), seedFull:false, seedWarn:false, custom:true }));
   return out;
 }
 
@@ -531,7 +598,7 @@ let net   = jget(KEY_NET, null) || { pts:PTS, lines:LINES };
 let state = jget(KEY_STATE, null);
 function fixState(){
   if(!state||typeof state!=="object") state={};
-  ["clients","full","warn","names","notes","links","sn","so","pos","plan","vlan","vlanNames","cityNames"].forEach(k=>{ if(!state[k]||typeof state[k]!=="object"||Array.isArray(state[k])) state[k]={}; });
+  ["clients","full","warn","names","notes","links","sn","so","pos","plan","vlan","vlanNames","cityNames","ceoOf","hist","ceoCap"].forEach(k=>{ if(!state[k]||typeof state[k]!=="object"||Array.isArray(state[k])) state[k]={}; });
   ["custom","cst","cityExtra"].forEach(k=>{ if(!Array.isArray(state[k])) state[k]=[]; });
   if(typeof state.hdrColor!=="string") state.hdrColor="";
   if(typeof state.slotBg!=="string") state.slotBg="";
@@ -566,6 +633,11 @@ function status(it){
   return "ok";
 }
 const isFull = it => status(it)==="full";
+// CEO: mesma ideia das caixas — amarela quando restam só 2 saídas do split, vermelha quando não resta nenhuma
+function ceoInfo(it){
+  const n=items.filter(x=>x.type==="cto" && linkMap[x.id]===it.id).length, cap=Math.max(1,+state.ceoCap[it.id]||8), free=cap-n;
+  return {n,cap,free,st: free<=0?"full":free<=2?"warn":"ok"};
+}
 /* Caixas planejadas / a instalar: guardadas à parte em state.plan[id] = {on, color}. Não mexem nas regras de cor automática. */
 const HEX = /^#[0-9a-f]{6}$/i, PLAN_DEF = "#9333ea";
 const PLAN_COLORS = [["Roxo","#9333ea"],["Preto","#000000"],["Laranja","#ea580c"],["Rosa","#db2777"],["Cinza","#475569"]];
@@ -633,7 +705,7 @@ const lineLayer = L.layerGroup().addTo(map);
 const streetLayer = L.layerGroup().addTo(map);
 const markLayer = L.layerGroup().addTo(map);
 const cabLayer = L.layerGroup().addTo(map);
-let cabMode=false, cabSnap=null, cabDirty=false, cabPoly={}, cabHalo={}, cabSel=null, hideCto=false, hideCeo=false, hideFib=false; try{ hideFib=localStorage.getItem("ftth_hidefib")==="1"; hideCto=localStorage.getItem("ftth_hidecto")==="1"; hideCeo=localStorage.getItem("ftth_hideceo")==="1"; }catch(e){}
+let cabMode=false, cabSnap=null, cabDirty=false, cabPoly={}, cabHalo={}, cabSel=null, hideCto=false, hideCeo=false, hideFib=false, hideOth=false; try{ hideOth=localStorage.getItem("ftth_hideoth")==="1"; hideFib=localStorage.getItem("ftth_hidefib")==="1"; hideCto=localStorage.getItem("ftth_hidecto")==="1"; hideCeo=localStorage.getItem("ftth_hideceo")==="1"; }catch(e){}
 const markers = {}, stMk = {};
 function zoomCls(){ const z=map.getZoom(), c=map.getContainer().classList; c.toggle("zl16",z>=16); c.toggle("zl17",z>=17); }
 map.on("zoomend",zoomCls); zoomCls();
@@ -648,6 +720,11 @@ function iconFor(it){
     const c=clientsOf(it.id).length;
     cls=st;
     label=`${st==="warn"&&c<WARN_FROM?"⚠ ":""}${esc(nameOf(it))} [${(st==="full"&&c<CAP)?"LOTADA":c+"/"+CAP}]`;
+  } else if(it.type==="ceo"){
+    const ci=ceoInfo(it); cls=ci.st==="ok"?"ceo":ci.st;
+    label=`${ci.st==="warn"?"⚠ ":""}${esc(nameOf(it))} [${ci.st==="full"?"LOTADA":ci.n+"/"+ci.cap}]`;
+    const hx=FIBER_HEX[String(parseCeo(it.desc).cor||"").toUpperCase()];       // borda = cor da fibra da CEO
+    if(hx) sty=` style="border-color:${hx};border-width:3px;box-shadow:0 0 0 1.5px rgba(0,0,0,.6),0 1px 4px rgba(0,0,0,.6)"`;
   } else { cls=it.type; label=(it.type==="loja"?"🏠 ":"")+esc(nameOf(it)); }
   if(hl) cls += hl.has(it.id) ? " hl" : " dim";
   if(selSet.has(it.id)){ cls += " sel"; label = "✔ "+label; }
@@ -770,7 +847,8 @@ function render(){
     if(it.region!==region) return;
     if(hideCto && it.type==="cto") return;
     if(hideCeo && it.type==="ceo") return;
-    const canDrag = editMode && it.type==="cto";
+    if(hideOth && (it.type==="imenda"||it.type==="loja")) return;
+    const canDrag = editMode && (it.type==="cto"||(it.type==="ceo"&&it.custom));
     const m = L.marker([it.lat,it.lng],{icon:iconFor(it),zIndexOffset:zOf(it),riseOnHover:true,draggable:canDrag,interactive:!cabRawNow()}).addTo(markLayer);
     m.on("click",()=>{ if(placing||lpBlock) return; if(selMode){ if(it.type==="cto") toggleSel(it.id); return; } openSheet(it.id); });
     if(canDrag){ m.on("dragstart",closeSheet); m.on("dragend",()=>onMoved(it,m)); }
@@ -844,6 +922,10 @@ function computeLinks(){
     const i=near([it.lng0,it.lat0],20);   // posição original: mover a caixa não perde a CEO identificada
     if(i>=0 && best[i].ceo) linkMap[it.id]=best[i].ceo;
   });
+  Object.entries(state.ceoOf||{}).forEach(([bid,cid])=>{      // escolha manual: CEO de cada caixa ("-" = nenhuma)
+    if(!byId[bid]) return;
+    if(cid==="-") delete linkMap[bid]; else if(byId[cid]&&byId[cid].type==="ceo") linkMap[bid]=cid;
+  });
   linkV=V;
 }
 function parseCeo(d){
@@ -857,6 +939,7 @@ function chips(o){
   if(o.tubo)c.push(["Tubo","T"+o.tubo]); if(o.cor)c.push(["Cor",o.cor.toUpperCase()]);
   return c.map(([k,v])=>`<div class="bg-white border border-indigo-200 rounded-lg px-3 py-1 text-center"><div class="text-[10px] uppercase text-indigo-400">${k}</div><div class="font-bold text-indigo-900">${esc(v)}</div></div>`).join("");
 }
+let histAll=false;
 function linkBlock(it){
   const box = inner => `<div class="mt-3 rounded-lg bg-indigo-50 border border-indigo-200 px-3 py-2">${inner}</div>`;
   if(it.type==="cto"){
@@ -873,7 +956,23 @@ function linkBlock(it){
   }
   if(it.type==="ceo"){
     const ch=chips(parseCeo(it.desc)), n=items.filter(x=>linkMap[x.id]===it.id).length;
-    return box(`<div class="text-sm font-bold text-indigo-900 mb-1">🔌 Dados da CEO</div>`+(ch?`<div class="flex flex-wrap gap-1.5">${ch}</div>`:`<div class="text-xs text-slate-500">Sem Card/PON anotados no KML.</div>`)+`<div class="text-xs text-indigo-700 mt-1.5">${n} caixa(s) de cliente ligada(s) a esta CEO</div>`);
+    const qn=x=>{ const m=/^\s*Q\s*(\d+)/i.exec(nameOf(x)||""); return m?+m[1]:999; };
+    const mine=items.filter(x=>x.type==="cto" && linkMap[x.id]===it.id).sort((a,b)=>qn(a)-qn(b)||String(nameOf(a)).localeCompare(String(nameOf(b))));
+    const chip=x=>{ const k=qn(x), col=Q_FIBER[k-1]||"#94a3b8", st=status(x), c=clientsOf(x.id).length;
+      return `<span class="inline-flex items-center rounded-lg border border-indigo-200 bg-white overflow-hidden"><button data-a="gotobox" data-id="${x.id}" class="flex items-center gap-1.5 pl-1.5 pr-1.5 py-1 text-xs font-semibold text-indigo-900"><i class="inline-block w-3.5 h-3.5 rounded-sm shrink-0" style="background:${col};box-shadow:0 0 0 1px #64748b"></i>${esc(nameOf(x))}<span class="font-normal ${st==="full"?"text-red-600":"text-slate-500"}">${st==="full"?"lotada":c+"/"+CAP}</span></button><button data-a="crem" data-id="${x.id}" title="Tirar desta CEO" class="px-1.5 py-1 text-slate-400 text-sm leading-none border-l border-indigo-200">×</button></span>`; };
+    const cap=Math.max(1,+state.ceoCap[it.id]||8), over=mine.length>cap;
+    const cand=items.filter(x=>x.type==="cto" && x.region===it.region && linkMap[x.id]!==it.id).sort((a,b)=>qn(a)-qn(b));
+    const hist=(state.hist[it.id]||[]).slice().reverse(), hshow=histAll?hist:hist.slice(0,3);
+    const fd=t=>{ try{ return new Date(t).toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit",year:"2-digit"}); }catch(e){ return ""; } };
+    return box(`<div class="text-sm font-bold text-indigo-900 mb-1">🔌 Dados da CEO</div>`+(ch?`<div class="flex flex-wrap gap-1.5">${ch}</div>`:`<div class="text-xs text-slate-500">Sem Card/PON anotados no KML.</div>`)
+      +`<div class="flex items-center gap-2 mt-2 mb-1"><span class="flex-1 text-xs text-indigo-700">${{ok:"🟢",warn:"🟡",full:"🔴"}[ceoInfo(it).st]} Split 1:${cap} · <b class="${over?"text-red-600":""}">${mine.length}/${cap}</b> caixas${over?" (passou do split!)":" · "+(cap-mine.length)+" livre"+(cap-mine.length===1?"":"s")}</span><button data-a="capdn" title="Diminuir o split" class="ibtn text-sm" ${cap<=1?"disabled":""}>−</button><button data-a="capup" title="Aumentar o split (mais uma saída)" class="ibtn text-sm">＋</button></div>`
+      +`<div class="flex gap-1 mb-1.5">${Array.from({length:Math.max(cap,mine.length)},(_,i)=>{ const x=mine[i]; return x?`<i class="flex-1 h-1.5 rounded-sm" style="background:${over?"#dc2626":(Q_FIBER[qn(x)-1]||"#6366f1")};box-shadow:0 0 0 1px #94a3b8"></i>`:`<i class="flex-1 h-1.5 rounded-sm border border-dashed border-indigo-300"></i>`; }).join("")}</div><div class="flex flex-wrap gap-1.5">${mine.map(chip).join("")||'<span class="text-xs text-slate-500">Nenhuma caixa ligada.</span>'}</div>`
+      +`<select data-a="ceoadd" class="mt-1.5 w-full rounded-lg border border-indigo-200 px-2 py-1.5 text-xs text-slate-900"><option value="">➕ Adicionar caixa a esta CEO${mine.length>=cap?" (acima do split)":""}…</option>${cand.map(x=>`<option value="${x.id}">${esc(nameOf(x))}${stOf(x)?" · "+esc(stLabel(stOf(x))):""}</option>`).join("")}</select>`
+      +(it.custom?`<button data-a="ceodesc" class="mt-2 rounded-lg border border-indigo-300 text-indigo-700 px-2 py-1 text-xs font-semibold">✏ Editar dados da CEO (Card, PON, Fibra, cor)</button>`:"")
+      +`<div class="text-xs text-indigo-700 mt-2.5 mb-1">📜 Histórico da rede (rompimento, serviços…)</div>`
+      +`<div class="flex gap-1.5"><textarea id="histTx" rows="2" maxlength="300" placeholder="Ex.: Rompimento na Rua X, emendado" class="flex-1 min-w-0 rounded-lg border border-indigo-200 px-2 py-1 text-xs text-slate-900"></textarea><button data-a="hadd" class="rounded-lg bg-[#0056b3] text-white px-2.5 text-xs font-semibold">Salvar</button></div>`
+      +hshow.map(h=>`<div class="mt-1 flex items-start gap-1.5 text-xs text-slate-700"><span class="shrink-0 font-semibold text-indigo-700">${fd(h.t)}</span><span class="flex-1 min-w-0 break-words">${esc(h.x)}</span><button data-a="hdel" data-t="${h.t}" title="Apagar" class="text-slate-400 leading-none px-1">×</button></div>`).join("")
+      +(hist.length>3?`<button data-a="hall" class="mt-1 text-xs underline text-indigo-700">${histAll?"ver menos":"ver todos ("+hist.length+")"}</button>`:""));
   }
   return "";
 }
@@ -996,6 +1095,13 @@ body.addEventListener("click",e=>{
   }
   if(a==="vlan"){ const v=b.dataset.v; if(v) state.vlan[it.id]=v; else delete state.vlan[it.id]; vlOpen=false; save(); drawSheet(); refreshMarker(it.id); return; }
   if(a==="link"){ const n=prompt("Ligação desta caixa (ex.: CEO F9 - CARD2 - PON3 - T2 branca):",state.links[it.id]||""); if(n!==null){ if(n.trim()) state.links[it.id]=n.trim(); else delete state.links[it.id]; save(); drawSheet(); } return; }
+  if(a==="gotobox"){ const x=byId[b.dataset.id]; if(x){ if(region!=="all"&&x.region!==region){ region=x.region; drawTabs(); render(); } map.setView([x.lat,x.lng],19); openSheet(x.id); } return; }
+  if(a==="crem"){ const x=byId[b.dataset.id]; if(!x) return; if(state.ceoOf[x.id]) delete state.ceoOf[x.id]; if(linkMap[x.id]===it.id) state.ceoOf[x.id]="-"; save(); computeLinks(); render(); drawSheet(); return; }
+  if(a==="hadd"){ const t=document.getElementById("histTx"), v=(t&&t.value||"").trim(); if(!v){ if(t) t.focus(); return; } (state.hist[it.id]=state.hist[it.id]||[]).push({t:Date.now(),x:v}); save(); drawSheet(); return; }
+  if(a==="hdel"){ const t=+b.dataset.t; if(!confirm("Apagar esta anotação do histórico?")) return; state.hist[it.id]=(state.hist[it.id]||[]).filter(h=>h.t!==t); if(!state.hist[it.id].length) delete state.hist[it.id]; save(); drawSheet(); return; }
+  if(a==="capup"||a==="capdn"){ const cur=Math.max(1,+state.ceoCap[it.id]||8), nv=Math.max(1,cur+(a==="capup"?1:-1)); if(nv===8) delete state.ceoCap[it.id]; else state.ceoCap[it.id]=nv; save(); drawSheet(); refreshMarker(it.id); return; }
+  if(a==="ceodesc"){ const c=state.custom.find(x=>x.id===it.id); if(!c) return; const v=prompt("Dados da CEO (ex.: CARD3 PON3 F17 VERMELHA):",c.desc||""); if(v===null) return; c.desc=v.trim(); save(); rebuild(); computeLinks(); render(); drawSheet(); return; }
+  if(a==="hall"){ histAll=!histAll; drawSheet(); return; }
   if(a==="gotoCeo"){ const c=byId[b.dataset.id]; if(region!=="all"&&c.region!==region){ region=c.region; drawTabs(); render(); } map.setView([c.lat,c.lng],19); openSheet(c.id); return; }
   if(a==="edit"){ const i=+b.dataset.i, c0=cl[i]; const n=prompt("Nome do cliente:",c0.n); if(n===null) return; const p=prompt("Porta (1-"+CAP+", vazio = sem porta):",c0.p||""); if(p===null) return; const pv=p.trim();
     if(pv&&(!/^\d+$/.test(pv)||+pv<1||+pv>CAP)) return alert("Porta inválida."); if(pv&&cl.some((x,j)=>j!==i&&String(x.p)===pv)) return alert("Porta "+pv+" já está em uso nesta caixa.");
@@ -1011,7 +1117,7 @@ body.addEventListener("click",e=>{
   if(a==="delbox"){
     if(!confirm(`Excluir a caixa "${nameOf(it)}" e seus ${cl.length} cliente(s)? Não dá para desfazer.`)) return;
     const id=it.id; state.custom=state.custom.filter(x=>x.id!==id);
-    ["clients","full","warn","names","notes","links","so","plan","vlan"].forEach(k=>delete state[k][id]);
+    ["clients","full","warn","names","notes","links","so","plan","vlan","ceoOf","hist","ceoCap"].forEach(k=>delete state[k][id]);
     save(); closeSheet(); rebuild(); computeStreets(); computeLinks(); render(); return; }
   if(a==="del"){ const i=+b.dataset.i; if(confirm(`Excluir "${cl[i].n}" desta caixa?`)){ cl.splice(i,1); save(); drawSheet(); refreshMarker(it.id); } return; }
   if(a==="rename"){ openEbOne(it); return; }
@@ -1020,6 +1126,7 @@ body.addEventListener("click",e=>{
 });
 body.addEventListener("change",e=>{
   const a=e.target.dataset.a, it=byId[currentId];
+  if(a==="ceoadd" && it && e.target.value){ state.ceoOf[e.target.value]=it.id; save(); computeLinks(); render(); drawSheet(); return; }
   if(a==="force" && it){ state.full[it.id]=e.target.checked; save(); drawSheet(); refreshMarker(it.id); }
   if(a==="warnchk" && it){ state.warn[it.id]=e.target.checked; save(); drawSheet(); refreshMarker(it.id); }
   if(a==="planchk" && it){ const p=state.plan[it.id]||{}; state.plan[it.id]={on:e.target.checked,color:HEX.test(p.color||"")?p.color:PLAN_DEF}; save(); drawSheet(); refreshMarker(it.id); }
@@ -1469,6 +1576,7 @@ function drawFibraPanel(){
   document.getElementById("swInfo").classList.toggle("on",infoMode);
   document.getElementById("swFib").classList.toggle("on",!hideFib);
   document.getElementById("swCeo").classList.toggle("on",!hideCeo);
+  document.getElementById("swOth").classList.toggle("on",!hideOth);
   document.getElementById("swCto").classList.toggle("on",!hideCto);
 }
 function openFibraPanel(open){
@@ -1480,6 +1588,7 @@ fibraPanel.addEventListener("click",e=>{
   if(f==="close") return openFibraPanel(false);
   if(f==="info"){ infoMode=!infoMode; try{ localStorage.setItem("ftth_info",infoMode?"1":"0"); }catch(e){} applyInfo(); }
   else if(f==="fib"){ hideFib=!hideFib; try{ localStorage.setItem("ftth_hidefib",hideFib?"1":"0"); }catch(e){} }
+  else if(f==="oth"){ hideOth=!hideOth; try{ localStorage.setItem("ftth_hideoth",hideOth?"1":"0"); }catch(e){} if(hideOth && currentId && byId[currentId] && (byId[currentId].type==="imenda"||byId[currentId].type==="loja")) closeSheet(); }
   else if(f==="ceo"){ hideCeo=!hideCeo; try{ localStorage.setItem("ftth_hideceo",hideCeo?"1":"0"); }catch(e){} if(hideCeo && currentId && byId[currentId] && byId[currentId].type==="ceo") closeSheet(); }
   else if(f==="cto"){ hideCto=!hideCto; try{ localStorage.setItem("ftth_hidecto",hideCto?"1":"0"); }catch(e){} if(hideCto && currentId && byId[currentId] && byId[currentId].type==="cto") closeSheet(); }
   drawFibraPanel(); render();
@@ -1504,18 +1613,39 @@ function applyMove(it,m){
   else state.pos[it.id]=[it.lat,it.lng];          // coordenada do KML permanece intacta; só o deslocamento é salvo
   save(); computeStreets(); computeLinks(); refreshMarker(it.id); if(currentId===it.id) drawSheet();
 }
+let nbKind="cto";
+const FCORES=["VERDE","AMARELA","BRANCA","AZUL","VERMELHA","ROXA","LARANJA","MARROM","ROSA","CINZA","PRETA"];
+document.getElementById("nbFcor").innerHTML='<option value="">—</option>'+FCORES.map(c=>`<option value="${c}">${c[0]+c.slice(1).toLowerCase()}</option>`).join("");
+function setNbKind(k){
+  nbKind=k; const ceo=k==="ceo";
+  document.getElementById("nbCeoBox").classList.toggle("hidden",!ceo); document.getElementById("nbCtoBox").classList.toggle("hidden",ceo);
+  document.getElementById("nbTCto").className="rounded-lg border-2 py-2 "+(ceo?"border-slate-300 text-slate-600":"border-sky-500 bg-sky-50 text-sky-900");
+  document.getElementById("nbTCeo").className="rounded-lg border-2 py-2 "+(ceo?"border-sky-500 bg-sky-50 text-sky-900":"border-slate-300 text-slate-600");
+  nbName.placeholder=ceo?"Ex.: CEO 3":"Ex.: Q9";
+}
+document.getElementById("nbTCto").onclick=()=>setNbKind("cto"); document.getElementById("nbTCeo").onclick=()=>setNbKind("ceo");
 function openNewBox(ll){
-  pendingLL=ll; nbName.value=""; nbSt.value="";
+  pendingLL=ll; nbName.value=""; nbSt.value=""; setNbKind("cto");
+  ["nbCard","nbPon","nbFib"].forEach(i=>document.getElementById(i).value=""); document.getElementById("nbFcor").value=""; document.getElementById("nbCap").value="8";
   nbPlan.checked=false; nbPlanBox.classList.add("hidden"); nbColor=PLAN_DEF; drawNbSw();
   document.getElementById("nbList").innerHTML=streetsAll().filter(s=>s[1]===region && stName(s[0])).map(s=>`<option value="${esc(stName(s[0]))}">`).join("");
+  document.getElementById("nbCeo").innerHTML='<option value="">Automática (pela fibra)</option>'+items.filter(x=>x.type==="ceo"&&x.region===region).map(x=>`<option value="${x.id}">${esc(nameOf(x))}</option>`).join("");
   nbModal.classList.remove("hidden"); setTimeout(()=>nbName.focus(),60);
 }
 document.getElementById("nbCancel").onclick=()=>{ nbModal.classList.add("hidden"); placing=false; updateEditBar(); };
 document.getElementById("nbOk").onclick=()=>{
   const name=nbName.value.trim(); if(!name){ nbName.focus(); return; }
   const id="c"+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+  if(nbKind==="ceo"){
+    const g=i=>document.getElementById(i).value.trim().replace(/\D/g,""), cor=document.getElementById("nbFcor").value, cap=Math.max(1,+g("nbCap")||8);
+    const desc=[g("nbCard")?"CARD"+g("nbCard"):"", g("nbPon")?"PON"+g("nbPon"):"", g("nbFib")?"F"+g("nbFib"):"", cor].filter(Boolean).join(" ");
+    state.custom.push({id,name,lat:pendingLL.lat,lng:pendingLL.lng,region,type:"ceo",desc}); if(cap!==8) state.ceoCap[id]=cap;
+    save(); placing=false; nbModal.classList.add("hidden");
+    rebuild(); computeStreets(); computeLinks(); render(); updateEditBar(); openSheet(id); return;
+  }
   state.custom.push({id,name,lat:pendingLL.lat,lng:pendingLL.lng,region});
   const sv=nbSt.value.trim(); if(sv) state.so[id]=ensureStreet(sv,region);
+  const cv=document.getElementById("nbCeo").value; if(cv) state.ceoOf[id]=cv;
   if(nbPlan.checked) state.plan[id]={on:true,color:HEX.test(nbColor)?nbColor:PLAN_DEF};
   save(); placing=false; nbModal.classList.add("hidden");
   rebuild(); computeStreets(); computeLinks(); render(); updateEditBar(); openSheet(id);
