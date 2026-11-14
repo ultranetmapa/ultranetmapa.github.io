@@ -329,6 +329,7 @@
 <div id="fibraPanel" class="hidden fixed z-[960] rounded-xl bg-white text-slate-800 shadow-xl px-3 py-2 space-y-2 text-sm" style="left:8px;width:min(92vw,330px);top:110px">
   <div class="flex items-center"><span class="font-bold flex-1">O que mostrar no mapa</span><button data-f="close" class="text-xl px-1 opacity-60 leading-none">×</button></div>
   <button data-f="info" class="w-full flex items-center gap-3 text-left"><span class="flex-1"><b>ℹ Info da fibra</b><span class="block text-xs opacity-70">Caixa / CARD / PON / Fibra / VLAN no lugar do nome</span></span><span id="swInfo" class="swt"></span></button>
+  <button data-f="fib" class="w-full flex items-center gap-3 text-left"><span class="flex-1"><b>〰 Ver fibra (cabos)</b></span><span id="swFib" class="swt"></span></button>
   <button data-f="ceo" class="w-full flex items-center gap-3 text-left"><span class="flex-1"><b>🔵 Ver CEOs</b></span><span id="swCeo" class="swt"></span></button>
   <button data-f="cto" class="w-full flex items-center gap-3 text-left"><span class="flex-1"><b>🟢 Ver caixas de clientes</b></span><span id="swCto" class="swt"></span></button>
 </div>
@@ -472,7 +473,7 @@ function rebuildRegions(){            // nomes das cidades: padrão + renomeadas
   Object.keys(REGION_DEF).forEach(k=>{ REGIONS[k]=(state.cityNames&&state.cityNames[k])||REGION_DEF[k]; });
   (state.cityExtra||[]).forEach(c=>{ REGIONS[c.id]=c.name; });
 }
-const APP_VERSION = "3.7";
+const APP_VERSION = "3.8";
 const TEST_MODE = false;   // true = arquivo de teste (usa uma cópia dos dados) · false = site real
 const KEY_STATE = TEST_MODE?"ftth_state_test":"ftth_state_v1", KEY_NET = TEST_MODE?"ftth_net_test":"ftth_net_v1";
 const DOC_STATE = TEST_MODE?"state_teste":"state", DOC_NET = TEST_MODE?"net_teste":"net";
@@ -632,7 +633,7 @@ const lineLayer = L.layerGroup().addTo(map);
 const streetLayer = L.layerGroup().addTo(map);
 const markLayer = L.layerGroup().addTo(map);
 const cabLayer = L.layerGroup().addTo(map);
-let cabMode=false, cabSnap=null, cabDirty=false, cabPoly={}, cabHalo={}, cabSel=null, hideCto=false, hideCeo=false; try{ hideCto=localStorage.getItem("ftth_hidecto")==="1"; hideCeo=localStorage.getItem("ftth_hideceo")==="1"; }catch(e){}
+let cabMode=false, cabSnap=null, cabDirty=false, cabPoly={}, cabHalo={}, cabSel=null, hideCto=false, hideCeo=false, hideFib=false; try{ hideFib=localStorage.getItem("ftth_hidefib")==="1"; hideCto=localStorage.getItem("ftth_hidecto")==="1"; hideCeo=localStorage.getItem("ftth_hideceo")==="1"; }catch(e){}
 const markers = {}, stMk = {};
 function zoomCls(){ const z=map.getZoom(), c=map.getContainer().classList; c.toggle("zl16",z>=16); c.toggle("zl17",z>=17); }
 map.on("zoomend",zoomCls); zoomCls();
@@ -727,9 +728,10 @@ function render(){
   lineLayer.clearLayers(); cabLayer.clearLayers(); cabPoly={}; cabHalo={}; markLayer.clearLayers(); streetLayer.clearLayers();
   Object.keys(markers).forEach(k=>delete markers[k]); Object.keys(stMk).forEach(k=>delete stMk[k]);
   const bounds = [];
-  const raw=cabRawNow(), styled=[];
+  const raw=cabRawNow(), styled=[], hf=hideFib&&!cabMode;
   net.lines.forEach(([t,c,o],li)=>{
     if(lineReg(net.lines[li])!==region) return;
+    if(hf){ c.forEach(p=>bounds.push([p[1],p[0]])); return; }
     const ll = c.map(p=>[p[1],p[0]]), pp=raw?ll:roundLL(ll), has=o&&(o.w||o.col);
     if(has) styled.push([t,pp,o]);
     if(raw && cabSel===li) cabHalo[li]=L.polyline(pp,{color:"#fde047",weight:13,opacity:.55,interactive:false}).addTo(lineLayer);
@@ -740,13 +742,13 @@ function render(){
     if(!(cabMode&&(!raw||cabState==="draw"))) L.polyline(pp,{color:"#000",weight:20,opacity:.01,bubblingMouseEvents:false}).on("click",()=>cabTap(li)).addTo(lineLayer);
     bounds.push(...ll);
   });
-  if(!raw) fiberSegs().forEach(f=>{
+  if(!raw && !hf) fiberSegs().forEach(f=>{
     if(f.region!==region) return;
     const pp=roundLL(f.pts);
     L.polyline(pp,{color:"#0b1b3a",weight:5,opacity:.28,lineCap:"round",lineJoin:"round",interactive:false}).addTo(lineLayer);
     L.polyline(pp,{color:f.col,weight:2.8,opacity:.9,lineCap:"round",lineJoin:"round",interactive:false}).addTo(lineLayer);
   });
-  if(!raw) styled.forEach(([t,pp,o])=>{        // cabos com cor/grossura escolhida ficam por cima das cores automáticas
+  if(!raw && !hf) styled.forEach(([t,pp,o])=>{        // cabos com cor/grossura escolhida ficam por cima das cores automáticas
     const w=o.w||(t==="p"?4:2.8), col=o.col||(t==="p"?"#1d4ed8":"#38bdf8");
     L.polyline(pp,{color:"#0b1b3a",weight:w+2.5,opacity:.28,lineCap:"round",lineJoin:"round",interactive:false}).addTo(lineLayer);
     L.polyline(pp,{color:col,weight:w,opacity:.95,lineCap:"round",lineJoin:"round",interactive:false}).addTo(lineLayer);
@@ -1465,6 +1467,7 @@ applyHdr(); applySlot();
 const fibraPanel=document.getElementById("fibraPanel");
 function drawFibraPanel(){
   document.getElementById("swInfo").classList.toggle("on",infoMode);
+  document.getElementById("swFib").classList.toggle("on",!hideFib);
   document.getElementById("swCeo").classList.toggle("on",!hideCeo);
   document.getElementById("swCto").classList.toggle("on",!hideCto);
 }
@@ -1476,6 +1479,7 @@ fibraPanel.addEventListener("click",e=>{
   const b=e.target.closest("[data-f]"); if(!b) return; const f=b.dataset.f;
   if(f==="close") return openFibraPanel(false);
   if(f==="info"){ infoMode=!infoMode; try{ localStorage.setItem("ftth_info",infoMode?"1":"0"); }catch(e){} applyInfo(); }
+  else if(f==="fib"){ hideFib=!hideFib; try{ localStorage.setItem("ftth_hidefib",hideFib?"1":"0"); }catch(e){} }
   else if(f==="ceo"){ hideCeo=!hideCeo; try{ localStorage.setItem("ftth_hideceo",hideCeo?"1":"0"); }catch(e){} if(hideCeo && currentId && byId[currentId] && byId[currentId].type==="ceo") closeSheet(); }
   else if(f==="cto"){ hideCto=!hideCto; try{ localStorage.setItem("ftth_hidecto",hideCto?"1":"0"); }catch(e){} if(hideCto && currentId && byId[currentId] && byId[currentId].type==="cto") closeSheet(); }
   drawFibraPanel(); render();
