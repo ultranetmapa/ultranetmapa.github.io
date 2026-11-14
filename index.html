@@ -62,9 +62,11 @@
   .pill.plan{border-style:dashed;border-width:2px}
   button[disabled]{opacity:.45;pointer-events:none}
   #sheet{max-height:50vh}
+  #sheet.ceo{max-height:calc(50vh + 64px)}
   @media (min-width:640px){
     #sheet{left:50%!important;right:auto!important;width:min(640px,calc(100vw - 24px));bottom:12px!important;border-radius:16px;max-height:38vh;transform:translateX(-50%)}
     #sheet.closed{transform:translate(-50%,130%)}
+    #sheet.ceo{max-height:calc(38vh + 64px)}
   }
   #sheetBody{font-size:13px;line-height:1.3;padding-bottom:6px}
   #sheetBody h2{font-size:1.05rem;line-height:1.2}
@@ -364,10 +366,10 @@
       <li><b>Cor da borda:</b> a borda da CEO é da cor da fibra dela (ex.: VERMELHA no Card/PON/F anotado).</li>
       <li><b>Lotação do split:</b> a CEO usa o mesmo sistema das caixas. Normal (azul) com saídas livres · <b>amarela ⚠</b> quando restam só 2 saídas · <b>vermelha [LOTADA]</b> quando não resta nenhuma. O nome mostra <b>[caixas/saídas]</b>, por exemplo [6/8].</li>
       <li><b>Split 1:8:</b> o padrão é 8 saídas. Os botões <b>＋</b> e <b>−</b> na ficha da CEO aumentam ou diminuem. Cada CEO guarda o seu número. Passando do limite, aparece o aviso em vermelho, mas dá para adicionar mesmo assim.</li>
-      <li><b>Caixas desta CEO:</b> lista automática, em ordem de Q. O quadradinho na frente é a cor da fibra da caixa. Toque numa caixa para ir até ela no mapa.</li>
-      <li><b>Tirar / adicionar caixa:</b> o <b>×</b> tira a caixa da CEO. A lista <b>➕ Adicionar caixa a esta CEO…</b> coloca uma caixa que o app não ligou sozinho. Vale também para as cores dos cabos.</li>
+      <li><b>Caixas desta CEO:</b> lista automática, em ordem de Q. O quadradinho na frente é a cor da fibra da caixa: <b>toque nele para escolher outra cor</b> (vale também para a cor do cabo no mapa). Toque no nome da caixa para ir até ela.</li>
+      <li><b>＋ próxima caixa (ex.: ＋ Q7):</b> depois da última caixa aparece a próxima da sequência, já com a cor dela (dá para trocar a cor tocando no quadrado). Toque em <b>＋ Q7</b> e depois no mapa, no lugar onde ela fica: a caixa nasce com o nome certo e já ligada à CEO. O <b>×</b> tira uma caixa da CEO. <b>↳ ligar uma caixa que já existe</b> escolhe uma caixa que o app não ligou sozinho.</li>
       <li><b>📜 Histórico da rede:</b> escreva rompimentos e serviços e toque em <b>Salvar</b>. Cada anotação guarda a data. Mostra as 3 últimas; <b>ver todos</b> mostra o resto e <b>×</b> apaga uma.</li>
-      <li><b>✏ Editar dados da CEO:</b> nas CEOs que você criou, muda Card, PON, Fibra e cor (ex.: CARD3 PON1 F17 VERMELHA).</li>
+      <li><b>Dados da CEO (✏ lápis pequeno):</b> abre um formulário com Card, PON, Fibra, Tubo, cor da fibra e saídas do split. Vale para qualquer CEO. Deixando tudo vazio, ela volta aos dados originais do arquivo. Na ficha da CEO a ordem é: nome, dados, split e caixas, histórico da rede e, por último, o 🧭 Ir com Google Maps.</li>
     </ul></details>
     <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">🧭 O que mostrar no mapa (botão ℹ Fibra)</summary><ul class="list-disc pl-5 space-y-1 mt-2">
       <li><b>ℹ Info da fibra:</b> mostra Caixa / CARD / PON / Fibra / VLAN no lugar do nome, com a borda na cor do tubo.</li>
@@ -378,17 +380,18 @@
       <li>As chaves ficam lembradas no aparelho. Ao abrir o editor de cabos, os cabos aparecem de novo para você poder mexer.</li>
     </ul></details>
     <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">➕ Adicionar no mapa (caixa ou CEO)</summary><ul class="list-disc pl-5 space-y-1 mt-2">
-      <li><b>Segurar 1 segundo numa caixa</b> liga o modo edição. A barra de cima mostra <b>+ Nova Caixa</b>, <b>☑ Selecionar</b> e <b>🔒 Travar</b> (para sair).</li>
+      <li><b>Segurar 1 segundo numa caixa ou numa CEO</b> liga o modo edição. A barra de cima mostra <b>+ Nova Caixa</b>, <b>☑ Selecionar</b> e <b>🔒 Travar</b> (para sair).</li>
       <li><b>+ Nova Caixa:</b> toque no lugar do mapa. Na janela escolha <b>📦 Caixa de cliente</b> ou <b>🔵 CEO</b>.</li>
       <li><b>Caixa de cliente:</b> nome (ex.: Q9), rua, <b>Pertence à CEO</b> (automática pela fibra ou escolha a CEO) e, se quiser, caixa planejada. Nasce com 16 portas livres.</li>
       <li><b>CEO:</b> nome, Card, PON, Fibra (F), cor da fibra e quantas saídas tem o split (o padrão é 8). Dá para deixar vazio e preencher depois. Se a CEO ficar em cima de um cabo de 6 fibras, ela liga as caixas sozinha; se não, adicione pela lista na ficha.</li>
-      <li><b>Arrastar</b> uma caixa (ou uma CEO criada por você) move de lugar. Aparece Salvar / Cancelar.</li>
+      <li><b>Arrastar</b> uma caixa ou uma CEO (qualquer uma) move de lugar. Aparece Salvar / Cancelar. A CEO não perde as caixas ligadas a ela ao ser movida.</li>
       <li><b>☑ Selecionar:</b> escolha várias caixas e troque de uma vez a rua, o status lotada ou a VLAN.</li>
     </ul></details>
     <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">🧵 Cabos e cores</summary><ul class="list-disc pl-5 space-y-1 mt-2">
       <li>A linha grossa azul é o cabo primário (24 fibras) e a fina azul-clara é o de 6 fibras.</li>
       <li>As cores de cada trecho seguem a caixa onde chegam: Q1 verde, Q2 amarelo, Q3 branco, Q4 azul, Q5 vermelho, Q6 violeta, Q7 marrom, Q8 amarelo.</li>
       <li>Cabos com cor ou grossura escolhida por você ficam por cima das cores automáticas.</li>
+      <li><b>Cabo novo liga a caixa sozinho:</b> se você cria uma caixa (ex.: Q7) perto da última (Q6) e desenha o cabo de 6 fibras da Q6 até ela, o app percebe que ela é da mesma CEO e já usa os dados e a cor dela. Ao tocar em <b>✔ Aplicar</b>, aparece um aviso dizendo quais caixas foram ligadas. Se o cabo não encostar nas caixas, nada muda.</li>
     </ul></details>
     <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">✂ Ajustar cabos, passo a passo</summary><ol class="list-decimal pl-5 space-y-1 mt-2">
       <li><b>Toque em cima de um cabo</b> no mapa e depois em <b>✏ Editar cabo</b>. Aparecem bolinhas nos cabos.</li>
@@ -412,6 +415,23 @@
       <li><b>Apagar cadastros</b> limpa clientes, caixas novas e nomes (não tem volta, faça backup antes).</li>
       <li><b>Versão</b> do app aparece no menu. Os dados ficam salvos na nuvem e são os mesmos em todos os aparelhos com o mesmo login.</li>
     </ul></details>
+  </div>
+</div>
+
+<!-- Editar dados da CEO -->
+<div id="ceModal" class="hidden fixed inset-0 z-[1350] bg-black/60 flex items-end sm:items-center justify-center">
+  <div class="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-4 space-y-3 max-h-[92vh] overflow-y-auto" style="padding-bottom:calc(env(safe-area-inset-bottom) + 16px)">
+    <h2 class="font-bold text-slate-800">✏ Dados da CEO <span id="ceName" class="font-normal text-slate-500"></span></h2>
+    <div class="grid grid-cols-2 gap-2">
+      <label class="text-xs text-slate-500">Card<input id="ceCard" inputmode="numeric" maxlength="3" class="mt-1 w-full rounded-lg border border-slate-300 px-2 py-2 text-base text-slate-900"></label>
+      <label class="text-xs text-slate-500">PON<input id="cePon" inputmode="numeric" maxlength="3" class="mt-1 w-full rounded-lg border border-slate-300 px-2 py-2 text-base text-slate-900"></label>
+      <label class="text-xs text-slate-500">Fibra (F)<input id="ceFib" inputmode="numeric" maxlength="3" class="mt-1 w-full rounded-lg border border-slate-300 px-2 py-2 text-base text-slate-900"></label>
+      <label class="text-xs text-slate-500">Tubo (T)<input id="ceTubo" inputmode="numeric" maxlength="2" class="mt-1 w-full rounded-lg border border-slate-300 px-2 py-2 text-base text-slate-900"></label>
+      <label class="text-xs text-slate-500">Cor da fibra<select id="ceCor" class="mt-1 w-full rounded-lg border border-slate-300 px-2 py-2 text-base text-slate-900"></select></label>
+      <label class="text-xs text-slate-500">Saídas do split (1:?)<input id="ceCap" inputmode="numeric" maxlength="2" class="mt-1 w-full rounded-lg border border-slate-300 px-2 py-2 text-base text-slate-900"></label>
+    </div>
+    <p class="text-xs text-slate-500">A borda da CEO no mapa fica na cor da fibra. Deixando tudo vazio, a CEO volta aos dados originais do arquivo.</p>
+    <div class="grid grid-cols-2 gap-2"><button id="ceCancel" class="rounded-lg border border-slate-300 text-slate-700 py-3 font-semibold">Cancelar</button><button id="ceOk" class="rounded-lg bg-[#0056b3] text-white py-3 font-bold">Salvar</button></div>
   </div>
 </div>
 
@@ -540,7 +560,7 @@ function rebuildRegions(){            // nomes das cidades: padrão + renomeadas
   Object.keys(REGION_DEF).forEach(k=>{ REGIONS[k]=(state.cityNames&&state.cityNames[k])||REGION_DEF[k]; });
   (state.cityExtra||[]).forEach(c=>{ REGIONS[c.id]=c.name; });
 }
-const APP_VERSION = "3.12";
+const APP_VERSION = "3.14";
 const TEST_MODE = false;   // true = arquivo de teste (usa uma cópia dos dados) · false = site real
 const KEY_STATE = TEST_MODE?"ftth_state_test":"ftth_state_v1", KEY_NET = TEST_MODE?"ftth_net_test":"ftth_net_v1";
 const DOC_STATE = TEST_MODE?"state_teste":"state", DOC_NET = TEST_MODE?"net_teste":"net";
@@ -589,6 +609,7 @@ function buildItems(net){
   });
   // Posições movidas pelo usuário: ficam à parte (state.pos); o KML original nunca é alterado
   out.forEach(it=>{ const o=state.pos[it.id]; if(o && isFinite(o[0]) && isFinite(o[1])){ it.lat=o[0]; it.lng=o[1]; } });
+  out.forEach(it=>{ if(it.type==="ceo" && state.ceoDesc && typeof state.ceoDesc[it.id]==="string") it.desc=state.ceoDesc[it.id]; });   // dados da CEO editados por você
   // Caixas criadas pelo usuário (state.custom)
   state.custom.forEach(c=>out.push({ id:c.id, name:c.name, lng:c.lng, lat:c.lat, lng0:c.lng, lat0:c.lat, desc:c.desc||"", type:c.type==="ceo"?"ceo":"cto", region:c.region||regionOf(c.lng), seedFull:false, seedWarn:false, custom:true }));
   return out;
@@ -598,7 +619,7 @@ let net   = jget(KEY_NET, null) || { pts:PTS, lines:LINES };
 let state = jget(KEY_STATE, null);
 function fixState(){
   if(!state||typeof state!=="object") state={};
-  ["clients","full","warn","names","notes","links","sn","so","pos","plan","vlan","vlanNames","cityNames","ceoOf","hist","ceoCap"].forEach(k=>{ if(!state[k]||typeof state[k]!=="object"||Array.isArray(state[k])) state[k]={}; });
+  ["clients","full","warn","names","notes","links","sn","so","pos","plan","vlan","vlanNames","cityNames","ceoOf","hist","ceoCap","ceoDesc","qcol"].forEach(k=>{ if(!state[k]||typeof state[k]!=="object"||Array.isArray(state[k])) state[k]={}; });
   ["custom","cst","cityExtra"].forEach(k=>{ if(!Array.isArray(state[k])) state[k]=[]; });
   if(typeof state.hdrColor!=="string") state.hdrColor="";
   if(typeof state.slotBg!=="string") state.slotBg="";
@@ -768,13 +789,13 @@ function fiberSegs(){
     if(it.type!=="cto") return; const ceo=linkMap[it.id]; if(!ceo) return;
     const m=/^\s*Q\s*(\d+)/i.exec(nameOf(it)||""); if(!m) return;
     const v=near([it.lng0,it.lat0],20); if(v<0) return;
-    (byCeo[ceo]=byCeo[ceo]||[]).push({n:+m[1],v,region:it.region});
+    (byCeo[ceo]=byCeo[ceo]||[]).push({n:+m[1],v,region:it.region,id:it.id});
   });
   Object.keys(byCeo).forEach(cid=>{
-    const c=byId[cid]; if(!c) return; const cv=near([c.lng,c.lat],20); if(cv<0) return;
+    const c=byId[cid]; if(!c) return; const cv=near([c.lng0,c.lat0],20); if(cv<0) return;
     const list=byCeo[cid].sort((a,b)=>a.n-b.n);
     list.forEach((b,i)=>{
-      const col=Q_FIBER[b.n-1]; if(!col) return;
+      const col=HEX.test(state.qcol[b.id]||"")?state.qcol[b.id]:Q_FIBER[b.n-1]; if(!col) return;
       const src=i>0?list[i-1].v:cv; if(src===b.v) return;
       const {D,P}=sp(src); if(D[b.v]===Infinity) return;
       const pts=[]; for(let x=b.v;x>=0;x=P[x]){ pts.push([V[x].p[1],V[x].p[0]]); if(x===src) break; }
@@ -848,7 +869,7 @@ function render(){
     if(hideCto && it.type==="cto") return;
     if(hideCeo && it.type==="ceo") return;
     if(hideOth && (it.type==="imenda"||it.type==="loja")) return;
-    const canDrag = editMode && (it.type==="cto"||(it.type==="ceo"&&it.custom));
+    const canDrag = editMode && (it.type==="cto"||it.type==="ceo");
     const m = L.marker([it.lat,it.lng],{icon:iconFor(it),zIndexOffset:zOf(it),riseOnHover:true,draggable:canDrag,interactive:!cabRawNow()}).addTo(markLayer);
     m.on("click",()=>{ if(placing||lpBlock) return; if(selMode){ if(it.type==="cto") toggleSel(it.id); return; } openSheet(it.id); });
     if(canDrag){ m.on("dragstart",closeSheet); m.on("dragend",()=>onMoved(it,m)); }
@@ -909,8 +930,8 @@ function computeLinks(){
   const best = V.map(()=>({d:Infinity,ceo:null}));
   const pq = [];
   items.filter(i=>i.type==="ceo").forEach(c=>{
-    const i=near([c.lng,c.lat],20);
-    if(i>=0){ const d=dist([c.lng,c.lat],V[i].p); if(d<best[i].d){ best[i]={d,ceo:c.id}; pq.push([d,i]); } }
+    const i=near([c.lng0,c.lat0],20);
+    if(i>=0){ const d=dist([c.lng0,c.lat0],V[i].p); if(d<best[i].d){ best[i]={d,ceo:c.id}; pq.push([d,i]); } }
   });
   while(pq.length){
     pq.sort((a,b)=>a[0]-b[0]);
@@ -939,7 +960,12 @@ function chips(o){
   if(o.tubo)c.push(["Tubo","T"+o.tubo]); if(o.cor)c.push(["Cor",o.cor.toUpperCase()]);
   return c.map(([k,v])=>`<div class="bg-white border border-indigo-200 rounded-lg px-3 py-1 text-center"><div class="text-[10px] uppercase text-indigo-400">${k}</div><div class="font-bold text-indigo-900">${esc(v)}</div></div>`).join("");
 }
-let histAll=false;
+let histAll=false, colEdit=null, showAddSel=false, placingFor=null; const nextColBy={};
+function qnum(x){ const m=/^\s*Q\s*(\d+)/i.exec(nameOf(x)||""); return m?+m[1]:999; }
+function ceoNext(it){
+  const n=items.filter(x=>x.type==="cto" && linkMap[x.id]===it.id).reduce((m,x)=>{ const q=qnum(x); return q===999?m:Math.max(m,q); },0)+1, c=nextColBy[it.id];
+  return {n, col:HEX.test(c||"")?c:(Q_FIBER[n-1]||"#94a3b8"), custom:HEX.test(c||"")};
+}
 function linkBlock(it){
   const box = inner => `<div class="mt-3 rounded-lg bg-indigo-50 border border-indigo-200 px-3 py-2">${inner}</div>`;
   if(it.type==="cto"){
@@ -956,19 +982,26 @@ function linkBlock(it){
   }
   if(it.type==="ceo"){
     const ch=chips(parseCeo(it.desc)), n=items.filter(x=>linkMap[x.id]===it.id).length;
-    const qn=x=>{ const m=/^\s*Q\s*(\d+)/i.exec(nameOf(x)||""); return m?+m[1]:999; };
+    const qn=qnum, colOf=x=>{ const o=state.qcol[x.id]; return HEX.test(o||"")?o:(Q_FIBER[qn(x)-1]||"#94a3b8"); };
     const mine=items.filter(x=>x.type==="cto" && linkMap[x.id]===it.id).sort((a,b)=>qn(a)-qn(b)||String(nameOf(a)).localeCompare(String(nameOf(b))));
-    const chip=x=>{ const k=qn(x), col=Q_FIBER[k-1]||"#94a3b8", st=status(x), c=clientsOf(x.id).length;
-      return `<span class="inline-flex items-center rounded-lg border border-indigo-200 bg-white overflow-hidden"><button data-a="gotobox" data-id="${x.id}" class="flex items-center gap-1.5 pl-1.5 pr-1.5 py-1 text-xs font-semibold text-indigo-900"><i class="inline-block w-3.5 h-3.5 rounded-sm shrink-0" style="background:${col};box-shadow:0 0 0 1px #64748b"></i>${esc(nameOf(x))}<span class="font-normal ${st==="full"?"text-red-600":"text-slate-500"}">${st==="full"?"lotada":c+"/"+CAP}</span></button><button data-a="crem" data-id="${x.id}" title="Tirar desta CEO" class="px-1.5 py-1 text-slate-400 text-sm leading-none border-l border-indigo-200">×</button></span>`; };
-    const cap=Math.max(1,+state.ceoCap[it.id]||8), over=mine.length>cap;
+    const cap=Math.max(1,+state.ceoCap[it.id]||8), over=mine.length>cap, nx=ceoNext(it);
+    const sq=(col,id)=>`<button data-a="qcol" data-id="${id}" title="Mudar a cor desta fibra" class="inline-block w-4 h-4 rounded-sm shrink-0" style="background:${col};box-shadow:0 0 0 1px #64748b"></button>`;
+    const chip=x=>{ const st=status(x), c=clientsOf(x.id).length;
+      return `<span class="inline-flex items-center rounded-lg border border-indigo-200 bg-white overflow-hidden"><span class="pl-1.5 flex items-center">${sq(colOf(x),x.id)}</span><button data-a="gotobox" data-id="${x.id}" class="px-1.5 py-1 text-xs font-semibold text-indigo-900">${esc(nameOf(x))} <span class="font-normal ${st==="full"?"text-red-600":"text-slate-500"}">${st==="full"?"lotada":c+"/"+CAP}</span></button><button data-a="crem" data-id="${x.id}" title="Tirar desta CEO" class="px-1.5 py-1 text-slate-400 text-sm leading-none border-l border-indigo-200">×</button></span>`; };
+    const nextChip=`<span class="inline-flex items-center rounded-lg border border-dashed border-indigo-400 bg-white overflow-hidden"><span class="pl-1.5 flex items-center">${sq(nx.col,"__next")}</span><button data-a="qnew" title="Toque aqui e depois no mapa, onde fica a Q${nx.n}" class="px-2 py-1 text-xs font-semibold text-indigo-700">＋ Q${nx.n}</button></span>`;
+    const SWC=["#00b050","#ffe600","#ffffff","#00b0f0","#ff1a1a","#7030a0","#a5682a","#f97316","#ec4899","#94a3b8","#111111"];
+    const strip=colEdit?`<div class="mt-1.5 flex flex-wrap items-center gap-1.5 rounded-lg bg-white border border-indigo-200 px-2 py-1.5"><span class="text-xs text-slate-500">Cor da fibra:</span>${SWC.map(c=>`<button data-a="qpick" data-c="${c}" class="w-6 h-6 rounded-full" style="background:${c};box-shadow:0 0 0 1px #64748b"></button>`).join("")}<button data-a="qpick" data-c="" class="text-xs underline text-indigo-700 ml-1">Padrão</button></div>`:"";
     const cand=items.filter(x=>x.type==="cto" && x.region===it.region && linkMap[x.id]!==it.id).sort((a,b)=>qn(a)-qn(b));
     const hist=(state.hist[it.id]||[]).slice().reverse(), hshow=histAll?hist:hist.slice(0,3);
     const fd=t=>{ try{ return new Date(t).toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit",year:"2-digit"}); }catch(e){ return ""; } };
-    return box(`<div class="text-sm font-bold text-indigo-900 mb-1">🔌 Dados da CEO</div>`+(ch?`<div class="flex flex-wrap gap-1.5">${ch}</div>`:`<div class="text-xs text-slate-500">Sem Card/PON anotados no KML.</div>`)
+    const slots=Math.max(cap,mine.length+1);
+    return box(`<div class="flex items-center mb-1"><span class="flex-1 text-sm font-bold text-indigo-900">🔌 Dados da CEO</span><button data-a="ceodesc" title="Editar os dados da CEO" class="ibtn" style="padding:.2rem .45rem">${ICO_PEN}</button></div>`+(ch?`<div class="flex flex-wrap gap-1.5">${ch}</div>`:`<div class="text-xs text-slate-500">Sem Card/PON/Fibra anotados. Toque no lápis para preencher.</div>`)
       +`<div class="flex items-center gap-2 mt-2 mb-1"><span class="flex-1 text-xs text-indigo-700">${{ok:"🟢",warn:"🟡",full:"🔴"}[ceoInfo(it).st]} Split 1:${cap} · <b class="${over?"text-red-600":""}">${mine.length}/${cap}</b> caixas${over?" (passou do split!)":" · "+(cap-mine.length)+" livre"+(cap-mine.length===1?"":"s")}</span><button data-a="capdn" title="Diminuir o split" class="ibtn text-sm" ${cap<=1?"disabled":""}>−</button><button data-a="capup" title="Aumentar o split (mais uma saída)" class="ibtn text-sm">＋</button></div>`
-      +`<div class="flex gap-1 mb-1.5">${Array.from({length:Math.max(cap,mine.length)},(_,i)=>{ const x=mine[i]; return x?`<i class="flex-1 h-1.5 rounded-sm" style="background:${over?"#dc2626":(Q_FIBER[qn(x)-1]||"#6366f1")};box-shadow:0 0 0 1px #94a3b8"></i>`:`<i class="flex-1 h-1.5 rounded-sm border border-dashed border-indigo-300"></i>`; }).join("")}</div><div class="flex flex-wrap gap-1.5">${mine.map(chip).join("")||'<span class="text-xs text-slate-500">Nenhuma caixa ligada.</span>'}</div>`
-      +`<select data-a="ceoadd" class="mt-1.5 w-full rounded-lg border border-indigo-200 px-2 py-1.5 text-xs text-slate-900"><option value="">➕ Adicionar caixa a esta CEO${mine.length>=cap?" (acima do split)":""}…</option>${cand.map(x=>`<option value="${x.id}">${esc(nameOf(x))}${stOf(x)?" · "+esc(stLabel(stOf(x))):""}</option>`).join("")}</select>`
-      +(it.custom?`<button data-a="ceodesc" class="mt-2 rounded-lg border border-indigo-300 text-indigo-700 px-2 py-1 text-xs font-semibold">✏ Editar dados da CEO (Card, PON, Fibra, cor)</button>`:"")
+      +`<div class="flex gap-1 mb-1.5">${Array.from({length:slots},(_,k)=>{ const x=mine[k]; return x?`<i class="flex-1 h-1.5 rounded-sm" style="background:${over?"#dc2626":colOf(x)};box-shadow:0 0 0 1px #94a3b8"></i>`:(k===mine.length?`<i class="flex-1 h-1.5 rounded-sm" style="background:${nx.col};opacity:.55;box-shadow:0 0 0 1px #94a3b8"></i>`:`<i class="flex-1 h-1.5 rounded-sm border border-dashed border-indigo-300"></i>`); }).join("")}</div>`
+      +`<div class="flex flex-wrap gap-1.5">${mine.map(chip).join("")}${nextChip}</div>`+strip
+      +`<div class="text-[11px] text-slate-500 mt-1">Toque no quadrado para mudar a cor · <b>＋ Q${nx.n}</b> coloca a próxima caixa no mapa · <b>×</b> tira da CEO</div>`
+      +`<button data-a="showadd" class="mt-1 text-xs underline text-indigo-700">↳ ligar uma caixa que já existe</button>`
+      +(showAddSel?`<select data-a="ceoadd" class="mt-1 w-full rounded-lg border border-indigo-200 px-2 py-1.5 text-xs text-slate-900"><option value="">Escolha a caixa…</option>${cand.map(x=>`<option value="${x.id}">${esc(nameOf(x))}${stOf(x)?" · "+esc(stLabel(stOf(x))):""}</option>`).join("")}</select>`:"")
       +`<div class="text-xs text-indigo-700 mt-2.5 mb-1">📜 Histórico da rede (rompimento, serviços…)</div>`
       +`<div class="flex gap-1.5"><textarea id="histTx" rows="2" maxlength="300" placeholder="Ex.: Rompimento na Rua X, emendado" class="flex-1 min-w-0 rounded-lg border border-indigo-200 px-2 py-1 text-xs text-slate-900"></textarea><button data-a="hadd" class="rounded-lg bg-[#0056b3] text-white px-2.5 text-xs font-semibold">Salvar</button></div>`
       +hshow.map(h=>`<div class="mt-1 flex items-start gap-1.5 text-xs text-slate-700"><span class="shrink-0 font-semibold text-indigo-700">${fd(h.t)}</span><span class="flex-1 min-w-0 break-words">${esc(h.x)}</span><button data-a="hdel" data-t="${h.t}" title="Apagar" class="text-slate-400 leading-none px-1">×</button></div>`).join("")
@@ -995,13 +1028,14 @@ function settleDraft(){ if(!draftDirty) return; if(confirm("Salvar as alteraçõ
 function closeSheet(){ if(draftDirty) settleDraft(); sheet.classList.add("closed"); currentId=null; draftBase=null; draftDirty=false; drawDraftBar(); }
 function openSheet(id){
   if(draftDirty && id!==currentId) settleDraft();
-  if(id!==currentId){ vlOpen=false; portMark=false; currentId=id; takeBase(); draftDirty=false; drawDraftBar(); }
+  if(id!==currentId){ colEdit=null; showAddSel=false; vlOpen=false; portMark=false; currentId=id; takeBase(); draftDirty=false; drawDraftBar(); }
   drawSheet(); sheet.classList.remove("closed");
   const it=byId[id]; map.panTo([it.lat,it.lng],{animate:true});
   setTimeout(()=>{ const p=map.latLngToContainerPoint([it.lat,it.lng]); const h=sheet.offsetHeight; if(p.y>window.innerHeight-h-30) map.panBy([0,p.y-(window.innerHeight-h)/2]); },300);
 }
 function drawSheet(){
   const it=byId[currentId]; if(!it) return;
+  sheet.classList.toggle("ceo",it.type==="ceo");
   const cl = clientsOf(it.id), c=cl.length, st=status(it), sid=stOf(it);
   const gm = `https://www.google.com/maps/dir/?api=1&destination=${it.lat},${it.lng}&travelmode=driving`;
   const kind = it.type==="cto"?(isPlanned(it)?"Caixa planejada":"Caixa"):it.type==="ceo"?"CEO (emenda)":it.type==="imenda"?"Caixa de emenda":"Local";
@@ -1019,9 +1053,11 @@ function drawSheet(){
       <div class="h-2.5 rounded-full bg-slate-200 mt-1 overflow-hidden"><div class="h-full ${T[2]}" style="width:${st==="full"?100:Math.round(c/CAP*100)}%"></div></div>`;
     if(st==="warn") h += `<div class="mt-1.5 text-sm font-semibold text-amber-700">${forcedWarn(it)&&c<WARN_FROM?"⚠ Atenção marcada manualmente (manutenção preventiva).":`⚠ Quase cheia — restam apenas ${free} vaga${free>1?"s":""}.`}</div>`;
   }
-  if(it.desc) h += `<div class="mt-2 text-sm bg-amber-50 border border-amber-200 text-amber-900 rounded-lg px-3 py-2">📝 ${esc(it.desc)}</div>`;
-  if(state.notes[it.id]) h += `<div class="mt-2 text-sm bg-sky-50 border border-sky-200 text-sky-900 rounded-lg px-3 py-2">🗒 ${esc(state.notes[it.id])}</div>`;
-  h += `<div class="mt-2"><a href="${gm}" target="_blank" rel="noopener" class="inline-block rounded-md bg-blue-600 text-white px-3 py-1.5 font-semibold text-xs">🧭 Ir com Google Maps</a></div>`;
+  if(it.desc && it.type!=="ceo") h += `<div class="mt-2 text-sm bg-amber-50 border border-amber-200 text-amber-900 rounded-lg px-3 py-2">📝 ${esc(it.desc)}</div>`;
+  const noteH = state.notes[it.id] ? `<div class="mt-2 text-sm bg-sky-50 border border-sky-200 text-sky-900 rounded-lg px-3 py-2">🗒 ${esc(state.notes[it.id])}</div>` : "";
+  if(it.type!=="ceo") h += noteH;
+  const gmH = `<div class="mt-2"><a href="${gm}" target="_blank" rel="noopener" class="inline-block rounded-md bg-blue-600 text-white px-3 py-1.5 font-semibold text-xs">🧭 Ir com Google Maps</a></div>`;
+  if(it.type!=="ceo") h += gmH;
   if(it.type==="cto"){
     h += `<div class="mt-2 text-xs text-slate-500">Rua desta caixa<div class="mt-1 flex gap-2"><select data-a="street" class="flex-1 min-w-0 rounded-lg border border-slate-300 px-2 py-2 text-sm text-slate-900"><option value="">Automática${autoSt[it.id]?" ("+esc(stLabel(autoSt[it.id]))+")":""}</option>${streetsAll().filter(s=>s[1]===it.region).map(s=>`<option value="${s[0]}" ${state.so[it.id]===s[0]?'selected':''}>${esc(stLabel(s[0]))}</option>`).join("")}</select><button data-a="renst" class="shrink-0 rounded-lg border border-slate-300 text-slate-700 px-2.5 text-sm">✏ Renomear</button><button data-a="newst" class="shrink-0 rounded-lg border border-slate-300 text-slate-700 px-2.5 text-sm">➕ Nova</button></div><button data-a="allst" class="mt-1 text-xs underline text-sky-700">Ver / editar todas as ruas</button></div>`;
     const bySlot={}, extra=[]; cl.forEach((x,i)=>{ const pn=+x.p; if(pn>=1&&pn<=CAP&&bySlot[pn]===undefined) bySlot[pn]=i; else extra.push(i); });
@@ -1062,7 +1098,9 @@ function drawSheet(){
     h += `<div class="mt-3 text-xs text-slate-500">VLAN desta caixa${cur?` — <b class="text-slate-700">${esc(cur)}${cn}</b>`:""}<div class="mt-1 flex ${showAll?"flex-col":""} gap-2">${row}</div></div>`;
   }
   h += linkBlock(it);
+  if(it.type==="ceo") h += noteH;
   h += `<div class="mt-3 flex gap-2 text-xs"><button data-a="rename" class="rounded-lg border border-slate-300 text-slate-600 px-3 py-2">Renomear</button><button data-a="note" class="rounded-lg border border-slate-300 text-slate-600 px-3 py-2">Anotação</button>${it.custom?`<button data-a="delbox" class="rounded-lg border border-red-300 text-red-600 px-3 py-2">🗑 Excluir caixa</button>`:""}</div>`;
+  if(it.type==="ceo") h += gmH;
   body.innerHTML = h;
 }
 body.addEventListener("click",e=>{
@@ -1100,7 +1138,14 @@ body.addEventListener("click",e=>{
   if(a==="hadd"){ const t=document.getElementById("histTx"), v=(t&&t.value||"").trim(); if(!v){ if(t) t.focus(); return; } (state.hist[it.id]=state.hist[it.id]||[]).push({t:Date.now(),x:v}); save(); drawSheet(); return; }
   if(a==="hdel"){ const t=+b.dataset.t; if(!confirm("Apagar esta anotação do histórico?")) return; state.hist[it.id]=(state.hist[it.id]||[]).filter(h=>h.t!==t); if(!state.hist[it.id].length) delete state.hist[it.id]; save(); drawSheet(); return; }
   if(a==="capup"||a==="capdn"){ const cur=Math.max(1,+state.ceoCap[it.id]||8), nv=Math.max(1,cur+(a==="capup"?1:-1)); if(nv===8) delete state.ceoCap[it.id]; else state.ceoCap[it.id]=nv; save(); drawSheet(); refreshMarker(it.id); return; }
-  if(a==="ceodesc"){ const c=state.custom.find(x=>x.id===it.id); if(!c) return; const v=prompt("Dados da CEO (ex.: CARD3 PON3 F17 VERMELHA):",c.desc||""); if(v===null) return; c.desc=v.trim(); save(); rebuild(); computeLinks(); render(); drawSheet(); return; }
+  if(a==="ceodesc") return openCeoEd(it);
+  if(a==="showadd"){ showAddSel=!showAddSel; drawSheet(); return; }
+  if(a==="qcol"){ colEdit=(colEdit===b.dataset.id)?null:b.dataset.id; drawSheet(); return; }
+  if(a==="qpick"){ const c=b.dataset.c, tg=colEdit; if(!tg) return;
+    if(tg==="__next"){ if(c) nextColBy[it.id]=c; else delete nextColBy[it.id]; }
+    else { if(c) state.qcol[tg]=c; else delete state.qcol[tg]; save(); computeLinks(); render(); }
+    colEdit=null; drawSheet(); return; }
+  if(a==="qnew"){ const nx=ceoNext(it); const pf={ceo:it.id,name:"Q"+nx.n,col:nx.col,custom:nx.custom}; setEdit(true); placingFor=pf; placing=true; updateEditBar(); return; }
   if(a==="hall"){ histAll=!histAll; drawSheet(); return; }
   if(a==="gotoCeo"){ const c=byId[b.dataset.id]; if(region!=="all"&&c.region!==region){ region=c.region; drawTabs(); render(); } map.setView([c.lat,c.lng],19); openSheet(c.id); return; }
   if(a==="edit"){ const i=+b.dataset.i, c0=cl[i]; const n=prompt("Nome do cliente:",c0.n); if(n===null) return; const p=prompt("Porta (1-"+CAP+", vazio = sem porta):",c0.p||""); if(p===null) return; const pv=p.trim();
@@ -1117,7 +1162,7 @@ body.addEventListener("click",e=>{
   if(a==="delbox"){
     if(!confirm(`Excluir a caixa "${nameOf(it)}" e seus ${cl.length} cliente(s)? Não dá para desfazer.`)) return;
     const id=it.id; state.custom=state.custom.filter(x=>x.id!==id);
-    ["clients","full","warn","names","notes","links","so","plan","vlan","ceoOf","hist","ceoCap"].forEach(k=>delete state[k][id]);
+    ["clients","full","warn","names","notes","links","so","plan","vlan","ceoOf","hist","ceoCap","qcol"].forEach(k=>delete state[k][id]);
     save(); closeSheet(); rebuild(); computeStreets(); computeLinks(); render(); return; }
   if(a==="del"){ const i=+b.dataset.i; if(confirm(`Excluir "${cl[i].n}" desta caixa?`)){ cl.splice(i,1); save(); drawSheet(); refreshMarker(it.id); } return; }
   if(a==="rename"){ openEbOne(it); return; }
@@ -1181,7 +1226,7 @@ body.addEventListener("change",e=>{
 // alterações feitas dentro do painel da caixa só valem depois de "Salvar"
 ["click","change","keydown"].forEach(ev=>{ body.addEventListener(ev,()=>{stageOn=true;},true); body.addEventListener(ev,()=>{stageOn=false;}); });
 document.getElementById("draftBar").addEventListener("click",e=>{ const d=e.target.dataset.d; if(d==="save") commitDraft(); else if(d==="cancel") cancelDraft(); });
-map.on("click",e=>{ hideChip(); openFibraPanel(false); if(cabRawNow()){ if(cabState==="draw") cabAddPt(e.latlng); else if(cabSel!==null){ cabSel=null; closeCabStyle(); render(); drawCabBar(); } return; } if(placing){ openNewBox(e.latlng); return; } if(selMode) return; closeSheet(); });
+map.on("click",e=>{ hideChip(); openFibraPanel(false); if(cabRawNow()){ if(cabState==="draw") cabAddPt(e.latlng); else if(cabSel!==null){ cabSel=null; closeCabStyle(); render(); drawCabBar(); } return; } if(placing){ if(placingFor) placeQ(e.latlng); else openNewBox(e.latlng); return; } if(selMode) return; closeSheet(); });
 
 /* ======================= BUSCA (rua / caixa / cliente) ======================= */
 const sInp=document.getElementById("search"), sRes=document.getElementById("results");
@@ -1312,8 +1357,8 @@ function updateEditBar(){
   editBar.classList.toggle("hidden",!editMode);
   map.getContainer().classList.toggle("placing",placing);
   editBar.innerHTML = placing
-    ? `<span class="font-semibold leading-tight">👆 Toque no mapa onde a nova caixa ficará</span><button data-e="cancel" class="shrink-0 rounded-lg bg-white/20 px-3 py-2 font-semibold">Cancelar</button>`
-    : `<span class="font-semibold leading-tight">✏ Edição ativa<span class="block text-xs font-normal opacity-80">arraste as caixas para movê-las</span></span><span class="flex gap-2 shrink-0"><button data-e="sel" class="rounded-lg bg-white/20 px-2.5 py-2 text-xs font-semibold">☑ Selecionar</button><button data-e="add" class="rounded-lg bg-emerald-500 px-3 py-2 font-bold shadow">+ Nova Caixa</button><button data-e="off" class="rounded-lg bg-white/20 px-2.5 py-2 text-xs font-semibold">🔒 Travar</button></span>`;
+    ? `<span class="font-semibold leading-tight">👆 Toque no mapa onde ${placingFor?"fica a "+esc(placingFor.name)+" desta CEO":"a nova caixa ficará"}</span><button data-e="cancel" class="shrink-0 rounded-lg bg-white/20 px-3 py-2 font-semibold">Cancelar</button>`
+    : `<span class="font-semibold leading-tight">✏ Edição ativa<span class="block text-xs font-normal opacity-80">arraste as caixas e CEOs para movê-las</span></span><span class="flex gap-2 shrink-0"><button data-e="sel" class="rounded-lg bg-white/20 px-2.5 py-2 text-xs font-semibold">☑ Selecionar</button><button data-e="add" class="rounded-lg bg-emerald-500 px-3 py-2 font-bold shadow">+ Nova Caixa</button><button data-e="off" class="rounded-lg bg-white/20 px-2.5 py-2 text-xs font-semibold">🔒 Travar</button></span>`;
 }
 /* ======================= AJUSTAR CABOS ======================= */
 const cabBar=document.getElementById("cabBar"), cabChip=document.getElementById("cabChip"), cabStyle=document.getElementById("cabStyle"), ptModal=document.getElementById("ptModal");
@@ -1477,7 +1522,9 @@ cabBar.addEventListener("click",e=>{
   else if(c==="delcab"){ if(cabSel!==null && confirm("Apagar este cabo inteiro? (dá para desfazer com ↶)")){ cabPush(); net.lines.splice(cabSel,1); cabSel=null; closeCabStyle(); render(); drawCabBar(); } }
   else if(c==="view"){ closeCabStyle(); cabState="preview"; computeLinks(); drawCabBar(); render(); }
   else if(c==="back"){ cabState="edit"; drawCabBar(); render(); }
-  else if(c==="apply"){ if(cabDirty){ jset(KEY_NET,net); cloudPushNet(); } computeLinks(); const d=cabDirty; setCab(false); render(); toast(d?"✔ Cabos aplicados":"Nada foi alterado"); }
+  else if(c==="apply"){ if(cabDirty){ jset(KEY_NET,net); cloudPushNet(); } const old=Object.assign({},linkMap); computeLinks(); const d=cabDirty; setCab(false); render();
+    const nw=items.filter(x=>x.type==="cto" && linkMap[x.id] && linkMap[x.id]!==old[x.id]);
+    toast(d?"✔ Cabos aplicados"+(nw.length?" · 🔗 "+nw.slice(0,4).map(x=>esc(nameOf(x))+" ligada à "+esc(nameOf(byId[linkMap[x.id]]))).join(", ")+(nw.length>4?" e mais "+(nw.length-4):""):""):"Nada foi alterado"); }
   else if(c==="discard"){ if(confirm("Descartar tudo e voltar os cabos como estavam?")) cabDiscard(); }
   else if(c==="cancel"){ if(!cabDirty || confirm("Descartar as mudanças nos cabos?")) cabDiscard(); }
 });
@@ -1597,11 +1644,11 @@ fibraPanel.addEventListener("click",e=>{
 function setEdit(on){
   if(on&&cabMode) return;
   if(on&&selMode) setSel(false);
-  editMode=on; placing=false; editToggle.checked=on; closeSheet();
+  editMode=on; placing=false; placingFor=null; editToggle.checked=on; closeSheet();
   map.getContainer().classList.toggle("editing",on); updateEditBar(); render();
   if(on) menu.classList.add("hidden");
 }
-function cancelPlacing(){ if(placing){ placing=false; updateEditBar(); } }
+function cancelPlacing(){ if(placing){ placing=false; placingFor=null; updateEditBar(); } }
 function onMoved(it,m){
   const oldLat=it.lat, oldLng=it.lng, nl=m.getLatLng();
   if(Math.abs(nl.lat-oldLat)<1e-9 && Math.abs(nl.lng-oldLng)<1e-9) return;
@@ -1613,6 +1660,24 @@ function applyMove(it,m){
   else state.pos[it.id]=[it.lat,it.lng];          // coordenada do KML permanece intacta; só o deslocamento é salvo
   save(); computeStreets(); computeLinks(); refreshMarker(it.id); if(currentId===it.id) drawSheet();
 }
+const ceModal=document.getElementById("ceModal"); let ceId=null;
+function openCeoEd(it){
+  ceId=it.id; const p=parseCeo(it.desc), set=(i,v)=>document.getElementById(i).value=v||"";
+  document.getElementById("ceName").textContent="· "+nameOf(it);
+  document.getElementById("ceCor").innerHTML='<option value="">—</option>'+FCORES.map(c=>`<option value="${c}">${c[0]+c.slice(1).toLowerCase()}</option>`).join("");
+  set("ceCard",p.card); set("cePon",p.pon); set("ceFib",p.fibra); set("ceTubo",p.tubo); document.getElementById("ceCor").value=p.cor?String(p.cor).toUpperCase().replace("VIOLETA","ROXA"):""; set("ceCap",state.ceoCap[it.id]||8);
+  ceModal.classList.remove("hidden");
+}
+document.getElementById("ceCancel").onclick=()=>ceModal.classList.add("hidden");
+document.getElementById("ceOk").onclick=()=>{
+  const it=byId[ceId]; if(!it){ ceModal.classList.add("hidden"); return; }
+  const g=i=>document.getElementById(i).value.trim().replace(/\D/g,""), cor=document.getElementById("ceCor").value, cap=Math.max(1,+g("ceCap")||8);
+  const desc=[g("ceCard")?"CARD"+g("ceCard"):"", g("cePon")?"PON"+g("cePon"):"", g("ceFib")?"F"+g("ceFib"):"", g("ceTubo")?"T"+g("ceTubo"):"", cor].filter(Boolean).join(" ");
+  const c=state.custom.find(x=>x.id===it.id);
+  if(c) c.desc=desc; else if(desc) state.ceoDesc[it.id]=desc; else delete state.ceoDesc[it.id];
+  if(cap===8) delete state.ceoCap[it.id]; else state.ceoCap[it.id]=cap;
+  save(); ceModal.classList.add("hidden"); rebuild(); computeLinks(); render(); if(byId[ceId]) drawSheet();
+};
 let nbKind="cto";
 const FCORES=["VERDE","AMARELA","BRANCA","AZUL","VERMELHA","ROXA","LARANJA","MARROM","ROSA","CINZA","PRETA"];
 document.getElementById("nbFcor").innerHTML='<option value="">—</option>'+FCORES.map(c=>`<option value="${c}">${c[0]+c.slice(1).toLowerCase()}</option>`).join("");
@@ -1624,6 +1689,15 @@ function setNbKind(k){
   nbName.placeholder=ceo?"Ex.: CEO 3":"Ex.: Q9";
 }
 document.getElementById("nbTCto").onclick=()=>setNbKind("cto"); document.getElementById("nbTCeo").onclick=()=>setNbKind("ceo");
+function placeQ(ll){
+  const pf=placingFor, ceo=pf&&byId[pf.ceo]; placingFor=null; placing=false;
+  if(!ceo){ updateEditBar(); return; }
+  const id="c"+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+  state.custom.push({id,name:pf.name,lat:ll.lat,lng:ll.lng,region:ceo.region}); state.ceoOf[id]=ceo.id;
+  if(pf.custom) state.qcol[id]=pf.col; delete nextColBy[ceo.id];
+  save(); rebuild(); computeStreets(); computeLinks(); render(); updateEditBar(); openSheet(ceo.id);
+  toast("✔ "+pf.name+" criada e ligada à "+nameOf(ceo)+". Agora ligue o cabo dela, se precisar.");
+}
 function openNewBox(ll){
   pendingLL=ll; nbName.value=""; nbSt.value=""; setNbKind("cto");
   ["nbCard","nbPon","nbFib"].forEach(i=>document.getElementById(i).value=""); document.getElementById("nbFcor").value=""; document.getElementById("nbCap").value="8";
@@ -1632,7 +1706,7 @@ function openNewBox(ll){
   document.getElementById("nbCeo").innerHTML='<option value="">Automática (pela fibra)</option>'+items.filter(x=>x.type==="ceo"&&x.region===region).map(x=>`<option value="${x.id}">${esc(nameOf(x))}</option>`).join("");
   nbModal.classList.remove("hidden"); setTimeout(()=>nbName.focus(),60);
 }
-document.getElementById("nbCancel").onclick=()=>{ nbModal.classList.add("hidden"); placing=false; updateEditBar(); };
+document.getElementById("nbCancel").onclick=()=>{ nbModal.classList.add("hidden"); placing=false; placingFor=null; updateEditBar(); };
 document.getElementById("nbOk").onclick=()=>{
   const name=nbName.value.trim(); if(!name){ nbName.focus(); return; }
   const id="c"+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
@@ -1980,10 +2054,10 @@ document.getElementById("vlOk").onclick=()=>{
   const stop=()=>{ if(t){ clearTimeout(t); t=null; } };
   mc.addEventListener("pointerdown",e=>{
     if(editMode||selMode||placing) return;
-    const ic=e.target.closest(".leaflet-marker-icon"); if(!ic||!ic.querySelector(".pill.ok,.pill.warn,.pill.full,.pill.plan")) return;
+    const ic=e.target.closest(".leaflet-marker-icon"); if(!ic||!ic.querySelector(".pill.ok,.pill.warn,.pill.full,.pill.plan,.pill.ceo")) return;
     st={x:e.clientX,y:e.clientY}; stop();
     t=setTimeout(()=>{ t=null; lpBlock=true; setTimeout(()=>{ lpBlock=false; },800); setEdit(true); try{ navigator.vibrate&&navigator.vibrate(40); }catch(_){}
-      toast("✏ Edição ativa: arraste as caixas para mover. Use + Nova Caixa na barra azul."); },600);
+      toast("✏ Edição ativa: arraste as caixas e CEOs para mover. Use + Nova Caixa na barra azul."); },600);
   });
   mc.addEventListener("pointermove",e=>{ if(t&&st&&Math.hypot(e.clientX-st.x,e.clientY-st.y)>8) stop(); });
   ["pointerup","pointercancel","pointerleave"].forEach(ev=>mc.addEventListener(ev,stop));
