@@ -39,8 +39,9 @@
   html.dark ::-webkit-scrollbar-thumb{background:#3a3a3f;border-radius:6px}
   html.dark ::-webkit-scrollbar-button{display:none;width:0;height:0}
   html.dark ::-webkit-scrollbar-corner{background:transparent}
-  #sheetHd{touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
-  #sheetHd:active{cursor:grabbing}
+  #sheetHd{position:relative;display:flex;align-items:center;justify-content:center;flex-shrink:0;height:40px;user-select:none;-webkit-user-select:none}
+  #sheetGrip{width:46%;height:40px;display:flex;align-items:center;justify-content:center;background:transparent;border:0;padding:0;margin-top:-6px;touch-action:manipulation;-webkit-tap-highlight-color:transparent;cursor:pointer}
+  #sheetGrip:active span{transform:scaleX(1.25)}
   .tg{position:relative;display:inline-flex}
   .tg input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer;z-index:1}
   .tg span{display:inline-flex;align-items:center;gap:3px;border:1px solid #cbd5e1;border-radius:999px;padding:3px 9px;font-size:11.5px;font-weight:700;color:#475569;min-height:28px;white-space:nowrap}
@@ -233,7 +234,7 @@
 
 <!-- Painel inferior -->
 <div id="sheet" class="closed fixed inset-x-0 bottom-0 z-[1100] bg-white rounded-t-2xl shadow-2xl flex flex-col" style="padding-bottom:env(safe-area-inset-bottom)">
-  <div id="sheetHd" class="relative flex items-center justify-center shrink-0" style="height:40px"><div class="w-12 h-1.5 rounded-full bg-slate-300" style="margin-top:-6px"></div>
+  <div id="sheetHd" class="relative flex items-center justify-center shrink-0" style="height:40px"><button id="sheetGrip" type="button" aria-label="Abrir mais ou recolher" title="Toque para abrir mais / recolher"><span class="w-12 h-1.5 rounded-full bg-slate-300 block"></span></button>
     <button id="sheetX" title="Fechar" aria-label="Fechar"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
   <div id="draftBar" class="hidden mx-3 mb-1 flex items-center gap-2 rounded-lg bg-amber-100 border border-amber-300 px-2 py-1.5 text-xs text-amber-900"><span class="flex-1 font-semibold">✎ Alterações não salvas</span><button data-d="cancel" class="rounded-md bg-white border border-slate-300 text-slate-700 px-3 py-1.5 font-semibold">Cancelar</button><button data-d="save" class="rounded-md bg-emerald-600 text-white px-3 py-1.5 font-bold">Salvar</button></div>
   <div id="sheetBody" class="overflow-y-auto px-3 pb-3"></div>
@@ -385,7 +386,7 @@
       <li><b>☑ Marcar ocupadas:</b> liga um modo em que você só toca nas portas ocupadas, sem escrever o nome. Aparecem como “ocupada”. Toque de novo para liberar.</li>
       <li><b>🔴 Lotada:</b> botão pequeno ao lado da VLAN. Deixa todas as portas cheias e a caixa vermelha, sem listar clientes.</li>
       <li><b>🟡 Atenção:</b> botão pequeno ao lado da VLAN. Deixa a caixa amarela mesmo com poucas portas ocupadas (manutenção preventiva).</li>
-      <li><b>Tamanho da ficha (caixa e CEO):</b> ela abre no tamanho normal. <b>Arraste a barrinha do topo para cima</b> e ela abre mais, até onde você puxar; arraste de volta para baixo e ela volta ao tamanho de quando abriu. O <b>×</b> fecha.</li>
+      <li><b>Tamanho da ficha (caixa e CEO):</b> ela abre no tamanho normal. <b>Toque na barrinha do topo</b> e ela sobe e abre mais; <b>toque nela de novo</b> e ela volta ao tamanho normal. O <b>×</b> fecha.</li>
       <li><b>🧭 Ir com Google Maps:</b> fica no fim da ficha, junto das fotos.</li>
       <li><b>Rua desta caixa:</b> toque no campo e escolha a rua na tela que abre (o <b>×</b> fecha). Para <b>adicionar, apagar ou renomear</b> ruas, toque em <b>➕ Adicionar rua</b>: a tela que abre serve para adicionar, apagar e renomear. Se você não escolher, a caixa fica <b>sem rua</b> (não há mais rua automática).</li>
       <li><b>VLAN:</b> fica em cima das portas, ao lado de <b>☑ Marcar ocupadas</b>. Toque no número (ex.: <b>VLAN 205 ▾</b>) para trocar de VLAN, no <b>✏</b> para editar, na <b>🗑</b> para apagar a VLAN, ou em <b>＋ VLAN</b> para escolher/criar uma. Na lista que abre: <b>＋ Nova VLAN</b>, <b>Nenhuma</b> e <b>Fechar</b>.</li>
@@ -623,7 +624,7 @@ function rebuildRegions(){            // nomes das cidades: padrão + renomeadas
   Object.keys(REGION_DEF).forEach(k=>{ REGIONS[k]=(state.cityNames&&state.cityNames[k])||REGION_DEF[k]; });
   (state.cityExtra||[]).forEach(c=>{ REGIONS[c.id]=c.name; });
 }
-const APP_VERSION = "3.28";
+const APP_VERSION = "3.29";
 const TEST_MODE = false;   // true = arquivo de teste (usa uma cópia dos dados) · false = site real
 const KEY_STATE = TEST_MODE?"ftth_state_test":"ftth_state_v1", KEY_NET = TEST_MODE?"ftth_net_test":"ftth_net_v1";
 const DOC_STATE = TEST_MODE?"state_teste":"state", DOC_NET = TEST_MODE?"net_teste":"net";
@@ -1076,7 +1077,7 @@ function cancelDraft(){
   takeBase();
 }
 function settleDraft(){ if(!draftDirty) return; if(confirm("Salvar as alterações desta caixa?\n\nOK = Salvar\nCancelar = Descartar as alterações")) commitDraft(); else cancelDraft(); }
-function closeSheet(){ if(draftDirty) settleDraft(); sheet.classList.add("closed"); currentId=null; draftBase=null; draftDirty=false; drawDraftBar(); }
+function closeSheet(){ if(draftDirty) settleDraft(); sheet.classList.add("closed"); sheet.style.removeProperty("max-height"); currentId=null; draftBase=null; draftDirty=false; drawDraftBar(); }
 function openSheet(id){
   if(draftDirty && id!==currentId) settleDraft();
   if(id!==currentId){ sheet.style.removeProperty("max-height"); colEdit=null; showAddSel=false; vlOpen=false; portMark=false; currentId=id; takeBase(); draftDirty=false; drawDraftBar(); const _p=byId[id]; if(_p&&(_p.type==="ceo"||_p.type==="cto")) loadPhotos(id); }
@@ -1272,22 +1273,12 @@ body.addEventListener("change",e=>{
 // alterações feitas dentro do painel da caixa só valem depois de "Salvar"
 ["click","change","keydown"].forEach(ev=>{ body.addEventListener(ev,()=>{stageOn=true;},true); body.addEventListener(ev,()=>{stageOn=false;}); });
 document.getElementById("sheetX").addEventListener("click",()=>closeSheet());
-/* arrastar a alça (tracinho do topo): para cima = a ficha abre mais · de volta = volta ao tamanho de quando abriu */
+/* tocar no tracinho do topo: abre mais (sobe) · tocar de novo: recolhe ao tamanho normal */
 (function(){
-  const hd=document.getElementById("sheetHd"); let st=null;
-  const maxH=()=>Math.max(220,window.innerHeight-90);
-  const defMax=()=>{ const had=sheet.style.getPropertyValue("max-height"); if(had) sheet.style.removeProperty("max-height"); const v=parseFloat(getComputedStyle(sheet).maxHeight)||sheet.getBoundingClientRect().height; if(had) sheet.style.setProperty("max-height",had,"important"); return v; };
-  hd.addEventListener("pointerdown",e=>{ if(e.target.closest("#sheetX")) return; if(e.pointerType==="mouse"&&e.button!==0) return;
-    const dm=defMax(), had=parseFloat(sheet.style.getPropertyValue("max-height"));
-    st={y:e.clientY,dm,start:isNaN(had)?dm:had,moved:false,id:e.pointerId,cur:null};
-    try{ hd.setPointerCapture(e.pointerId); }catch(_){} });
-  hd.addEventListener("pointermove",e=>{ if(!st||e.pointerId!==st.id) return; const dy=e.clientY-st.y; if(Math.abs(dy)>6) st.moved=true; if(!st.moved) return;
-    st.cur=Math.max(st.dm,Math.min(maxH(),st.start-dy)); sheet.style.transition="transform .25s ease"; sheet.style.setProperty("max-height",st.cur+"px","important"); });
-  const end=e=>{ if(!st||e.pointerId!==st.id) return; const s0=st; st=null; sheet.style.transition="";
-    if(!s0.moved) return;
-    if(s0.cur===null||s0.cur<s0.dm+40) sheet.style.removeProperty("max-height");   // quase no tamanho de abrir: volta ao normal
-  };
-  hd.addEventListener("pointerup",end); hd.addEventListener("pointercancel",end);
+  const grip=document.getElementById("sheetGrip");
+  grip.addEventListener("click",e=>{ e.stopPropagation();
+    if(sheet.style.getPropertyValue("max-height")) sheet.style.removeProperty("max-height");
+    else sheet.style.setProperty("max-height",Math.max(220,window.innerHeight-90)+"px","important"); });
 })();
 document.getElementById("draftBar").addEventListener("click",e=>{ const d=e.target.dataset.d; if(d==="save") commitDraft(); else if(d==="cancel") cancelDraft(); });
 map.on("click",e=>{ if(lpMapBlock) return; hideChip(); openFibraPanel(false); if(pickPoint){ showNear(e.latlng.lat,e.latlng.lng,"Ponto marcado"); return; } if(cabRawNow()){ if(cabState==="draw") cabAddPt(e.latlng); else if(cabSel!==null){ cabSel=null; closeCabStyle(); render(); drawCabBar(); } return; } if(placing){ if(placingFor) placeQ(e.latlng); else openNewBox(e.latlng); return; } if(selMode) return; closeSheet(); });
