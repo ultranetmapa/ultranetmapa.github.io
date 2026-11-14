@@ -31,7 +31,28 @@
   .pill.imenda{background:#6b7280}
   .pill.loja{background:#7c3aed}
   @keyframes pulse{50%{box-shadow:0 0 0 7px rgba(220,38,38,.15),0 1px 5px rgba(0,0,0,.7)}}
-  #sheet{transition:transform .25s ease;max-height:68vh}
+  #sheet{transition:transform .25s ease,max-height .22s ease;max-height:68vh}
+  /* barra de rolagem fina e escura (tema escuro) */
+  html.dark *{scrollbar-width:thin;scrollbar-color:#3a3a3f transparent}
+  html.dark ::-webkit-scrollbar{width:6px;height:6px;background:transparent}
+  html.dark ::-webkit-scrollbar-track{background:transparent}
+  html.dark ::-webkit-scrollbar-thumb{background:#3a3a3f;border-radius:6px}
+  html.dark ::-webkit-scrollbar-button{display:none;width:0;height:0}
+  html.dark ::-webkit-scrollbar-corner{background:transparent}
+  #sheetHd{touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
+  #sheetHd:active{cursor:grabbing}
+  .tg{position:relative;display:inline-flex}
+  .tg input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer;z-index:1}
+  .tg span{display:inline-flex;align-items:center;gap:3px;border:1px solid #cbd5e1;border-radius:999px;padding:3px 9px;font-size:11.5px;font-weight:700;color:#475569;min-height:28px;white-space:nowrap}
+  .tg.r input:checked+span{background:#dc2626;border-color:#dc2626;color:#fff}
+  .tg.y input:checked+span{background:#f59e0b;border-color:#f59e0b;color:#fff}
+  html.dark .tg span{border-color:#3a3a3d;color:#d4d4d8}
+  html.dark .tg.r input:checked+span{color:#fff;border-color:#dc2626}
+  html.dark .tg.y input:checked+span{color:#fff;border-color:#f59e0b}
+  #sheetX{position:absolute;right:12px;top:4px;width:28px;height:28px;border-radius:9px;display:flex;align-items:center;justify-content:center;background:#eef2f7;color:#64748b;border:1px solid #e2e8f0;transition:background .12s,transform .12s}
+  #sheetX:active{transform:scale(.9);background:#dbe3ee}
+  html.dark #sheetX{background:#2c2c2e;color:#d4d4d8;border-color:#3a3a3d}
+  html.dark #sheetX:active{background:#3a3a3d}
   #sheet.closed{transform:translateY(105%)}
   .leaflet-control-layers{margin-top:70px!important}
   button{touch-action:manipulation}
@@ -135,7 +156,7 @@
   html.dark .ibtn.red{color:#f87171}
   html.dark .ibtn.red:active{background:#dc2626;color:#fff}
   /* Tema escuro (azul Ultranet) */
-  html.dark #sheet,html.dark #menu>div,html.dark #nbModal>div,html.dark #stModal>div,html.dark #bulkModal>div,html.dark #cfModal>div,html.dark #vlModal>div,html.dark #vlanModal>div,html.dark #helpModal>div,html.dark #perModal>div,html.dark #ptModal>div,html.dark #ebModal>div,html.dark #loginForm,html.dark .bg-white{background:#141416!important}
+  html.dark #sheet,html.dark #menu>div,html.dark #nbModal>div,html.dark #stModal>div,html.dark #stPick>div,html.dark #ceoPick>div,html.dark #bulkModal>div,html.dark #cfModal>div,html.dark #vlModal>div,html.dark #vlanModal>div,html.dark #helpModal>div,html.dark #perModal>div,html.dark #ptModal>div,html.dark #ebModal>div,html.dark #loginForm,html.dark .bg-white{background:#141416!important}
   html.dark #tabs .bg-white{background:#e2e8f0!important}
   html.dark .text-slate-900,html.dark .text-slate-800{color:#f5f5f5!important}
   html.dark .text-slate-700,html.dark .text-slate-600{color:#d6d6d8!important}
@@ -212,8 +233,8 @@
 
 <!-- Painel inferior -->
 <div id="sheet" class="closed fixed inset-x-0 bottom-0 z-[1100] bg-white rounded-t-2xl shadow-2xl flex flex-col" style="padding-bottom:env(safe-area-inset-bottom)">
-  <div class="flex justify-center pt-2"><div class="w-10 h-1.5 rounded-full bg-slate-300"></div></div>
-  <button id="sheetX" title="Fechar" class="absolute z-10 right-2 top-1.5 w-9 h-9 rounded-full text-2xl leading-none flex items-center justify-center" style="background:rgba(148,163,184,.28);color:#475569">×</button>
+  <div id="sheetHd" class="relative flex items-center justify-center shrink-0" style="height:40px"><div class="w-12 h-1.5 rounded-full bg-slate-300" style="margin-top:-6px"></div>
+    <button id="sheetX" title="Fechar" aria-label="Fechar"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
   <div id="draftBar" class="hidden mx-3 mb-1 flex items-center gap-2 rounded-lg bg-amber-100 border border-amber-300 px-2 py-1.5 text-xs text-amber-900"><span class="flex-1 font-semibold">✎ Alterações não salvas</span><button data-d="cancel" class="rounded-md bg-white border border-slate-300 text-slate-700 px-3 py-1.5 font-semibold">Cancelar</button><button data-d="save" class="rounded-md bg-emerald-600 text-white px-3 py-1.5 font-bold">Salvar</button></div>
   <div id="sheetBody" class="overflow-y-auto px-3 pb-3"></div>
 </div>
@@ -224,7 +245,7 @@
 <!-- Definir rua de várias caixas -->
 <div id="bulkModal" class="hidden fixed inset-0 z-[1300] bg-black/60 flex items-end sm:items-center justify-center">
   <div class="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-4 space-y-3 max-h-[92vh] overflow-y-auto" style="padding-bottom:calc(env(safe-area-inset-bottom) + 16px)">
-    <h2 id="bulkTitle" class="font-bold text-slate-800">Definir rua</h2>
+    <div class="flex items-center justify-between gap-2 sticky top-0 z-10 bg-white -mt-4 pt-4 pb-2 -mx-4 px-4"><h2 id="bulkTitle" class="font-bold text-slate-800">Definir rua</h2><button type="button" data-xmod="#bulkModal [data-b=close]" class="text-2xl leading-none text-slate-500 px-2 shrink-0" aria-label="Fechar">×</button></div>
     <label class="block text-xs text-slate-500">Rua (vazio = sem rua)
       <input id="bulkSt" list="bulkList" maxlength="80" placeholder="Digite ou escolha a rua" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2.5 text-base text-slate-900"></label>
     <datalist id="bulkList"></datalist>
@@ -235,7 +256,7 @@
 <!-- Editar caixa (nome / rua) com Salvar / Cancelar -->
 <div id="ebModal" class="hidden fixed inset-0 z-[1400] bg-black/60 flex items-center justify-center p-4">
   <div class="bg-white w-full max-w-sm rounded-2xl p-4 space-y-3 shadow-2xl">
-    <h2 class="font-bold text-slate-800 text-base">Editar caixa</h2>
+    <div class="flex items-center justify-between gap-2"><h2 class="font-bold text-slate-800 text-base">Editar caixa</h2><button type="button" data-xmod="#ebCancel" class="text-2xl leading-none text-slate-500 px-2 shrink-0" aria-label="Fechar">×</button></div>
     <label id="ebNameWrap" class="block text-xs text-slate-500">Nome da caixa<input id="ebName" maxlength="40" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 focus:outline-none focus:border-sky-500"></label>
     <label id="ebStWrap" class="block text-xs text-slate-500">Rua<input id="ebSt" list="ebList" maxlength="80" placeholder="Digite ou escolha (vazio = sem rua)" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 focus:outline-none focus:border-sky-500"><datalist id="ebList"></datalist></label>
     <div class="flex gap-2 pt-1"><button id="ebCancel" class="flex-1 rounded-lg border border-slate-300 text-slate-700 py-2 text-sm font-semibold">Cancelar</button><button id="ebOk" class="flex-1 rounded-lg bg-emerald-600 text-white py-2 text-sm font-bold">Salvar</button></div>
@@ -245,7 +266,7 @@
 <!-- Editar VLAN (número e nome) -->
 <div id="vlModal" class="hidden fixed inset-0 z-[1400] bg-black/60 flex items-center justify-center p-4">
   <div class="bg-white w-full max-w-sm rounded-2xl p-4 space-y-3 shadow-2xl">
-    <h2 class="font-bold text-slate-800 text-base">📡 Editar VLAN</h2>
+    <div class="flex items-center justify-between gap-2"><h2 class="font-bold text-slate-800 text-base">📡 Editar VLAN</h2><button type="button" data-xmod="#vlCancel" class="text-2xl leading-none text-slate-500 px-2 shrink-0" aria-label="Fechar">×</button></div>
     <label class="block text-xs text-slate-500">Número da VLAN (vazio = sem VLAN)<input id="vlNum" inputmode="numeric" maxlength="4" placeholder="Ex.: 205" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 focus:outline-none focus:border-sky-500"></label>
     <label style="display:none" class="hidden text-xs text-slate-500">Nome da VLAN (vale para todas as caixas com este número)<input id="vlName" maxlength="40" placeholder="Ex.: Clientes São Geraldo" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 focus:outline-none focus:border-sky-500"></label>
     <div class="flex gap-2 pt-1"><button id="vlCancel" class="flex-1 rounded-lg border border-slate-300 text-slate-700 py-2 text-sm font-semibold">Cancelar</button><button id="vlOk" class="flex-1 rounded-lg bg-emerald-600 text-white py-2 text-sm font-bold">Salvar</button></div>
@@ -255,7 +276,7 @@
 <!-- VLAN das caixas selecionadas -->
 <div id="vlanModal" class="hidden fixed inset-0 z-[1300] bg-black/60 flex items-end sm:items-center justify-center">
   <div class="bg-white w-full sm:max-w-sm rounded-t-2xl sm:rounded-2xl p-4 space-y-2" style="padding-bottom:calc(env(safe-area-inset-bottom) + 16px)">
-    <h2 class="font-bold text-slate-800">📡 VLAN das caixas selecionadas</h2>
+    <div class="flex items-center justify-between gap-2"><h2 class="font-bold text-slate-800">📡 VLAN das caixas selecionadas</h2><button type="button" data-xmod="#vlanModal [data-v=x]" class="text-2xl leading-none text-slate-500 px-2 shrink-0" aria-label="Fechar">×</button></div>
     <div id="vlanGrid" class="grid grid-cols-2 gap-2"></div>
     <button data-v="other" class="w-full rounded-lg border border-slate-300 text-slate-700 py-2.5 font-semibold">Outra VLAN…</button>
     <button data-v="" class="w-full rounded-lg border border-slate-300 text-slate-700 py-2.5 font-semibold">Remover VLAN</button>
@@ -319,7 +340,7 @@
 <!-- Cliente / porta -->
 <div id="cliModal" class="hidden fixed inset-0 z-[1300] bg-black/60 flex items-end sm:items-center justify-center">
   <div class="bg-white w-full sm:max-w-sm rounded-t-2xl sm:rounded-2xl p-4 space-y-2" style="padding-bottom:calc(env(safe-area-inset-bottom) + 16px)">
-    <h2 id="cliTitle" class="font-bold text-slate-800"></h2>
+    <div class="flex items-center justify-between gap-2"><h2 id="cliTitle" class="font-bold text-slate-800"></h2><button type="button" data-xmod="#cliCancel" class="text-2xl leading-none text-slate-500 px-2 shrink-0" aria-label="Fechar">×</button></div>
     <label class="block text-xs text-slate-500">Nome do cliente<input id="cliName" type="text" maxlength="80" placeholder="Pode deixar vazio (só ocupada)" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2.5 text-slate-900 focus:outline-none focus:border-sky-500"></label>
     <label class="block text-xs text-slate-500">Porta<select id="cliPort" class="mt-1 w-full rounded-lg border border-slate-300 px-2 py-2.5 text-slate-900"></select></label>
     <div class="flex gap-2 pt-1"><button id="cliCancel" class="flex-1 rounded-lg border border-slate-300 text-slate-700 py-2 text-sm font-semibold">Cancelar</button><button id="cliOk" class="flex-1 rounded-lg bg-emerald-600 text-white py-2 text-sm font-bold">Salvar</button></div>
@@ -362,10 +383,12 @@
     <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">📦 Ficha da caixa</summary><ul class="list-disc pl-5 space-y-1 mt-2">
       <li><b>Portas (1 a 16):</b> toque numa porta livre para escrever o nome do cliente. Toque numa ocupada para editar ou liberar.</li>
       <li><b>☑ Marcar ocupadas:</b> liga um modo em que você só toca nas portas ocupadas, sem escrever o nome. Aparecem como “ocupada”. Toque de novo para liberar.</li>
-      <li><b>Marcar caixa como lotada:</b> deixa todas as portas cheias e a caixa vermelha, sem listar clientes.</li>
-      <li><b>Marcar como quase cheia / atenção:</b> deixa a caixa amarela mesmo com poucas portas ocupadas (manutenção preventiva).</li>
-      <li><b>Rua desta caixa:</b> escolha a rua na lista. Para <b>adicionar, apagar ou renomear</b> ruas, toque em <b>➕ Adicionar rua</b>: a tela que abre serve para adicionar, apagar e renomear. Se você não escolher, a caixa fica <b>sem rua</b> (não há mais rua automática).</li>
-      <li><b>VLAN:</b> toque numa VLAN para escolher. <b>Trocar</b> mostra a lista, <b>✏</b> renomeia e <b>🗑</b> apaga uma VLAN, <b>＋ Nova</b> cria outra.</li>
+      <li><b>🔴 Lotada:</b> botão pequeno ao lado da VLAN. Deixa todas as portas cheias e a caixa vermelha, sem listar clientes.</li>
+      <li><b>🟡 Atenção:</b> botão pequeno ao lado da VLAN. Deixa a caixa amarela mesmo com poucas portas ocupadas (manutenção preventiva).</li>
+      <li><b>Tamanho da ficha (caixa e CEO):</b> ela abre no tamanho normal. <b>Arraste a barrinha do topo para cima</b> e ela abre mais, até onde você puxar; arraste de volta para baixo e ela volta ao tamanho de quando abriu. O <b>×</b> fecha.</li>
+      <li><b>🧭 Ir com Google Maps:</b> fica no fim da ficha, junto das fotos.</li>
+      <li><b>Rua desta caixa:</b> toque no campo e escolha a rua na tela que abre (o <b>×</b> fecha). Para <b>adicionar, apagar ou renomear</b> ruas, toque em <b>➕ Adicionar rua</b>: a tela que abre serve para adicionar, apagar e renomear. Se você não escolher, a caixa fica <b>sem rua</b> (não há mais rua automática).</li>
+      <li><b>VLAN:</b> fica em cima das portas, ao lado de <b>☑ Marcar ocupadas</b>. Toque no número (ex.: <b>VLAN 205 ▾</b>) para trocar de VLAN, no <b>✏</b> para editar, na <b>🗑</b> para apagar a VLAN, ou em <b>＋ VLAN</b> para escolher/criar uma. Na lista que abre: <b>＋ Nova VLAN</b>, <b>Nenhuma</b> e <b>Fechar</b>.</li>
       <li><b>🔌 Ligação:</b> mostra de qual CEO a caixa vem (pelo traçado da fibra), com Card, PON, Fibra e Tubo. <b>✏ Editar</b> anota algo a mais.</li>
       <li><b>Caixa planejada / a instalar:</b> marque a opção e escolha a cor do pino. A caixa fica colorida com 🛠 até você desmarcar.</li>
       <li><b>Renomear · Anotação:</b> mudam o nome e guardam um recado sobre a caixa. <b>🗑 Excluir caixa</b> só aparece nas caixas que você criou.</li>
@@ -410,14 +433,12 @@
       <li><b>↶ ↷</b> desfazem e refazem qualquer passo, quantas vezes precisar.</li>
       <li><b>💾 Salvar e ver</b> mostra como ficou, mas ainda não vale. Se gostar, toque em <b>✔ Aplicar</b>. Se não aplicar, tudo volta como estava.</li>
     </ol></details>
-    <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">📍 Endereço → caixa mais próxima</summary><ul class="list-disc pl-5 space-y-1 mt-2">
-      <li>Na barra de pesquisa, digite o endereço do cliente (ex.: <i>Rua José Venâncio 120</i>) e toque na linha <b>📍 Procurar “…” como endereço</b>, que aparece no fim da lista.</li>
-      <li>O app dá zoom, marca o ponto com o 📍 e deixa as <b>2 caixas mais próximas com vaga</b> maiores no mapa. A lista mostra a distância em linha reta e as vagas.</li>
+    <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">📍 Caixa mais próxima do cliente</summary><ul class="list-disc pl-5 space-y-1 mt-2">
+      <li><b>Segure o dedo no mapa</b> (meio segundo), na casa do cliente. O 📍 aparece ali, o mapa dá zoom e as <b>2 caixas mais próximas com vaga</b> ficam maiores. A lista mostra a distância em linha reta e as vagas.</li>
       <li>Toque numa caixa (na lista ou no mapa): aparece a <b>linha</b> até ela com a <b>distância</b>. Toque em <b>abrir caixa ›</b> para abrir a ficha dela.</li>
       <li><b>Arraste o 📍</b> até a casa exata do cliente: a distância e as caixas se atualizam sozinhas.</li>
-      <li><b>Sem endereço:</b> segure o dedo no mapa, na casa do cliente. O 📍 aparece ali com as caixas mais próximas.</li>
       <li>Para tirar a marcação: toque no <b>×</b> branco ao lado da distância (na linha) ou no <b>×</b> do cartão.</li>
-      <li>A busca do endereço usa o mapa aberto da internet (OpenStreetMap), de graça. Números de casa nem sempre existem lá; nesse caso o ponto fica na rua.</li>
+      <li>Segurar em cima de um cabo ou de uma caixa não marca o ponto (a caixa abre o modo edição).</li>
     </ul></details>
     <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">📷 Fotos na CEO e nas caixas</summary><ul class="list-disc pl-5 space-y-1 mt-2">
       <li>Na ficha da CEO ou da caixa, a linha <b>📷 Fotos</b> tem o botão <b>＋</b>. Escolha tirar a foto ou pegar da galeria.</li>
@@ -444,7 +465,7 @@
 <!-- Editar dados da CEO -->
 <div id="ceModal" class="hidden fixed inset-0 z-[1350] bg-black/60 flex items-end sm:items-center justify-center">
   <div class="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-4 space-y-3 max-h-[92vh] overflow-y-auto" style="padding-bottom:calc(env(safe-area-inset-bottom) + 16px)">
-    <h2 class="font-bold text-slate-800">✏ Dados da CEO <span id="ceName" class="font-normal text-slate-500"></span></h2>
+    <div class="flex items-center justify-between gap-2 sticky top-0 z-10 bg-white -mt-4 pt-4 pb-2 -mx-4 px-4"><h2 class="font-bold text-slate-800">✏ Dados da CEO <span id="ceName" class="font-normal text-slate-500"></span></h2><button type="button" data-xmod="#ceCancel" class="text-2xl leading-none text-slate-500 px-2 shrink-0" aria-label="Fechar">×</button></div>
     <div class="grid grid-cols-2 gap-2">
       <label class="text-xs text-slate-500">Card<input id="ceCard" inputmode="numeric" maxlength="3" class="mt-1 w-full rounded-lg border border-slate-300 px-2 py-2 text-base text-slate-900"></label>
       <label class="text-xs text-slate-500">PON<input id="cePon" inputmode="numeric" maxlength="3" class="mt-1 w-full rounded-lg border border-slate-300 px-2 py-2 text-base text-slate-900"></label>
@@ -461,7 +482,7 @@
 <!-- Nova caixa -->
 <div id="nbModal" class="hidden fixed inset-0 z-[1300] bg-black/60 flex items-end sm:items-center justify-center">
   <div class="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-4 space-y-3 max-h-[92vh] overflow-y-auto" style="padding-bottom:calc(env(safe-area-inset-bottom) + 16px)">
-    <h2 class="font-bold text-slate-800">+ Nova caixa</h2>
+    <div class="flex items-center justify-between gap-2 sticky top-0 z-10 bg-white -mt-4 pt-4 pb-2 -mx-4 px-4"><h2 class="font-bold text-slate-800">+ Nova caixa</h2><button type="button" data-xmod="#nbCancel" class="text-2xl leading-none text-slate-500 px-2 shrink-0" aria-label="Fechar">×</button></div>
     <label class="block text-xs text-slate-500">Nome da caixa<input id="nbName" maxlength="40" placeholder="Ex.: Q9" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2.5 text-base text-slate-900 focus:outline-none focus:border-sky-500"></label>
     <div class="grid grid-cols-2 gap-2 text-sm font-semibold"><button type="button" id="nbTCto" class="rounded-lg border-2 border-sky-500 bg-sky-50 text-sky-900 py-2">📦 Caixa de cliente</button><button type="button" id="nbTCeo" class="rounded-lg border-2 border-slate-300 text-slate-600 py-2">🔵 CEO</button></div>
     <div id="nbCeoBox" class="hidden space-y-2 rounded-lg border border-indigo-200 bg-indigo-50 px-3 py-2">
@@ -489,6 +510,25 @@
     <p class="text-xs text-slate-500">Caixa normal: nasce com 16 vagas livres, cores automáticas e salvamento local. Caixa planejada: pino na cor escolhida até você desmarcar a opção.</p>
     </div>
     <div class="grid grid-cols-2 gap-2"><button id="nbCancel" class="rounded-lg border border-slate-300 text-slate-700 py-3 font-semibold">Cancelar</button><button id="nbOk" class="rounded-lg bg-[#0056b3] text-white py-3 font-bold">Criar caixa</button></div>
+  </div>
+</div>
+
+<!-- Escolher a caixa para ligar na CEO -->
+<div id="ceoPick" class="hidden fixed inset-0 z-[1250] bg-black/60 flex items-end sm:items-center justify-center">
+  <div class="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-4 max-h-[88vh] flex flex-col" style="padding-bottom:calc(env(safe-area-inset-bottom) + 16px)">
+    <div class="flex justify-between items-center"><h2 class="font-bold text-slate-800">🔌 Ligar uma caixa na CEO</h2><button id="ceoPickX" class="text-2xl text-slate-500 px-2" aria-label="Fechar">×</button></div>
+    <p class="text-xs text-slate-500 mt-1">Toque na caixa que você quer ligar.</p>
+    <div id="ceoPickList" class="overflow-y-auto flex-1 min-h-0 mt-2"></div>
+  </div>
+</div>
+
+<!-- Escolher a rua da caixa -->
+<div id="stPick" class="hidden fixed inset-0 z-[1250] bg-black/60 flex items-end sm:items-center justify-center">
+  <div class="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-4 max-h-[88vh] flex flex-col" style="padding-bottom:calc(env(safe-area-inset-bottom) + 16px)">
+    <div class="flex justify-between items-center"><h2 class="font-bold text-slate-800">🛣 Rua desta caixa</h2><button id="stPickX" class="text-2xl text-slate-500 px-2" aria-label="Fechar">×</button></div>
+    <p class="text-xs text-slate-500 mt-1">Toque na rua desta caixa.</p>
+    <div id="stPickList" class="overflow-y-auto flex-1 min-h-0 mt-2"></div>
+    <button id="stPickAdd" class="mt-2 w-full rounded-lg border border-sky-300 text-sky-700 py-2.5 text-sm font-semibold">➕ Adicionar rua</button>
   </div>
 </div>
 
@@ -583,7 +623,7 @@ function rebuildRegions(){            // nomes das cidades: padrão + renomeadas
   Object.keys(REGION_DEF).forEach(k=>{ REGIONS[k]=(state.cityNames&&state.cityNames[k])||REGION_DEF[k]; });
   (state.cityExtra||[]).forEach(c=>{ REGIONS[c.id]=c.name; });
 }
-const APP_VERSION = "3.21";
+const APP_VERSION = "3.28";
 const TEST_MODE = false;   // true = arquivo de teste (usa uma cópia dos dados) · false = site real
 const KEY_STATE = TEST_MODE?"ftth_state_test":"ftth_state_v1", KEY_NET = TEST_MODE?"ftth_net_test":"ftth_net_v1";
 const DOC_STATE = TEST_MODE?"state_teste":"state", DOC_NET = TEST_MODE?"net_teste":"net";
@@ -1013,7 +1053,6 @@ function linkBlock(it){
       +`<div class="flex flex-wrap gap-1.5">${mine.map(chip).join("")}${nextChip}</div>`+strip
       +`<div class="text-[11px] text-slate-500 mt-1">Toque no quadrado para mudar a cor · <b>＋ Q${nx.n}</b> coloca a próxima caixa no mapa · <b>×</b> tira da CEO</div>`
       +`<button data-a="showadd" class="mt-1 text-xs underline text-indigo-700">↳ ligar uma caixa que já existe</button>`
-      +(showAddSel?`<select data-a="ceoadd" class="mt-1 w-full rounded-lg border border-indigo-200 px-2 py-1.5 text-xs text-slate-900"><option value="">Escolha a caixa…</option>${cand.map(x=>`<option value="${x.id}">${esc(nameOf(x))}${stOf(x)?" · "+esc(stLabel(stOf(x))):""}</option>`).join("")}</select>`:"")
       +`<div class="text-xs text-indigo-700 mt-2.5 mb-1">📜 Histórico da rede (rompimento, serviços…)</div>`
       +`<div class="flex gap-1.5"><textarea id="histTx" rows="2" maxlength="300" placeholder="Ex.: Rompimento na Rua X, emendado" class="flex-1 min-w-0 rounded-lg border border-indigo-200 px-2 py-1 text-xs text-slate-900"></textarea><button data-a="hadd" class="rounded-lg bg-[#0056b3] text-white px-2.5 text-xs font-semibold">Salvar</button></div>`
       +hshow.map(h=>`<div class="mt-1 flex items-start gap-1.5 text-xs text-slate-700"><span class="shrink-0 font-semibold text-indigo-700">${fd(h.t)}</span><span class="flex-1 min-w-0 break-words">${esc(h.x)}</span><button data-a="hdel" data-t="${h.t}" title="Apagar" class="text-slate-400 leading-none px-1">×</button></div>`).join("")
@@ -1040,7 +1079,7 @@ function settleDraft(){ if(!draftDirty) return; if(confirm("Salvar as alteraçõ
 function closeSheet(){ if(draftDirty) settleDraft(); sheet.classList.add("closed"); currentId=null; draftBase=null; draftDirty=false; drawDraftBar(); }
 function openSheet(id){
   if(draftDirty && id!==currentId) settleDraft();
-  if(id!==currentId){ colEdit=null; showAddSel=false; vlOpen=false; portMark=false; currentId=id; takeBase(); draftDirty=false; drawDraftBar(); const _p=byId[id]; if(_p&&(_p.type==="ceo"||_p.type==="cto")) loadPhotos(id); }
+  if(id!==currentId){ sheet.style.removeProperty("max-height"); colEdit=null; showAddSel=false; vlOpen=false; portMark=false; currentId=id; takeBase(); draftDirty=false; drawDraftBar(); const _p=byId[id]; if(_p&&(_p.type==="ceo"||_p.type==="cto")) loadPhotos(id); }
   drawSheet(); sheet.classList.remove("closed");
   const it=byId[id]; map.panTo([it.lat,it.lng],{animate:true});
   setTimeout(()=>{ const p=map.latLngToContainerPoint([it.lat,it.lng]); const h=sheet.offsetHeight; if(p.y>window.innerHeight-h-30) map.panBy([0,p.y-(window.innerHeight-h)/2]); },300);
@@ -1051,7 +1090,7 @@ function drawSheet(){
   const cl = clientsOf(it.id), c=cl.length, st=status(it), sid=stOf(it);
   const gm = `https://www.google.com/maps/dir/?api=1&destination=${it.lat},${it.lng}&travelmode=driving`;
   const kind = it.type==="cto"?(isPlanned(it)?"Caixa planejada":"Caixa"):it.type==="ceo"?"CEO (emenda)":it.type==="imenda"?"Caixa de emenda":"Local";
-  let h = `<div class="flex items-start justify-between gap-2 mt-1 pr-10">
+  let h = `<div class="flex items-start justify-between gap-2 mt-1">
       <div class="min-w-0"><div class="text-xs text-slate-500">${REGIONS[it.region]} · ${kind}${sid?" · 🛣 "+esc(stLabel(sid)):""}</div>
       <h2 class="text-lg font-extrabold text-slate-900 truncate">${it.type==="cto"?"Caixa ":""}${esc(nameOf(it))}</h2></div>
       </div>`;
@@ -1065,17 +1104,24 @@ function drawSheet(){
       <div class="h-2.5 rounded-full bg-slate-200 mt-1 overflow-hidden"><div class="h-full ${T[2]}" style="width:${st==="full"?100:Math.round(c/CAP*100)}%"></div></div>`;
     if(st==="warn") h += `<div class="mt-1.5 text-sm font-semibold text-amber-700">${forcedWarn(it)&&c<WARN_FROM?"⚠ Atenção marcada manualmente (manutenção preventiva).":`⚠ Quase cheia — restam apenas ${free} vaga${free>1?"s":""}.`}</div>`;
   }
-  if(it.desc && it.type!=="ceo") h += `<div class="mt-2 text-sm bg-amber-50 border border-amber-200 text-amber-900 rounded-lg px-3 py-2">📝 ${esc(it.desc)}</div>`;
+  const descH = (it.desc && it.type!=="ceo") ? `<div class="mt-2 text-sm bg-amber-50 border border-amber-200 text-amber-900 rounded-lg px-3 py-2">📝 ${esc(it.desc)}</div>` : "";
   const noteH = state.notes[it.id] ? `<div class="mt-2 text-sm bg-sky-50 border border-sky-200 text-sky-900 rounded-lg px-3 py-2">🗒 ${esc(state.notes[it.id])}</div>` : "";
-  if(it.type!=="ceo") h += noteH;
   const gmH = `<div class="mt-2"><a href="${gm}" target="_blank" rel="noopener" class="inline-block rounded-md bg-blue-600 text-white px-3 py-1.5 font-semibold text-xs">🧭 Ir com Google Maps</a></div>`;
-  if(it.type!=="ceo") h += gmH;
+  if(it.type!=="cto" && it.type!=="ceo") h += descH + noteH;   // caixa de cliente: isso vem depois das portas
   if(it.type==="cto"){
-    h += `<div class="mt-2 text-xs text-slate-500">Rua desta caixa<div class="mt-1 flex gap-2"><select data-a="street" class="flex-1 min-w-0 rounded-lg border border-slate-300 px-2 py-2 text-sm text-slate-900"><option value="">— Sem rua —</option>${streetsAll().filter(s=>s[1]===it.region&&(stName(s[0])||state.so[it.id]===s[0])).map(s=>`<option value="${s[0]}" ${state.so[it.id]===s[0]?'selected':''}>${esc(stLabel(s[0]))}</option>`).join("")}</select></div><button data-a="allst" class="mt-1.5 rounded-lg border border-sky-300 text-sky-700 px-2.5 py-1.5 text-xs font-semibold">➕ Adicionar rua</button></div>`;
     const bySlot={}, extra=[]; cl.forEach((x,i)=>{ const pn=+x.p; if(pn>=1&&pn<=CAP&&bySlot[pn]===undefined) bySlot[pn]=i; else extra.push(i); });
     const ff=forcedFull(it);
+    const cur=state.vlan[it.id]||"";
+    const vbtn=v=>`<button data-a="vlan" data-v="${v}" class="flex-1 rounded-lg border px-2 py-1.5 font-semibold text-sm ${cur===v?"bg-[#0056b3] text-white border-[#0056b3]":"border-slate-300 text-slate-700"}">VLAN ${esc(v)}</button>`;
+    const vdel=v=>`<button data-a="vldel" data-v="${v}" title="Apagar esta VLAN" class="ibtn red shrink-0">${ICO_TRASH}</button>`;
+    const vpen=v=>`<button data-a="vledit" data-v="${v}" title="Editar esta VLAN" class="ibtn shrink-0">${ICO_PEN}</button>`;
+    const vlcompact = cur
+      ? `<span class="inline-flex items-center gap-1"><button data-a="vlopen" title="Trocar de VLAN" class="rounded-lg bg-[#0056b3] text-white px-2.5 py-1 text-xs font-bold">VLAN ${esc(cur)} ▾</button><button data-a="vlanedit" title="Editar esta VLAN" class="ibtn shrink-0">${ICO_PEN}</button><button data-a="vldel" data-v="${esc(cur)}" title="Apagar esta VLAN" class="ibtn red shrink-0">${ICO_TRASH}</button></span>`
+      : `<button data-a="vlopen" class="rounded-lg border border-slate-300 text-slate-700 px-2.5 py-1 text-xs font-semibold">＋ VLAN</button>`;
+    const vlpanel = vlOpen ? `<div class="mt-1.5 rounded-lg border border-slate-200 p-2 flex flex-col gap-1.5">${state.vlanList.map(v=>`<div class="flex gap-1 w-full">${vbtn(v)}${vpen(v)}${vdel(v)}</div>`).join("")}<div class="flex gap-2 w-full">${cur?`<button data-a="vlan" data-v="" class="rounded-lg border border-slate-300 text-slate-600 px-3 py-1.5 text-sm">Nenhuma</button>`:""}<button data-a="vlnew" class="flex-1 rounded-lg border border-slate-300 text-slate-700 px-3 py-1.5 text-sm">➕ Nova VLAN</button><button data-a="vlclose" class="rounded-lg border border-slate-300 text-slate-600 px-3 py-1.5 text-sm">Fechar</button></div></div>` : "";
     h += `<div class="mt-3 flex items-center justify-between gap-2"><span class="text-sm font-semibold text-slate-700">Portas <span class="text-xs font-normal text-slate-500">${ff?"· caixa marcada como lotada":c+"/"+CAP+" em uso"}</span></span><button data-a="pmark" class="rounded-lg border px-2.5 py-1 text-xs font-semibold ${portMark?"bg-emerald-600 text-white border-emerald-600":"border-slate-300 text-slate-700"}">${portMark?"✔ Marcando ocupadas":"☑ Marcar ocupadas"}</button></div>
-      <div class="text-xs text-slate-500 mt-0.5">${portMark?"Toque nas portas ocupadas — não precisa do nome. Toque de novo para liberar.":"Toque numa porta para colocar o nome. Use ☑ Marcar ocupadas para marcar sem nome."}</div><div class="mt-1 grid grid-cols-4 gap-1.5">`;
+      <div class="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-2"><span class="mr-auto">${vlcompact}</span><span class="inline-flex items-center gap-3"><label class="tg r" title="Marcar caixa como lotada (sem listar clientes)"><input type="checkbox" data-a="force" ${forcedFull(it)?'checked':''}><span>🔴 Lotada</span></label><label class="tg y" title="Marcar caixa como quase cheia / atenção (amarela)"><input type="checkbox" data-a="warnchk" ${forcedWarn(it)?'checked':''}><span>🟡 Atenção</span></label></span></div>${vlpanel}
+      <div class="text-xs text-slate-500 mt-1">${portMark?"Toque nas portas ocupadas — não precisa do nome. Toque de novo para liberar.":"Toque numa porta para colocar o nome. Use ☑ Marcar ocupadas para marcar sem nome."}</div><div class="mt-1 grid grid-cols-4 gap-1.5">`;
     for(let pn=1;pn<=CAP;pn++){
       const i=bySlot[pn];
       if(i!==undefined){
@@ -1089,31 +1135,14 @@ function drawSheet(){
     }
     h += `</div>`;
     if(extra.length) h += `<div class="mt-2 text-xs text-slate-500">Sem porta definida (toque para escolher a porta):<div class="mt-1 flex flex-wrap gap-1.5">${extra.map(i=>`<button data-a="slot" data-i="${i}" class="slot fill" style="min-height:0;padding:4px 8px"><span class="nm" style="-webkit-line-clamp:1">${cl[i].n?esc(cl[i].n):"ocupada"}</span></button>`).join("")}</div></div>`;
-    h += `
-      <div class="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2">
-        <label class="flex items-center gap-2 text-sm text-slate-700"><input type="checkbox" data-a="force" ${forcedFull(it)?'checked':''}>Marcar caixa como lotada (sem listar clientes)</label>
-        <label class="flex items-center gap-2 text-sm text-slate-700"><input type="checkbox" data-a="warnchk" ${forcedWarn(it)?'checked':''}>Marcar caixa como quase cheia / atenção (amarela)</label></div>${planEditor(it)}`;
-  }
-  if(it.type==="cto"){
-    const cur=state.vlan[it.id]||"", cn=cur&&state.vlanNames[cur]?" · "+esc(state.vlanNames[cur]):"";
-    const showAll=!cur||vlOpen;
-    const btn=v=>`<button data-a="vlan" data-v="${v}" class="flex-1 rounded-lg border px-2 py-1.5 font-semibold text-sm ${cur===v?"bg-[#0056b3] text-white border-[#0056b3]":"border-slate-300 text-slate-700"}">VLAN ${v}</button>`;
-    const del=v=>`<button data-a="vldel" data-v="${v}" title="Apagar esta VLAN" class="ibtn red shrink-0">${ICO_TRASH}</button>`;
-    const pen=v=>`<button data-a="vledit" data-v="${v}" title="Editar esta VLAN" class="ibtn shrink-0">${ICO_PEN}</button>`;
-    let row;
-    if(showAll){
-      row=state.vlanList.map(v=>`<div class="flex gap-1 w-full">${btn(v)}${pen(v)}${del(v)}</div>`).join("")
-        +`<div class="flex gap-2 w-full">${cur?`<button data-a="vlan" data-v="" class="rounded-lg border border-slate-300 text-slate-600 px-3 py-1.5 text-sm">Nenhuma</button>`:""}<button data-a="vlnew" class="flex-1 rounded-lg border border-slate-300 text-slate-700 px-3 py-1.5 text-sm">➕ Nova VLAN</button>${cur?`<button data-a="vlclose" class="rounded-lg border border-slate-300 text-slate-600 px-3 py-1.5 text-sm">Fechar</button>`:""}</div>`;
-    } else {
-      row=`${btn(cur)}<button data-a="vlopen" class="shrink-0 rounded-lg border border-slate-300 text-slate-700 px-3 py-1.5 text-sm">Trocar</button><button data-a="vlanedit" class="ibtn shrink-0 text-sm">${ICO_PEN}<span>Editar</span></button>`;
-    }
-    h += `<div class="mt-3 text-xs text-slate-500">VLAN desta caixa${cur?` — <b class="text-slate-700">${esc(cur)}${cn}</b>`:""}<div class="mt-1 flex ${showAll?"flex-col":""} gap-2">${row}</div></div>`;
+    h += planEditor(it);
+    h += descH + noteH;
+    h += `<div class="mt-2 text-xs text-slate-500">Rua desta caixa<div class="mt-1 flex gap-2"><button data-a="stpick" class="flex-1 min-w-0 flex items-center justify-between gap-2 rounded-lg border border-slate-300 px-2.5 py-2 text-sm text-slate-900 text-left"><span class="truncate">${sid&&stLabel(sid)?esc(stLabel(sid)):"— Sem rua —"}</span><span class="text-slate-400">▾</span></button></div><button data-a="allst" class="mt-1.5 rounded-lg border border-sky-300 text-sky-700 px-2.5 py-1.5 text-xs font-semibold">➕ Adicionar rua</button></div>`;
   }
   h += linkBlock(it);
-  h += photoBlock(it);
+  h += photoBlock(it) + gmH;
   if(it.type==="ceo") h += noteH;
   h += `<div class="mt-3 flex gap-2 text-xs"><button data-a="rename" class="rounded-lg border border-slate-300 text-slate-600 px-3 py-2">Renomear</button><button data-a="note" class="rounded-lg border border-slate-300 text-slate-600 px-3 py-2">Anotação</button>${it.custom?`<button data-a="delbox" class="rounded-lg border border-red-300 text-red-600 px-3 py-2">🗑 Excluir caixa</button>`:""}</div>`;
-  if(it.type==="ceo") h += gmH;
   body.innerHTML = h;
   drawPhotos(it.id);
 }
@@ -1155,7 +1184,7 @@ body.addEventListener("click",e=>{
   if(a==="fadd"){ fotoTarget=it.id; document.getElementById("fotoInp").click(); return; }
   if(a==="fview"){ openFoto(b.dataset.id); return; }
   if(a==="ceodesc") return openCeoEd(it);
-  if(a==="showadd"){ showAddSel=!showAddSel; drawSheet(); return; }
+  if(a==="showadd"){ openCeoPick(it); return; }
   if(a==="qcol"){ colEdit=(colEdit===b.dataset.id)?null:b.dataset.id; drawSheet(); return; }
   if(a==="qpick"){ const c=b.dataset.c, tg=colEdit; if(!tg) return;
     if(tg==="__next"){ if(c) nextColBy[it.id]=c; else delete nextColBy[it.id]; }
@@ -1170,6 +1199,7 @@ body.addEventListener("click",e=>{
   if(a==="newst"){
     const n=prompt("Nome da nova rua ("+REGIONS[it.region]+") — esta caixa vai ficar nela:",""); if(n===null||!n.trim()) return;
     state.so[it.id]=ensureStreet(n.trim(),it.region); save(); afterStreetChange(); return; }
+  if(a==="stpick"){ openStPick(it); return; }
   if(a==="allst"){ drawStEdit(); stModal.classList.remove("hidden"); return; }
   if(a==="renst"){
     const sid=stOf(it), n=prompt(sid?"Nome da rua (vale para todas as caixas desta rua):":"Nome da rua desta caixa:", sid?stName(sid):""); if(n===null) return; const v=n.trim();
@@ -1242,6 +1272,23 @@ body.addEventListener("change",e=>{
 // alterações feitas dentro do painel da caixa só valem depois de "Salvar"
 ["click","change","keydown"].forEach(ev=>{ body.addEventListener(ev,()=>{stageOn=true;},true); body.addEventListener(ev,()=>{stageOn=false;}); });
 document.getElementById("sheetX").addEventListener("click",()=>closeSheet());
+/* arrastar a alça (tracinho do topo): para cima = a ficha abre mais · de volta = volta ao tamanho de quando abriu */
+(function(){
+  const hd=document.getElementById("sheetHd"); let st=null;
+  const maxH=()=>Math.max(220,window.innerHeight-90);
+  const defMax=()=>{ const had=sheet.style.getPropertyValue("max-height"); if(had) sheet.style.removeProperty("max-height"); const v=parseFloat(getComputedStyle(sheet).maxHeight)||sheet.getBoundingClientRect().height; if(had) sheet.style.setProperty("max-height",had,"important"); return v; };
+  hd.addEventListener("pointerdown",e=>{ if(e.target.closest("#sheetX")) return; if(e.pointerType==="mouse"&&e.button!==0) return;
+    const dm=defMax(), had=parseFloat(sheet.style.getPropertyValue("max-height"));
+    st={y:e.clientY,dm,start:isNaN(had)?dm:had,moved:false,id:e.pointerId,cur:null};
+    try{ hd.setPointerCapture(e.pointerId); }catch(_){} });
+  hd.addEventListener("pointermove",e=>{ if(!st||e.pointerId!==st.id) return; const dy=e.clientY-st.y; if(Math.abs(dy)>6) st.moved=true; if(!st.moved) return;
+    st.cur=Math.max(st.dm,Math.min(maxH(),st.start-dy)); sheet.style.transition="transform .25s ease"; sheet.style.setProperty("max-height",st.cur+"px","important"); });
+  const end=e=>{ if(!st||e.pointerId!==st.id) return; const s0=st; st=null; sheet.style.transition="";
+    if(!s0.moved) return;
+    if(s0.cur===null||s0.cur<s0.dm+40) sheet.style.removeProperty("max-height");   // quase no tamanho de abrir: volta ao normal
+  };
+  hd.addEventListener("pointerup",end); hd.addEventListener("pointercancel",end);
+})();
 document.getElementById("draftBar").addEventListener("click",e=>{ const d=e.target.dataset.d; if(d==="save") commitDraft(); else if(d==="cancel") cancelDraft(); });
 map.on("click",e=>{ if(lpMapBlock) return; hideChip(); openFibraPanel(false); if(pickPoint){ showNear(e.latlng.lat,e.latlng.lng,"Ponto marcado"); return; } if(cabRawNow()){ if(cabState==="draw") cabAddPt(e.latlng); else if(cabSel!==null){ cabSel=null; closeCabStyle(); render(); drawCabBar(); } return; } if(placing){ if(placingFor) placeQ(e.latlng); else openNewBox(e.latlng); return; } if(selMode) return; closeSheet(); });
 
@@ -1276,8 +1323,7 @@ function ponCardSearch(pon,card){
   setHl(ids,"🔎 "+label,new Set());
 }
 function showHits(){
-  const qa=sInp.value.trim(), addr=qa.length>=3?`<button data-addr="1" class="block w-full text-left px-4 py-2.5 text-sm bg-slate-900/60">📍 <b>Procurar “${esc(qa)}” como endereço</b> <span class="text-slate-400">e ver a caixa mais próxima</span></button>`:"";
-  sRes.innerHTML = (hits.slice(0,30).map((h,i)=>`<button data-i="${i}" class="block w-full text-left px-4 py-2.5 border-b border-slate-700 text-sm">${h.k==="st"?"🛣 ":h.k==="grp"?"📍 ":""}<b>${esc(h.txt)}</b> <span class="text-slate-400">${esc(h.sub)}</span></button>`).join("") || `<div class="px-4 py-3 text-sm text-slate-400">Nada encontrado.</div>`) + addr;
+  sRes.innerHTML = (hits.slice(0,30).map((h,i)=>`<button data-i="${i}" class="block w-full text-left px-4 py-2.5 border-b border-slate-700 text-sm">${h.k==="st"?"🛣 ":h.k==="grp"?"📍 ":""}<b>${esc(h.txt)}</b> <span class="text-slate-400">${esc(h.sub)}</span></button>`).join("") || `<div class="px-4 py-3 text-sm text-slate-400">Nada encontrado.</div>`);
   sRes.classList.remove("hidden");
 }
 function runSearch(){
@@ -1322,7 +1368,7 @@ function pick(h){
 }
 sInp.addEventListener("input",runSearch);
 sInp.addEventListener("keydown",e=>{ if(e.key==="Enter"&&hits[0]){ e.preventDefault(); pick(hits[0]); } });
-sRes.addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; if(b.dataset.addr) return findAddr(sInp.value); pick(hits[+b.dataset.i]); });
+sRes.addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; pick(hits[+b.dataset.i]); });
 document.getElementById("hlClear").onclick=()=>{ sInp.value=""; hits=[]; sRes.classList.add("hidden"); setHl(null); };
 
 /* ======================= RENOMEAR RUAS ======================= */
@@ -1359,6 +1405,39 @@ stList.addEventListener("click",e=>{
   if(b.dataset.go) goStreet(b.dataset.go);
 });
 document.getElementById("stClose").onclick=()=>stModal.classList.add("hidden");
+document.addEventListener("click",e=>{ const x=e.target.closest("[data-xmod]"); if(!x) return; const b=document.querySelector(x.dataset.xmod); if(b) b.click(); });
+const ceoPick=document.getElementById("ceoPick"), ceoPickList=document.getElementById("ceoPickList"); let ceoPickId=null;
+function openCeoPick(it){
+  ceoPickId=it.id;
+  const cand=items.filter(x=>x.type==="cto" && x.region===it.region && linkMap[x.id]!==it.id).sort((a,b)=>qnum(a)-qnum(b));
+  ceoPickList.innerHTML=cand.length?cand.map(x=>`<button data-cid="${x.id}" class="flex w-full items-center justify-between gap-2 text-left rounded-lg border px-3 py-3 mb-1.5 text-base text-slate-800" style="border-color:#cbd5e1"><span class="min-w-0 truncate">${esc(nameOf(x))}${stOf(x)?" · "+esc(stLabel(stOf(x))):""}</span></button>`).join(""):`<div class="text-sm text-slate-500 py-3">Não há outra caixa para ligar.</div>`;
+  ceoPick.classList.remove("hidden");
+}
+const ceoPickClose=()=>{ ceoPick.classList.add("hidden"); ceoPickId=null; };
+document.getElementById("ceoPickX").onclick=ceoPickClose;
+ceoPick.addEventListener("click",e=>{ if(e.target===ceoPick) ceoPickClose(); });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&!ceoPick.classList.contains("hidden")) ceoPickClose(); });
+ceoPickList.addEventListener("click",e=>{
+  const b=e.target.closest("button[data-cid]"); if(!b) return; const it=byId[ceoPickId]; if(!it){ ceoPickClose(); return; }
+  state.ceoOf[b.dataset.cid]=it.id; stageOn=currentId===it.id; save(); stageOn=false; ceoPickClose(); computeLinks(); render(); if(currentId===it.id) drawSheet();
+});
+const stPick=document.getElementById("stPick"), stPickList=document.getElementById("stPickList"); let stPickId=null;
+function openStPick(it){
+  stPickId=it.id; const cur=state.so[it.id]||"";
+  const row=(v,txt)=>`<button data-sid="${v}" class="flex w-full items-center justify-between gap-2 text-left rounded-lg border px-3 py-3 mb-1.5 text-base text-slate-800" style="${cur===v?"border-color:#0ea5e9;box-shadow:0 0 0 1px #0ea5e9":"border-color:#cbd5e1"}"><span class="min-w-0 truncate">${txt}</span>${cur===v?'<span class="text-sky-500 font-bold">✓</span>':""}</button>`;
+  stPickList.innerHTML=row("","— Sem rua —")+streetsAll().filter(x=>x[1]===it.region&&(stName(x[0])||cur===x[0])).map(x=>row(x[0],esc(stLabel(x[0])))).join("");
+  stPick.classList.remove("hidden");
+}
+const stPickClose=()=>{ stPick.classList.add("hidden"); stPickId=null; };
+document.getElementById("stPickX").onclick=stPickClose;
+stPick.addEventListener("click",e=>{ if(e.target===stPick) stPickClose(); });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&!stPick.classList.contains("hidden")) stPickClose(); });
+document.getElementById("stPickAdd").onclick=()=>{ stPickClose(); drawStEdit(); stModal.classList.remove("hidden"); };
+stPickList.addEventListener("click",e=>{
+  const b=e.target.closest("button[data-sid]"); if(!b) return; const it=byId[stPickId]; if(!it){ stPickClose(); return; }
+  const v=b.dataset.sid; if(v) state.so[it.id]=v; else delete state.so[it.id];
+  stageOn=currentId===it.id; save(); stageOn=false; stPickClose(); if(currentId===it.id) drawSheet(); else render();
+});
 document.getElementById("stDone").onclick=()=>{
   stList.querySelectorAll("input[data-id]").forEach(i=>{ const id=i.dataset.id, v=i.value.trim(); if(v!==stName(id)) state.sn[id]=v; });
   save(); afterStreetChange(); stModal.classList.add("hidden");
@@ -2195,18 +2274,6 @@ nearCard.addEventListener("click",e=>{
   ["pointerup","pointercancel","pointerleave"].forEach(ev=>mc.addEventListener(ev,stop));
   mc.addEventListener("contextmenu",e=>{ if(t||lpMapBlock) e.preventDefault(); });
 })();
-async function findAddr(text){
-  text=(text||"").trim(); if(text.length<3) return;
-  sRes.classList.add("hidden"); sInp.blur(); toast("🔎 Procurando o endereço…");
-  const c=map.getCenter(), vb=`${c.lng-0.3},${c.lat+0.3},${c.lng+0.3},${c.lat-0.3}`;
-  const tries=[text+", "+(REGIONS[region]||"")+", Brasil", text+", Brasil"]; let r=null, err=false;
-  for(const q of tries){
-    try{ const res=await fetch("https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&accept-language=pt-BR&countrycodes=br&viewbox="+vb+"&q="+encodeURIComponent(q)); const j=await res.json(); if(j&&j[0]){ r=j[0]; break; } }catch(e){ err=true; break; }
-  }
-  if(r){ const lb=String(r.display_name||text).split(",").slice(0,2).join(",").trim(); showNear(+r.lat,+r.lon,lb||text); }
-  else { pickPoint=true; toast(err?"Sem internet para buscar o endereço. Segure o dedo no mapa onde fica o cliente.":"Não achei esse endereço. Segure o dedo no mapa onde fica o cliente."); }
-}
-
 /* ======================= FOTOS (CEO e caixas) ======================= */
 /* Cada foto é reduzida (~100 KB) e guardada neste aparelho; com a nuvem ligada, também vai para a nuvem (para os outros aparelhos). */
 const FOTO_KIND = TEST_MODE?"foto_teste":"foto";
