@@ -213,6 +213,7 @@
 <!-- Painel inferior -->
 <div id="sheet" class="closed fixed inset-x-0 bottom-0 z-[1100] bg-white rounded-t-2xl shadow-2xl flex flex-col" style="padding-bottom:env(safe-area-inset-bottom)">
   <div class="flex justify-center pt-2"><div class="w-10 h-1.5 rounded-full bg-slate-300"></div></div>
+  <button id="sheetX" title="Fechar" class="absolute z-10 right-2 top-1.5 w-9 h-9 rounded-full text-2xl leading-none flex items-center justify-center" style="background:rgba(148,163,184,.28);color:#475569">×</button>
   <div id="draftBar" class="hidden mx-3 mb-1 flex items-center gap-2 rounded-lg bg-amber-100 border border-amber-300 px-2 py-1.5 text-xs text-amber-900"><span class="flex-1 font-semibold">✎ Alterações não salvas</span><button data-d="cancel" class="rounded-md bg-white border border-slate-300 text-slate-700 px-3 py-1.5 font-semibold">Cancelar</button><button data-d="save" class="rounded-md bg-emerald-600 text-white px-3 py-1.5 font-bold">Salvar</button></div>
   <div id="sheetBody" class="overflow-y-auto px-3 pb-3"></div>
 </div>
@@ -224,7 +225,7 @@
 <div id="bulkModal" class="hidden fixed inset-0 z-[1300] bg-black/60 flex items-end sm:items-center justify-center">
   <div class="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-4 space-y-3 max-h-[92vh] overflow-y-auto" style="padding-bottom:calc(env(safe-area-inset-bottom) + 16px)">
     <h2 id="bulkTitle" class="font-bold text-slate-800">Definir rua</h2>
-    <label class="block text-xs text-slate-500">Rua (vazio = voltar para a rua automática)
+    <label class="block text-xs text-slate-500">Rua (vazio = sem rua)
       <input id="bulkSt" list="bulkList" maxlength="80" placeholder="Digite ou escolha a rua" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2.5 text-base text-slate-900"></label>
     <datalist id="bulkList"></datalist>
     <div class="grid grid-cols-2 gap-2"><button data-b="close" class="rounded-lg border border-slate-300 text-slate-700 py-2.5 font-semibold">Cancelar</button><button data-b="street" class="rounded-lg bg-emerald-600 text-white py-2.5 font-bold">Salvar</button></div>
@@ -236,7 +237,7 @@
   <div class="bg-white w-full max-w-sm rounded-2xl p-4 space-y-3 shadow-2xl">
     <h2 class="font-bold text-slate-800 text-base">Editar caixa</h2>
     <label id="ebNameWrap" class="block text-xs text-slate-500">Nome da caixa<input id="ebName" maxlength="40" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 focus:outline-none focus:border-sky-500"></label>
-    <label id="ebStWrap" class="block text-xs text-slate-500">Rua<input id="ebSt" list="ebList" maxlength="80" placeholder="Digite ou escolha (vazio = automática)" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 focus:outline-none focus:border-sky-500"><datalist id="ebList"></datalist></label>
+    <label id="ebStWrap" class="block text-xs text-slate-500">Rua<input id="ebSt" list="ebList" maxlength="80" placeholder="Digite ou escolha (vazio = sem rua)" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 focus:outline-none focus:border-sky-500"><datalist id="ebList"></datalist></label>
     <div class="flex gap-2 pt-1"><button id="ebCancel" class="flex-1 rounded-lg border border-slate-300 text-slate-700 py-2 text-sm font-semibold">Cancelar</button><button id="ebOk" class="flex-1 rounded-lg bg-emerald-600 text-white py-2 text-sm font-bold">Salvar</button></div>
   </div>
 </div>
@@ -272,6 +273,13 @@
 </div>
 
 <!-- Aviso com Desfazer -->
+<div id="nearCard" class="hidden fixed z-[960] left-1/2 rounded-xl bg-white text-slate-800 shadow-xl px-3 py-2 text-sm" style="transform:translateX(-50%);width:min(94vw,420px);top:var(--tb,130px)"></div>
+<div id="fotoView" class="hidden fixed inset-0 z-[1500] bg-black/90 flex flex-col items-center justify-center p-3 gap-3">
+  <img id="fotoImg" alt="" class="max-w-full rounded-lg" style="max-height:72vh">
+  <div id="fotoCap" class="text-white text-xs"></div>
+  <div class="flex gap-2"><button id="fotoDel" class="rounded-lg bg-red-600 text-white px-4 py-2 text-sm font-semibold">🗑 Apagar</button><button id="fotoClose" class="rounded-lg bg-white/20 text-white px-4 py-2 text-sm font-semibold">Fechar</button></div>
+</div>
+<input id="fotoInp" type="file" accept="image/*" class="hidden">
 <div id="toast" class="hidden fixed z-[1400] left-1/2 -translate-x-1/2 rounded-xl bg-slate-900 text-white text-sm shadow-xl px-4 py-2.5 border border-slate-600" style="bottom:calc(env(safe-area-inset-bottom) + 130px)"></div>
 
 <!-- Login (só aparece quando a nuvem está ligada) -->
@@ -292,6 +300,7 @@
     <div class="flex items-center gap-2"><h2 class="font-bold text-slate-800 flex-1">Dados</h2><button id="btnHelp" title="Ajuda: como usar" class="w-7 h-7 rounded-full bg-sky-100 text-sky-700 text-sm font-extrabold active:scale-90">?</button><button id="menuClose" class="text-2xl text-slate-500 px-1 leading-none">×</button></div>
     <input type="checkbox" id="editToggle" class="hidden">
     <button id="btnPer" class="mbtn bg-[#0056b3] w-full">🎨 Personalizar (cor da barra, cidades)</button>
+    <button id="btnCabEd" class="mbtn bg-slate-700 w-full">🧵 Editar cabos de fibra (traçar, mover, apagar)</button>
     <p class="text-xs font-semibold text-slate-500">Backup e arquivos</p>
     <div class="grid grid-cols-2 gap-2">
       <button id="btnExport" class="mbtn bg-emerald-600">⬇ Exportar backup</button>
@@ -355,7 +364,7 @@
       <li><b>☑ Marcar ocupadas:</b> liga um modo em que você só toca nas portas ocupadas, sem escrever o nome. Aparecem como “ocupada”. Toque de novo para liberar.</li>
       <li><b>Marcar caixa como lotada:</b> deixa todas as portas cheias e a caixa vermelha, sem listar clientes.</li>
       <li><b>Marcar como quase cheia / atenção:</b> deixa a caixa amarela mesmo com poucas portas ocupadas (manutenção preventiva).</li>
-      <li><b>Rua desta caixa:</b> escolha a rua, <b>✏ Renomear</b> (vale para todas as caixas da rua), <b>➕ Nova</b> rua ou <b>Todas as ruas</b> para renomear e adicionar. A rua é automática se você não escolher.</li>
+      <li><b>Rua desta caixa:</b> escolha a rua na lista. Para <b>adicionar, apagar ou renomear</b> ruas, toque em <b>➕ Adicionar rua</b>: a tela que abre serve para adicionar, apagar e renomear. Se você não escolher, a caixa fica <b>sem rua</b> (não há mais rua automática).</li>
       <li><b>VLAN:</b> toque numa VLAN para escolher. <b>Trocar</b> mostra a lista, <b>✏</b> renomeia e <b>🗑</b> apaga uma VLAN, <b>＋ Nova</b> cria outra.</li>
       <li><b>🔌 Ligação:</b> mostra de qual CEO a caixa vem (pelo traçado da fibra), com Card, PON, Fibra e Tubo. <b>✏ Editar</b> anota algo a mais.</li>
       <li><b>Caixa planejada / a instalar:</b> marque a opção e escolha a cor do pino. A caixa fica colorida com 🛠 até você desmarcar.</li>
@@ -394,13 +403,27 @@
       <li><b>Cabo novo liga a caixa sozinho:</b> se você cria uma caixa (ex.: Q7) perto da última (Q6) e desenha o cabo de 6 fibras da Q6 até ela, o app percebe que ela é da mesma CEO e já usa os dados e a cor dela. Ao tocar em <b>✔ Aplicar</b>, aparece um aviso dizendo quais caixas foram ligadas. Se o cabo não encostar nas caixas, nada muda.</li>
     </ul></details>
     <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">✂ Ajustar cabos, passo a passo</summary><ol class="list-decimal pl-5 space-y-1 mt-2">
-      <li><b>Toque em cima de um cabo</b> no mapa e depois em <b>✏ Editar cabo</b>. Aparecem bolinhas nos cabos.</li>
+      <li>Abra <b>⚙ Dados → 🧵 Editar cabos de fibra</b> (ou toque rapidinho em cima de um cabo no mapa e em <b>✏ Editar cabo</b>). Aparecem bolinhas nos cabos.</li>
       <li><b>Arraste a bolinha grande</b> para a rua certa. <b>Puxe a bolinha pequena do meio</b> da linha para fazer uma curva. <b>Toque numa bolinha</b> para apagar o ponto.</li>
-      <li><b>＋ Novo cabo</b>: escolha 6 ou 24 fibras, toque no mapa marcando o caminho (encostando perto de outro cabo, ele se liga) e toque em Concluir.</li>
+      <li><b>＋ Novo cabo</b>: escolha 6 ou 24 fibras, toque no mapa marcando o caminho (encostando perto de outro cabo, ele se liga) e toque em Concluir. Enquanto você marca, a <b>📏 distância total em metros</b> aparece no meio do traçado e na barra azul.</li>
       <li><b>Toque numa linha</b> para escolher aquele cabo. Aí aparecem <b>🎨 Estilo</b> (grossura e cor) e <b>🗑 Apagar cabo</b>. Para mudar só uma parte do cabo, toque numa bolinha e escolha <b>✂ Dividir</b>.</li>
       <li><b>↶ ↷</b> desfazem e refazem qualquer passo, quantas vezes precisar.</li>
       <li><b>💾 Salvar e ver</b> mostra como ficou, mas ainda não vale. Se gostar, toque em <b>✔ Aplicar</b>. Se não aplicar, tudo volta como estava.</li>
     </ol></details>
+    <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">📍 Endereço → caixa mais próxima</summary><ul class="list-disc pl-5 space-y-1 mt-2">
+      <li>Na barra de pesquisa, digite o endereço do cliente (ex.: <i>Rua José Venâncio 120</i>) e toque na linha <b>📍 Procurar “…” como endereço</b>, que aparece no fim da lista.</li>
+      <li>O app dá zoom, marca o ponto com o 📍 e deixa as <b>2 caixas mais próximas com vaga</b> maiores no mapa. A lista mostra a distância em linha reta e as vagas.</li>
+      <li>Toque numa caixa (na lista ou no mapa): aparece a <b>linha</b> até ela com a <b>distância</b>. Toque em <b>abrir caixa ›</b> para abrir a ficha dela.</li>
+      <li><b>Arraste o 📍</b> até a casa exata do cliente: a distância e as caixas se atualizam sozinhas.</li>
+      <li><b>Sem endereço:</b> segure o dedo no mapa, na casa do cliente. O 📍 aparece ali com as caixas mais próximas.</li>
+      <li>Para tirar a marcação: toque no <b>×</b> branco ao lado da distância (na linha) ou no <b>×</b> do cartão.</li>
+      <li>A busca do endereço usa o mapa aberto da internet (OpenStreetMap), de graça. Números de casa nem sempre existem lá; nesse caso o ponto fica na rua.</li>
+    </ul></details>
+    <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">📷 Fotos na CEO e nas caixas</summary><ul class="list-disc pl-5 space-y-1 mt-2">
+      <li>Na ficha da CEO ou da caixa, a linha <b>📷 Fotos</b> tem o botão <b>＋</b>. Escolha tirar a foto ou pegar da galeria.</li>
+      <li>A foto é reduzida automaticamente. Toque numa miniatura para ver grande, com data e quem colocou; <b>🗑 Apagar</b> remove.</li>
+      <li>Com a nuvem ligada, as fotos aparecem nos outros aparelhos também. Se a nuvem não aceitar, a foto fica só no aparelho e o app avisa.</li>
+    </ul></details>
     <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">🗺 Mapa e temas</summary><ul class="list-disc pl-5 space-y-1 mt-2">
       <li>O botão de camadas (canto de cima, à direita) troca entre <b>Satélite</b> e <b>Ruas</b>. Os nomes das ruas que aparecem no mapa “Ruas” são do próprio mapa.</li>
       <li>Se o zoom passar do que o satélite tem, a imagem é esticada (fica mais desfocada, mas não aparece quadrado cinza).</li>
@@ -409,11 +432,11 @@
     </ul></details>
     <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">⚙ Dados</summary><ul class="list-disc pl-5 space-y-1 mt-2">
       <li><b>🎨 Personalizar:</b> cor da barra de cima (no tema escuro ela fica preta), nome das cidades e <b>➕ Adicionar cidade</b> (leve o mapa até a cidade antes). O 📍 muda o lugar da cidade e a lixeira apaga (só se não tiver caixas nem cabos).</li>
-      <li><b>Vagas ocupadas (dentro das caixas):</b> em Personalizar, escolha a cor do fundo e a cor do nome das portas ocupadas. A prévia mostra como fica. A primeira bolinha de cada linha volta ao padrão.</li>
+      <li><b>Vagas ocupadas (dentro das caixas):</b> em Personalizar, escolha a cor do fundo e a cor do nome das portas ocupadas. A prévia mostra como fica. A primeira bolinha de cada linha volta ao padrão. A cor da barra e a das vagas valem só no aparelho em que você escolheu; as chaves de ver caixas, CEOs e fibra e o tema escuro também.</li>
       <li><b>Exportar backup</b> baixa uma cópia de segurança. <b>Importar backup</b> devolve uma cópia.</li>
       <li><b>Importar KML</b> troca a rede inteira por outro arquivo.</li>
       <li><b>Apagar cadastros</b> limpa clientes, caixas novas e nomes (não tem volta, faça backup antes).</li>
-      <li><b>Versão</b> do app aparece no menu. Os dados ficam salvos na nuvem e são os mesmos em todos os aparelhos com o mesmo login.</li>
+      <li><b>Versão</b> do app aparece no menu. Os dados (caixas, clientes, ruas, CEOs, cabos) ficam salvos na nuvem e são os mesmos em todos os aparelhos. Embaixo do menu aparece quem fez a última alteração.</li>
     </ul></details>
   </div>
 </div>
@@ -454,7 +477,7 @@
       </div>
     </div>
     <div id="nbCtoBox" class="space-y-3">
-    <label class="block text-xs text-slate-500">Rua<input id="nbSt" list="nbList" maxlength="80" placeholder="Digite ou escolha (vazio = automática)" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2.5 text-base text-slate-900 focus:outline-none focus:border-sky-500"><datalist id="nbList"></datalist></label>
+    <label class="block text-xs text-slate-500">Rua<input id="nbSt" list="nbList" maxlength="80" placeholder="Digite ou escolha (vazio = sem rua)" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2.5 text-base text-slate-900 focus:outline-none focus:border-sky-500"><datalist id="nbList"></datalist></label>
     <label class="block text-xs text-slate-500">Pertence à CEO<select id="nbCeo" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2.5 text-base text-slate-900"></select></label>
     <div class="rounded-lg border-2 border-dashed border-violet-300 bg-violet-50 px-3 py-2">
       <label class="flex items-center gap-2 text-sm font-semibold text-violet-900"><input type="checkbox" id="nbPlan">Caixa Planejada / A Instalar</label>
@@ -472,8 +495,8 @@
 <!-- Renomear ruas -->
 <div id="stModal" class="hidden fixed inset-0 z-[1250] bg-black/60 flex items-end sm:items-center justify-center">
   <div class="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-4 max-h-[92vh] flex flex-col" style="padding-bottom:calc(env(safe-area-inset-bottom) + 16px)">
-    <div class="flex justify-between items-center"><h2 class="font-bold text-slate-800">🛣 Renomear ruas</h2><button id="stClose" class="text-2xl text-slate-500 px-2">×</button></div>
-    <p class="text-xs text-slate-500 mt-1">Digite o nome real e toque fora do campo (ou Enter) para salvar. Use 📍 para ver a rua no mapa. Deixe vazio para não exibir rótulo.</p>
+    <div class="flex justify-between items-center"><h2 class="font-bold text-slate-800">🛣 Ruas</h2><button id="stClose" class="text-2xl text-slate-500 px-2">×</button></div>
+    <p class="text-xs text-slate-500 mt-1"><b>Renomear:</b> digite o nome e toque fora do campo. <b>Adicionar:</b> botão “+ Adicionar rua”. <b>Apagar:</b> 🗑️ (as caixas daquela rua ficam sem rua). 📍 mostra a rua no mapa.</p>
     <div id="stList" class="overflow-y-auto flex-1 min-h-0 mt-1"></div>
     <button id="stDone" class="mt-3 w-full rounded-lg bg-[#0056b3] text-white py-3 font-semibold">Concluir</button>
   </div>
@@ -560,7 +583,7 @@ function rebuildRegions(){            // nomes das cidades: padrão + renomeadas
   Object.keys(REGION_DEF).forEach(k=>{ REGIONS[k]=(state.cityNames&&state.cityNames[k])||REGION_DEF[k]; });
   (state.cityExtra||[]).forEach(c=>{ REGIONS[c.id]=c.name; });
 }
-const APP_VERSION = "3.14";
+const APP_VERSION = "3.21";
 const TEST_MODE = false;   // true = arquivo de teste (usa uma cópia dos dados) · false = site real
 const KEY_STATE = TEST_MODE?"ftth_state_test":"ftth_state_v1", KEY_NET = TEST_MODE?"ftth_net_test":"ftth_net_v1";
 const DOC_STATE = TEST_MODE?"state_teste":"state", DOC_NET = TEST_MODE?"net_teste":"net";
@@ -619,18 +642,15 @@ let net   = jget(KEY_NET, null) || { pts:PTS, lines:LINES };
 let state = jget(KEY_STATE, null);
 function fixState(){
   if(!state||typeof state!=="object") state={};
-  ["clients","full","warn","names","notes","links","sn","so","pos","plan","vlan","vlanNames","cityNames","ceoOf","hist","ceoCap","ceoDesc","qcol"].forEach(k=>{ if(!state[k]||typeof state[k]!=="object"||Array.isArray(state[k])) state[k]={}; });
+  ["clients","full","warn","names","notes","links","sn","so","pos","plan","vlan","vlanNames","cityNames","ceoOf","hist","ceoCap","ceoDesc","qcol","sdel"].forEach(k=>{ if(!state[k]||typeof state[k]!=="object"||Array.isArray(state[k])) state[k]={}; });
   ["custom","cst","cityExtra"].forEach(k=>{ if(!Array.isArray(state[k])) state[k]=[]; });
-  if(typeof state.hdrColor!=="string") state.hdrColor="";
-  if(typeof state.slotBg!=="string") state.slotBg="";
-  if(typeof state.slotTx!=="string") state.slotTx="";
   rebuildRegions();
   if(!Array.isArray(state.vlanList)) state.vlanList=["205","206"];
   Object.values(state.vlan).forEach(v=>{ if(v && !state.vlanList.includes(v)) state.vlanList.push(v); });   // caixas criadas / ruas criadas
 }
 fixState();
 let _sm = null;
-const streetsAll = () => _sm || (_sm = STREETS.concat(state.cst.map(c=>[c.id,c.region,c.name,[]])));
+const streetsAll = () => _sm || (_sm = STREETS.filter(s=>!state.sdel[s[0]]).concat(state.cst.map(c=>[c.id,c.region,c.name,[]])));
 let items = [], byId = {};
 function rebuild(){ _sm=null; items=buildItems(net); byId=Object.fromEntries(items.map(i=>[i.id,i])); }
 rebuild();
@@ -686,16 +706,8 @@ function segD(p,a,b){
   const dx=bx-ax, dy=by-ay, l=dx*dx+dy*dy; let t=l?-(ax*dx+ay*dy)/l:0; t=Math.max(0,Math.min(1,t));
   return Math.hypot(ax+t*dx,ay+t*dy)*111000;
 }
-function computeStreets(){
-  autoSt={};
-  items.forEach(it=>{
-    let best=null,bd=150;
-    streetsAll().forEach(s=>{ if(s[1]!==it.region) return; const l=s[3];
-      for(let i=1;i<l.length;i++){ const d=segD([it.lng,it.lat],l[i-1],l[i]); if(d<bd){bd=d;best=s[0];} } });
-    if(best) autoSt[it.id]=best;
-  });
-}
-const stOf   = it => state.so[it.id] || autoSt[it.id] || null;
+function computeStreets(){ autoSt={}; }   // rua automática removida: só vale a rua que a pessoa escolhe
+const stOf   = it => state.so[it.id] || null;
 const stName = id => { const s=streetsAll().find(x=>x[0]===id); if(!s) return ""; return (id in state.sn) ? state.sn[id] : s[2]; };
 const stLabel= id => { const n=stName(id); if(n) return n; const s=streetsAll().find(x=>x[0]===id); if(!s) return ""; return "Rua sem nome #"+(streetsAll().filter(x=>x[1]===s[1]).findIndex(x=>x[0]===id)+1); };
 function ensureStreet(name,reg){
@@ -710,7 +722,7 @@ const ICO_PEN=`<svg viewBox="0 0 24 24"><path d="M9 3h6v12l-3 5-3-5z"/><path d="
 let vlOpen=false, portMark=false; let region = "sgb", currentId = null, editMode = false, placing = false;
 const FIBER_HEX = {VERDE:"#22c55e",AMARELA:"#facc15",BRANCA:"#ffffff",AZUL:"#3b82f6",VERMELHA:"#ef4444",ROXA:"#a855f7",VIOLETA:"#a855f7",LARANJA:"#f97316",MARROM:"#92400e",ROSA:"#ec4899",CINZA:"#94a3b8",PRETA:"#111111"};
 let infoMode = false; try{ infoMode = localStorage.getItem("ftth_info")==="1"; }catch(e){}
-let lpBlock = false;
+let lpBlock = false, lpMapBlock = false;
 const selSet = new Set(); let selMode = false, rectMode = false;
 let hl = null, hlSt = new Set(), hlLabel = "";   // destaque de busca
 
@@ -725,7 +737,7 @@ L.control.zoom({position:"topright"}).addTo(map);
 const lineLayer = L.layerGroup().addTo(map);
 const streetLayer = L.layerGroup().addTo(map);
 const markLayer = L.layerGroup().addTo(map);
-const cabLayer = L.layerGroup().addTo(map);
+const cabLayer = L.layerGroup().addTo(map), cabLenLayer = L.layerGroup().addTo(map);
 let cabMode=false, cabSnap=null, cabDirty=false, cabPoly={}, cabHalo={}, cabSel=null, hideCto=false, hideCeo=false, hideFib=false, hideOth=false; try{ hideOth=localStorage.getItem("ftth_hideoth")==="1"; hideFib=localStorage.getItem("ftth_hidefib")==="1"; hideCto=localStorage.getItem("ftth_hidecto")==="1"; hideCeo=localStorage.getItem("ftth_hideceo")==="1"; }catch(e){}
 const markers = {}, stMk = {};
 function zoomCls(){ const z=map.getZoom(), c=map.getContainer().classList; c.toggle("zl16",z>=16); c.toggle("zl17",z>=17); }
@@ -1028,7 +1040,7 @@ function settleDraft(){ if(!draftDirty) return; if(confirm("Salvar as alteraçõ
 function closeSheet(){ if(draftDirty) settleDraft(); sheet.classList.add("closed"); currentId=null; draftBase=null; draftDirty=false; drawDraftBar(); }
 function openSheet(id){
   if(draftDirty && id!==currentId) settleDraft();
-  if(id!==currentId){ colEdit=null; showAddSel=false; vlOpen=false; portMark=false; currentId=id; takeBase(); draftDirty=false; drawDraftBar(); }
+  if(id!==currentId){ colEdit=null; showAddSel=false; vlOpen=false; portMark=false; currentId=id; takeBase(); draftDirty=false; drawDraftBar(); const _p=byId[id]; if(_p&&(_p.type==="ceo"||_p.type==="cto")) loadPhotos(id); }
   drawSheet(); sheet.classList.remove("closed");
   const it=byId[id]; map.panTo([it.lat,it.lng],{animate:true});
   setTimeout(()=>{ const p=map.latLngToContainerPoint([it.lat,it.lng]); const h=sheet.offsetHeight; if(p.y>window.innerHeight-h-30) map.panBy([0,p.y-(window.innerHeight-h)/2]); },300);
@@ -1039,10 +1051,10 @@ function drawSheet(){
   const cl = clientsOf(it.id), c=cl.length, st=status(it), sid=stOf(it);
   const gm = `https://www.google.com/maps/dir/?api=1&destination=${it.lat},${it.lng}&travelmode=driving`;
   const kind = it.type==="cto"?(isPlanned(it)?"Caixa planejada":"Caixa"):it.type==="ceo"?"CEO (emenda)":it.type==="imenda"?"Caixa de emenda":"Local";
-  let h = `<div class="flex items-start justify-between gap-2 mt-1">
+  let h = `<div class="flex items-start justify-between gap-2 mt-1 pr-10">
       <div class="min-w-0"><div class="text-xs text-slate-500">${REGIONS[it.region]} · ${kind}${sid?" · 🛣 "+esc(stLabel(sid)):""}</div>
       <h2 class="text-lg font-extrabold text-slate-900 truncate">${it.type==="cto"?"Caixa ":""}${esc(nameOf(it))}</h2></div>
-      <button data-a="close" class="text-3xl leading-none text-slate-400 px-2">×</button></div>`;
+      </div>`;
   if(isPlanned(it)){
     const pc=planOf(it).color;
     h += `<div class="mt-2 flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-800"><span class="inline-block w-4 h-4 rounded-full border border-white shadow shrink-0" style="background:${pc};box-shadow:0 0 0 1px #94a3b8"></span>🛠 Caixa planejada / a instalar<span class="block text-xs font-normal text-slate-500 ml-auto text-right">Desmarque no Modo Edição quando instalada</span></div>`;
@@ -1059,7 +1071,7 @@ function drawSheet(){
   const gmH = `<div class="mt-2"><a href="${gm}" target="_blank" rel="noopener" class="inline-block rounded-md bg-blue-600 text-white px-3 py-1.5 font-semibold text-xs">🧭 Ir com Google Maps</a></div>`;
   if(it.type!=="ceo") h += gmH;
   if(it.type==="cto"){
-    h += `<div class="mt-2 text-xs text-slate-500">Rua desta caixa<div class="mt-1 flex gap-2"><select data-a="street" class="flex-1 min-w-0 rounded-lg border border-slate-300 px-2 py-2 text-sm text-slate-900"><option value="">Automática${autoSt[it.id]?" ("+esc(stLabel(autoSt[it.id]))+")":""}</option>${streetsAll().filter(s=>s[1]===it.region).map(s=>`<option value="${s[0]}" ${state.so[it.id]===s[0]?'selected':''}>${esc(stLabel(s[0]))}</option>`).join("")}</select><button data-a="renst" class="shrink-0 rounded-lg border border-slate-300 text-slate-700 px-2.5 text-sm">✏ Renomear</button><button data-a="newst" class="shrink-0 rounded-lg border border-slate-300 text-slate-700 px-2.5 text-sm">➕ Nova</button></div><button data-a="allst" class="mt-1 text-xs underline text-sky-700">Ver / editar todas as ruas</button></div>`;
+    h += `<div class="mt-2 text-xs text-slate-500">Rua desta caixa<div class="mt-1 flex gap-2"><select data-a="street" class="flex-1 min-w-0 rounded-lg border border-slate-300 px-2 py-2 text-sm text-slate-900"><option value="">— Sem rua —</option>${streetsAll().filter(s=>s[1]===it.region&&(stName(s[0])||state.so[it.id]===s[0])).map(s=>`<option value="${s[0]}" ${state.so[it.id]===s[0]?'selected':''}>${esc(stLabel(s[0]))}</option>`).join("")}</select></div><button data-a="allst" class="mt-1.5 rounded-lg border border-sky-300 text-sky-700 px-2.5 py-1.5 text-xs font-semibold">➕ Adicionar rua</button></div>`;
     const bySlot={}, extra=[]; cl.forEach((x,i)=>{ const pn=+x.p; if(pn>=1&&pn<=CAP&&bySlot[pn]===undefined) bySlot[pn]=i; else extra.push(i); });
     const ff=forcedFull(it);
     h += `<div class="mt-3 flex items-center justify-between gap-2"><span class="text-sm font-semibold text-slate-700">Portas <span class="text-xs font-normal text-slate-500">${ff?"· caixa marcada como lotada":c+"/"+CAP+" em uso"}</span></span><button data-a="pmark" class="rounded-lg border px-2.5 py-1 text-xs font-semibold ${portMark?"bg-emerald-600 text-white border-emerald-600":"border-slate-300 text-slate-700"}">${portMark?"✔ Marcando ocupadas":"☑ Marcar ocupadas"}</button></div>
@@ -1098,10 +1110,12 @@ function drawSheet(){
     h += `<div class="mt-3 text-xs text-slate-500">VLAN desta caixa${cur?` — <b class="text-slate-700">${esc(cur)}${cn}</b>`:""}<div class="mt-1 flex ${showAll?"flex-col":""} gap-2">${row}</div></div>`;
   }
   h += linkBlock(it);
+  h += photoBlock(it);
   if(it.type==="ceo") h += noteH;
   h += `<div class="mt-3 flex gap-2 text-xs"><button data-a="rename" class="rounded-lg border border-slate-300 text-slate-600 px-3 py-2">Renomear</button><button data-a="note" class="rounded-lg border border-slate-300 text-slate-600 px-3 py-2">Anotação</button>${it.custom?`<button data-a="delbox" class="rounded-lg border border-red-300 text-red-600 px-3 py-2">🗑 Excluir caixa</button>`:""}</div>`;
   if(it.type==="ceo") h += gmH;
   body.innerHTML = h;
+  drawPhotos(it.id);
 }
 body.addEventListener("click",e=>{
   const b=e.target.closest("[data-a]"); if(!b) return;
@@ -1138,6 +1152,8 @@ body.addEventListener("click",e=>{
   if(a==="hadd"){ const t=document.getElementById("histTx"), v=(t&&t.value||"").trim(); if(!v){ if(t) t.focus(); return; } (state.hist[it.id]=state.hist[it.id]||[]).push({t:Date.now(),x:v}); save(); drawSheet(); return; }
   if(a==="hdel"){ const t=+b.dataset.t; if(!confirm("Apagar esta anotação do histórico?")) return; state.hist[it.id]=(state.hist[it.id]||[]).filter(h=>h.t!==t); if(!state.hist[it.id].length) delete state.hist[it.id]; save(); drawSheet(); return; }
   if(a==="capup"||a==="capdn"){ const cur=Math.max(1,+state.ceoCap[it.id]||8), nv=Math.max(1,cur+(a==="capup"?1:-1)); if(nv===8) delete state.ceoCap[it.id]; else state.ceoCap[it.id]=nv; save(); drawSheet(); refreshMarker(it.id); return; }
+  if(a==="fadd"){ fotoTarget=it.id; document.getElementById("fotoInp").click(); return; }
+  if(a==="fview"){ openFoto(b.dataset.id); return; }
   if(a==="ceodesc") return openCeoEd(it);
   if(a==="showadd"){ showAddSel=!showAddSel; drawSheet(); return; }
   if(a==="qcol"){ colEdit=(colEdit===b.dataset.id)?null:b.dataset.id; drawSheet(); return; }
@@ -1225,8 +1241,9 @@ body.addEventListener("change",e=>{
 });
 // alterações feitas dentro do painel da caixa só valem depois de "Salvar"
 ["click","change","keydown"].forEach(ev=>{ body.addEventListener(ev,()=>{stageOn=true;},true); body.addEventListener(ev,()=>{stageOn=false;}); });
+document.getElementById("sheetX").addEventListener("click",()=>closeSheet());
 document.getElementById("draftBar").addEventListener("click",e=>{ const d=e.target.dataset.d; if(d==="save") commitDraft(); else if(d==="cancel") cancelDraft(); });
-map.on("click",e=>{ hideChip(); openFibraPanel(false); if(cabRawNow()){ if(cabState==="draw") cabAddPt(e.latlng); else if(cabSel!==null){ cabSel=null; closeCabStyle(); render(); drawCabBar(); } return; } if(placing){ if(placingFor) placeQ(e.latlng); else openNewBox(e.latlng); return; } if(selMode) return; closeSheet(); });
+map.on("click",e=>{ if(lpMapBlock) return; hideChip(); openFibraPanel(false); if(pickPoint){ showNear(e.latlng.lat,e.latlng.lng,"Ponto marcado"); return; } if(cabRawNow()){ if(cabState==="draw") cabAddPt(e.latlng); else if(cabSel!==null){ cabSel=null; closeCabStyle(); render(); drawCabBar(); } return; } if(placing){ if(placingFor) placeQ(e.latlng); else openNewBox(e.latlng); return; } if(selMode) return; closeSheet(); });
 
 /* ======================= BUSCA (rua / caixa / cliente) ======================= */
 const sInp=document.getElementById("search"), sRes=document.getElementById("results");
@@ -1259,7 +1276,8 @@ function ponCardSearch(pon,card){
   setHl(ids,"🔎 "+label,new Set());
 }
 function showHits(){
-  sRes.innerHTML = hits.slice(0,30).map((h,i)=>`<button data-i="${i}" class="block w-full text-left px-4 py-2.5 border-b border-slate-700 text-sm">${h.k==="st"?"🛣 ":h.k==="grp"?"📍 ":""}<b>${esc(h.txt)}</b> <span class="text-slate-400">${esc(h.sub)}</span></button>`).join("") || `<div class="px-4 py-3 text-sm text-slate-400">Nada encontrado.</div>`;
+  const qa=sInp.value.trim(), addr=qa.length>=3?`<button data-addr="1" class="block w-full text-left px-4 py-2.5 text-sm bg-slate-900/60">📍 <b>Procurar “${esc(qa)}” como endereço</b> <span class="text-slate-400">e ver a caixa mais próxima</span></button>`:"";
+  sRes.innerHTML = (hits.slice(0,30).map((h,i)=>`<button data-i="${i}" class="block w-full text-left px-4 py-2.5 border-b border-slate-700 text-sm">${h.k==="st"?"🛣 ":h.k==="grp"?"📍 ":""}<b>${esc(h.txt)}</b> <span class="text-slate-400">${esc(h.sub)}</span></button>`).join("") || `<div class="px-4 py-3 text-sm text-slate-400">Nada encontrado.</div>`) + addr;
   sRes.classList.remove("hidden");
 }
 function runSearch(){
@@ -1304,7 +1322,7 @@ function pick(h){
 }
 sInp.addEventListener("input",runSearch);
 sInp.addEventListener("keydown",e=>{ if(e.key==="Enter"&&hits[0]){ e.preventDefault(); pick(hits[0]); } });
-sRes.addEventListener("click",e=>{ const b=e.target.closest("button"); if(b) pick(hits[+b.dataset.i]); });
+sRes.addEventListener("click",e=>{ const b=e.target.closest("button"); if(!b) return; if(b.dataset.addr) return findAddr(sInp.value); pick(hits[+b.dataset.i]); });
 document.getElementById("hlClear").onclick=()=>{ sInp.value=""; hits=[]; sRes.classList.add("hidden"); setHl(null); };
 
 /* ======================= RENOMEAR RUAS ======================= */
@@ -1313,10 +1331,10 @@ function afterStreetChange(){ render(); if(currentId) drawSheet(); if(sInp.value
 function drawStEdit(){
   let h="";
   Object.entries(REGIONS).forEach(([rk,rn])=>{
-    h+=`<div class="mt-3 mb-1.5 flex items-center justify-between"><h3 class="font-bold text-slate-800 text-sm">${esc(rn)}</h3><button data-add="${rk}" class="text-xs rounded-lg border border-sky-300 text-sky-700 px-2 py-1">+ Adicionar rua</button></div>`;
+    h+=`<div class="mt-3 mb-1.5 flex items-center justify-between"><h3 class="font-bold text-slate-800 text-sm">${esc(rn)}</h3><button data-add="${rk}" class="text-sm rounded-lg border border-sky-400 bg-sky-50 text-sky-800 font-semibold px-3 py-1.5">+ Adicionar rua</button></div>`;
     streetsAll().filter(s=>s[1]===rk).forEach((s,i)=>{
       const n=boxesOn(s[0]).length, canGo=(s[3]&&s[3].length)||n;
-      h+=`<div class="flex items-center gap-1 mb-1.5"><input data-id="${s[0]}" value="${esc(stName(s[0]))}" maxlength="80" placeholder="Rua sem nome #${i+1} — digite o nome real" class="flex-1 min-w-0 rounded-lg border border-slate-300 px-2.5 py-2 text-base text-slate-900 focus:outline-none focus:border-sky-500"><span class="text-[11px] text-slate-400 w-9 text-center">${n} cx</span>${canGo?`<button data-go="${s[0]}" class="px-1.5 py-1 text-lg" title="Ver no mapa">📍</button>`:""}${s[0].startsWith("cs")?`<button data-del="${s[0]}" class="px-1.5 py-1 text-lg" title="Excluir rua">🗑️</button>`:""}</div>`;
+      h+=`<div class="flex items-center gap-1 mb-1.5"><input data-id="${s[0]}" value="${esc(stName(s[0]))}" maxlength="80" placeholder="Rua sem nome #${i+1} — digite o nome real" class="flex-1 min-w-0 rounded-lg border border-slate-300 px-2.5 py-2 text-base text-slate-900 focus:outline-none focus:border-sky-500"><span class="text-[11px] text-slate-400 w-9 text-center">${n} cx</span>${canGo?`<button data-go="${s[0]}" class="px-1.5 py-1 text-lg" title="Ver no mapa">📍</button>`:""}<button data-del="${s[0]}" class="px-1.5 py-1 text-lg" title="Apagar rua">🗑️</button></div>`;
     });
   });
   stList.innerHTML=h;
@@ -1333,9 +1351,11 @@ stList.addEventListener("keydown",e=>{ if(e.key==="Enter"&&e.target.dataset.id){
 stList.addEventListener("click",e=>{
   const b=e.target.closest("button"); if(!b) return;
   if(b.dataset.add){ const n=prompt("Nome da nova rua ("+REGIONS[b.dataset.add]+"):"); if(n&&n.trim()){ ensureStreet(n,b.dataset.add); save(); drawStEdit(); afterStreetChange(); } return; }
-  if(b.dataset.del){ if(confirm("Excluir esta rua criada por você? As caixas voltam para a rua automática.")){ const id=b.dataset.del;
-    state.cst=state.cst.filter(x=>x.id!==id); delete state.sn[id]; Object.keys(state.so).forEach(k=>{ if(state.so[k]===id) delete state.so[k]; });
-    _sm=null; save(); drawStEdit(); afterStreetChange(); } return; }
+  if(b.dataset.del){ const id=b.dataset.del, nb=boxesOn(id).length, nm=stLabel(id);
+    if(confirm(`Apagar a rua "${nm}"?${nb?"\n\n"+nb+" caixa"+(nb>1?"s":"")+" dela ficar"+(nb>1?"ão":"á")+" sem rua.":""}`)){
+      if(id.startsWith("cs")) state.cst=state.cst.filter(x=>x.id!==id); else state.sdel[id]=1;
+      delete state.sn[id]; Object.keys(state.so).forEach(k=>{ if(state.so[k]===id) delete state.so[k]; });
+      _sm=null; save(); drawStEdit(); afterStreetChange(); } return; }
   if(b.dataset.go) goStreet(b.dataset.go);
 });
 document.getElementById("stClose").onclick=()=>stModal.classList.add("hidden");
@@ -1389,7 +1409,26 @@ function cabGroups(){            // pontos de cabos diferentes que se encontram 
   });
   return G;
 }
-function cabRefresh(li){ const c=net.lines[li][1], ll=c.map(p=>[p[1],p[0]]); if(cabPoly[li]) cabPoly[li].setLatLngs(ll); if(cabHalo[li]) cabHalo[li].setLatLngs(ll); }
+function cabRefresh(li){ const c=net.lines[li][1], ll=c.map(p=>[p[1],p[0]]); if(cabPoly[li]) cabPoly[li].setLatLngs(ll); if(cabHalo[li]) cabHalo[li].setLatLngs(ll); if(cabMode&&cabState==="edit"&&li===cabSel) cabLenDraw(); }
+/* distância (metros) dos cabos: aparece só enquanto você traça, ajusta ou confere antes de aplicar */
+const cabMeters = pts => { let d=0; for(let k=1;k<pts.length;k++) d+=dist(pts[k-1],pts[k]); return d; };
+const cabFmt = d => d<1000 ? Math.round(d)+" m" : (d/1000).toFixed(2).replace(".",",")+" km";
+function cabMidPt(pts){ const tot=cabMeters(pts); let acc=0, half=tot/2;
+  for(let k=1;k<pts.length;k++){ const seg=dist(pts[k-1],pts[k]); if(acc+seg>=half&&seg>0){ const f=(half-acc)/seg; return [pts[k-1][1]+(pts[k][1]-pts[k-1][1])*f, pts[k-1][0]+(pts[k][0]-pts[k-1][0])*f]; } acc+=seg; }
+  const p=pts[0]; return [p[1],p[0]]; }
+function cabLenMark(pts){
+  if(!pts||pts.length<2) return; const d=cabMeters(pts); if(d<1) return;
+  L.marker(cabMidPt(pts),{icon:L.divIcon({className:"",iconSize:[0,0],html:`<span style="position:absolute;left:0;top:0;transform:translate(-50%,-165%);white-space:nowrap;background:#0f172a;color:#fff;border:2px solid #fff;border-radius:8px;padding:2px 8px;font:800 13px/1.2 system-ui,sans-serif;box-shadow:0 1px 5px rgba(0,0,0,.6)">📏 ${cabFmt(d)}</span>`}),interactive:false,keyboard:false,zIndexOffset:4000}).addTo(cabLenLayer);
+}
+function cabLenDraw(){
+  cabLenLayer.clearLayers(); if(!cabMode) return;
+  if(cabState==="draw"){ if(cabDraw) cabLenMark(cabDraw.pts); return; }
+  if(cabState==="preview"){   // antes de aplicar: mostra a distância dos cabos novos ou alterados
+    let old=new Set(); try{ old=new Set(JSON.parse(cabSnap).map(l=>JSON.stringify(l))); }catch(e){}
+    net.lines.forEach(l=>{ if(lineReg(l)===region && !old.has(JSON.stringify(l))) cabLenMark(l[1]); }); return; }
+  const l=cabSel!==null&&net.lines[cabSel]; if(l) cabLenMark(l[1]);
+}
+function cabTotTxt(pts){ const d=cabMeters(pts||[]); return d>=1?" · "+cabFmt(d):""; }
 const cabDot=ll=>L.marker(ll,{icon:L.divIcon({className:"cab-h",html:"<i></i>",iconSize:[28,28],iconAnchor:[14,14]}),interactive:false,keyboard:false,zIndexOffset:5000}).addTo(cabLayer);
 function cabDrawTemp(){
   const pts=cabDraw?cabDraw.pts:[];
@@ -1479,24 +1518,24 @@ document.getElementById("ptSplit").onclick=()=>{
   cabSel=null; render(); drawCabBar(); toast("Cabo dividido em dois. Toque numa parte para mudar cor ou grossura.");
 };
 function drawCabBar(){
-  if(!cabMode){ cabBar.classList.add("hidden"); return; }
+  if(!cabMode){ cabBar.classList.add("hidden"); cabLenDraw(); return; }
   cabBar.classList.remove("hidden");
   const b=(c,txt,cls="",dis=false)=>`<button data-c="${c}" class="cbtn ${cls}${dis?" dis":""}">${txt}</button>`;
   let top, row;
   if(cabState==="preview"){
-    top=`<span class="font-semibold">👁 Veja como ficou — ainda não foi aplicado</span><span class="block text-xs opacity-80">Se você não aplicar, tudo volta como estava.</span>`;
+    top=`<span class="font-semibold">👁 Veja como ficou — ainda não foi aplicado</span><span class="block text-xs opacity-80">Se você não aplicar, tudo volta como estava. A 📏 distância dos cabos novos aparece só agora.</span>`;
     row=b("back","✏ Continuar editando")+b("discard","Descartar")+b("apply","✔ Aplicar","go");
   } else if(cabState==="draw"){
-    top=`<span class="font-semibold">✏ Traçando um cabo novo</span><span class="block text-xs opacity-80">Toque no mapa para marcar o caminho. Perto de outro cabo, ele se liga. (${cabDraw.pts.length} ponto${cabDraw.pts.length===1?"":"s"})</span>`;
+    top=`<span class="font-semibold">✏ Traçando um cabo novo</span><span class="block text-xs opacity-80">Toque no mapa para marcar o caminho. Perto de outro cabo, ele se liga. (${cabDraw.pts.length} ponto${cabDraw.pts.length===1?"":"s"}${cabTotTxt(cabDraw.pts)})</span>`;
     row=b("t6","6 fibras",cabDraw.t==="f"?"on":"")+b("t24","24 fibras",cabDraw.t==="p"?"on":"")+b("undo","↶ Ponto","",!cabDraw.pts.length)+b("done","Concluir","go",cabDraw.pts.length<2)+b("canceldraw","Cancelar");
   } else {
     const sel=cabSel!==null&&net.lines[cabSel];
-    top=sel?`<span class="font-semibold">🧵 ${cabName(cabSel)} selecionado</span><span class="block text-xs opacity-80">Arraste os pontos · puxe o meio para curvar · toque na linha de novo para soltar</span>`
+    top=sel?`<span class="font-semibold">🧵 ${cabName(cabSel)} selecionado${cabTotTxt(net.lines[cabSel][1])}</span><span class="block text-xs opacity-80">Arraste os pontos · puxe o meio para curvar · toque na linha de novo para soltar</span>`
           :`<span class="font-semibold">🧵 Ajustando cabos</span><span class="block text-xs opacity-80">Toque numa linha para escolher o cabo · arraste os pontos · puxe o meio para curvar</span>`;
     row=b("undo","↶","",!cabUndo.length)+b("redo","↷","",!cabRedo.length)+(sel?b("style","🎨 Estilo",cabStyleOpen?"on":"")+b("delcab","🗑 Apagar cabo"):"")+b("new","＋ Novo cabo")+b("view","💾 Salvar e ver","go")+b("cancel","Cancelar");
   }
   cabBar.innerHTML=`<div>${top}</div><div class="flex flex-wrap gap-1.5">${row}</div>`;
-  placeCabUI();
+  placeCabUI(); cabLenDraw();
 }
 function setCab(on){
   if(on===cabMode) return;
@@ -1541,10 +1580,17 @@ function hdrSafe(hex){            // texto da barra é branco: escurece cores mu
   const lum=(0.2126*r+0.7152*g+0.0722*b)/255; if(lum>0.5){ const k=0.5/lum; r=Math.round(r*k); g=Math.round(g*k); b=Math.round(b*k); }
   return "#"+[r,g,b].map(v=>v.toString(16).padStart(2,"0")).join("");
 }
+/* Cores de Personalizar (barra de cima e vagas): ficam só NESTE aparelho; não vão para a nuvem */
+let look={hdr:"",bg:"",tx:""};
+try{ const j=localStorage.getItem("ftth_look");
+  if(j) look=Object.assign(look,JSON.parse(j));
+  else { look={hdr:typeof state.hdrColor==="string"?state.hdrColor:"", bg:typeof state.slotBg==="string"?state.slotBg:"", tx:typeof state.slotTx==="string"?state.slotTx:""}; localStorage.setItem("ftth_look",JSON.stringify(look)); }   // 1ª vez: leva a escolha que já estava salva
+}catch(e){}
+const lookSave=()=>{ try{ localStorage.setItem("ftth_look",JSON.stringify(look)); }catch(e){} };
 const SLOT_BG=["","#1d4ed8","#0f766e","#7e22ce","#c2410c","#b91c1c","#334155"], SLOT_TX=["","#ffffff","#111827","#fde047"];
 function applySlot(){
   const st=document.documentElement.style, ok=v=>/^#[0-9a-f]{6}$/i.test(v||"");
-  const bg=ok(state.slotBg)?state.slotBg:"", tx=ok(state.slotTx)?state.slotTx:"";
+  const bg=ok(look.bg)?look.bg:"", tx=ok(look.tx)?look.tx:"";
   if(bg){
     const r=parseInt(bg.slice(1,3),16), g=parseInt(bg.slice(3,5),16), b=parseInt(bg.slice(5,7),16), lum=(0.2126*r+0.7152*g+0.0722*b)/255;
     const lt=v=>Math.round(v+(255-v)*.45).toString(16).padStart(2,"0");
@@ -1554,25 +1600,25 @@ function applySlot(){
   if(tx) st.setProperty("--slottx",tx);
 }
 function applyHdr(){
-  const c=hdrSafe(state.hdrColor), h=document.getElementById("hdr");
+  const c=hdrSafe(look.hdr), h=document.getElementById("hdr");
   if(h) h.style.background=c?c+"f7":"";
   const m=document.querySelector('meta[name="theme-color"]'); if(m) m.setAttribute("content",document.documentElement.classList.contains("dark")?"#17171a":(c||"#0128DF"));
 }
 const perModal=document.getElementById("perModal"), perBody=document.getElementById("perBody");
 function perSave(){ draftDirty=false; save(); }
 function drawPer(){
-  const cur=state.hdrColor||"";
+  const cur=look.hdr||"";
   let h=`<div><div class="font-bold text-slate-800 mb-1.5">Cor da barra de cima</div><div class="flex flex-wrap gap-2 items-center">${HDR_COLORS.map(c=>`<button data-hc="${c}" class="sw ${cur===c?"on":""}" style="background:${c||"#0056b3"}" title="${c||"Padrão (azul Ultranet)"}"></button>`).join("")}
     <label class="flex items-center gap-1 text-xs ml-1">Outra: <input id="perColor" type="color" value="${hdrSafe(cur)||"#0056b3"}" class="w-9 h-7 p-0 border-0 bg-transparent"></label></div>
-    <p class="text-xs opacity-70 mt-1">A primeira bolinha é a cor padrão. Cores muito claras são escurecidas para o texto branco continuar legível.</p></div>`;
-  const sb=state.slotBg||"", sx=state.slotTx||"";
+    <p class="text-xs opacity-70 mt-1">A primeira bolinha é a cor padrão. Cores muito claras são escurecidas para o texto branco continuar legível. <b>Vale só neste aparelho.</b></p></div>`;
+  const sb=look.bg||"", sx=look.tx||"";
   h+=`<div><div class="font-bold text-slate-800 mb-1.5">Vagas ocupadas (dentro das caixas)</div>
     <div class="text-xs mb-1">Cor do fundo:</div><div class="flex flex-wrap gap-2 items-center">${SLOT_BG.map(c=>`<button data-sb="${c}" class="sw ${sb===c?"on":""}" style="background:${c||"#10b981"}" title="${c||"Padrão (verde)"}"></button>`).join("")}
     <label class="flex items-center gap-1 text-xs ml-1">Outra: <input id="perSlotBg" type="color" value="${sb||"#10b981"}" class="w-9 h-7 p-0 border-0 bg-transparent"></label></div>
     <div class="text-xs mt-2 mb-1">Cor do nome:</div><div class="flex flex-wrap gap-2 items-center">${SLOT_TX.map(c=>`<button data-sx="${c}" class="sw ${sx===c?"on":""}" style="background:${c||"linear-gradient(135deg,#fff 50%,#111 50%)"}" title="${c||"Automática"}"></button>`).join("")}
     <label class="flex items-center gap-1 text-xs ml-1">Outra: <input id="perSlotTx" type="color" value="${sx||"#ffffff"}" class="w-9 h-7 p-0 border-0 bg-transparent"></label></div>
     <div class="grid grid-cols-2 gap-2 mt-2"><div class="slot fill"><span class="pn">2</span><span class="nm">Nome do cliente</span></div><div class="slot fill occ"><span class="pn">3</span><span class="nm">ocupada</span></div></div>
-    <p class="text-xs opacity-70 mt-1">A primeira bolinha de cada linha é o padrão. A cor do nome fica automática (preto ou branco) se você não escolher.</p></div>`;
+    <p class="text-xs opacity-70 mt-1">A primeira bolinha de cada linha é o padrão. A cor do nome fica automática (preto ou branco) se você não escolher. <b>Vale só neste aparelho.</b></p></div>`;
   h+=`<div><div class="font-bold text-slate-800 mb-1.5">Cidades</div>`;
   Object.entries(REGIONS).forEach(([k,n])=>{
     const ex=(state.cityExtra||[]).find(c=>c.id===k);
@@ -1582,15 +1628,18 @@ function drawPer(){
     <p class="text-xs opacity-70 mt-1">Antes de adicionar, feche esta janela e leve o mapa até a cidade nova: ela abre nesse lugar. Depois use <b>+ Nova Caixa</b> e <b>toque num cabo → ＋ Novo cabo</b> dentro dela. O 📍 muda o lugar da cidade.</p></div>`;
   perBody.innerHTML=h;
 }
+document.getElementById("btnCabEd").onclick=()=>{ menu.classList.add("hidden");
+  if(region==="all"){ toast("Escolha uma cidade nas abas do topo para editar os cabos dela."); return; }
+  setCab(true); toast("🧵 Editor de cabos: toque numa linha para escolher o cabo, ou use ＋ Novo cabo."); };
 document.getElementById("btnPer").onclick=()=>{ menu.classList.add("hidden"); closeSheet(); drawPer(); perModal.classList.remove("hidden"); };
 const closePer=()=>perModal.classList.add("hidden");
 document.getElementById("perClose").onclick=closePer; document.getElementById("perDone").onclick=closePer;
 perModal.addEventListener("click",e=>{ if(e.target===perModal) closePer(); });
 perBody.addEventListener("click",e=>{
   const b=e.target.closest("button"); if(!b) return;
-  if(b.dataset.hc!==undefined){ state.hdrColor=b.dataset.hc; perSave(); applyHdr(); drawPer(); return; }
-  if(b.dataset.sb!==undefined){ state.slotBg=b.dataset.sb; perSave(); applySlot(); drawPer(); return; }
-  if(b.dataset.sx!==undefined){ state.slotTx=b.dataset.sx; perSave(); applySlot(); drawPer(); return; }
+  if(b.dataset.hc!==undefined){ look.hdr=b.dataset.hc; lookSave(); applyHdr(); drawPer(); return; }
+  if(b.dataset.sb!==undefined){ look.bg=b.dataset.sb; lookSave(); applySlot(); drawPer(); return; }
+  if(b.dataset.sx!==undefined){ look.tx=b.dataset.sx; lookSave(); applySlot(); drawPer(); return; }
   if(b.id==="perAdd"){
     const n=prompt("Nome da nova cidade:",""); if(n===null||!n.trim()) return;
     const c=map.getCenter(), id="c"+Date.now().toString(36);
@@ -1604,13 +1653,13 @@ perBody.addEventListener("click",e=>{
     state.cityExtra=state.cityExtra.filter(x=>x.id!==id); state.cst=state.cst.filter(x=>x.region!==id); _sm=null; rebuildRegions(); perSave();
     if(region===id){ region="sgb"; fit(); } drawTabs(); drawPer(); render(); return; }
 });
-perBody.addEventListener("input",e=>{ if(e.target.id==="perColor"){ state.hdrColor=e.target.value; applyHdr(); }
-  else if(e.target.id==="perSlotBg"){ state.slotBg=e.target.value; applySlot(); }
-  else if(e.target.id==="perSlotTx"){ state.slotTx=e.target.value; applySlot(); } });
+perBody.addEventListener("input",e=>{ if(e.target.id==="perColor"){ look.hdr=e.target.value; lookSave(); applyHdr(); }
+  else if(e.target.id==="perSlotBg"){ look.bg=e.target.value; lookSave(); applySlot(); }
+  else if(e.target.id==="perSlotTx"){ look.tx=e.target.value; lookSave(); applySlot(); } });
 perBody.addEventListener("change",e=>{
-  if(e.target.id==="perColor"){ state.hdrColor=e.target.value; perSave(); applyHdr(); drawPer(); return; }
-  if(e.target.id==="perSlotBg"){ state.slotBg=e.target.value; perSave(); applySlot(); drawPer(); return; }
-  if(e.target.id==="perSlotTx"){ state.slotTx=e.target.value; perSave(); applySlot(); drawPer(); return; }
+  if(e.target.id==="perColor"){ look.hdr=e.target.value; lookSave(); applyHdr(); drawPer(); return; }
+  if(e.target.id==="perSlotBg"){ look.bg=e.target.value; lookSave(); applySlot(); drawPer(); return; }
+  if(e.target.id==="perSlotTx"){ look.tx=e.target.value; lookSave(); applySlot(); drawPer(); return; }
   const k=e.target.dataset.cn; if(!k) return; const v=e.target.value.trim(); if(!v){ drawPer(); return; }
   const ex=state.cityExtra.find(x=>x.id===k); if(ex) ex.name=v; else state.cityNames[k]=v;
   rebuildRegions(); perSave(); drawTabs(); if(currentId) drawSheet();
@@ -1809,6 +1858,8 @@ const FIREBASE_CONFIG = {
 const CLOUD_ON = !!(window.firebase && FIREBASE_CONFIG.apiKey && !/COLE_AQUI/.test(FIREBASE_CONFIG.apiKey));
 let fbAuth=null, fbDb=null, cloudUser=null, unsubState=null, unsubNet=null, pushTimer=null, dirty=false, inflight=0, dirtyNet=false;
 const $c = id => document.getElementById(id);
+let lastInfo="";
+function lastTxt(d){ if(!d||!d.by) return ""; let t=""; try{ const ms=d.updatedAt&&d.updatedAt.toMillis&&d.updatedAt.toMillis(); if(ms) t=" "+new Date(ms).toLocaleString("pt-BR",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"}); }catch(e){} return " · última alteração: "+String(d.by).split("@")[0]+t; }
 function setCloudStatus(t){ const el=$c("cloudStatus"); if(el){ el.textContent=t; } }
 function cloudPush(now){
   if(!CLOUD_ON||!cloudUser) return;
@@ -1846,9 +1897,10 @@ function startSync(){
     if(!snap.exists){ if(TEST_MODE) seedFromReal(); else { dirty=true; doPush(); } return; }     // 1º acesso: sobe os dados deste aparelho (no teste: copia os dados reais)
     if(draftDirty){ const dd=snap.data(); if(dd&&typeof dd.data==="string") heldRemote=dd.data; return; }   // você está editando uma caixa: espera salvar/cancelar
     if(dirty||inflight>0) return;                          // alteração local ainda não enviada: ela vale
-    const d=snap.data(); if(!d||typeof d.data!=="string"||d.data===JSON.stringify(state)) return;
+    const d=snap.data(); if(d) lastInfo=lastTxt(d);
+    if(!d||typeof d.data!=="string"||d.data===JSON.stringify(state)){ if(d) setCloudStatus("☁ Sincronizado"+lastInfo); return; }
     try{ state=JSON.parse(d.data); }catch(e){ return; }
-    fixState(); jset(KEY_STATE,state); refreshAll(); setCloudStatus("☁ Atualizado agora há pouco");
+    fixState(); jset(KEY_STATE,state); refreshAll(); setCloudStatus("☁ Atualizado agora há pouco"+lastInfo);
   }, ()=>setCloudStatus("☁ Sem conexão com a nuvem"));
 }
 function stopSync(){ if(unsubState){unsubState();unsubState=null;} if(unsubNet){unsubNet();unsubNet=null;} }
@@ -1971,7 +2023,7 @@ function openBulkStreet(){
 }
 function saveBulkStreet(){
   const name=document.getElementById("bulkSt").value.trim(), cache={};
-  applyBulk(name?`Rua "${name}" aplicada`:"Rua automática restaurada",it=>{ if(!name) delete state.so[it.id]; else { cache[it.region]=cache[it.region]||ensureStreet(name,it.region); state.so[it.id]=cache[it.region]; } });
+  applyBulk(name?`Rua "${name}" aplicada`:"Rua tirada (sem rua)",it=>{ if(!name) delete state.so[it.id]; else { cache[it.region]=cache[it.region]||ensureStreet(name,it.region); state.so[it.id]=cache[it.region]; } });
 }
 bulkModal.addEventListener("click",e=>{
   const b=e.target.closest("[data-b]"); if(!b){ if(e.target===bulkModal) bulkModal.classList.add("hidden"); return; }
@@ -2069,6 +2121,149 @@ const btnInfo=document.getElementById("btnInfo");
 function applyInfo(){ btnInfo.classList.toggle("on",infoMode); }
 btnInfo.onclick=()=>openFibraPanel(fibraPanel.classList.contains("hidden"));
 applyInfo();
+
+
+/* ======================= ENDEREÇO / PONTO -> CAIXA MAIS PRÓXIMA ======================= */
+const nearCard=document.getElementById("nearCard"), nearLayer=L.layerGroup().addTo(map), nearHi=L.layerGroup().addTo(map);
+let pickPoint=false, nearPt=null, nearList=[], nearSel=0, nearPin=null;
+const freeOf = x => forcedFull(x)?0:Math.max(0,CAP-clientsOf(x.id).length);
+const fmtD = d => d<1000 ? Math.round(d)+" m" : (d/1000).toFixed(1).replace(".",",")+" km";
+function nearClear(){ nearLayer.clearLayers(); nearHi.clearLayers(); nearPin=null; nearCard.classList.add("hidden"); pickPoint=false; nearPt=null; nearList=[]; }
+const PIN_HTML='<div style="position:relative;width:38px;height:44px;font-size:32px;line-height:40px;text-align:center;filter:drop-shadow(0 1px 2px #000)">📍</div>';
+function nearPinMake(){
+  nearPin=L.marker([nearPt.lat,nearPt.lng],{icon:L.divIcon({className:"",iconSize:[38,44],iconAnchor:[19,44],html:PIN_HTML}),draggable:true,keyboard:false,zIndexOffset:3000}).addTo(nearLayer);
+  nearPin.on("dragend",()=>{ const p=nearPin.getLatLng(); showNear(p.lat,p.lng,"Ponto marcado",true); });
+}
+const SPAN0="position:absolute;left:0;top:0;transform:translate(-50%,-50%);white-space:nowrap;";
+function nearDraw(){
+  nearHi.clearLayers(); if(!nearPt) return;
+  nearList.forEach((o,i)=>{
+    const sel=i===nearSel, col=o.free>0?"#16a34a":"#dc2626";
+    const html=`<span data-i="${i}" style="${SPAN0}background:#fff;color:#0f172a;border:${sel?4:3}px solid ${sel?"#0ea5e9":col};border-radius:999px;padding:${sel?"5px 12px":"4px 10px"};font:800 ${sel?17:15}px/1.1 system-ui,sans-serif;box-shadow:0 2px 6px rgba(0,0,0,.55)${sel?",0 0 0 5px rgba(14,165,233,.35)":""}">${esc(nameOf(o.x))}</span>`;
+    L.marker([o.x.lat,o.x.lng],{icon:L.divIcon({className:"",iconSize:[0,0],html}),keyboard:false,zIndexOffset:sel?2500:2000}).on("click",()=>nearPick(i)).addTo(nearHi);
+  });
+  const o=nearList[nearSel]; if(o){
+    L.polyline([[nearPt.lat,nearPt.lng],[o.x.lat,o.x.lng]],{color:"#f43f5e",weight:3,dashArray:"6 6",interactive:false}).addTo(nearHi);
+    const mid=[(nearPt.lat+o.x.lat)/2,(nearPt.lng+o.x.lng)/2];
+    L.marker(mid,{icon:L.divIcon({className:"",iconSize:[0,0],html:`<span style="${SPAN0}background:#f43f5e;color:#fff;border-radius:999px;padding:2px 4px 2px 10px;font:700 13px/22px system-ui,sans-serif;box-shadow:0 1px 4px rgba(0,0,0,.5)">${fmtD(o.d)}<span class="pinx" title="Tirar a marcação" style="display:inline-block;margin-left:8px;width:22px;height:22px;line-height:22px;border-radius:11px;background:#fff;color:#be123c;text-align:center;font-weight:800">×</span></span>`}),keyboard:false,zIndexOffset:2600}).on("click",e=>{ const t=e.originalEvent&&e.originalEvent.target; if(t&&t.closest&&t.closest(".pinx")) nearClear(); }).addTo(nearHi);
+  }
+}
+function nearPick(i){ nearSel=i; nearCardDraw(); nearDraw(); }
+function nearCardDraw(){
+  const rows=nearList.map((o,i)=>`<button data-n="${i}" class="flex w-full items-center gap-2 text-left rounded-lg px-2 py-1.5 ${i===nearSel?"bg-sky-50 border border-sky-300":"border border-transparent"}"><b class="shrink-0">${esc(nameOf(o.x))}</b><span class="flex-1 min-w-0 truncate text-xs text-slate-500">${o.x.region!==region?esc(REGIONS[o.x.region])+" · ":""}${stOf(o.x)&&stName(stOf(o.x))?esc(stName(stOf(o.x))):""}</span><span class="text-xs shrink-0">${fmtD(o.d)}</span><span class="text-xs font-semibold shrink-0 ${o.free>0?"text-emerald-600":"text-red-600"}">${o.free>0?o.free+" vaga"+(o.free>1?"s":""):"lotada"}</span>${i===nearSel?'<span data-n="o" class="text-xs shrink-0 rounded-md bg-sky-600 text-white px-1.5 py-0.5">abrir caixa ›</span>':""}</button>`).join("");
+  const none=nearList.length&&!nearList.some(o=>o.free>0);
+  nearCard.innerHTML=`<div class="flex items-center gap-2"><span class="flex-1 min-w-0 truncate font-bold">📍 ${esc(nearPt.label)}</span><button data-n="x" class="text-2xl leading-none text-slate-400 px-1" title="Tirar a marcação">×</button></div>
+    <div class="text-xs text-slate-500 mt-0.5 mb-1">${nearList.length?(none?"Nenhuma caixa com vaga por perto. Mais próximas":"Caixas mais próximas com vaga")+" (em linha reta):":"Nenhuma caixa nesta cidade."}</div>${rows}
+    <div class="text-[11px] text-slate-400 mt-1">Arraste o 📍 até a casa do cliente. Toque numa caixa para ver a linha e a distância.</div>`;
+  nearCard.classList.remove("hidden");
+}
+function nearFit(){
+  if(!nearPt) return;
+  const pts=[[nearPt.lat,nearPt.lng]].concat(nearList.map(o=>[o.x.lat,o.x.lng]));
+  const mr=map.getContainer().getBoundingClientRect(), cr=nearCard.getBoundingClientRect();
+  const top=Math.max(40,Math.min(cr.bottom-mr.top+24,mr.height*0.55));
+  map.fitBounds(pts,{paddingTopLeft:[50,top],paddingBottomRight:[50,70],maxZoom:19});
+}
+function showNear(lat,lng,label,keep){
+  pickPoint=false; nearPt={lat,lng,label};
+  const all=items.filter(x=>x.type==="cto" && !isPlanned(x) && (region==="all"||x.region===region)).map(x=>({x,d:dist([lng,lat],[x.lng,x.lat]),free:freeOf(x)})).sort((a,b)=>a.d-b.d);
+  const av=all.filter(o=>o.free>0).slice(0,2); nearList=av.length?av:all.slice(0,2); nearSel=0;
+  if(!nearPin) nearPinMake(); else nearPin.setLatLng([lat,lng]);
+  nearCardDraw(); nearDraw();
+  if(!keep) nearFit();
+  const t=document.getElementById("toast"); if(t) t.classList.add("hidden");
+}
+nearCard.addEventListener("click",e=>{
+  const b=e.target.closest("[data-n]"); if(!b) return; const n=b.dataset.n;
+  if(n==="x") return nearClear();
+  if(n==="o"){ const o=nearList[nearSel]; if(o) openSheet(o.x.id); return; }
+  nearPick(+n);
+});
+/* segurar o dedo no mapa = marcar o ponto do cliente */
+(function(){
+  const mc=map.getContainer(); let t=null, st=null;
+  const stop=()=>{ if(t){ clearTimeout(t); t=null; } };
+  mc.addEventListener("pointerdown",e=>{
+    stop(); if(e.isPrimary===false) return; if(e.pointerType==="mouse"&&e.button!==0) return;
+    if(editMode||selMode||placing||(typeof cabRawNow==="function"&&cabRawNow())) return;
+    if(e.target.closest(".leaflet-marker-icon,.leaflet-control,.leaflet-popup,button,a,path.leaflet-interactive")) return;
+    st={x:e.clientX,y:e.clientY};
+    t=setTimeout(()=>{ t=null; const ll=map.mouseEventToLatLng({clientX:st.x,clientY:st.y}); lpMapBlock=true; setTimeout(()=>{ lpMapBlock=false; },900); try{ navigator.vibrate&&navigator.vibrate(40); }catch(_){}
+      closeSheet(); showNear(ll.lat,ll.lng,"Ponto marcado"); },600);
+  });
+  mc.addEventListener("pointermove",e=>{ if(t&&st&&Math.hypot(e.clientX-st.x,e.clientY-st.y)>8) stop(); });
+  ["pointerup","pointercancel","pointerleave"].forEach(ev=>mc.addEventListener(ev,stop));
+  mc.addEventListener("contextmenu",e=>{ if(t||lpMapBlock) e.preventDefault(); });
+})();
+async function findAddr(text){
+  text=(text||"").trim(); if(text.length<3) return;
+  sRes.classList.add("hidden"); sInp.blur(); toast("🔎 Procurando o endereço…");
+  const c=map.getCenter(), vb=`${c.lng-0.3},${c.lat+0.3},${c.lng+0.3},${c.lat-0.3}`;
+  const tries=[text+", "+(REGIONS[region]||"")+", Brasil", text+", Brasil"]; let r=null, err=false;
+  for(const q of tries){
+    try{ const res=await fetch("https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&accept-language=pt-BR&countrycodes=br&viewbox="+vb+"&q="+encodeURIComponent(q)); const j=await res.json(); if(j&&j[0]){ r=j[0]; break; } }catch(e){ err=true; break; }
+  }
+  if(r){ const lb=String(r.display_name||text).split(",").slice(0,2).join(",").trim(); showNear(+r.lat,+r.lon,lb||text); }
+  else { pickPoint=true; toast(err?"Sem internet para buscar o endereço. Segure o dedo no mapa onde fica o cliente.":"Não achei esse endereço. Segure o dedo no mapa onde fica o cliente."); }
+}
+
+/* ======================= FOTOS (CEO e caixas) ======================= */
+/* Cada foto é reduzida (~100 KB) e guardada neste aparelho; com a nuvem ligada, também vai para a nuvem (para os outros aparelhos). */
+const FOTO_KIND = TEST_MODE?"foto_teste":"foto";
+let fotoTarget=null, fotoCur=null, _fdb=null; const photoCache={};
+const idb = ()=>_fdb||(_fdb=new Promise((res,rej)=>{ const r=indexedDB.open(TEST_MODE?"ftth_fotos_test":"ftth_fotos",1); r.onupgradeneeded=()=>{ const s=r.result.createObjectStore("f",{keyPath:"id"}); s.createIndex("item","item"); }; r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); }));
+const idbReq = (mode,fn)=>idb().then(db=>new Promise((res,rej)=>{ const t=db.transaction("f",mode), q=fn(t.objectStore("f")); t.oncomplete=()=>res(q&&q.result); t.onerror=()=>rej(t.error); t.onabort=()=>rej(t.error); }));
+const fotosLocal = item=>idbReq("readonly",s=>s.index("item").getAll(item)).then(a=>(a||[]).sort((x,y)=>x.t-y.t));
+const fotoCloudPut = f=>(CLOUD_ON&&cloudUser)?fbDb.collection("rede").doc(FOTO_KIND+"_"+f.id).set({kind:FOTO_KIND,id:f.id,item:f.item,t:f.t,data:f.data,by:cloudUser.email}):Promise.resolve();
+const fotoCloudDel = id=>(CLOUD_ON&&cloudUser)?fbDb.collection("rede").doc(FOTO_KIND+"_"+id).delete():Promise.resolve();
+const fotosCloud = item=>(CLOUD_ON&&cloudUser)?fbDb.collection("rede").where("item","==",item).get().then(q=>q.docs.map(d=>d.data()).filter(d=>d.kind===FOTO_KIND)):Promise.resolve(null);
+function compressImg(file){
+  return new Promise((res,rej)=>{ const im=new Image(), u=URL.createObjectURL(file);
+    im.onload=()=>{ URL.revokeObjectURL(u); const k=Math.min(1,1000/Math.max(im.width,im.height)), w=Math.max(1,Math.round(im.width*k)), h=Math.max(1,Math.round(im.height*k));
+      const c=document.createElement("canvas"); c.width=w; c.height=h; c.getContext("2d").drawImage(im,0,0,w,h);
+      let q=.72, d=c.toDataURL("image/jpeg",q); while(d.length>600000&&q>.35){ q-=.1; d=c.toDataURL("image/jpeg",q); } res(d); };
+    im.onerror=()=>{ URL.revokeObjectURL(u); rej(new Error("imagem")); }; im.src=u; });
+}
+async function loadPhotos(item){
+  let loc=[]; try{ loc=await fotosLocal(item); }catch(e){}
+  photoCache[item]=loc; drawPhotos(item);
+  let cl=null; try{ cl=await fotosCloud(item); }catch(e){}
+  if(!cl) return;
+  const cid=new Set(cl.map(f=>f.item+"|"+f.t)), changes=[];
+  for(const f of cl){ if(!loc.some(l=>l.id===f.id||l.t===f.t)){ const rec={id:f.id||(f.t.toString(36)+Math.random().toString(36).slice(2,5)),item:f.item,t:f.t,data:f.data,by:f.by,sent:true}; changes.push(idbReq("readwrite",s=>s.put(rec))); } }
+  for(const l of loc){ if(l.sent&&!cid.has(l.item+"|"+l.t)) changes.push(idbReq("readwrite",s=>s.delete(l.id))); else if(!l.sent){ changes.push(fotoCloudPut(l).then(()=>{ l.sent=true; return idbReq("readwrite",s=>s.put(l)); }).catch(()=>{})); } }
+  if(!changes.length) return;
+  try{ await Promise.all(changes); photoCache[item]=await fotosLocal(item); drawPhotos(item); }catch(e){}
+}
+const photoBlock = it => (it.type==="ceo"||it.type==="cto") ? `<div id="photoRow" class="mt-3"></div>` : "";
+function drawPhotos(item){
+  const el=document.getElementById("photoRow"); if(!el||currentId!==item) return;
+  const a=photoCache[item]||[];
+  el.innerHTML=`<div class="text-xs text-slate-500 mb-1">📷 Fotos${a.length?" ("+a.length+")":""}</div><div class="flex flex-wrap gap-1.5">${a.map(f=>`<button data-a="fview" data-id="${f.id}" class="w-14 h-14 rounded-lg overflow-hidden border border-slate-300 shrink-0"><img src="${f.data}" alt="" class="w-full h-full object-cover"></button>`).join("")}<button data-a="fadd" title="Adicionar foto" class="w-14 h-14 rounded-lg border-2 border-dashed border-slate-300 text-slate-500 text-2xl leading-none shrink-0">＋</button></div>`;
+}
+document.getElementById("fotoInp").addEventListener("change",async e=>{
+  const file=e.target.files&&e.target.files[0], item=fotoTarget; e.target.value=""; if(!file||!item) return;
+  let data; try{ data=await compressImg(file); }catch(err){ toast("Não consegui ler essa foto."); return; }
+  const rec={id:Date.now().toString(36)+Math.random().toString(36).slice(2,5),item,t:Date.now(),data,by:(cloudUser&&cloudUser.email)||"",sent:false};
+  try{ await idbReq("readwrite",s=>s.put(rec)); }catch(err){ toast("Não consegui guardar a foto neste aparelho."); return; }
+  photoCache[item]=(photoCache[item]||[]).concat(rec); drawPhotos(item);
+  if(CLOUD_ON&&cloudUser){ fotoCloudPut(rec).then(()=>{ rec.sent=true; return idbReq("readwrite",s=>s.put(rec)); }).catch(()=>toast("Foto guardada só neste aparelho (a nuvem não aceitou). Ela tenta de novo depois.")); }
+  else toast("📷 Foto guardada neste aparelho.");
+});
+function openFoto(id){
+  const f=(photoCache[currentId]||[]).find(x=>x.id===id); if(!f) return; fotoCur=f;
+  document.getElementById("fotoImg").src=f.data;
+  let d=""; try{ d=new Date(f.t).toLocaleString("pt-BR",{day:"2-digit",month:"2-digit",year:"2-digit",hour:"2-digit",minute:"2-digit"}); }catch(e){}
+  document.getElementById("fotoCap").textContent=d+(f.by?" · "+String(f.by).split("@")[0]:"");
+  document.getElementById("fotoView").classList.remove("hidden");
+}
+document.getElementById("fotoClose").onclick=()=>document.getElementById("fotoView").classList.add("hidden");
+document.getElementById("fotoDel").onclick=async()=>{
+  const f=fotoCur; if(!f||!confirm("Apagar esta foto?")) return;
+  try{ await idbReq("readwrite",s=>s.delete(f.id)); }catch(e){}
+  fotoCloudDel(f.id).catch(()=>{});
+  photoCache[f.item]=(photoCache[f.item]||[]).filter(x=>x.id!==f.id); document.getElementById("fotoView").classList.add("hidden"); drawPhotos(f.item);
+};
 
 /* ======================= TEMA (claro / escuro / automático) ======================= */
 const THEME_KEY="ftth_theme", btnThemeQ=document.getElementById("btnThemeQ");
