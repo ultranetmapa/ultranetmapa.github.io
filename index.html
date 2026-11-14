@@ -83,9 +83,12 @@
   #hdr #btnThemeQ,#hdr #btnInfo{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.4)}
   #hdr #btnInfo.on{background:#fff;color:#0056b3;border-color:#fff}
   html.dark #hdr{background:#17171a!important}
-  html.dark #hdr input#search,html.dark #hdr #btnMenu,html.dark #hdr #btnThemeQ,html.dark #hdr #btnInfo{background:rgba(0,0,0,.5);border-color:rgba(255,255,255,.28)}
+  html.dark #hdr input#search{background:#fff!important;color:#111!important;border-color:#fff!important}
+  html.dark #hdr input#search::placeholder{color:#6b7280}
+  html.dark #editBar,html.dark #cabBar,html.dark #cabChip,html.dark #selBar{background:#141416!important;border:1px solid #3f3f44}
+  html.dark #hdr #btnMenu,html.dark #hdr #btnThemeQ,html.dark #hdr #btnInfo{background:rgba(0,0,0,.5);border-color:rgba(255,255,255,.28)}
   html.dark #hdr #btnInfo.on{background:#fff;color:#0056b3}
-  html.dark #perModal>div{background:#1c1c1e}
+  html.dark #perModal>div{background:#141416}
   .mbtn{border-radius:.5rem;color:#fff;padding:.45rem .6rem;font-size:13px;font-weight:600;line-height:1.2;text-align:left;transition:filter .12s,transform .12s;-webkit-tap-highlight-color:transparent}
   .mbtn:active{filter:brightness(.8);transform:scale(.97)}
   .cbtn{border-radius:.5rem;padding:.4rem .65rem;font-weight:600;background:rgba(255,255,255,.2);color:#fff;transition:filter .12s,transform .12s;-webkit-tap-highlight-color:transparent}
@@ -97,7 +100,7 @@
   .swt::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .15s;box-shadow:0 1px 3px rgba(0,0,0,.4)}
   .swt.on{background:#10b981}
   .swt.on::after{transform:translateX(18px)}
-  html.dark #fibraPanel{background:#1c1c1e;color:#f2f2f2;border:1px solid #3f3f44}
+  html.dark #fibraPanel{background:#141416;color:#f2f2f2;border:1px solid #3f3f44}
   .slot{border:1px solid #cbd5e1;background:#fff;color:#0f172a;border-radius:.5rem;padding:3px 6px;min-height:46px;text-align:left;line-height:1.15;transition:filter .12s,transform .12s;-webkit-tap-highlight-color:transparent;overflow:hidden}
   .slot:active{filter:brightness(.88);transform:scale(.95)}
   .slot.fill{background:#ecfdf5;border-color:#6ee7b7}
@@ -106,14 +109,14 @@
   .slot .nm{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:12px;font-weight:600;word-break:break-word}
   .slot.empty .nm{font-weight:400;font-size:11px}
   .slot.occ .nm{font-weight:400;font-style:italic;opacity:.85}
-  html.dark .slot{background:#2a2a2d;border-color:#3f3f44;color:#f2f2f2}
+  html.dark .slot{background:#202023;border-color:#3f3f44;color:#f2f2f2}
   html.dark .slot.fill{background:#0e4a45;border-color:#2fb3a0}
   html.dark .slot.empty{background:transparent;color:#8c8c92}
   html.dark .slot .pn{color:#a5a5aa}
-  html.dark #cliModal>div{background:#1c1c1e}
+  html.dark #cliModal>div{background:#141416}
   .sw{width:26px;height:26px;border-radius:50%;border:2px solid #cbd5e1;flex:none}
   .sw.on{box-shadow:0 0 0 3px #0056b3}
-  html.dark #cabStyle{background:#1c1c1e;color:#f2f2f2;border:1px solid #3f3f44}
+  html.dark #cabStyle{background:#141416;color:#f2f2f2;border:1px solid #3f3f44}
   .cab-h{background:none;border:0}
   .cab-h i{display:block;width:14px;height:14px;margin:7px;border-radius:50%;background:#fff;border:3px solid #0056b3;box-shadow:0 1px 5px rgba(0,0,0,.55)}
   .cab-m i{width:9px;height:9px;margin:9.5px;background:rgba(255,255,255,.8);border:2px solid #0056b3;opacity:.8}
@@ -127,7 +130,7 @@
   html.dark .ibtn.red{color:#f87171}
   html.dark .ibtn.red:active{background:#dc2626;color:#fff}
   /* Tema escuro (azul Ultranet) */
-  html.dark #sheet,html.dark #menu>div,html.dark #nbModal>div,html.dark #stModal>div,html.dark #bulkModal>div,html.dark #cfModal>div,html.dark #vlModal>div,html.dark #vlanModal>div,html.dark #helpModal>div,html.dark #perModal>div,html.dark #ptModal>div,html.dark #ebModal>div,html.dark #loginForm,html.dark .bg-white{background:#1c1c1e!important}
+  html.dark #sheet,html.dark #menu>div,html.dark #nbModal>div,html.dark #stModal>div,html.dark #bulkModal>div,html.dark #cfModal>div,html.dark #vlModal>div,html.dark #vlanModal>div,html.dark #helpModal>div,html.dark #perModal>div,html.dark #ptModal>div,html.dark #ebModal>div,html.dark #loginForm,html.dark .bg-white{background:#141416!important}
   html.dark #tabs .bg-white{background:#e2e8f0!important}
   html.dark .text-slate-900,html.dark .text-slate-800{color:#f5f5f5!important}
   html.dark .text-slate-700,html.dark .text-slate-600{color:#d6d6d8!important}
@@ -135,7 +138,7 @@
   html.dark .border-slate-300,html.dark .border-slate-200,html.dark .border-slate-100{border-color:#3f3f44!important}
   html.dark .divide-slate-100>*{border-color:#333336!important}
   html.dark input:not([type=checkbox]):not([type=color]),html.dark select,html.dark textarea{background:#0e0e0f!important;color:#f5f5f5!important;border-color:#3f3f44!important}
-  html.dark .bg-slate-100{background:#2a2a2d!important}
+  html.dark .bg-slate-100{background:#202023!important}
   html.dark .bg-slate-200{background:#333336!important}
   html.dark .bg-slate-300{background:#4a4a50!important}
   html.dark .bg-sky-50{background:#1e2a30!important}
@@ -154,13 +157,13 @@
   html.dark .text-amber-600{color:#fbbf24!important}
   html.dark .border-sky-200,html.dark .border-amber-200,html.dark .border-amber-300,html.dark .border-sky-300{border-color:#3f3f44!important}
   html.dark #draftBar{background:#3a2c0a!important}
-  html.dark #draftBar .bg-white{background:#1c1c1e!important}
-  html.dark #btnReset{background:#1c1c1e!important}
+  html.dark #draftBar .bg-white{background:#141416!important}
+  html.dark #btnReset{background:#141416!important}
   html.dark .leaflet-container{background:#0e0e0f}
   .leaflet-tile-pane{filter:brightness(.82)}
   html.dark .leaflet-tile-pane{filter:brightness(.9)}
   html.dark .tiles-street{filter:brightness(.62)}
-  html.dark .leaflet-control-layers,html.dark .leaflet-bar a{background:#1c1c1e!important;color:#f2f2f2!important;border-color:#3f3f44!important}
+  html.dark .leaflet-control-layers,html.dark .leaflet-bar a{background:#141416!important;color:#f2f2f2!important;border-color:#3f3f44!important}
 </style>
 </head>
 <body class="bg-slate-900">
@@ -466,7 +469,7 @@ function rebuildRegions(){            // nomes das cidades: padrão + renomeadas
   Object.keys(REGION_DEF).forEach(k=>{ REGIONS[k]=(state.cityNames&&state.cityNames[k])||REGION_DEF[k]; });
   (state.cityExtra||[]).forEach(c=>{ REGIONS[c.id]=c.name; });
 }
-const APP_VERSION = "3.5";
+const APP_VERSION = "3.6";
 const TEST_MODE = false;   // true = arquivo de teste (usa uma cópia dos dados) · false = site real
 const KEY_STATE = TEST_MODE?"ftth_state_test":"ftth_state_v1", KEY_NET = TEST_MODE?"ftth_net_test":"ftth_net_v1";
 const DOC_STATE = TEST_MODE?"state_teste":"state", DOC_NET = TEST_MODE?"net_teste":"net";
