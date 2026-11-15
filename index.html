@@ -28,6 +28,8 @@
   .pill.ok{background:var(--c-ok,#16a34a);color:var(--tx-ok,#fff)}
   .pill.full{background:var(--c-full,#dc2626);color:var(--tx-full,#fff)}
   .pill.ceo{background:var(--c-ceo,#2563eb);color:var(--tx-ceo,#fff)}
+  .pill.rural{background:#0284c7;color:#fff}
+  .pill.arm{background:#0f766e;color:#fff}
   .pill.imenda{background:#6b7280}
   .pill.loja{background:#7c3aed}
   @keyframes pulse{50%{box-shadow:0 0 0 7px rgba(220,38,38,.15),0 1px 5px rgba(0,0,0,.7)}}
@@ -56,7 +58,7 @@
   html.dark .tg span{border-color:#3a3a3d;color:#d4d4d8}
   #sheetX{position:absolute;right:12px;top:4px;width:28px;height:28px;border-radius:9px;display:flex;align-items:center;justify-content:center;background:#eef2f7;color:#64748b;border:1px solid #e2e8f0;transition:background .12s,transform .12s}
   #sheetX:active{transform:scale(.9);background:#dbe3ee}
-  html.dark #sheetX{background:#2c2c2e;color:#d4d4d8;border-color:#3a3a3d}
+  html.dark #sheetX{background:#1a1a1a;color:#d4d4d8;border-color:#3a3a3d}
   html.dark #sheetX:active{background:#3a3a3d}
   #sheet.closed{transform:translateY(105%)}
   .leaflet-control-layers{margin-top:70px!important}
@@ -69,13 +71,12 @@
   .zl16 .st.long,.zl17 .st{display:block}
   .nost .st{display:none!important}
   .st.on{color:#38bdf8;font-size:12px}
-  .leaflet-control-layers{margin-top:100px!important}
+  .leaflet-control-layers{margin-top:122px!important}
   /* Identidade Ultranet */
   #hdr{background:rgba(0,86,179,.97)}
   #hdr input#search{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.4);color:#fff}
   #hdr input#search::placeholder{color:#cfe3ff}
   #hdr input#search:focus{border-color:#fff}
-  #hdr #btnMenu{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.4)}
   /* Modo edição */
   .sw{position:relative;flex:none;width:52px;height:30px}
   .sw input{position:absolute;inset:0;opacity:0;width:100%;height:100%;margin:0;z-index:2;cursor:pointer}
@@ -107,16 +108,27 @@
   /* caixa selecionada: borda amarela grossa com brilho */
   .pill.sel{outline:none!important;animation:none!important;border-color:#facc15!important;transform:translate(-50%,-50%) scale(1.18);position:relative;z-index:6;box-shadow:0 0 0 2px #111,0 0 0 6px #facc15,0 0 16px 8px rgba(250,204,21,.85)!important}
   .selecting .pill{cursor:pointer}
-  body.test .leaflet-control-layers{margin-top:126px!important}
-  #hdr #btnThemeQ,#hdr #btnInfo{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.4)}
-  #hdr #btnInfo.on{background:#fff;color:#0056b3;border-color:#fff}
-  html.dark #hdr{background:#17171a!important}
-  html.dark #hdr input#search{background:#fff!important;color:#111!important;border-color:#fff!important}
-  html.dark #hdr input#search::placeholder{color:#6b7280}
-  html.dark #editBar,html.dark #cabBar,html.dark #cabChip,html.dark #selBar{background:#141416!important;border:1px solid #3f3f44}
-  html.dark #hdr #btnMenu,html.dark #hdr #btnThemeQ,html.dark #hdr #btnInfo{background:rgba(0,0,0,.5);border-color:rgba(255,255,255,.28)}
-  html.dark #hdr #btnInfo.on{background:#fff;color:#0056b3}
-  html.dark #perModal>div{background:#141416}
+  body.test .leaflet-control-layers{margin-top:148px!important}
+  .hb{height:38px;min-width:38px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;flex:none;padding:0;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.4);color:#fff;font-size:17px;line-height:1;transition:transform .12s,filter .12s;-webkit-tap-highlight-color:transparent}
+  .hb:active{transform:scale(.92);filter:brightness(.85)}
+  .hb svg,.hs svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+  #hdr #btnInfo.on{background:rgba(255,255,255,.3);color:#fff;border:2px solid #fff;box-shadow:0 0 0 2px rgba(255,255,255,.2),0 0 8px rgba(255,255,255,.3)}
+  #hdr input#search{height:38px;border-radius:999px;padding:0 14px 0 38px}
+  .hs{position:relative;flex:1 1 0%;min-width:0}
+  .hs svg{position:absolute;left:12px;top:10px;color:rgba(255,255,255,.8);pointer-events:none}
+  #cityBtn{display:inline-flex;align-items:center;gap:7px;height:34px;max-width:100%;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.55);color:#fff;padding:0 11px 0 10px;font-weight:700;font-size:13px;white-space:nowrap}
+  #cityBtn span{overflow:hidden;text-overflow:ellipsis}
+  #cityBtn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+  #tabs{padding-top:6px;padding-bottom:8px}
+  html.dark #hdr{background:#000000!important}
+  html.dark #hdr input#search{background:#141414!important;color:#f1f5f9!important;border-color:#333338!important}
+  html.dark #hdr input#search::placeholder{color:#8b8f99}
+  html.dark .hs svg{color:#8b8f99}
+  html.dark #editBar,html.dark #cabBar,html.dark #cabChip,html.dark #selBar{background:#000000!important;border:1px solid #2e2e32}
+  html.dark #hdr .hb{background:#141414;border-color:#333338;color:#f1f5f9}
+  html.dark #hdr #btnInfo.on{background:color-mix(in srgb,var(--ac,#2f8fe8) 22%,#141414);color:var(--ac,#2f8fe8);border:2px solid var(--ac,#2f8fe8);box-shadow:0 0 0 2px color-mix(in srgb,var(--ac,#2f8fe8) 20%,transparent),0 0 8px color-mix(in srgb,var(--ac,#2f8fe8) 32%,transparent)}
+  html.dark #cityBtn{background:rgba(59,130,246,.2);border-color:rgba(96,165,250,.65);color:#6aaeff}
+  html.dark #perModal>div,html.dark #accModal>div{background:#000000}
   .mbtn{border-radius:.5rem;color:#fff;padding:.45rem .6rem;font-size:13px;font-weight:600;line-height:1.2;text-align:left;transition:filter .12s,transform .12s;-webkit-tap-highlight-color:transparent}
   .mbtn:active{filter:brightness(.8);transform:scale(.97)}
   .cbtn{border-radius:.5rem;padding:.4rem .65rem;font-weight:600;background:rgba(255,255,255,.2);color:#fff;transition:filter .12s,transform .12s;-webkit-tap-highlight-color:transparent}
@@ -128,7 +140,24 @@
   .swt::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .15s;box-shadow:0 1px 3px rgba(0,0,0,.4)}
   .swt.on{background:#10b981}
   .swt.on::after{transform:translateX(18px)}
-  html.dark #fibraPanel{background:#141416;color:#f2f2f2;border:1px solid #3f3f44}
+  #fibraPanel{background:#fff;color:#0f172a;border:1px solid #dbe2ea;border-radius:16px;box-shadow:0 14px 34px rgba(15,23,42,.28);padding:8px 10px 8px;width:auto!important}
+  html.dark #fibraPanel{background:#0a0a0a;color:#e5e7eb;border-color:#2a2a2a;box-shadow:0 14px 34px rgba(0,0,0,.6)}
+  #fibraPanel button{border:0;background:none;padding:0;font:inherit;color:inherit;cursor:pointer}
+  #fibraPanel .fh{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 2px 6px;font-weight:800;font-size:13px}
+  #fibraPanel .fh svg{width:17px;height:17px;stroke:var(--ac,#0056b3);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  #fibraPanel .fx{width:24px;height:24px;border-radius:50%;background:#eef2f7;color:#64748b;font-size:16px;line-height:1;display:flex;align-items:center;justify-content:center}
+  html.dark #fibraPanel .fx{background:#1a1a1a;color:#9ca3af}
+  #fibraPanel .bg2{display:grid;grid-template-columns:repeat(2,58px);gap:6px 12px;justify-content:center;padding:2px 4px 2px}
+  #fibraPanel .bub{display:flex;flex-direction:column;align-items:center;gap:3px;-webkit-tap-highlight-color:transparent}
+  #fibraPanel .bub i{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#eef2f7;border:1.5px solid #d5dce6;color:#94a3b8;transition:transform .12s,box-shadow .15s,background .15s}
+  html.dark #fibraPanel .bub i{background:#1a1a1a;border-color:#2f2f33;color:#7b7e8a}
+  #fibraPanel .bub:active i{transform:scale(.9)}
+  #fibraPanel .bub i svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  #fibraPanel .bub.on i{background:color-mix(in srgb,var(--ac,#0056b3) 10%,#fff);border:2px solid var(--ac,#0056b3);color:var(--ac,#0056b3);box-shadow:0 0 0 2px color-mix(in srgb,var(--ac,#0056b3) 12%,transparent),0 0 7px color-mix(in srgb,var(--ac,#0056b3) 22%,transparent)}
+  html.dark #fibraPanel .bub.on i{background:color-mix(in srgb,var(--ac,#2f8fe8) 20%,#1a1a1a);border:2px solid var(--ac,#2f8fe8);color:var(--ac,#2f8fe8);box-shadow:0 0 0 2px color-mix(in srgb,var(--ac,#2f8fe8) 14%,transparent),0 0 7px color-mix(in srgb,var(--ac,#2f8fe8) 26%,transparent)}
+  #fibraPanel .bub i svg .f{fill:currentColor;stroke:none}
+  #fibraPanel .bub small{font-size:9.5px;font-weight:600;color:#64748b;white-space:nowrap}
+  html.dark #fibraPanel .bub small{color:#9ca3af}
   .slot{border:1px solid #cbd5e1;background:#fff;color:#0f172a;border-radius:.5rem;padding:3px 6px;min-height:46px;text-align:left;line-height:1.15;transition:filter .12s,transform .12s;-webkit-tap-highlight-color:transparent;overflow:hidden}
   .slot:active{filter:brightness(.88);transform:scale(.95)}
   .slot.fill{background:#ecfdf5;border-color:#6ee7b7}
@@ -139,15 +168,15 @@
   .slot .nm{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:12px;font-weight:600;word-break:break-word}
   .slot.empty .nm{font-weight:400;font-size:11px}
   .slot.occ .nm{font-weight:400;font-style:italic;opacity:.85}
-  html.dark .slot{background:#202023;border-color:#3f3f44;color:#f2f2f2}
+  html.dark .slot{background:#121212;border-color:#2e2e32;color:#f2f2f2}
   html.dark .slot.fill{background:var(--slotbg,#0e4a45);border-color:var(--slotbd,#2fb3a0);color:var(--slottx,#f2f2f2)}
   html.dark .slot.fill .pn{color:var(--slottx,#a5a5aa)}
   html.dark .slot.empty{background:transparent;color:#8c8c92}
   html.dark .slot .pn{color:#a5a5aa}
-  html.dark #cliModal>div{background:#141416}
+  html.dark #cliModal>div{background:#000000}
   .sw{width:26px;height:26px;border-radius:50%;border:2px solid #cbd5e1;flex:none}
   .sw.on{box-shadow:0 0 0 3px #0056b3}
-  html.dark #cabStyle{background:#141416;color:#f2f2f2;border:1px solid #3f3f44}
+  html.dark #cabStyle{background:#000000;color:#f2f2f2;border:1px solid #2e2e32}
   .cab-h{background:none;border:0}
   .cab-h i{display:block;width:14px;height:14px;margin:7px;border-radius:50%;background:#fff;border:3px solid #0056b3;box-shadow:0 1px 5px rgba(0,0,0,.55)}
   .cab-m i{width:9px;height:9px;margin:9.5px;background:rgba(255,255,255,.8);border:2px solid #0056b3;opacity:.8}
@@ -156,27 +185,86 @@
   .ibtn:active{background:#94a3b8;color:#fff;transform:scale(.9)}
   .ibtn.red{color:#dc2626}
   .ibtn.red:active{background:#dc2626;color:#fff}
-  html.dark .ibtn{background:#2c2c2e;color:#d6d6d8}
+  html.dark .ibtn{background:#1a1a1a;color:#d6d6d8}
   html.dark .ibtn:active{background:#555559;color:#fff}
   html.dark .ibtn.red{color:#f87171}
   html.dark .ibtn.red:active{background:#dc2626;color:#fff}
+  /* v3.45: Configurações, cidades */
+  .pbtn{border-radius:14px;color:#fff;font-weight:600;font-size:16.5px;padding:0 16px;height:54px;display:flex;justify-content:space-between;align-items:center;background:#0056b3;width:100%;text-align:left;transition:filter .12s,transform .12s;-webkit-tap-highlight-color:transparent}
+  .pbtn:active{filter:brightness(.8);transform:scale(.98)}
+  .trow{display:flex;align-items:center;gap:12px;border-radius:14px;background:#f1f5f9;border:1px solid #e2e8f0;height:62px;padding:0 14px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .trow .tic{width:38px;height:38px;border-radius:50%;background:#fff;border:1px solid #e2e8f0;display:flex;align-items:center;justify-content:center;font-size:19px;flex:none}
+  .trow b{font-size:16.5px;color:#1e293b;display:block}.trow small{display:block;color:#64748b;font-size:12px;margin-top:1px}
+  html.dark .trow{background:#121212;border-color:#2e2e32}html.dark .trow .tic{background:#1a1a1a;border-color:#333338}html.dark .trow b{color:#f5f5f5}html.dark .trow small{color:#9ca3af}
+  #swTheme{width:50px;height:30px}#swTheme::after{width:24px;height:24px}#swTheme.on{background:#2563eb}#swTheme.on::after{transform:translateX(20px)}
+  .msec{font-size:13.5px;font-weight:700;color:#64748b}
+  html.dark .msec{color:#a5a5aa}
+  .cpon{background:rgba(59,130,246,.14);color:#3b82f6}
+  html.dark .cpon{background:rgba(59,130,246,.18);color:#6aaeff}
+  @media(max-width:639px){#menuBox{height:58vh;max-height:92vh;transition:height .28s ease;overscroll-behavior:contain}#menuBox.up{height:92vh}}
+  /* v3.46: conta só para visualizar */
+  [hidden]{display:none!important}
+  .lkb{width:24px;height:24px;display:flex;align-items:center;justify-content:center;color:#94a3b8;opacity:.6;background:none;border:0;padding:0;flex:none}
+  .lkb svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;overflow:visible}
+  .lkb .sh{transform-origin:8px 11px;transform:rotate(-32deg);transition:transform .38s cubic-bezier(.3,1.4,.5,1)}
+  .lkb.closed .sh{transform:rotate(0deg)}
+  body.ro #sheetBody button[data-a]:not([data-a=close]):not([data-a=gotobox]):not([data-a=fview]):not([data-a=hall]):not([data-a=slot]){display:none!important}
+  body.ro #sheetBody .slot,body.ro #sheetBody input,body.ro #sheetBody select,body.ro #sheetBody textarea,body.ro #sheetBody .tg,body.ro #sheetBody .pb,body.ro #sheetBody label{pointer-events:none}
+  body.ro #btnCabEd,body.ro #btnImport,body.ro #btnKml,body.ro .adv,body.ro [data-per=rur],body.ro [data-per=cid],body.ro [data-city=__manage]{display:none!important}
+  /* Armário: torres, AP e PON */
+  .twrow{display:flex;gap:6px;margin-top:6px}
+  .twc{flex:1 1 0;min-width:0;text-align:center;border:1.5px solid #cbd5e1;border-radius:11px;padding:9px 2px;font-size:12.5px;font-weight:700;color:#64748b;background:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .twc.on{border-color:#3b82f6;color:#2563eb;background:rgba(59,130,246,.12)}
+  .twc.plus{flex:0 0 40px;border-style:dashed;border-color:#7dd3fc;color:#0ea5e9;font-size:18px;background:transparent}
+  .ipbx{margin-top:8px;display:flex;justify-content:space-between;align-items:center;gap:8px;border-radius:11px;padding:8px 10px;font-size:12.5px;background:#f1f5f9;border:1px solid #e2e8f0}
+  .ipbx span{color:#64748b}.ipbx b{font-size:17px;letter-spacing:.3px;color:#0f172a;white-space:nowrap}.ipbx em{font-style:normal;color:#94a3b8}
+  .pen{display:inline-flex;flex:0 0 auto;width:26px;height:26px;border-radius:8px;align-items:center;justify-content:center;font-size:13px;margin-left:8px;border:1px solid #94a3b8;background:transparent;color:#64748b}
+  .twedit{margin-top:8px;border:1.5px solid #3b82f6;border-radius:12px;padding:9px 10px;background:rgba(59,130,246,.07)}
+  .twedit .l{font-size:11px;color:#64748b;margin-bottom:3px}
+  .twedit .row{display:flex;gap:6px;align-items:center}
+  #sheetBody .twedit input[id]{min-width:0;flex:1;border:1px solid #3b82f6;border-radius:9px;padding:7px 9px;font-size:16px;font-weight:700;color:#0f172a;background:#fff}
+  #sheetBody .twedit input.oct[id]{flex:0 0 52px;width:52px;text-align:center;padding:7px 0}
+  .twedit .dot{font-weight:800;color:#94a3b8}
+  .twok{flex:0 0 auto;width:38px;height:38px;border-radius:10px;background:#3b82f6;color:#fff;font-weight:800;font-size:17px}
+  .twbin{flex:0 0 auto;width:38px;height:38px;border-radius:10px;border:1px solid #ef4444;color:#ef4444;display:flex;align-items:center;justify-content:center}
+  .twbin svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .apg{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:8px}
+  .apg.p2{grid-template-columns:repeat(2,1fr)}
+  .apt{position:relative;border:1.5px solid #cbd5e1;border-radius:13px;padding:7px 6px 8px;text-align:center;background:#f8fafc}
+  .apt small{display:block;font-size:10.5px;letter-spacing:1.5px;color:#94a3b8;font-weight:700;min-height:13px}
+  .apt .tx{position:absolute;top:0;right:3px;font-size:17px;line-height:1;color:#ef4444;padding:3px 5px}
+  #sheetBody .apt input.ti[data-a]{width:100%;text-align:center;font-size:25px;font-weight:800;color:#0f172a;background:transparent;border:0;padding:0;line-height:1.15}
+  #sheetBody .apt input.pf[data-a]{width:100%;margin-top:3px;font-size:16px;font-weight:800;padding:6px 8px;border:1px solid #cbd5e1;border-radius:8px;color:#0f172a;background:#fff;text-align:left}
+  .apt.add{border-style:dashed;border-color:#7dd3fc;background:transparent;color:#0ea5e9;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:62px;font-weight:700}
+  .apt.add b{font-size:24px;line-height:1}.apt.add small{color:#0ea5e9;min-height:0}
+  html.dark .twc{background:#0a0a0a;border-color:#2e2e32;color:#9ca3af}
+  html.dark .twc.on{border-color:#3b82f6;color:#6aaeff;background:rgba(59,130,246,.18)}
+  html.dark .twc.plus{background:transparent;border-color:#38bdf8;color:#38bdf8}
+  html.dark .ipbx{background:#121212;border-color:#2e2e32}html.dark .ipbx span{color:#9ca3af}html.dark .ipbx b{color:#f5f5f5}
+  html.dark .pen{border-color:#3a3a3d;color:#9ca3af}
+  html.dark .twedit{background:rgba(59,130,246,.1)}html.dark .twedit .l{color:#9ca3af}
+  html.dark .twedit input{background:#000!important;color:#f5f5f5!important;border-color:#3b82f6!important}
+  html.dark .apt{background:#121212;border-color:#2e2e32}
+  html.dark #sheetBody .apt input.ti[data-a]{background:transparent!important;color:#f5f5f5!important;border-color:transparent!important}
+  html.dark .apt input.pf{background:#000!important;color:#f5f5f5!important;border-color:#2e2e32!important}
+  html.dark .apt.add{background:transparent;border-color:#38bdf8;color:#38bdf8}
   /* Tema escuro (azul Ultranet) */
-  html.dark #sheet,html.dark #menu>div,html.dark #nbModal>div,html.dark #stModal>div,html.dark #stPick>div,html.dark #ceoPick>div,html.dark #bulkModal>div,html.dark #cfModal>div,html.dark #vlModal>div,html.dark #vlanModal>div,html.dark #helpModal>div,html.dark #perModal>div,html.dark #ptModal>div,html.dark #ebModal>div,html.dark #loginForm,html.dark .bg-white{background:#141416!important}
+  html.dark #sheet,html.dark #menu>div,html.dark #nbModal>div,html.dark #stModal>div,html.dark #stPick>div,html.dark #ceoPick>div,html.dark #bulkModal>div,html.dark #cfModal>div,html.dark #vlModal>div,html.dark #vlanModal>div,html.dark #helpModal>div,html.dark #perModal>div,html.dark #ptModal>div,html.dark #ebModal>div,html.dark #loginForm,html.dark .bg-white{background:#000000!important}
   html.dark #tabs .bg-white{background:#e2e8f0!important}
   html.dark .text-slate-900,html.dark .text-slate-800{color:#f5f5f5!important}
   html.dark .text-slate-700,html.dark .text-slate-600{color:#d6d6d8!important}
   html.dark .text-slate-500,html.dark .text-slate-400{color:#a5a5aa!important}
-  html.dark .border-slate-300,html.dark .border-slate-200,html.dark .border-slate-100{border-color:#3f3f44!important}
-  html.dark .divide-slate-100>*{border-color:#333336!important}
-  html.dark input:not([type=checkbox]):not([type=color]),html.dark select,html.dark textarea{background:#0e0e0f!important;color:#f5f5f5!important;border-color:#3f3f44!important}
-  html.dark .bg-slate-100{background:#202023!important}
-  html.dark .bg-slate-200{background:#333336!important}
-  html.dark .bg-slate-300{background:#4a4a50!important}
-  html.dark .bg-sky-50{background:#1e2a30!important}
-  html.dark .bg-amber-50,html.dark .bg-amber-100{background:#3a2c0a!important}
-  html.dark .bg-violet-50{background:#2c2535!important}
-  html.dark .bg-indigo-50{background:#26262c!important}
-  html.dark .border-indigo-200,html.dark .border-indigo-300{border-color:#4a4a50!important}
+  html.dark .border-slate-300,html.dark .border-slate-200,html.dark .border-slate-100{border-color:#2e2e32!important}
+  html.dark .divide-slate-100>*{border-color:#1c1c1c!important}
+  html.dark input:not([type=checkbox]):not([type=color]),html.dark select,html.dark textarea{background:#000000!important;color:#f5f5f5!important;border-color:#2e2e32!important}
+  html.dark .bg-slate-100{background:#121212!important}
+  html.dark .bg-slate-200{background:#1c1c1c!important}
+  html.dark .bg-slate-300{background:#2b2b2f!important}
+  html.dark .bg-sky-50{background:#0b1418!important}
+  html.dark .bg-amber-50,html.dark .bg-amber-100{background:#1c1504!important}
+  html.dark .bg-violet-50{background:#130e19!important}
+  html.dark .bg-indigo-50{background:#141414!important}
+  html.dark .border-indigo-200,html.dark .border-indigo-300{border-color:#2b2b2f!important}
   html.dark .text-indigo-900{color:#f2f2f2!important}
   html.dark .text-indigo-700{color:#c9cdf0!important}
   html.dark .text-indigo-400{color:#a9b4e8!important}
@@ -186,15 +274,14 @@
   html.dark .text-red-600{color:#f87171!important}
   html.dark .text-emerald-600{color:#34d399!important}
   html.dark .text-amber-600{color:#fbbf24!important}
-  html.dark .border-sky-200,html.dark .border-amber-200,html.dark .border-amber-300,html.dark .border-sky-300{border-color:#3f3f44!important}
-  html.dark #draftBar{background:#3a2c0a!important}
-  html.dark #draftBar .bg-white{background:#141416!important}
-  html.dark #btnReset{background:#141416!important}
-  html.dark .leaflet-container{background:#0e0e0f}
+  html.dark .border-sky-200,html.dark .border-amber-200,html.dark .border-amber-300,html.dark .border-sky-300{border-color:#2e2e32!important}
+  html.dark #draftBar{background:#1c1504!important}
+  html.dark #draftBar .bg-white{background:#000000!important}
+  html.dark .leaflet-container{background:#000000}
   .leaflet-tile-pane{filter:brightness(.82)}
   html.dark .leaflet-tile-pane{filter:brightness(.9)}
   html.dark .tiles-street{filter:brightness(.62)}
-  html.dark .leaflet-control-layers,html.dark .leaflet-bar a{background:#141416!important;color:#f2f2f2!important;border-color:#3f3f44!important}
+  html.dark .leaflet-control-layers,html.dark .leaflet-bar a{background:#000000!important;color:#f2f2f2!important;border-color:#2e2e32!important}
 </style>
 </head>
 <body class="bg-slate-900">
@@ -203,15 +290,16 @@
 <div id="hdr" class="fixed top-0 inset-x-0 z-[1000] text-white shadow-lg" style="padding-top:env(safe-area-inset-top)">
   <div id="testBanner" class="hidden bg-orange-500 text-white text-xs font-bold text-center py-1 px-2">🧪 VERSÃO DE TESTE — só neste aparelho, sem login e sem nuvem</div>
   <div class="flex items-center gap-2 px-3 pt-2">
-    <button id="btnInfo" title="Mostrar Card / PON / Fibra nas caixas" class="rounded-lg bg-slate-800 border border-slate-700 px-2.5 py-2 text-xs font-semibold whitespace-nowrap">ℹ Fibra</button>
-    <input id="search" type="search" placeholder="Buscar rua, caixa (Q3), cliente, PON 8, CARD 2…" class="flex-1 min-w-0 rounded-lg bg-slate-800 border border-slate-700 px-3 py-2 text-sm placeholder-slate-400 focus:outline-none focus:border-sky-500">
-    <button id="btnMenu" class="rounded-lg bg-slate-800 border border-slate-700 px-3 py-2 text-sm font-semibold">⚙ Dados</button>
-    <button id="btnThemeQ" title="Tema claro/escuro" class="rounded-lg bg-slate-800 border border-slate-700 px-2.5 py-2 text-sm">🌙</button>
+    <button id="btnInfo" title="O que mostrar no mapa" aria-label="O que mostrar no mapa" class="hb"><svg viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button>
+    <div class="hs"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="search" type="search" placeholder="Buscar rua, caixa (Q3), cliente, PON 8, CARD 2…" class="w-full text-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 border"></div>
+    <button id="btnMenu" title="Configurações" aria-label="Configurações" class="hb"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5h0a1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
   </div>
-  <div class="flex justify-start gap-1 px-3 py-1.5 overflow-x-auto text-xs" id="tabs"></div>
+  <div class="flex justify-start gap-1 px-3 text-xs" id="tabs"></div>
   <div id="hlChip" class="hidden flex items-center justify-between gap-2 mx-3 mb-2 rounded-lg bg-slate-900 px-3 py-1.5 text-xs font-semibold"><span class="truncate"></span><button id="hlClear" class="text-base leading-none px-1" title="Limpar destaque">✕</button></div>
   <div id="results" class="hidden max-h-56 overflow-y-auto bg-slate-800 border-t border-slate-700"></div>
 </div>
+
+<div id="cityPop" class="hidden fixed z-[1100] bg-white text-slate-800 rounded-xl shadow-2xl p-1 overflow-y-auto" style="left:12px;width:max-content;min-width:170px;max-width:88vw;max-height:60vh"></div>
 
 <div id="map"></div>
 
@@ -334,25 +422,29 @@
 
 <!-- Menu de dados -->
 <div id="menu" class="hidden fixed inset-0 z-[1200] bg-black/60 flex items-end sm:items-center justify-center">
-  <div class="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-4 space-y-3 max-h-[92vh] overflow-y-auto" style="padding-bottom:calc(env(safe-area-inset-bottom) + 16px)">
-    <div class="flex items-center gap-2"><h2 class="font-bold text-slate-800 flex-1">Dados</h2><button id="btnHelp" title="Ajuda: como usar" class="w-7 h-7 rounded-full bg-sky-100 text-sky-700 text-sm font-extrabold active:scale-90">?</button><button id="menuClose" class="text-2xl text-slate-500 px-1 leading-none">×</button></div>
+  <div id="menuBox" class="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-4 space-y-3 sm:max-h-[92vh] overflow-y-auto" style="padding-bottom:calc(env(safe-area-inset-bottom) + 16px)">
+    <div class="flex items-center gap-2"><h2 class="font-bold text-lg text-slate-800 flex-1 flex items-center gap-2"><svg viewBox="0 0 24 24" style="width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5h0a1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Configurações</h2><button id="lockIco" type="button" class="lkb" hidden aria-label="Conta só para visualizar"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2.5"/><path class="sh" d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></button><button id="btnHelp" title="Ajuda: como usar" class="w-7 h-7 rounded-full bg-sky-100 text-sky-700 text-sm font-extrabold active:scale-90">?</button><button id="menuClose" class="text-2xl text-slate-500 px-1 leading-none">×</button></div>
     <input type="checkbox" id="editToggle" class="hidden">
-    <p class="text-xs font-semibold text-slate-500">Personalizar</p>
-    <div class="grid gap-1.5">
-      <button data-per="hdr" class="mbtn bg-[#0056b3] w-full flex items-center justify-between"><span>🎨 Cor da barra de cima</span><span>›</span></button>
-      <button data-per="slot" class="mbtn bg-[#0056b3] w-full flex items-center justify-between"><span>🟩 Vagas ocupadas (dentro das caixas)</span><span>›</span></button>
-      <button data-per="cx" class="mbtn bg-[#0056b3] w-full flex items-center justify-between"><span>🗺 Cores das caixas no mapa</span><span>›</span></button>
-      <button data-per="ceo" class="mbtn bg-[#0056b3] w-full flex items-center justify-between"><span>📡 Cores das CEOs no mapa</span><span>›</span></button>
-      <button data-per="cid" class="mbtn bg-[#0056b3] w-full flex items-center justify-between"><span>🏙 Cidades</span><span>›</span></button>
+    <p class="msec">Aparência</p>
+    <div id="rowTheme" class="trow" role="button" tabindex="0"><span class="tic" id="themeIc">🌙</span><div class="flex-1 min-w-0"><b>Modo escuro</b><small id="themeSub"></small></div><button id="swTheme" type="button" role="switch" aria-label="Modo escuro" class="swt"></button></div>
+    <p class="msec">Personalizar</p>
+    <div class="grid gap-2">
+      <button data-per="rur" class="pbtn"><span>📶 Rede (zona rural e armário)</span><span>›</span></button>
+      <button data-per="hdr" class="pbtn"><span>🎨 Cor da barra de cima</span><span>›</span></button>
+      <button data-per="slot" class="pbtn"><span>🟩 Vagas ocupadas</span><span>›</span></button>
+      <button id="rowConta" data-per="conta" class="pbtn" hidden><span>👤 Conta</span><span>›</span></button>
+      <button data-per="cx" class="pbtn"><span>🗺 Cores das caixas no mapa</span><span>›</span></button>
+      <button data-per="ceo" class="pbtn"><span>📡 Cores das CEOs no mapa</span><span>›</span></button>
+      <button data-per="cid" class="pbtn"><span>🏙 Cidades</span><span>›</span></button>
     </div>
     <button id="btnCabEd" class="mbtn bg-slate-700 w-full">🧵 Editar cabos de fibra (traçar, mover, apagar)</button>
     <p class="text-xs font-semibold text-slate-500">Backup e arquivos</p>
     <div class="grid grid-cols-2 gap-2">
       <button id="btnExport" class="mbtn bg-emerald-600">⬇ Exportar backup</button>
       <button id="btnImport" class="mbtn bg-sky-600">⬆ Importar backup</button>
-      <button id="btnKml" class="mbtn bg-slate-700">🗺 Importar KML</button>
-      <button id="btnReset" class="mbtn" style="background:#fff;color:#dc2626;border:1px solid #fca5a5">🗑 Apagar cadastros</button>
+      <button id="btnKml" class="mbtn bg-slate-700 col-span-2 text-center">🗺 Importar KML</button>
     </div>
+    <p class="adv text-center text-xs text-slate-400 pt-1">Avançado: <button id="btnReset" class="underline font-semibold" style="color:#b91c1c">apagar todos os cadastros…</button></p>
     <p id="cloudStatus" class="hidden text-xs text-slate-600 text-center"></p>
     <button id="btnLogout" class="hidden w-full rounded-lg bg-slate-200 text-slate-800 py-2 text-sm font-semibold">Sair da conta</button>
     <p class="text-[11px] text-slate-500">Toque no <b>?</b> para ver como usar. <span id="verTxt"></span></p>
@@ -382,13 +474,29 @@
 </div>
 
 <!-- Painel Fibra / o que mostrar no mapa -->
-<div id="fibraPanel" class="hidden fixed z-[960] rounded-xl bg-white text-slate-800 shadow-xl px-3 py-2 space-y-2 text-sm" style="left:8px;width:min(92vw,330px);top:110px">
-  <div class="flex items-center"><span class="font-bold flex-1">O que mostrar no mapa</span><button data-f="close" class="text-xl px-1 opacity-60 leading-none">×</button></div>
-  <button data-f="info" class="w-full flex items-center gap-3 text-left"><span class="flex-1"><b>ℹ Info da fibra</b><span class="block text-xs opacity-70">Caixa / CARD / PON / Fibra / VLAN no lugar do nome</span></span><span id="swInfo" class="swt"></span></button>
-  <button data-f="fib" class="w-full flex items-center gap-3 text-left"><span class="flex-1"><b>〰 Ver fibra (cabos)</b></span><span id="swFib" class="swt"></span></button>
-  <button data-f="ceo" class="w-full flex items-center gap-3 text-left"><span class="flex-1"><b>🔵 Ver CEOs</b></span><span id="swCeo" class="swt"></span></button>
-  <button data-f="oth" class="w-full flex items-center gap-3 text-left"><span class="flex-1"><b>⚪ Ver emendas, loja e outros</b><span class="block text-xs opacity-70">Ex.: CEO DE IMENDA, CASA/LOJA</span></span><span id="swOth" class="swt"></span></button>
-  <button data-f="cto" class="w-full flex items-center gap-3 text-left"><span class="flex-1"><b>🟢 Ver caixas de clientes</b></span><span id="swCto" class="swt"></span></button>
+<div id="fibraPanel" class="hidden fixed z-[960]" style="left:8px;top:110px">
+  <div class="fh"><span style="display:flex;align-items:center;gap:7px"><svg viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg> O que mostrar</span><button data-f="close" class="fx" aria-label="Fechar">×</button></div>
+  <div class="bg2">
+    <button data-f="info" class="bub" id="bbInfo"><i><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><rect x="6.5" y="8" width="3" height="3" rx=".7"/><rect x="10.5" y="8" width="3" height="3" rx=".7"/><rect x="14.5" y="8" width="3" height="3" rx=".7"/><path d="M6.5 15.5h11"/></svg></i><small>Card · PON</small></button>
+    <button data-f="fib" class="bub" id="bbFib"><i><svg viewBox="0 0 24 24"><path d="M4 18 9 9l6 6 5-9"/><circle class="f" cx="4" cy="18" r="1.9"/><circle class="f" cx="9" cy="9" r="1.9"/><circle class="f" cx="15" cy="15" r="1.9"/><circle class="f" cx="20" cy="6" r="1.9"/></svg></i><small>Cabos</small></button>
+    <button data-f="cto" class="bub" id="bbCto"><i><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="14" rx="3.5"/><path d="M4 8.5h16"/><path d="M9 17v4M15 17v4"/></svg></i><small>Caixas</small></button>
+    <button data-f="ceo" class="bub" id="bbCeo"><i><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="13" rx="3.5"/><path d="M4 8.5h16"/><path d="M7.5 16v3.5M11 16v3.5M14.5 16v3.5M18 16v3.5"/></svg></i><small>CEO</small></button>
+  </div>
+</div>
+
+<!-- Adicionar pessoa -->
+<div id="accModal" class="hidden fixed inset-0 z-[1500] bg-black/60 flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl p-4 w-full max-w-sm text-slate-700">
+    <h2 class="font-bold text-lg text-slate-800">Adicionar pessoa</h2>
+    <label class="block mt-2 text-xs text-slate-500">E-mail da pessoa<input id="accEmail" type="email" inputmode="email" autocapitalize="none" autocomplete="off" placeholder="nome@gmail.com" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2.5 text-slate-900 focus:outline-none focus:border-sky-500"></label>
+    <p class="text-xs text-slate-500 mt-2">Antes, crie o login dela no Firebase (Authentication → Add user). Ela começa podendo editar; você trava pela chavinha, se quiser.</p>
+    <div class="flex gap-2 mt-3"><button id="accCancel" class="flex-1 rounded-lg border border-slate-300 text-slate-700 py-2 text-sm font-semibold">Cancelar</button><button id="accOk" class="flex-1 rounded-lg bg-[#0056b3] text-white py-2 text-sm font-bold">Adicionar</button></div>
+  </div>
+</div>
+
+<!-- Apagar tudo (2 passos) -->
+<div id="delModal" class="hidden fixed inset-0 z-[1500] bg-black/60 flex items-center justify-center p-4">
+  <div id="delBody" class="bg-white rounded-2xl p-4 w-full max-w-sm text-sm text-slate-700 max-h-[90vh] overflow-y-auto"></div>
 </div>
 
 <!-- Ajuda -->
@@ -408,8 +516,9 @@
       <li><b>Portas (1 a 16):</b> toque numa porta livre para escrever o nome do cliente. Toque numa ocupada para editar ou liberar.</li>
       <li><b>☑ Marcar ocupadas:</b> liga um modo em que você só toca nas portas ocupadas, sem escrever o nome. Aparecem como “ocupada”. Toque de novo para liberar.</li>
       <li><b>Liberar portas:</b> toque numa porta <b>ocupada sem nome</b> e ela fica livre na hora. Numa caixa marcada como Lotada, as outras portas viram ocupadas de verdade e a marcação sai; o mapa passa a mostrar sozinho (lotada ou normal, pelo número de vagas). Portas com nome abrem a ficha do cliente.</li>
+      <li><b>📶 Zona rural e armário:</b> em ⚙ Configurações, bem embaixo, toque em <b>Zona rural e armário (rádio)</b>. <b>Cliente zona rural</b> cria um ponto azul no mapa com <b>nome / sinal</b> (ex.: Fulano / 70). <b>Armário / Torre / OLT</b> cria um armário com os <b>APs</b> da torre e um desenho da <b>OLT</b>: cadastre as placas pelo número do slot e escreva em cada conector o que está espetado nele (ex.: F15); o cinza vem sozinho das CEOs com aquele Card e PON. Dá para cadastrar também um <b>DIO</b>. Para mover um ponto: <b>✋ Mover no mapa</b> na ficha. Os clientes de rádio aparecem na contagem de baixo <b>separados</b> dos clientes da fibra.</li>
       <li><b>📥 Preencher vagas (várias caixas):</b> selecione as caixas no mapa e toque em <b>Preencher vagas</b>. Escolha o número, por exemplo 10: caixas com menos de 10 ocupadas ganham vagas ocupadas (sem nome) até chegar em 10; as que já têm 10 ou mais ficam como estão. Caixas marcadas como <b>Lotada</b> perdem a marca e ficam com 10. Se marcar <b>diminuir</b>, as que passam de 10 também descem para 10 (só perdem vagas sem nome). Toque em <b>Aplicar</b>. Dá para desfazer logo depois.</li>
-      <li><b>Lotada:</b> deixa todas as portas ocupadas e o mapa mostra a caixa com a palavra <b>LOTADA</b> (também quando as 16 portas já estão ocupadas). Quem já tem nome e porta continua como está. As cores de Disponível, Lotada, Atenção e das CEOs você escolhe em ⚙ Dados → Personalizar, cada uma na sua tela.</li>
+      <li><b>Lotada:</b> deixa todas as portas ocupadas e o mapa mostra a caixa com a palavra <b>LOTADA</b> (também quando as 16 portas já estão ocupadas). Quem já tem nome e porta continua como está. As cores de Disponível, Lotada, Atenção e das CEOs você escolhe em ⚙ Configurações → Personalizar, cada uma na sua tela.</li>
       <li><b>🟡 Atenção:</b> botão pequeno ao lado da VLAN. Deixa a caixa amarela mesmo com poucas portas ocupadas (manutenção preventiva).</li>
       <li><b>Tamanho da ficha (caixa e CEO):</b> ela abre no tamanho normal. <b>Toque na barrinha do topo</b> e ela sobe e abre mais; <b>toque nela de novo</b> e ela volta ao tamanho normal. O <b>×</b> fecha.</li>
       <li><b>🧭 Ir com Google Maps:</b> fica no fim da ficha, junto das fotos.</li>
@@ -422,20 +531,21 @@
     </ul></details>
     <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">🔵 CEO (emenda)</summary><ul class="list-disc pl-5 space-y-1 mt-2">
       <li><b>Cor da borda:</b> a borda da CEO é da cor da fibra dela (ex.: VERMELHA no Card/PON/F anotado).</li>
-      <li><b>CEO:</b> aparece sempre em azul, com <b>[caixas/saídas]</b>, por exemplo [6/8]. Para trocar a cor de todas: ⚙ Dados → Cores das CEOs. Para uma CEO ter outra cor: ative <b>Editar</b>, toque nela e escolha a <b>Cor desta CEO no mapa</b>.</li>
+      <li><b>CEO:</b> aparece sempre em azul, com <b>[caixas/saídas]</b>, por exemplo [6/8]. Para trocar a cor de todas: ⚙ Configurações → Cores das CEOs. Para uma CEO ter outra cor: ative <b>Editar</b>, toque nela e escolha a <b>Cor desta CEO no mapa</b>.</li>
       <li><b>Split 1:8:</b> o padrão é 8 saídas. Os botões <b>＋</b> e <b>−</b> na ficha da CEO aumentam ou diminuem. Cada CEO guarda o seu número. Passando do limite, aparece o aviso em vermelho, mas dá para adicionar mesmo assim.</li>
       <li><b>Caixas desta CEO:</b> lista automática, em ordem de Q. O quadradinho na frente é a cor da fibra da caixa: <b>toque nele para escolher outra cor</b> (vale também para a cor do cabo no mapa). Toque no nome da caixa para ir até ela.</li>
       <li><b>＋ próxima caixa (ex.: ＋ Q7):</b> depois da última caixa aparece a próxima da sequência, já com a cor dela (dá para trocar a cor tocando no quadrado). Toque em <b>＋ Q7</b> e depois no mapa, no lugar onde ela fica: a caixa nasce com o nome certo e já ligada à CEO. O <b>×</b> tira uma caixa da CEO. <b>↳ ligar uma caixa que já existe</b> escolhe uma caixa que o app não ligou sozinho.</li>
       <li><b>📜 Histórico da rede:</b> escreva rompimentos e serviços e toque em <b>Salvar</b>. Cada anotação guarda a data. Mostra as 3 últimas; <b>ver todos</b> mostra o resto e <b>×</b> apaga uma.</li>
       <li><b>Dados da CEO (✏ lápis pequeno):</b> abre um formulário com Card, PON, Fibra, Tubo, cor da fibra e saídas do split. Vale para qualquer CEO. Deixando tudo vazio, ela volta aos dados originais do arquivo. Na ficha da CEO a ordem é: nome, dados, split e caixas, histórico da rede e, por último, o 🧭 Ir com Google Maps.</li>
     </ul></details>
-    <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">🧭 O que mostrar no mapa (botão ℹ Fibra)</summary><ul class="list-disc pl-5 space-y-1 mt-2">
-      <li><b>ℹ Info da fibra:</b> mostra Caixa / CARD / PON / Fibra / VLAN no lugar do nome, com a borda na cor do tubo.</li>
-      <li><b>〰 Ver fibra (cabos):</b> liga e desliga o desenho dos cabos.</li>
-      <li><b>🔵 Ver CEOs:</b> liga e desliga as CEOs.</li>
-      <li><b>⚪ Ver emendas, loja e outros:</b> liga e desliga “CEO DE EMENDA”, “CASA/LOJA” e parecidos.</li>
-      <li><b>🟢 Ver caixas de clientes:</b> liga e desliga as caixas dos clientes.</li>
-      <li>As chaves ficam lembradas no aparelho. Ao abrir o editor de cabos, os cabos aparecem de novo para você poder mexer.</li>
+    <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">🧭 O que mostrar no mapa (botão do olho 👁)</summary><ul class="list-disc pl-5 space-y-1 mt-2">
+      <li><b>Card · PON:</b> mostra Caixa / CARD / PON / Fibra / VLAN no lugar do nome, com a borda na cor do tubo.</li>
+      <li><b>Cabos:</b> liga e desliga o desenho dos cabos.</li>
+      <li><b>👤 Conta (só no login do Gustavo):</b> em ⚙ Configurações, toque em <b>Conta</b>. A chavinha da <b>Ultranet</b> liga e desliga a edição: desligada, essa conta só vê o mapa (olhinho, caixas e clientes continuam abrindo) e não consegue editar nem salvar. Na conta travada aparece um <b>cadeadinho</b> ao lado do ?: fechado = só visualiza, aberto = pode editar. Para uma pessoa nova: crie o login dela no Firebase (Authentication → Add user) e depois toque em <b>＋ Adicionar pessoa</b> e digite o e-mail. A lixeira tira o acesso.</li>
+      <li><b>Armário — torres:</b> na ficha do armário, escolha a torre (Principal, Caixa d'água, Da Pedra). Cada torre tem a sua lista de <b>AP</b> e de <b>PON</b>. O <b>lápis ✏️</b> muda o nome da torre e a faixa de IP (3 primeiros números); o <b>＋</b> cria outra torre. Toque no número do AP, ou na caixinha da PON, para escrever.</li>
+      <li><b>Caixas:</b> liga e desliga as caixas dos clientes e também as emendas, casa/loja e outros nomes diferentes, a zona rural e o armário.</li>
+      <li><b>CEO:</b> liga e desliga as CEOs.</li>
+      <li>Bolinha acesa (colorida) = aparecendo; apagada (cinza) = escondida. A cor é a da barra de cima. As escolhas ficam lembradas no aparelho. Ao abrir o editor de cabos, os cabos aparecem de novo para você poder mexer.</li>
     </ul></details>
     <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">➕ Adicionar no mapa (caixa ou CEO)</summary><ul class="list-disc pl-5 space-y-1 mt-2">
       <li><b>Segurar 1 segundo numa caixa ou numa CEO</b> liga o modo edição. A barra de cima mostra <b>+ Nova Caixa</b>, <b>☑ Selecionar</b> e <b>🔒 Travar</b> (para sair).</li>
@@ -452,7 +562,7 @@
       <li><b>Cabo novo liga a caixa sozinho:</b> se você cria uma caixa (ex.: Q7) perto da última (Q6) e desenha o cabo de 6 fibras da Q6 até ela, o app percebe que ela é da mesma CEO e já usa os dados e a cor dela. Ao tocar em <b>✔ Aplicar</b>, aparece um aviso dizendo quais caixas foram ligadas. Se o cabo não encostar nas caixas, nada muda.</li>
     </ul></details>
     <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">✂ Ajustar cabos, passo a passo</summary><ol class="list-decimal pl-5 space-y-1 mt-2">
-      <li>Abra <b>⚙ Dados → 🧵 Editar cabos de fibra</b> (ou toque rapidinho em cima de um cabo no mapa e em <b>✏ Editar cabo</b>). Aparecem bolinhas nos cabos.</li>
+      <li>Abra <b>⚙ Configurações → 🧵 Editar cabos de fibra</b> (ou toque rapidinho em cima de um cabo no mapa e em <b>✏ Editar cabo</b>). Aparecem bolinhas nos cabos.</li>
       <li><b>Arraste a bolinha grande</b> para a rua certa. <b>Puxe a bolinha pequena do meio</b> da linha para fazer uma curva. <b>Toque numa bolinha</b> para apagar o ponto.</li>
       <li><b>＋ Novo cabo</b>: escolha 6 ou 24 fibras, toque no mapa marcando o caminho (encostando perto de outro cabo, ele se liga) e toque em Concluir. Enquanto você marca, a <b>📏 distância total em metros</b> aparece no meio do traçado e na barra azul.</li>
       <li><b>Toque numa linha</b> para escolher aquele cabo. Aí aparecem <b>🎨 Estilo</b> (grossura e cor) e <b>🗑 Apagar cabo</b>. Para mudar só uma parte do cabo, toque numa bolinha e escolha <b>✂ Dividir</b>.</li>
@@ -474,15 +584,15 @@
     <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">🗺 Mapa e temas</summary><ul class="list-disc pl-5 space-y-1 mt-2">
       <li>O botão de camadas (canto de cima, à direita) troca entre <b>Satélite</b> e <b>Ruas</b>. Os nomes das ruas que aparecem no mapa “Ruas” são do próprio mapa.</li>
       <li>Se o zoom passar do que o satélite tem, a imagem é esticada (fica mais desfocada, mas não aparece quadrado cinza).</li>
-      <li><b>☀️/🌙</b> troca entre tema claro e escuro. No escuro a barra de cima fica preta, com a busca branca.</li>
+      <li><b>Modo escuro:</b> fica em ⚙ Configurações, na primeira opção (chavinha). Ligado, os fundos ficam bem pretos.</li>
       <li>Para o app atualizar no celular, feche por completo e abra de novo.</li>
     </ul></details>
-    <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">⚙ Dados</summary><ul class="list-disc pl-5 space-y-1 mt-2">
-      <li><b>⚙ Dados → Personalizar:</b> cada item abre a sua própria tela. <b>Cor da barra de cima</b> (no tema escuro ela fica preta) · <b>Vagas ocupadas</b> · <b>Cores das caixas no mapa</b> (Disponível, Lotada e Atenção) · <b>Cores das CEOs no mapa</b> (normal, quase cheia e lotada; a borda continua com a cor da fibra) · <b>Cidades</b> (nome, <b>➕ Adicionar cidade</b> com o mapa já na cidade nova, 📍 muda o lugar e a lixeira apaga se não tiver caixas nem cabos). As cores valem só neste aparelho.</li>
+    <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">⚙ Configurações</summary><ul class="list-disc pl-5 space-y-1 mt-2">
+      <li><b>⚙ Configurações → Personalizar:</b> cada item abre a sua própria tela. <b>Cor da barra de cima</b> (no tema escuro ela fica preta) · <b>Vagas ocupadas</b> · <b>Cores das caixas no mapa</b> (Disponível, Lotada e Atenção) · <b>Cores das CEOs no mapa</b> (normal, quase cheia e lotada; a borda continua com a cor da fibra) · <b>Cidades</b> (nome, <b>➕ Adicionar cidade</b> com o mapa já na cidade nova, 📍 muda o lugar e a lixeira apaga se não tiver caixas nem cabos). As cores valem só neste aparelho.</li>
       <li><b>Vagas ocupadas (dentro das caixas):</b> na tela <b>Vagas ocupadas</b>, escolha a cor do fundo e a cor do nome das portas ocupadas. A prévia mostra como fica. A primeira bolinha de cada linha volta ao padrão. A cor da barra e a das vagas valem só no aparelho em que você escolheu; as chaves de ver caixas, CEOs e fibra e o tema escuro também.</li>
       <li><b>Exportar backup</b> baixa uma cópia de segurança. <b>Importar backup</b> devolve uma cópia.</li>
       <li><b>Importar KML</b> troca a rede inteira por outro arquivo.</li>
-      <li><b>Apagar cadastros</b> limpa clientes, caixas novas e nomes (não tem volta, faça backup antes).</li>
+      <li><b>Avançado: apagar todos os cadastros</b> (link pequeno no fim) limpa clientes, vagas, caixas e CEOs novas, zona rural e armário, histórico e nomes, em todos os aparelhos. Não tem volta. O app avisa em 2 passos, baixa um backup antes e pede para digitar APAGAR TUDO e esperar 5 segundos.</li>
       <li><b>Versão</b> do app aparece no menu. Os dados (caixas, clientes, ruas, CEOs, cabos) ficam salvos na nuvem e são os mesmos em todos os aparelhos. Embaixo do menu aparece quem fez a última alteração.</li>
     </ul></details>
   </div>
@@ -649,7 +759,7 @@ function rebuildRegions(){            // nomes das cidades: padrão + renomeadas
   Object.keys(REGION_DEF).forEach(k=>{ REGIONS[k]=(state.cityNames&&state.cityNames[k])||REGION_DEF[k]; });
   (state.cityExtra||[]).forEach(c=>{ REGIONS[c.id]=c.name; });
 }
-const APP_VERSION = "3.39";
+const APP_VERSION = "3.46";
 const TEST_MODE = false;   // true = arquivo de teste (usa uma cópia dos dados) · false = site real
 const KEY_STATE = TEST_MODE?"ftth_state_test":"ftth_state_v1", KEY_NET = TEST_MODE?"ftth_net_test":"ftth_net_v1";
 const DOC_STATE = TEST_MODE?"state_teste":"state", DOC_NET = TEST_MODE?"net_teste":"net";
@@ -660,7 +770,7 @@ const lineReg = ln => (ln[2]&&ln[2].reg) || regionOf(ln[1][0][0]);
 const norm = s => String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().trim();
 
 /* Ruas (rótulos no mapa): [id, região, nome padrão, traçado [[lng,lat],...]].
-   Traçados derivados do alinhamento dos cabos/caixas do KML. Nomes em branco = rua ainda sem nome (digite o nome real em ⚙ Dados > Renomear ruas).
+   Traçados derivados do alinhamento dos cabos/caixas do KML. Nomes em branco = rua ainda sem nome (digite o nome real em ⚙ Configurações > Renomear ruas).
    "Rua Santa Luzia" vem da própria descrição do KML. */
 const STREETS = [
 ["msg","sgb","",[[-41.36202,-18.92189],[-41.36053,-18.92053],[-41.35938,-18.91945],[-41.35846,-18.91859],[-41.35735,-18.91758],[-41.35635,-18.91665],[-41.35533,-18.91572]]],
@@ -700,7 +810,7 @@ function buildItems(net){
   out.forEach(it=>{ const o=state.pos[it.id]; if(o && isFinite(o[0]) && isFinite(o[1])){ it.lat=o[0]; it.lng=o[1]; } });
   out.forEach(it=>{ if(it.type==="ceo" && state.ceoDesc && typeof state.ceoDesc[it.id]==="string") it.desc=state.ceoDesc[it.id]; });   // dados da CEO editados por você
   // Caixas criadas pelo usuário (state.custom)
-  state.custom.forEach(c=>out.push({ id:c.id, name:c.name, lng:c.lng, lat:c.lat, lng0:c.lng, lat0:c.lat, desc:c.desc||"", type:c.type==="ceo"?"ceo":"cto", region:c.region||regionOf(c.lng), seedFull:false, seedWarn:false, custom:true }));
+  state.custom.forEach(c=>out.push({ id:c.id, name:c.name, lng:c.lng, lat:c.lat, lng0:c.lng, lat0:c.lat, desc:c.desc||"", type:c.type==="ceo"?"ceo":(c.type==="rural"||c.type==="arm")?c.type:"cto", region:c.region||regionOf(c.lng), seedFull:false, seedWarn:false, custom:true }));
   return out;
 }
 
@@ -708,7 +818,7 @@ let net   = jget(KEY_NET, null) || { pts:PTS, lines:LINES };
 let state = jget(KEY_STATE, null);
 function fixState(){
   if(!state||typeof state!=="object") state={};
-  ["clients","full","warn","names","notes","links","sn","so","pos","plan","vlan","vlanNames","cityNames","ceoOf","hist","ceoCap","ceoDesc","qcol","sdel","ceoCol"].forEach(k=>{ if(!state[k]||typeof state[k]!=="object"||Array.isArray(state[k])) state[k]={}; });
+  ["clients","full","warn","names","notes","links","sn","so","pos","plan","vlan","vlanNames","cityNames","ceoOf","hist","ceoCap","ceoDesc","qcol","sdel","ceoCol","rur","arm"].forEach(k=>{ if(!state[k]||typeof state[k]!=="object"||Array.isArray(state[k])) state[k]={}; });
   ["custom","cst","cityExtra"].forEach(k=>{ if(!Array.isArray(state[k])) state[k]=[]; });
   rebuildRegions();
   if(!Array.isArray(state.vlanList)) state.vlanList=["205","206"];
@@ -721,7 +831,9 @@ let items = [], byId = {};
 function rebuild(){ _sm=null; items=buildItems(net); byId=Object.fromEntries(items.map(i=>[i.id,i])); }
 rebuild();
 let stageOn=false, draftBase=null, draftDirty=false, heldRemote=null;
+let RO=false;   // conta travada (só visualizar)
 const save = ()=>{
+  if(RO) return;
   if(stageOn && currentId){ draftDirty=true; drawDraftBar(); return; }   // alterações do painel da caixa ficam pendentes até "Salvar"
   jset(KEY_STATE, state); cloudPush();
 };
@@ -794,7 +906,7 @@ function ensureStreet(name,reg){
 const boxesOn= id => items.filter(i=>i.type==="cto" && stOf(i)===id);
 
 const ICO_PEN=`<svg viewBox="0 0 24 24"><path d="M9 3h6v12l-3 5-3-5z"/><path d="M9 7h6"/></svg>`, ICO_TRASH=`<svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>`;
-let vlOpen=false, portMark=false; let region = "sgb", currentId = null, editMode = false, placing = false;
+let vlOpen=false, portMark=false; let region = "sgb", currentId = null, editMode = false, placing = false, placingKind = null;
 const FIBER_HEX = {VERDE:"#22c55e",AMARELA:"#facc15",BRANCA:"#ffffff",AZUL:"#3b82f6",VERMELHA:"#ef4444",ROXA:"#a855f7",VIOLETA:"#a855f7",LARANJA:"#f97316",MARROM:"#92400e",ROSA:"#ec4899",CINZA:"#94a3b8",PRETA:"#111111"};
 let infoMode = false; try{ infoMode = localStorage.getItem("ftth_info")==="1"; }catch(e){}
 let lpBlock = false, lpMapBlock = false;
@@ -813,7 +925,7 @@ const lineLayer = L.layerGroup().addTo(map);
 const streetLayer = L.layerGroup().addTo(map);
 const markLayer = L.layerGroup().addTo(map);
 const cabLayer = L.layerGroup().addTo(map), cabLenLayer = L.layerGroup().addTo(map);
-let cabMode=false, cabSnap=null, cabDirty=false, cabPoly={}, cabHalo={}, cabSel=null, hideCto=false, hideCeo=false, hideFib=false, hideOth=false; try{ hideOth=localStorage.getItem("ftth_hideoth")==="1"; hideFib=localStorage.getItem("ftth_hidefib")==="1"; hideCto=localStorage.getItem("ftth_hidecto")==="1"; hideCeo=localStorage.getItem("ftth_hideceo")==="1"; }catch(e){}
+let cabMode=false, cabSnap=null, cabDirty=false, cabPoly={}, cabHalo={}, cabSel=null, hideCto=false, hideCeo=false, hideFib=false; try{ hideFib=localStorage.getItem("ftth_hidefib")==="1"; hideCto=localStorage.getItem("ftth_hidecto")==="1"; hideCeo=localStorage.getItem("ftth_hideceo")==="1"; }catch(e){}
 const markers = {}, stMk = {};
 function zoomCls(){ const z=map.getZoom(), c=map.getContainer().classList; c.toggle("zl16",z>=16); c.toggle("zl17",z>=17); }
 map.on("zoomend",zoomCls); zoomCls();
@@ -835,6 +947,10 @@ function iconFor(it){
     const css=[]; if(HEX.test(cc||"")) css.push(`background:${cc};color:${textOn(cc)}`);
     if(hx) css.push("border-color:"+hx+";border-width:3px;box-shadow:0 0 0 1.5px rgba(0,0,0,.6),0 1px 4px rgba(0,0,0,.6)");
     if(css.length) sty=` style="${css.join(";")}"`;
+  } else if(it.type==="rural"){
+    const r=state.rur[it.id]||{}; cls="rural"; label=esc(nameOf(it))+(String(r.sig||"").trim()?" / "+esc(String(r.sig).trim()):"");
+  } else if(it.type==="arm"){
+    cls="arm"; label="🗄 "+esc(nameOf(it));
   } else { cls=it.type; label=(it.type==="loja"?"🏠 ":"")+esc(nameOf(it)); }
   if(hl) cls += hl.has(it.id) ? " hl" : " dim";
   if(selSet.has(it.id)){ cls += " sel"; label = "✔ "+label; }
@@ -854,7 +970,7 @@ function iconFor(it){
   }
   return L.divIcon({className:"",html:`<span class="pill ${cls}"${sty}>${label}</span>`,iconSize:[0,0]});
 }
-const zOf = it => (hl&&hl.has(it.id)) ? 2000 : (isFull(it)&&!isPlanned(it)) ? 1000 : it.type==="cto" ? 500 : 0;
+const zOf = it => (hl&&hl.has(it.id)) ? 2000 : (isFull(it)&&!isPlanned(it)) ? 1000 : it.type==="cto" ? 500 : (it.type==="arm"||it.type==="rural") ? 300 : 0;
 function stIcon(o){
   return L.divIcon({className:"",iconSize:[0,0],html:`<span class="st${o.tot>220?" long":""}${hlSt.has(o.s[0])?" on":""}" style="transform:translate(-50%,-50%) rotate(${o.ang.toFixed(1)}deg) translateY(-17px)">${esc(stName(o.s[0]))}</span>`});
 }
@@ -955,10 +1071,9 @@ function render(){
   });
   items.forEach(it=>{
     if(it.region!==region) return;
-    if(hideCto && it.type==="cto") return;
+    if(hideCto && (it.type==="cto"||it.type==="imenda"||it.type==="loja"||it.type==="rural"||it.type==="arm")) return;   // "Caixas" apagada esconde também emendas, loja, rural e armário
     if(hideCeo && it.type==="ceo") return;
-    if(hideOth && (it.type==="imenda"||it.type==="loja")) return;
-    const canDrag = editMode && (it.type==="cto"||it.type==="ceo");
+    const canDrag = editMode && (it.type==="cto"||it.type==="ceo"||it.type==="rural"||it.type==="arm");
     const m = L.marker([it.lat,it.lng],{icon:iconFor(it),zIndexOffset:zOf(it),riseOnHover:true,draggable:canDrag,interactive:!cabRawNow()}).addTo(markLayer);
     m.on("click",()=>{ if(placing||lpBlock) return; if(selMode){ if(it.type==="cto") toggleSel(it.id); return; } openSheet(it.id); });
     if(canDrag){ m.on("dragstart",closeSheet); m.on("dragend",()=>onMoved(it,m)); }
@@ -986,17 +1101,35 @@ function updateStats(){
   const plan = all.filter(isPlanned), vis = all.filter(i=>!isPlanned(i));
   const st = vis.map(status), full=st.filter(s=>s==="full").length, warn=st.filter(s=>s==="warn").length;
   const total = vis.reduce((s,i)=>s+clientsOf(i.id).length,0);
+  const rur = items.filter(i=>i.type==="rural" && i.region===region).length;
   document.getElementById("stats").innerHTML =
-    `<b>${vis.length}</b> caixas · <span class="font-bold" style="color:var(--c-full,#f87171)">${full} lotadas</span> · <span class="font-bold" style="color:var(--c-warn,#fbbf24)">${warn} atenção</span> · <span class="font-bold" style="color:var(--c-ok,#34d399)">${vis.length-full-warn} livres</span> · ${total} clientes${plan.length?` · <span class="text-violet-300 font-bold">${plan.length} planejada${plan.length>1?"s":""}</span>`:""}`;
+    `<b>${vis.length}</b> caixas · <span class="font-bold" style="color:var(--c-full,#f87171)">${full} lotadas</span> · <span class="font-bold" style="color:var(--c-warn,#fbbf24)">${warn} atenção</span> · <span class="font-bold" style="color:var(--c-ok,#34d399)">${vis.length-full-warn} livres</span> · ${total} clientes${rur?" (fibra)":""}${rur?` · <span class="font-bold" style="color:#38bdf8">📶 ${rur} cliente${rur===1?"":"s"} rádio</span>`:""}${plan.length?` · <span class="text-violet-300 font-bold">${plan.length} planejada${plan.length>1?"s":""}</span>`:""}`;
 }
 
 /* ======================= ABAS ======================= */
 function drawTabs(){
   const el = document.getElementById("tabs");
-  el.innerHTML = Object.entries(REGIONS).map(([k,v])=>
-    `<button data-r="${k}" class="whitespace-nowrap rounded-full px-3 py-1 font-semibold ${k===region?'bg-white text-[#0056b3]':'bg-white/15 text-white border border-white/30'}">${v}</button>`).join("");
-  el.querySelectorAll("button").forEach(b=>b.onclick=()=>{ region=b.dataset.r; closeSheet(); cancelPlacing(); drawTabs(); fit(); });
+  el.innerHTML = `<button id="cityBtn"><svg viewBox="0 0 24 24"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span>${esc(REGIONS[region]||"Cidades")}</span><svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="m6 9 6 6 6-6"/></svg></button>`;
+  document.getElementById("cityBtn").onclick=e=>{ e.stopPropagation(); toggleCityPop(); };
+  closeCityPop();
 }
+function closeCityPop(){ const p=document.getElementById("cityPop"); if(p) p.classList.add("hidden"); }
+function toggleCityPop(){
+  const p=document.getElementById("cityPop"); if(!p) return;
+  if(!p.classList.contains("hidden")){ p.classList.add("hidden"); return; }
+  p.style.top=(parseFloat(document.documentElement.style.getPropertyValue("--tb"))||110)+"px";
+  p.innerHTML=Object.entries(REGIONS).map(([k,v])=>`<button data-city="${k}" class="w-full flex items-center gap-2 text-left rounded-lg px-2.5 py-2 text-sm ${k===region?"font-bold cpon":"text-slate-800"}"><svg viewBox="0 0 24 24" style="width:16px;height:16px;flex:none;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;color:${k===region?'inherit':'#94a3b8'}"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span class="flex-1 truncate">${esc(v)}</span></button>`).join("")
+    +`<div class="flex justify-end pt-0.5 mt-0.5 border-t border-slate-200"><button data-city="__manage" title="Gerenciar cidades" aria-label="Gerenciar cidades" class="text-slate-500 rounded-md flex items-center justify-center" style="width:26px;height:26px"><svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5h0a1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button></div>`;
+  p.classList.remove("hidden");
+}
+document.getElementById("cityPop").addEventListener("click",e=>{
+  const b=e.target.closest("[data-city]"); if(!b) return; const k=b.dataset.city; closeCityPop();
+  if(k==="__manage"){ perSec="cid"; closeSheet(); drawPer(); perModal.classList.remove("hidden"); return; }
+  if(k===region) return;
+  region=k; closeSheet(); cancelPlacing(); drawTabs(); fit();
+});
+document.addEventListener("click",e=>{ const p=document.getElementById("cityPop"); if(p&&!p.classList.contains("hidden")&&!p.contains(e.target)&&!e.target.closest("#cityBtn")) p.classList.add("hidden"); },true);
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeCityPop(); });
 
 /* ======================= LIGAÇÃO CTO -> CEO ======================= */
 function dist(a,b){ const dx=(a[0]-b[0])*Math.cos(18.9*Math.PI/180)*111320, dy=(a[1]-b[1])*110540; return Math.hypot(dx,dy); }
@@ -1128,16 +1261,73 @@ function freeFaux(it,pn){
   empties.forEach(q=>{ if(q!==pn) cl.push({n:"",p:String(q)}); });
   state.full[it.id]=false; save(); drawSheet(); refreshMarker(it.id);
 }
+const CARD_T={GTGO:["GTGO",8,"GTGO (GPON, 8 PONs)"],GTGH:["GTGH",16,"GTGH (GPON, 16 PONs)"],CTRL:["energia",0,"Energia / controle (sem conectores)"],DIO12:["DIO",12,"DIO (12 conectores)"],DIO24:["DIO",24,"DIO (24 conectores)"]};
+const INP="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-base text-slate-900 focus:outline-none focus:border-sky-500";
+const PLUG_IN="flex:1;min-width:0;width:100%;font-size:12px;padding:3px 4px;border:1px solid #94a3b8;border-radius:5px;color:#0f172a;background:#fff";
+const plugBox=(n,on)=>`<span style="flex:0 0 auto;width:17px;height:17px;border-radius:3px;background:${on?"#2563eb":"#94a3b8"};color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center">${n}</span>`;
+const armTw={}, armEd={};
+function armData(id){
+  const ar=state.arm[id]||(state.arm[id]={aps:[],olt:{}});
+  if(!Array.isArray(ar.towers)){ ar.towers=[{n:"Principal",ip:"",aps:Array.isArray(ar.aps)?ar.aps:[],pons:[]},{n:"Caixa d'água",ip:"",aps:[],pons:[]},{n:"Da Pedra",ip:"",aps:[],pons:[]}]; delete ar.aps; }
+  ar.towers.forEach(t=>{ if(!Array.isArray(t.aps)) t.aps=[]; if(!Array.isArray(t.pons)) t.pons=[]; if(typeof t.ip!=="string") t.ip=""; });
+  return ar; }
+function armTower(id){ const ar=armData(id); let i=armTw[id]|0; if(i<0||i>=ar.towers.length) i=armTw[id]=0; return {ar,i,t:ar.towers[i]}; }
+function specialSheet(it,gm){
+  const id=it.id, att=v=>esc(String(v==null?"":v)).replace(/"/g,"&quot;");
+  const gmH=`<div class="mt-3"><a href="${gm}" target="_blank" rel="noopener" class="inline-block rounded-md bg-blue-600 text-white px-3 py-1.5 font-semibold text-xs">🧭 Ir com Google Maps</a></div>`;
+  const del=`<div class="mt-3 flex gap-2 text-xs"><button data-a="movehere" class="rounded-lg border border-slate-300 text-slate-700 px-3 py-2">✋ Mover no mapa</button><button data-a="delbox" class="rounded-lg border border-red-300 text-red-600 px-3 py-2">🗑 Excluir</button></div>`;
+  const nm=`<label class="block mt-2 text-xs text-slate-500">Nome<input data-a="spf" data-k="name" value="${att(nameOf(it))}" maxlength="60" class="${INP}"></label>`;
+  if(it.type==="rural"){
+    const r=state.rur[id]||{};
+    return nm+`<label class="block mt-1 text-xs text-slate-500">Sinal<input data-a="spf" data-k="sig" value="${att(r.sig)}" maxlength="12" inputmode="text" placeholder="Ex.: 70" class="${INP}"></label>`+gmH+del;
+  }
+  const {ar:a,i:twi,t:tw}=armTower(id), olt=a.olt||{}, ed=!!armEd[id];
+  const ipP=(tw.ip||"").split("."), ipTxt=tw.ip?`${att(tw.ip)}<em>.___</em>`:`<em>não definida</em>`;
+  const chips=a.towers.map((x,i)=>`<button data-a="twsel" data-i="${i}" class="twc${i===twi?" on":""}">${att(x.n||"Torre")}${i===twi&&!ed?" ✏️":""}</button>`).join("")+`<button data-a="twnew" class="twc plus" title="Adicionar torre">＋</button>`;
+  const ipBox=ed?`<div class="twedit"><div class="l">Nome da torre</div><div class="row"><input id="spTwN" value="${att(tw.n)}" maxlength="30"><button data-a="twok" class="twok" title="Confirmar">✓</button><button data-a="twdel" class="twbin" title="Excluir esta torre">${ICO_TRASH}</button></div>
+      <div class="l" style="margin-top:10px">Faixa de IP (3 primeiros números)</div><div class="row"><input id="spIp1" class="oct" inputmode="numeric" maxlength="3" value="${att(ipP[0]||"")}"><span class="dot">.</span><input id="spIp2" class="oct" inputmode="numeric" maxlength="3" value="${att(ipP[1]||"")}"><span class="dot">.</span><input id="spIp3" class="oct" inputmode="numeric" maxlength="3" value="${att(ipP[2]||"")}"><span class="dot">.</span><span class="dot">___</span></div></div>`
+    :`<div class="ipbx"><span>Faixa de IP desta torre</span><span style="display:flex;align-items:center;color:inherit"><b>${ipTxt}</b><button data-a="twedit" class="pen" title="Editar nome e faixa de IP">✏️</button></span></div>`;
+  const apT=(x,i)=>{ const m=/^AP[\s-]*(\d.*|)$/i.exec(x.n||""), lab=m?"AP":"", v=m?m[1]:(x.n||"");
+    return `<div class="apt"><button data-a="apdel" data-i="${i}" class="tx" title="Apagar este AP">×</button><small>${lab||"&nbsp;"}</small><input class="ti" data-a="apf" data-i="${i}" data-pre="${lab?1:0}" value="${att(v)}" maxlength="12" placeholder="nº" enterkeyhint="done"></div>`; };
+  const ponT=(x,i)=>`<div class="apt"><button data-a="pondel" data-i="${i}" class="tx" title="Apagar esta PON">×</button><small style="text-align:left;padding-left:2px">PON</small><input class="pf" data-a="ponn" data-i="${i}" value="${att(x.n)}" maxlength="20" placeholder="Ex.: PON 8"></div>`;
+  const rows=tw.aps.map(apT).join("")+`<button data-a="apadd" class="apt add"><b>＋</b><small>Adicionar</small></button>`;
+  const ponRows=tw.pons.map(ponT).join("")+`<button data-a="ponadd" class="apt add"><b>＋</b><small>Adicionar</small></button>`;
+  const ceoAt=(sl,n)=>items.filter(x=>x.type==="ceo"&&x.region===it.region).filter(x=>{ const q=parseCeo(x.desc); return q.card!=null&&q.pon!=null&&+q.card===+sl&&+q.pon===+n; });
+  const cards=a.cards||[], val=p=>p?(p.t!==undefined?p.t:[p.f,p.d].filter(x=>String(x||"").trim()).join(" ")):"";
+  const plug=(c,i,n,w)=>{ const au=ceoAt(c.s,n), aF=au.map(x=>parseCeo(x.desc).fibra).filter(Boolean).map(f=>"F"+f).join(","), v=val((c.p||[])[n-1]);
+    return `<div style="display:flex;align-items:center;gap:4px;margin-top:4px">${plugBox(n,!!(String(v).trim()||au.length))}<input data-a="ponf" data-i="${i}" data-n="${n-1}" value="${att(v)}" maxlength="30" placeholder="${att(aF)}" style="${PLUG_IN}"></div>`; };
+  const head=(c,i,T)=>`<div style="display:flex;align-items:center;justify-content:space-between;gap:3px"><b style="font-size:12px;color:#0f172a;white-space:nowrap">${T[0]==="DIO"?"DIO ":""}${esc(c.s)}</b><span style="font-size:10px;color:#475569;white-space:nowrap">${T[0]==="DIO"?"":T[0]}</span><button data-a="carddel" data-i="${i}" title="Apagar" style="font-size:15px;line-height:1;color:#dc2626;padding:0 2px">×</button></div>`;
+  const olts=cards.map((c,i)=>({c,i,T:CARD_T[c.t]||CARD_T.CTRL})), oc=olts.filter(x=>x.T[0]!=="DIO"), dc=olts.filter(x=>x.T[0]==="DIO");
+  const colH=oc.map(({c,i,T})=>`<div style="flex:0 0 auto;width:${T[1]?118:64}px;border:1px solid #94a3b8;border-radius:10px;background:#e5e7eb;padding:6px 5px">${head(c,i,T)}${Array.from({length:T[1]},(_,k)=>plug(c,i,k+1)).join("")}${T[1]?"":`<div style="font-size:10px;color:#64748b;margin-top:4px">sem conectores</div>`}</div>`).join("");
+  const dioH=dc.map(({c,i,T})=>`<div style="border:1px solid #94a3b8;border-radius:10px;background:#e5e7eb;padding:6px 6px;margin-top:6px">${head(c,i,T)}<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0 8px">${Array.from({length:T[1]},(_,k)=>plug(c,i,k+1)).join("")}</div></div>`).join("");
+  return nm+`<div class="mt-3 text-sm font-bold text-slate-800">🗼 Qual torre?</div>
+    <div class="twrow">${chips}</div>${ipBox}
+    <div class="mt-3 text-sm font-bold text-slate-800">📡 Antenas (AP) desta torre</div>
+    <div class="apg">${rows}</div>
+    <div class="mt-1 text-xs text-slate-500">Toque no número para mudar. Cada torre tem a sua lista.</div>
+    <div class="mt-3 text-sm font-bold text-slate-800">🟢 PON (saídas) desta torre</div>
+    <div class="apg p2">${ponRows}</div>
+    <div class="mt-1 text-xs text-slate-500">Toque na caixinha e escreva o nome que quiser (PON 8, PON 10…).</div>
+    <div class="mt-3 text-sm font-bold text-slate-800">🔌 OLT</div>
+    <div class="grid grid-cols-2 gap-2"><label class="block text-xs text-slate-500">Nome da OLT<input data-a="oltf" data-k="n" value="${att(olt.n)}" maxlength="40" placeholder="Ex.: OLT01" class="${INP}"></label>
+      <label class="block text-xs text-slate-500">VLAN<input data-a="oltf" data-k="vlan" value="${att(olt.vlan)}" maxlength="6" inputmode="numeric" placeholder="Ex.: 205" class="${INP}"></label></div>
+    <div class="mt-2 text-xs text-slate-500">Escreva em cada conector o que está espetado nele (ex.: F15). Em cinza, a fibra que vem sozinha das CEOs com aquele Card e PON.</div>
+    ${colH?`<div style="display:flex;gap:8px;overflow-x:auto;padding:6px 0 8px;-webkit-overflow-scrolling:touch">${colH}</div>`:`<div class="mt-1 text-xs text-slate-500">Nenhuma placa ainda.</div>`}
+    ${dioH}
+    <div class="mt-2 flex gap-1.5"><input id="spCardS" inputmode="numeric" maxlength="3" placeholder="Nº" class="w-14 shrink-0 rounded-lg border border-slate-300 px-2 py-2 text-base text-slate-900"><select id="spCardT" class="flex-1 min-w-0 rounded-lg border border-slate-300 px-2 py-2 text-sm text-slate-900">${Object.entries(CARD_T).map(([k,v])=>`<option value="${k}">${v[2]}</option>`).join("")}</select><button data-a="cardadd" class="shrink-0 rounded-lg border border-sky-300 text-sky-700 px-3 py-2 text-sm font-semibold">➕ Placa</button></div>
+    <div class="text-[11px] text-slate-500 mt-1">Nº = o número do encaixe (slot) no equipamento: 0, 1, 2, 3… Slot vazio? Só cadastre quando instalar a placa.</div>`+gmH+del;
+}
 function drawSheet(){
   const it=byId[currentId]; if(!it) return;
   sheet.classList.toggle("ceo",it.type==="ceo");
   const cl = clientsOf(it.id), c=cl.length, co=c, st=status(it), sid=stOf(it);
   const gm = `https://www.google.com/maps/dir/?api=1&destination=${it.lat},${it.lng}&travelmode=driving`;
-  const kind = it.type==="cto"?(isPlanned(it)?"Caixa planejada":"Caixa"):it.type==="ceo"?"CEO (emenda)":it.type==="imenda"?"Caixa de emenda":"Local";
+  const kind = it.type==="cto"?(isPlanned(it)?"Caixa planejada":"Caixa"):it.type==="ceo"?"CEO (emenda)":it.type==="imenda"?"Caixa de emenda":it.type==="rural"?"Cliente zona rural (rádio)":it.type==="arm"?"Armário / Torre":"Local";
   let h = `<div class="flex items-start justify-between gap-2 mt-1">
       <div class="min-w-0"><div class="text-xs text-slate-500">${REGIONS[it.region]} · ${kind}${sid?" · 🛣 "+esc(stLabel(sid)):""}</div>
-      <h2 class="text-lg font-extrabold text-slate-900 truncate">${it.type==="cto"?"Caixa ":""}${esc(nameOf(it))}</h2></div>
+      <h2 id="spTitle" class="text-lg font-extrabold text-slate-900 truncate">${it.type==="cto"?"Caixa ":""}${esc(nameOf(it))}</h2></div>
       </div>`;
+  if(it.type==="rural"||it.type==="arm"){ body.innerHTML=h+specialSheet(it,gm); return; }
   if(isPlanned(it)){
     const pc=planOf(it).color;
     h += `<div class="mt-2 flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-800"><span class="inline-block w-4 h-4 rounded-full border border-white shadow shrink-0" style="background:${pc};box-shadow:0 0 0 1px #94a3b8"></span>🛠 Caixa planejada / a instalar<span class="block text-xs font-normal text-slate-500 ml-auto text-right">Desmarque no Modo Edição quando instalada</span></div>`;
@@ -1193,6 +1383,7 @@ function drawSheet(){
 body.addEventListener("click",e=>{
   const b=e.target.closest("[data-a]"); if(!b) return;
   const it=byId[currentId]; if(!it) return; const a=b.dataset.a, cl=clientsOf(it.id);
+  if(RO&&!["close","gotobox","fview","hall"].includes(a)) return;
   if(a==="close") return closeSheet();
   if(a==="add") return addClient();
   if(a==="pmark"){ portMark=!portMark; drawSheet(); return; }
@@ -1251,10 +1442,33 @@ body.addEventListener("click",e=>{
     const sid=stOf(it), n=prompt(sid?"Nome da rua (vale para todas as caixas desta rua):":"Nome da rua desta caixa:", sid?stName(sid):""); if(n===null) return; const v=n.trim();
     if(sid) state.sn[sid]=v; else if(v) state.so[it.id]=ensureStreet(v,it.region);
     save(); afterStreetChange(); return; }
+  if(a==="carddel"){ const ar=state.arm[it.id], i=+b.dataset.i, c=ar&&ar.cards&&ar.cards[i]; if(c&&confirm(`Apagar a placa do Card ${c.s}? Os dados das PONs dela serão perdidos.`)){ ar.cards.splice(i,1); save(); drawSheet(); } return; }
+  if(a==="cardadd"){ const sv=(document.getElementById("spCardS").value||"").trim().replace(/\D/g,""), t=document.getElementById("spCardT").value;
+    if(!sv){ document.getElementById("spCardS").focus(); toast("Escreva o número do slot (ex.: 2)."); return; }
+    const ar=state.arm[it.id]=state.arm[it.id]||{aps:[],olt:{}}; ar.cards=ar.cards||[]; const isD=x=>(CARD_T[x]||[])[0]==="DIO";
+    if(ar.cards.some(c=>String(c.s)===String(+sv)&&isD(c.t)===isD(t))){ toast("Já existe esse número ("+(+sv)+")."); return; }
+    ar.cards.push({s:String(+sv),t,p:Array.from({length:(CARD_T[t]||CARD_T.CTRL)[1]},()=>({t:""}))});
+    ar.cards.sort((x,y)=>(isD(x.t)-isD(y.t))||(+x.s-+y.s)); save(); drawSheet(); return; }
+  if(a==="movehere"){ setEdit(true); toast("Arraste o ponto para o novo lugar."); return; }
+  if(a==="apadd"){ const {t}=armTower(it.id); t.aps.push({n:"AP "+(t.aps.length+1)}); save(); drawSheet(); return; }
+  if(a==="apdel"){ const {t}=armTower(it.id), i=+b.dataset.i; if(t.aps[i]&&confirm(`Apagar o ${t.aps[i].n||"AP"}?`)){ t.aps.splice(i,1); save(); drawSheet(); } return; }
+  if(a==="ponadd"){ const {t}=armTower(it.id); t.pons.push({n:"PON "+(t.pons.length+1)}); save(); drawSheet(); return; }
+  if(a==="pondel"){ const {t}=armTower(it.id), i=+b.dataset.i; if(t.pons[i]&&confirm(`Apagar a ${t.pons[i].n||"PON"}?`)){ t.pons.splice(i,1); save(); drawSheet(); } return; }
+  if(a==="twsel"){ const ar=armData(it.id), i=+b.dataset.i; if(i===(armTw[it.id]|0)&&!armEd[it.id]){ armEd[it.id]=true; } else { armTw[it.id]=i; armEd[it.id]=false; } drawSheet(); return; }
+  if(a==="twedit"){ armEd[it.id]=true; drawSheet(); return; }
+  if(a==="twnew"){ const ar=armData(it.id); ar.towers.push({n:"Nova torre",ip:"",aps:[],pons:[]}); armTw[it.id]=ar.towers.length-1; armEd[it.id]=true; save(); drawSheet(); const f=document.getElementById("spTwN"); if(f){ f.focus(); f.select(); } return; }
+  if(a==="twok"){ const {t}=armTower(it.id), g=k=>(document.getElementById(k).value||"").trim(), n=g("spTwN"), q=[g("spIp1"),g("spIp2"),g("spIp3")];
+    if(!n){ toast("Escreva o nome da torre."); return; }
+    let ip=""; if(q.some(x=>x)){ if(!q.every(x=>/^\d{1,3}$/.test(x)&&+x<=255)){ toast("A faixa tem 3 números, cada um de 0 a 255 (ex.: 192 . 168 . 10)."); return; } ip=q.map(x=>String(+x)).join("."); }
+    t.n=n; t.ip=ip; armEd[it.id]=false; save(); drawSheet(); return; }
+  if(a==="twdel"){ const {ar,i,t}=armTower(it.id); if(ar.towers.length<=1){ toast("O armário precisa ter pelo menos uma torre."); return; }
+    if(!confirm(`Excluir a torre "${t.n}" com ${t.aps.length} AP e ${t.pons.length} PON? Não dá para desfazer.`)) return;
+    ar.towers.splice(i,1); armTw[it.id]=0; armEd[it.id]=false; save(); drawSheet(); return; }
   if(a==="delbox"){
-    if(!confirm(`Excluir a caixa "${nameOf(it)}" e seus ${cl.length} cliente(s)? Não dá para desfazer.`)) return;
+    if(it.type==="rural"||it.type==="arm"){ if(!confirm(`Excluir ${it.type==="rural"?"o cliente":"o armário"} "${nameOf(it)}"? Não dá para desfazer.`)) return; }
+    else if(!confirm(`Excluir a caixa "${nameOf(it)}" e seus ${cl.length} cliente(s)? Não dá para desfazer.`)) return;
     const id=it.id; state.custom=state.custom.filter(x=>x.id!==id);
-    ["clients","full","warn","names","notes","links","so","plan","vlan","ceoOf","hist","ceoCap","qcol","ceoCol"].forEach(k=>delete state[k][id]);
+    ["clients","full","warn","names","notes","links","so","plan","vlan","ceoOf","hist","ceoCap","qcol","ceoCol","rur","arm"].forEach(k=>delete state[k][id]);
     save(); closeSheet(); rebuild(); computeStreets(); computeLinks(); render(); return; }
   if(a==="del"){ const i=+b.dataset.i; if(confirm(`Excluir "${cl[i].n}" desta caixa?`)){ const pn=+cl[i].p, fl=forcedFull(it); cl.splice(i,1); if(fl){ freeFaux(it,pn); } else { save(); drawSheet(); refreshMarker(it.id); } } return; }
   if(a==="rename"){ openEbOne(it); return; }
@@ -1263,7 +1477,16 @@ body.addEventListener("click",e=>{
   if(a==="note"){ const n=prompt("Anotação sobre este ponto:",state.notes[it.id]||""); if(n!==null){ if(n.trim()) state.notes[it.id]=n.trim(); else delete state.notes[it.id]; save(); drawSheet(); } return; }
 });
 body.addEventListener("change",e=>{
-  const a=e.target.dataset.a, it=byId[currentId];
+  if(RO) return;
+  const a=e.target.dataset.a, it=byId[currentId], v=(e.target.value||"").trim();
+  if(it && a==="spf"){ const k=e.target.dataset.k;
+    if(k==="name"){ if(v) state.names[it.id]=v; else delete state.names[it.id]; const t=document.getElementById("spTitle"); if(t) t.textContent=nameOf(it); }
+    else { const r=state.rur[it.id]=state.rur[it.id]||{}; r[k]=v; }
+    save(); refreshMarker(it.id); return; }
+  if(it && a==="apf"){ const {t}=armTower(it.id), x=t.aps[+e.target.dataset.i]; if(x){ x.n=e.target.dataset.pre==="1"?(v?"AP "+v:"AP"):v; save(); } return; }
+  if(it && a==="ponn"){ const {t}=armTower(it.id), x=t.pons[+e.target.dataset.i]; if(x){ x.n=v; save(); } return; }
+  if(it && a==="ponf"){ const c=((state.arm[it.id]||{}).cards||[])[+e.target.dataset.i]; if(c){ c.p=c.p||[]; const n=+e.target.dataset.n; c.p[n]={t:v}; save(); } return; }
+  if(it && a==="oltf"){ const ar=state.arm[it.id]=state.arm[it.id]||{aps:[],olt:{}}; ar.olt=ar.olt||{}; ar.olt[e.target.dataset.k]=v; save(); return; }
   if(a==="ceoadd" && it && e.target.value){ state.ceoOf[e.target.value]=it.id; save(); computeLinks(); render(); drawSheet(); return; }
   if(a==="force" && it){ state.full[it.id]=e.target.checked; save(); drawSheet(); refreshMarker(it.id); }
   if(a==="warnchk" && it){ state.warn[it.id]=e.target.checked; save(); drawSheet(); refreshMarker(it.id); }
@@ -1273,6 +1496,7 @@ body.addEventListener("change",e=>{
 });
 // seletor de cor livre: pré-visualiza no mapa enquanto arrasta, sem redesenhar o painel (o seletor nativo fecharia)
 body.addEventListener("input",e=>{
+  if(RO) return;
   if(e.target.dataset.a!=="plancustom") return;
   const it=byId[currentId]; if(!it||!HEX.test(e.target.value)) return;
   state.plan[it.id]={on:true,color:e.target.value}; refreshMarker(it.id);
@@ -1314,12 +1538,13 @@ function addClient(){
   const i2=document.getElementById("newClient"); if(i2&&cl.length<CAP) i2.focus();
 }
 body.addEventListener("change",e=>{
+  if(RO) return;
   if(e.target.dataset.a!=="street") return;
   const it=byId[currentId]; if(e.target.value) state.so[it.id]=e.target.value; else delete state.so[it.id];
   save(); drawSheet();
 });
 // alterações feitas dentro do painel da caixa só valem depois de "Salvar"
-["click","change","keydown"].forEach(ev=>{ body.addEventListener(ev,()=>{stageOn=true;},true); body.addEventListener(ev,()=>{stageOn=false;}); });
+["click","change","keydown"].forEach(ev=>{ body.addEventListener(ev,()=>{ const c=byId[currentId]; stageOn=!(c&&(c.type==="rural"||c.type==="arm")); },true); body.addEventListener(ev,()=>{stageOn=false;}); });
 document.getElementById("sheetX").addEventListener("click",()=>closeSheet());
 /* tocar no tracinho do topo: abre mais (sobe) · tocar de novo: recolhe ao tamanho normal */
 (function(){
@@ -1329,7 +1554,7 @@ document.getElementById("sheetX").addEventListener("click",()=>closeSheet());
     else sheet.style.setProperty("max-height",Math.max(220,window.innerHeight-90)+"px","important"); });
 })();
 document.getElementById("draftBar").addEventListener("click",e=>{ const d=e.target.dataset.d; if(d==="save") commitDraft(); else if(d==="cancel") cancelDraft(); });
-map.on("click",e=>{ if(lpMapBlock) return; hideChip(); openFibraPanel(false); if(pickPoint){ showNear(e.latlng.lat,e.latlng.lng,"Ponto marcado"); return; } if(cabRawNow()){ if(cabState==="draw") cabAddPt(e.latlng); else if(cabSel!==null){ cabSel=null; closeCabStyle(); render(); drawCabBar(); } return; } if(placing){ if(placingFor) placeQ(e.latlng); else openNewBox(e.latlng); return; } if(selMode) return; closeSheet(); });
+map.on("click",e=>{ if(lpMapBlock) return; hideChip(); openFibraPanel(false); if(pickPoint){ showNear(e.latlng.lat,e.latlng.lng,"Ponto marcado"); return; } if(cabRawNow()){ if(cabState==="draw") cabAddPt(e.latlng); else if(cabSel!==null){ cabSel=null; closeCabStyle(); render(); drawCabBar(); } return; } if(placing){ if(placingFor) placeQ(e.latlng); else if(placingKind) placeSpecial(e.latlng); else openNewBox(e.latlng); return; } if(selMode) return; closeSheet(); });
 
 /* ======================= BUSCA (rua / caixa / cliente) ======================= */
 const sInp=document.getElementById("search"), sRes=document.getElementById("results");
@@ -1495,8 +1720,8 @@ function updateEditBar(){
   editBar.classList.toggle("hidden",!editMode);
   map.getContainer().classList.toggle("placing",placing);
   editBar.innerHTML = placing
-    ? `<span class="font-semibold leading-tight">👆 Toque no mapa onde ${placingFor?"fica a "+esc(placingFor.name)+" desta CEO":"a nova caixa ficará"}</span><button data-e="cancel" class="shrink-0 rounded-lg bg-white/20 px-3 py-2 font-semibold">Cancelar</button>`
-    : `<span class="font-semibold leading-tight">✏ Edição ativa<span class="block text-xs font-normal opacity-80">arraste as caixas e CEOs para movê-las</span></span><span class="flex gap-2 shrink-0"><button data-e="sel" class="rounded-lg bg-white/20 px-2.5 py-2 text-xs font-semibold">☑ Selecionar</button><button data-e="add" class="rounded-lg bg-emerald-500 px-3 py-2 font-bold shadow">+ Nova Caixa</button><button data-e="off" class="rounded-lg bg-white/20 px-2.5 py-2 text-xs font-semibold">🔒 Travar</button></span>`;
+    ? `<span class="font-semibold leading-tight">👆 Toque no mapa onde ${placingFor?"fica a "+esc(placingFor.name)+" desta CEO":placingKind==="rural"?"fica o cliente da zona rural":placingKind==="arm"?"fica o armário":"a nova caixa ficará"}</span><button data-e="cancel" class="shrink-0 rounded-lg bg-white/20 px-3 py-2 font-semibold">Cancelar</button>`
+    : `<span class="font-semibold leading-tight">✏ Edição ativa<span class="block text-xs font-normal opacity-80">arraste as caixas, CEOs e pontos para movê-los</span></span><span class="flex gap-2 shrink-0"><button data-e="sel" class="rounded-lg bg-white/20 px-2.5 py-2 text-xs font-semibold">☑ Selecionar</button><button data-e="add" class="rounded-lg bg-emerald-500 px-3 py-2 font-bold shadow">+ Nova Caixa</button><button data-e="off" class="rounded-lg bg-white/20 px-2.5 py-2 text-xs font-semibold">🔒 Travar</button></span>`;
 }
 /* ======================= AJUSTAR CABOS ======================= */
 const cabBar=document.getElementById("cabBar"), cabChip=document.getElementById("cabChip"), cabStyle=document.getElementById("cabStyle"), ptModal=document.getElementById("ptModal");
@@ -1657,6 +1882,7 @@ function drawCabBar(){
 }
 function setCab(on){
   if(on===cabMode) return;
+  if(on&&RO){ toast("Conta só para visualizar"); return; }
   hideChip();
   if(on){
     if(selMode) setSel(false); if(editMode) setEdit(false);
@@ -1726,15 +1952,26 @@ function applyStatusColors(){
     else { st.removeProperty("--c-"+k); st.removeProperty("--tx-"+k); } });
 }
 applyStatusColors();
+function accentOf(){
+  const dark=document.documentElement.classList.contains("dark");
+  let c=hdrSafe(look.hdr)||"#0056b3";
+  if(dark){
+    let r=parseInt(c.slice(1,3),16),g=parseInt(c.slice(3,5),16),b=parseInt(c.slice(5,7),16);
+    for(let k=0;k<12&&(0.2126*r+0.7152*g+0.0722*b)/255<.38;k++){ r=Math.round(r+(255-r)*.12); g=Math.round(g+(255-g)*.12); b=Math.round(b+(255-b)*.12); }
+    c="#"+[r,g,b].map(v=>v.toString(16).padStart(2,"0")).join("");
+  }
+  return c;
+}
 function applyHdr(){
+  document.documentElement.style.setProperty("--ac",accentOf());
   const c=hdrSafe(look.hdr), h=document.getElementById("hdr");
   if(h) h.style.background=c?c+"f7":"";
-  const m=document.querySelector('meta[name="theme-color"]'); if(m) m.setAttribute("content",document.documentElement.classList.contains("dark")?"#17171a":(c||"#0128DF"));
+  const m=document.querySelector('meta[name="theme-color"]'); if(m) m.setAttribute("content",document.documentElement.classList.contains("dark")?"#000000":(c||"#0128DF"));
 }
 const perModal=document.getElementById("perModal"), perBody=document.getElementById("perBody");
 function perSave(){ draftDirty=false; save(); }
 let perSec="hdr";
-const PER_TITLES={hdr:"🎨 Cor da barra de cima",slot:"🟩 Vagas ocupadas (dentro das caixas)",cx:"🗺 Cores das caixas no mapa",ceo:"📡 Cores das CEOs no mapa",cid:"🏙 Cidades"};
+const PER_TITLES={conta:"👤 Conta",rur:"📶 Rede (zona rural e armário)",hdr:"🎨 Cor da barra de cima",slot:"🟩 Vagas ocupadas (dentro das caixas)",cx:"🗺 Cores das caixas no mapa",ceo:"📡 Cores das CEOs no mapa",cid:"🏙 Cidades"};
 function drawPer(){
   const cur=look.hdr||"";
   const S={}; S.hdr=`<div><div class="flex flex-wrap gap-2 items-center">${HDR_COLORS.map(c=>`<button data-hc="${c}" class="sw ${cur===c?"on":""}" style="background:${c||"#0056b3"}" title="${c||"Padrão (azul Ultranet)"}"></button>`).join("")}
@@ -1754,6 +1991,19 @@ function drawPer(){
   S.ceo=`<div>${stRow("ceo","ceo","CEO [3/8]",look.cc,"#2563eb")}
     <p class="text-xs opacity-70 mt-1">Todas as CEOs usam esta cor (azul é o padrão). A borda continua com a cor da fibra. <b>Vale só neste aparelho.</b></p>
     <p class="text-xs opacity-70 mt-2">Para uma CEO ter uma cor diferente das outras: ative <b>Editar</b>, toque na CEO e escolha em <b>Cor desta CEO no mapa</b>. Essa cor <b>vale para todos os aparelhos</b>.</p></div>`;
+  { const rl=items.filter(i=>i.type==="rural").sort((a,b)=>String(nameOf(a)).localeCompare(String(nameOf(b)))), al=items.filter(i=>i.type==="arm");
+    const row=i=>{ const r=state.rur[i.id]||{}; return `<button data-rg="${i.id}" class="w-full text-left rounded-lg border border-slate-300 px-3 py-2 mb-1.5 text-sm flex justify-between gap-2"><span class="truncate">${esc(nameOf(i))}${i.type==="rural"&&String(r.sig||"").trim()?" / "+esc(String(r.sig).trim()):""}</span><span class="opacity-60 shrink-0">${esc(REGIONS[i.region]||"")}</span></button>`; };
+    S.rur=`<div><p class="text-xs opacity-70">Para os clientes de rádio da zona rural e para o armário/torre com as antenas (AP) e a OLT. Você escolhe o lugar tocando no mapa.</p>
+      <button data-ra="rural" class="mbtn bg-[#0284c7] w-full mt-2">➕ Cliente zona rural (nome / sinal)</button>
+      <button data-ra="arm" class="mbtn bg-[#0f766e] w-full mt-2">➕ Armário / Torre / OLT</button>
+      <div class="mt-3 text-sm font-semibold">Clientes zona rural (${rl.length})</div><div class="mt-1">${rl.map(row).join("")||'<div class="text-xs opacity-60">Nenhum ainda.</div>'}</div>
+      <div class="mt-2 text-sm font-semibold">Armários (${al.length})</div><div class="mt-1">${al.map(row).join("")||'<div class="text-xs opacity-60">Nenhum ainda.</div>'}</div>
+      <p class="text-xs opacity-70 mt-2">Toque num nome da lista para ir até o ponto. Na contagem lá embaixo, os clientes de rádio aparecem <b>separados</b> dos clientes da fibra.</p></div>`; }
+  S.conta=`<div><p class="text-xs opacity-70 mb-2">Quem pode editar o mapa</p>
+    <div class="trow" style="cursor:default"><span class="tic">👤</span><div class="flex-1 min-w-0"><b>${esc(MAIN_EMAIL.split("@")[0].replace(/mapa$/,"")||"Principal").replace(/^./,c=>c.toUpperCase())}</b><small>${esc(MAIN_EMAIL)} · principal</small></div><span class="text-xs font-bold opacity-70 rounded-full bg-slate-200 px-2 py-1">sempre</span></div>
+    ${lockables().map(em=>{ const v=accessViewers.includes(em), nm=nameFromEmail(em), mem=accessMembers.includes(em); return `<div class="trow mt-2" style="cursor:default"><span class="tic">${v?"🔒":"✏️"}</span><div class="flex-1 min-w-0"><b>${esc(nm)}</b><small style="overflow:hidden;text-overflow:ellipsis">${esc(em)} · ${v?"só visualiza":"pode editar"}</small></div><button type="button" data-acc="tg" data-em="${esc(em)}" role="switch" aria-checked="${v?"false":"true"}" class="swt ${v?"":"on"}"></button>${mem?`<button type="button" data-acc="rm" data-em="${esc(em)}" title="Tirar o acesso" aria-label="Tirar o acesso" style="width:30px;height:30px;border-radius:9px;border:1px solid #fca5a5;color:#ef4444;flex:none;display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/></svg></button>`:""}</div>`; }).join("")}
+    <button type="button" id="accAdd" class="w-full mt-2 rounded-xl border-2 border-dashed border-sky-300 text-sky-600 py-3 font-bold" style="font-size:15.5px">＋ Adicionar pessoa</button>
+    <p class="text-xs opacity-70 mt-3">Desligada: a conta só vê o mapa. Não consegue editar nem salvar.</p></div>`;
   let hc=`<div>`;
   Object.entries(REGIONS).forEach(([k,n])=>{
     const ex=(state.cityExtra||[]).find(c=>c.id===k);
@@ -1764,16 +2014,22 @@ function drawPer(){
   S.cid=hc;
   document.getElementById("perTitle").textContent=PER_TITLES[perSec]||PER_TITLES.hdr;
   perBody.innerHTML=S[perSec]||S.hdr;
+  document.getElementById("perDone").style.display=perSec==="conta"?"none":"";
 }
 document.getElementById("btnCabEd").onclick=()=>{ menu.classList.add("hidden");
   if(region==="all"){ toast("Escolha uma cidade nas abas do topo para editar os cabos dela."); return; }
   setCab(true); hintOnce("cabed","🧵 Editor de cabos: toque numa linha para escolher o cabo, ou use ＋ Novo cabo."); };
 document.getElementById("menu").addEventListener("click",e=>{ const b=e.target.closest("[data-per]"); if(!b) return; perSec=b.dataset.per; document.getElementById("menu").classList.add("hidden"); closeSheet(); drawPer(); perModal.classList.remove("hidden"); });
-const closePer=()=>perModal.classList.add("hidden");
+function closePer(){ perModal.classList.add("hidden"); }
 document.getElementById("perClose").onclick=closePer; document.getElementById("perDone").onclick=closePer;
 perModal.addEventListener("click",e=>{ if(e.target===perModal) closePer(); });
 perBody.addEventListener("click",e=>{
   const b=e.target.closest("button"); if(!b) return;
+  if(b.dataset.acc==="tg"){ toggleAccess(b.dataset.em); return; }
+  if(b.dataset.acc==="rm"){ removeMember(b.dataset.em); return; }
+  if(b.id==="accAdd"){ document.getElementById("accEmail").value=""; document.getElementById("accModal").classList.remove("hidden"); setTimeout(()=>document.getElementById("accEmail").focus(),50); return; }
+  if(b.dataset.ra){ startPlaceSpecial(b.dataset.ra); return; }
+  if(b.dataset.rg){ const x=byId[b.dataset.rg]; if(x){ closePer(); if(region!=="all"&&x.region!==region){ region=x.region; drawTabs(); render(); } map.setView([x.lat,x.lng],18); openSheet(x.id); } return; }
   if(b.dataset.cs){ look[LOOKKEY[b.dataset.cs]]=""; lookSave(); applyStatusColors(); drawPer(); return; }
   if(b.dataset.hc!==undefined){ look.hdr=b.dataset.hc; lookSave(); applyHdr(); drawPer(); return; }
   if(b.dataset.sb!==undefined){ look.bg=b.dataset.sb; lookSave(); applySlot(); drawPer(); return; }
@@ -1808,39 +2064,39 @@ applyHdr(); applySlot();
 /* painel Fibra: info / CEOs / caixas de clientes */
 const fibraPanel=document.getElementById("fibraPanel");
 function drawFibraPanel(){
-  document.getElementById("swInfo").classList.toggle("on",infoMode);
-  document.getElementById("swFib").classList.toggle("on",!hideFib);
-  document.getElementById("swCeo").classList.toggle("on",!hideCeo);
-  document.getElementById("swOth").classList.toggle("on",!hideOth);
-  document.getElementById("swCto").classList.toggle("on",!hideCto);
+  document.getElementById("bbInfo").classList.toggle("on",infoMode);
+  document.getElementById("bbFib").classList.toggle("on",!hideFib);
+  document.getElementById("bbCeo").classList.toggle("on",!hideCeo);
+  document.getElementById("bbCto").classList.toggle("on",!hideCto);
 }
 function openFibraPanel(open){
   if(open){ fibraPanel.style.top=Math.max(60,Math.round(document.getElementById("tabs").getBoundingClientRect().bottom+6))+"px"; drawFibraPanel(); }
   fibraPanel.classList.toggle("hidden",!open);
+  const bi=document.getElementById("btnInfo"); if(bi) bi.classList.toggle("on",!!open);
 }
 fibraPanel.addEventListener("click",e=>{
   const b=e.target.closest("[data-f]"); if(!b) return; const f=b.dataset.f;
   if(f==="close") return openFibraPanel(false);
   if(f==="info"){ infoMode=!infoMode; try{ localStorage.setItem("ftth_info",infoMode?"1":"0"); }catch(e){} applyInfo(); }
   else if(f==="fib"){ hideFib=!hideFib; try{ localStorage.setItem("ftth_hidefib",hideFib?"1":"0"); }catch(e){} }
-  else if(f==="oth"){ hideOth=!hideOth; try{ localStorage.setItem("ftth_hideoth",hideOth?"1":"0"); }catch(e){} if(hideOth && currentId && byId[currentId] && (byId[currentId].type==="imenda"||byId[currentId].type==="loja")) closeSheet(); }
   else if(f==="ceo"){ hideCeo=!hideCeo; try{ localStorage.setItem("ftth_hideceo",hideCeo?"1":"0"); }catch(e){} if(hideCeo && currentId && byId[currentId] && byId[currentId].type==="ceo") closeSheet(); }
-  else if(f==="cto"){ hideCto=!hideCto; try{ localStorage.setItem("ftth_hidecto",hideCto?"1":"0"); }catch(e){} if(hideCto && currentId && byId[currentId] && byId[currentId].type==="cto") closeSheet(); }
+  else if(f==="cto"){ hideCto=!hideCto; try{ localStorage.setItem("ftth_hidecto",hideCto?"1":"0"); }catch(e){} if(hideCto && currentId && byId[currentId] && ["cto","imenda","loja","rural","arm"].includes(byId[currentId].type)) closeSheet(); }
   drawFibraPanel(); render();
 });
 
 function setEdit(on){
+  if(on&&RO){ toast("Conta só para visualizar"); return; }
   if(on&&cabMode) return;
   if(on&&selMode) setSel(false);
-  editMode=on; placing=false; placingFor=null; editToggle.checked=on; closeSheet();
+  editMode=on; placing=false; placingFor=null; placingKind=null; editToggle.checked=on; closeSheet();
   map.getContainer().classList.toggle("editing",on); updateEditBar(); render();
   if(on) menu.classList.add("hidden");
 }
-function cancelPlacing(){ if(placing){ placing=false; placingFor=null; updateEditBar(); } }
+function cancelPlacing(){ if(placing){ placing=false; placingFor=null; placingKind=null; updateEditBar(); } }
 function onMoved(it,m){
   const oldLat=it.lat, oldLng=it.lng, nl=m.getLatLng();
   if(Math.abs(nl.lat-oldLat)<1e-9 && Math.abs(nl.lng-oldLng)<1e-9) return;
-  askSave("Salvar alteração?","Você mudou a caixa "+nameOf(it)+" de lugar no mapa.",()=>applyMove(it,m),()=>{ m.setLatLng([oldLat,oldLng]); });
+  askSave("Salvar alteração?","Você mudou "+nameOf(it)+" de lugar no mapa.",()=>applyMove(it,m),()=>{ m.setLatLng([oldLat,oldLng]); });
 }
 function applyMove(it,m){
   const ll=m.getLatLng(); it.lat=ll.lat; it.lng=ll.lng;
@@ -1886,6 +2142,19 @@ function placeQ(ll){
   save(); rebuild(); computeStreets(); computeLinks(); render(); updateEditBar(); openSheet(ceo.id);
   toast("✔ "+pf.name+" criada e ligada à "+nameOf(ceo)+".");
 }
+function placeSpecial(ll){
+  const kind=placingKind; placingKind=null; placing=false; if(!kind){ updateEditBar(); return; }
+  const id="c"+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+  state.custom.push({id,name:kind==="rural"?"Cliente":"Armário",lat:ll.lat,lng:ll.lng,region,type:kind});
+  if(kind==="rural") state.rur[id]={sig:"",ap:"",note:""}; else state.arm[id]={aps:[],olt:{n:"",ip:"",vlan:"",note:""}};
+  save(); rebuild(); render(); updateEditBar(); openSheet(id);
+  toast(kind==="rural"?"✔ Ponto criado. Escreva o nome e o sinal na ficha.":"✔ Armário criado. Escreva o nome, os APs e a OLT na ficha.");
+}
+function startPlaceSpecial(kind){
+  if(RO){ toast("Conta só para visualizar"); return; }
+  if(region==="all"){ toast("Escolha uma cidade nas abas do topo primeiro."); return; }
+  closePer(); setEdit(true); placing=true; placingKind=kind; updateEditBar();
+}
 function openNewBox(ll){
   pendingLL=ll; nbName.value=""; nbSt.value=""; setNbKind("cto");
   ["nbCard","nbPon","nbFib"].forEach(i=>document.getElementById(i).value=""); document.getElementById("nbFcor").value=""; document.getElementById("nbCap").value="8";
@@ -1894,7 +2163,7 @@ function openNewBox(ll){
   document.getElementById("nbCeo").innerHTML='<option value="">Automática (pela fibra)</option>'+items.filter(x=>x.type==="ceo"&&x.region===region).map(x=>`<option value="${x.id}">${esc(nameOf(x))}</option>`).join("");
   nbModal.classList.remove("hidden"); setTimeout(()=>nbName.focus(),60);
 }
-document.getElementById("nbCancel").onclick=()=>{ nbModal.classList.add("hidden"); placing=false; placingFor=null; updateEditBar(); };
+document.getElementById("nbCancel").onclick=()=>{ nbModal.classList.add("hidden"); placing=false; placingFor=null; placingKind=null; updateEditBar(); };
 document.getElementById("nbOk").onclick=()=>{
   const name=nbName.value.trim(); if(!name){ nbName.focus(); return; }
   const id="c"+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
@@ -1938,17 +2207,25 @@ document.getElementById("btnGps").onclick=()=>{
 
 /* ======================= MENU / BACKUP ======================= */
 const menu=document.getElementById("menu");
-document.getElementById("btnMenu").onclick=()=>menu.classList.remove("hidden");
+const menuBox=document.getElementById("menuBox");
+document.getElementById("btnMenu").onclick=()=>{ menuBox.classList.remove("up"); menuBox.scrollTop=0; menu.classList.remove("hidden"); };
+menuBox.addEventListener("scroll",()=>{ if(menuBox.scrollTop>6) menuBox.classList.add("up"); },{passive:true});
+let menuY=null;
+menuBox.addEventListener("touchstart",e=>{ menuY=e.touches[0].clientY; },{passive:true});
+menuBox.addEventListener("touchmove",e=>{ if(menuY==null) return; if(e.touches[0].clientY-menuY>40&&menuBox.scrollTop<=0&&menuBox.classList.contains("up")){ menuBox.classList.remove("up"); menuY=null; } },{passive:true});
+menuBox.addEventListener("touchend",()=>{ menuY=null; });
+menuBox.addEventListener("wheel",e=>{ if(e.deltaY<0&&menuBox.scrollTop<=0&&menuBox.classList.contains("up")) menuBox.classList.remove("up"); },{passive:true});
 document.getElementById("menuClose").onclick=()=>menu.classList.add("hidden");
 menu.onclick=e=>{ if(e.target===menu) menu.classList.add("hidden"); };
 
-document.getElementById("btnExport").onclick=()=>{
+function exportBackup(){
   const data={app:"rede-ftth",version:2,exportedAt:new Date().toISOString(),state,network:(localStorage.getItem(KEY_NET)?net:null)};
   const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
   const a=document.createElement("a"); a.href=URL.createObjectURL(blob);
   a.download="backup-rede-ftth-"+new Date().toISOString().slice(0,10)+".json"; document.body.appendChild(a); a.click(); a.remove();
   setTimeout(()=>URL.revokeObjectURL(a.href),2000);
-};
+}
+document.getElementById("btnExport").onclick=exportBackup;
 document.getElementById("btnImport").onclick=()=>document.getElementById("fileJson").click();
 document.getElementById("fileJson").onchange=e=>{
   const f=e.target.files[0]; if(!f) return; const r=new FileReader();
@@ -1962,10 +2239,40 @@ document.getElementById("fileJson").onchange=e=>{
     }catch(err){ alert("Erro ao importar: "+err.message); } };
   r.readAsText(f); e.target.value="";
 };
-document.getElementById("btnReset").onclick=()=>{
-  if(prompt("ATENÇÃO: isto apaga os dados para TODOS os usuários (na nuvem). Faça um backup antes.\n\nPara confirmar, digite APAGAR:")==="APAGAR"){
-    state={}; fixState(); save(); closeSheet(); rebuild(); computeStreets(); computeLinks(); render(); menu.classList.add("hidden"); }
-};
+/* apagar tudo: aviso (passo 1) → backup automático → digitar APAGAR TUDO e esperar 5 s (passo 2) */
+const delModal=document.getElementById("delModal"), delBody=document.getElementById("delBody"); let delT=null;
+function delClose(){ clearInterval(delT); delT=null; delModal.classList.add("hidden"); }
+function delStep1(){
+  delBody.innerHTML=`<div class="text-[11px] font-extrabold tracking-wider text-slate-500 uppercase">Passo 1 de 2</div>
+    <h2 class="text-lg font-extrabold text-red-600 mb-2">⚠ Apagar todos os cadastros?</h2>
+    <p class="mb-2">Isto vale para <b>todos os aparelhos e todos os logins</b>, e não tem como desfazer.</p>
+    <div class="rounded-xl border border-red-200 bg-red-50 text-red-900 px-3 py-2 text-[12.5px] leading-snug mb-2"><b>O que some:</b> nomes e portas dos clientes, vagas, marcações Lotada e Atenção, caixas e CEOs que você criou, zona rural e armário, histórico, nomes de ruas e de cidades, VLANs e anotações.</div>
+    <div class="rounded-xl border border-green-200 bg-green-50 text-green-900 px-3 py-2 text-[12.5px] leading-snug mb-2"><b>O que fica:</b> as caixas e CEOs do arquivo original e os cabos de fibra.</div>
+    <p class="text-xs text-slate-500 mb-2">Para sua segurança, o app baixa um backup agora, antes de continuar.</p>
+    <button data-d="bk" class="w-full rounded-xl bg-emerald-600 text-white font-bold py-3">⬇ Baixar backup e continuar</button>
+    <button data-d="no" class="w-full rounded-xl bg-slate-200 text-slate-800 font-bold py-3 mt-2">Cancelar</button>`;
+}
+function delStep2(){
+  let n=5;
+  delBody.innerHTML=`<div class="text-[11px] font-extrabold tracking-wider text-slate-500 uppercase">Passo 2 de 2</div>
+    <h2 class="text-lg font-extrabold text-red-600 mb-2">⚠ Confirmar</h2>
+    <p>Backup baixado ✔<br>Para apagar, digite <b>APAGAR TUDO</b> na caixinha:</p>
+    <input id="delTxt" autocomplete="off" autocapitalize="characters" class="mt-2 w-full rounded-lg border-2 border-slate-300 px-3 py-2.5 text-base font-bold text-center tracking-wider text-slate-900">
+    <button id="delGo" disabled class="w-full rounded-xl text-white font-bold py-3 mt-3" style="background:#fca5a5"></button>
+    <p class="text-xs text-slate-500 mt-2">O botão só fica vermelho e firme depois de 5 segundos e com a palavra certa.</p>
+    <button data-d="no" class="w-full rounded-xl bg-slate-200 text-slate-800 font-bold py-3 mt-2">Cancelar</button>`;
+  const inp=document.getElementById("delTxt"), go=document.getElementById("delGo");
+  const upd=()=>{ const ok=n<=0 && inp.value.trim().toUpperCase()==="APAGAR TUDO"; go.disabled=!ok; go.style.background=ok?"#dc2626":"#fca5a5";
+    go.textContent=n>0?`🗑 Apagar tudo (aguarde ${n}…)`:(ok?"🗑 Apagar tudo":"🗑 Digite APAGAR TUDO"); };
+  upd(); inp.oninput=upd; go.onclick=()=>{ if(go.disabled) return; delClose();
+    state={}; fixState(); save(); closeSheet(); rebuild(); computeStreets(); computeLinks(); render(); menu.classList.add("hidden"); toast("Cadastros apagados"); };
+  clearInterval(delT); delT=setInterval(()=>{ n--; upd(); if(n<=0) clearInterval(delT); },1000);
+}
+delBody.addEventListener("click",e=>{ const b=e.target.closest("[data-d]"); if(!b) return;
+  if(b.dataset.d==="no") return delClose();
+  if(b.dataset.d==="bk"){ try{ exportBackup(); }catch(err){ alert("Não consegui baixar o backup. Por segurança, nada foi apagado."); return; } delStep2(); } });
+delModal.addEventListener("click",e=>{ if(e.target===delModal) delClose(); });
+document.getElementById("btnReset").onclick=()=>{ delStep1(); delModal.classList.remove("hidden"); };
 document.getElementById("btnKml").onclick=()=>document.getElementById("fileKml").click();
 document.getElementById("fileKml").onchange=e=>{
   const f=e.target.files[0]; if(!f) return; const r=new FileReader();
@@ -2001,10 +2308,11 @@ let lastInfo="";
 function lastTxt(d){ if(!d||!d.by) return ""; let t=""; try{ const ms=d.updatedAt&&d.updatedAt.toMillis&&d.updatedAt.toMillis(); if(ms) t=" "+new Date(ms).toLocaleString("pt-BR",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"}); }catch(e){} return " · última alteração: "+String(d.by).split("@")[0]+t; }
 function setCloudStatus(t){ const el=$c("cloudStatus"); if(el){ el.textContent=t; } }
 function cloudPush(now){
-  if(!CLOUD_ON||!cloudUser) return;
+  if(!CLOUD_ON||!cloudUser||RO) return;
   dirty=true; clearTimeout(pushTimer); pushTimer=setTimeout(doPush, now?0:700);
 }
 function doPush(){
+  if(RO){ dirty=false; return; }
   if(!cloudUser||!dirty) return;
   const payload=JSON.stringify(state); dirty=false; inflight++;
   fbDb.collection("rede").doc(DOC_STATE).set({data:payload, updatedAt:firebase.firestore.FieldValue.serverTimestamp(), by:cloudUser.email})
@@ -2013,7 +2321,7 @@ function doPush(){
     .finally(()=>{ inflight--; });
 }
 function cloudPushNet(){
-  if(!CLOUD_ON||!cloudUser) return;
+  if(!CLOUD_ON||!cloudUser||RO) return;
   fbDb.collection("rede").doc(DOC_NET).set({data:JSON.stringify(net), updatedAt:firebase.firestore.FieldValue.serverTimestamp(), by:cloudUser.email})
     .catch(()=>alert("Não foi possível enviar a nova rede para a nuvem (arquivo grande demais ou sem conexão)."));
 }
@@ -2023,8 +2331,49 @@ function seedFromReal(){
   r.doc("state").get().then(sn=>{ if(sn.exists) r.doc("state_teste").set(sn.data()); else { dirty=true; doPush(); } });
   r.doc("net").get().then(sn=>{ if(sn.exists) r.doc("net_teste").set(sn.data()); });
 }
+/* ======================= CONTA: quem pode editar ======================= */
+const MAIN_EMAIL="gustavomapa@gmail.com", BASE_LOCKABLE=["ultranetmapa@gmail.com"], DOC_ACC="acesso";
+let accessViewers=[], accessMembers=[], unsubAcc=null;
+const lockables=()=>[...new Set(BASE_LOCKABLE.concat(accessMembers))].filter(e=>e!==MAIN_EMAIL);
+const nameFromEmail=em=>{ const n=String(em).split("@")[0].replace(/mapa$/,"")||String(em); return n.charAt(0).toUpperCase()+n.slice(1); };
+const myEmail=()=>String((cloudUser&&cloudUser.email)||"").toLowerCase();
+const isMain=()=>!!cloudUser&&myEmail()===MAIN_EMAIL;
+function applyAccess(){
+  const me=myEmail(), was=RO;
+  RO=!!me&&me!==MAIN_EMAIL&&accessViewers.includes(me);
+  document.body.classList.toggle("ro",RO);
+  const lk=document.getElementById("lockIco"); if(lk){ lk.hidden=!(me&&lockables().includes(me)); lk.classList.toggle("closed",RO); lk.setAttribute("aria-label",RO?"Conta só para visualizar":"Você pode editar"); }
+  const rc=document.getElementById("rowConta"); if(rc) rc.hidden=!isMain();
+  if(RO&&!was){ try{ if(editMode) setEdit(false); if(cabMode) setCab(false); if(selMode) setSel(false); cancelPlacing(); closeSheet(); render(); }catch(e){} }
+  if(!RO&&was){ try{ drawSheet(); render(); }catch(e){} }
+}
+function toggleAccess(em){
+  if(!isMain()||!fbDb) return;
+  const cur=accessViewers.includes(em), next=cur?accessViewers.filter(x=>x!==em):accessViewers.concat(em);
+  accWrite({viewers:next});
+}
+function accWrite(o){
+  o.updatedAt=firebase.firestore.FieldValue.serverTimestamp(); o.by=cloudUser.email;
+  return fbDb.collection("rede").doc(DOC_ACC).set(o,{merge:true}).then(()=>toast("✔ Salvo")).catch(()=>toast("Não foi possível salvar. Veja a internet."));
+}
+function addMember(raw){
+  const em=String(raw||"").trim().toLowerCase();
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){ toast("Escreva um e-mail válido (ex.: nome@gmail.com)."); return false; }
+  if(em===MAIN_EMAIL||lockables().includes(em)){ toast("Essa pessoa já está na lista."); return false; }
+  accWrite({members:accessMembers.concat(em),viewers:accessViewers}); return true;
+}
+function removeMember(em){
+  if(!isMain()||!accessMembers.includes(em)) return;
+  if(!confirm(`Tirar o acesso de ${nameFromEmail(em)}?\n\n${em} deixa de abrir os dados do mapa. Dá para adicionar de novo depois.`)) return;
+  accWrite({members:accessMembers.filter(x=>x!==em),viewers:accessViewers.filter(x=>x!==em)});
+}
+document.getElementById("accCancel").onclick=()=>document.getElementById("accModal").classList.add("hidden");
+document.getElementById("accOk").onclick=()=>{ if(addMember(document.getElementById("accEmail").value)) document.getElementById("accModal").classList.add("hidden"); };
+document.getElementById("accEmail").addEventListener("keydown",e=>{ if(e.key==="Enter"){ e.preventDefault(); document.getElementById("accOk").click(); } });
+document.getElementById("lockIco").onclick=()=>toast(RO?"Conta só para visualizar":"Você pode editar");
 function startSync(){
   stopSync();
+  unsubAcc=fbDb.collection("rede").doc(DOC_ACC).onSnapshot(snap=>{ const d=snap.exists?snap.data():null; accessViewers=(d&&Array.isArray(d.viewers)?d.viewers:[]).map(x=>String(x).toLowerCase()); accessMembers=(d&&Array.isArray(d.members)?d.members:[]).map(x=>String(x).toLowerCase()); applyAccess(); if(isMain()&&!perModal.classList.contains("hidden")&&perSec==="conta") drawPer(); }, ()=>{});
   unsubNet=fbDb.collection("rede").doc(DOC_NET).onSnapshot(snap=>{
     if(snap.metadata.hasPendingWrites||!snap.exists) return;
     const d=snap.data(); if(!d||typeof d.data!=="string"||d.data===JSON.stringify(net)) return;
@@ -2042,7 +2391,7 @@ function startSync(){
     fixState(); jset(KEY_STATE,state); refreshAll(); setCloudStatus("☁ Atualizado agora há pouco"+lastInfo);
   }, ()=>setCloudStatus("☁ Sem conexão com a nuvem"));
 }
-function stopSync(){ if(unsubState){unsubState();unsubState=null;} if(unsubNet){unsubNet();unsubNet=null;} }
+function stopSync(){ if(unsubAcc){unsubAcc();unsubAcc=null;} accessViewers=[]; accessMembers=[]; if(typeof applyAccess==="function") applyAccess(); if(unsubState){unsubState();unsubState=null;} if(unsubNet){unsubNet();unsubNet=null;} }
 if(CLOUD_ON){
   firebase.initializeApp(FIREBASE_CONFIG);
   fbAuth=firebase.auth(); fbDb=firebase.firestore();
@@ -2088,6 +2437,7 @@ function updateSelBar(){
       <button ${d} data-s="clear" class="rounded-lg bg-white/20 px-2.5 py-1.5">Limpar</button></div>`;
 }
 function setSel(on){
+  if(on&&RO){ toast("Conta só para visualizar"); return; }
   if(on&&editMode) setEdit(false);
   selMode=on; rectMode=false;
   if(!on){ selSet.clear(); map.dragging.enable(); map.boxZoom.enable(); }
@@ -2319,7 +2669,7 @@ document.getElementById("vlOk").onclick=()=>{
 
 /* ======================= MODO INFORMAÇÕES (Card / PON / Fibra + cor da fibra) ======================= */
 const btnInfo=document.getElementById("btnInfo");
-function applyInfo(){ btnInfo.classList.toggle("on",infoMode); }
+function applyInfo(){ /* o olho só acende quando o painel está aberto */ }
 btnInfo.onclick=()=>openFibraPanel(fibraPanel.classList.contains("hidden"));
 applyInfo();
 
@@ -2403,8 +2753,8 @@ let fotoTarget=null, fotoCur=null, _fdb=null; const photoCache={};
 const idb = ()=>_fdb||(_fdb=new Promise((res,rej)=>{ const r=indexedDB.open(TEST_MODE?"ftth_fotos_test":"ftth_fotos",1); r.onupgradeneeded=()=>{ const s=r.result.createObjectStore("f",{keyPath:"id"}); s.createIndex("item","item"); }; r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); }));
 const idbReq = (mode,fn)=>idb().then(db=>new Promise((res,rej)=>{ const t=db.transaction("f",mode), q=fn(t.objectStore("f")); t.oncomplete=()=>res(q&&q.result); t.onerror=()=>rej(t.error); t.onabort=()=>rej(t.error); }));
 const fotosLocal = item=>idbReq("readonly",s=>s.index("item").getAll(item)).then(a=>(a||[]).sort((x,y)=>x.t-y.t));
-const fotoCloudPut = f=>(CLOUD_ON&&cloudUser)?fbDb.collection("rede").doc(FOTO_KIND+"_"+f.id).set({kind:FOTO_KIND,id:f.id,item:f.item,t:f.t,data:f.data,by:cloudUser.email}):Promise.resolve();
-const fotoCloudDel = id=>(CLOUD_ON&&cloudUser)?fbDb.collection("rede").doc(FOTO_KIND+"_"+id).delete():Promise.resolve();
+const fotoCloudPut = f=>(CLOUD_ON&&cloudUser&&!RO)?fbDb.collection("rede").doc(FOTO_KIND+"_"+f.id).set({kind:FOTO_KIND,id:f.id,item:f.item,t:f.t,data:f.data,by:cloudUser.email}):Promise.resolve();
+const fotoCloudDel = id=>(CLOUD_ON&&cloudUser&&!RO)?fbDb.collection("rede").doc(FOTO_KIND+"_"+id).delete():Promise.resolve();
 const fotosCloud = item=>(CLOUD_ON&&cloudUser)?fbDb.collection("rede").where("item","==",item).get().then(q=>q.docs.map(d=>d.data()).filter(d=>d.kind===FOTO_KIND)):Promise.resolve(null);
 function compressImg(file){
   return new Promise((res,rej)=>{ const im=new Image(), u=URL.createObjectURL(file);
@@ -2455,14 +2805,21 @@ document.getElementById("fotoDel").onclick=async()=>{
 };
 
 /* ======================= TEMA (claro / escuro / automático) ======================= */
-const THEME_KEY="ftth_theme", btnThemeQ=document.getElementById("btnThemeQ");
+const THEME_KEY="ftth_theme", swTheme=document.getElementById("swTheme");
 const getTheme=()=>{ try{ return localStorage.getItem(THEME_KEY)||"light"; }catch(e){ return "light"; } };
 function applyTheme(){
   const t=getTheme(), dark=t==="dark"||(t==="auto"&&matchMedia("(prefers-color-scheme: dark)").matches);
-  document.documentElement.classList.toggle("dark",dark); btnThemeQ.textContent=dark?"🌙":"☀️"; applyHdr();
+  document.documentElement.classList.toggle("dark",dark); applyHdr();
+  swTheme.classList.toggle("on",dark); swTheme.setAttribute("aria-checked",dark?"true":"false");
+  document.getElementById("themeIc").textContent=dark?"🌙":"☀️"; document.getElementById("themeSub").textContent=dark?"Ligado · fundos bem pretos":"Desligado · fundos claros";
 }
-btnThemeQ.onclick=()=>{ try{ localStorage.setItem(THEME_KEY,document.documentElement.classList.contains("dark")?"light":"dark"); }catch(e){} applyTheme(); };
+const toggleTheme=()=>{ try{ localStorage.setItem(THEME_KEY,document.documentElement.classList.contains("dark")?"light":"dark"); }catch(e){} applyTheme(); };
+document.getElementById("rowTheme").onclick=e=>{ e.preventDefault(); toggleTheme(); };
+document.getElementById("rowTheme").onkeydown=e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); toggleTheme(); } };
 applyTheme();
+
+/* Conta só para visualizar: campos da ficha ficam desligados */
+new MutationObserver(()=>{ if(RO) document.querySelectorAll("#sheetBody input,#sheetBody select,#sheetBody textarea").forEach(e=>{ e.disabled=true; }); }).observe(document.getElementById("sheetBody"),{childList:true,subtree:true});
 
 /* ======================= VERSÃO / MODO TESTE ======================= */
 document.getElementById("verTxt").textContent="Versão "+APP_VERSION+(TEST_MODE?" (teste)":"");
