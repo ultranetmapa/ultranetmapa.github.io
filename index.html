@@ -84,7 +84,8 @@
   .sw i:after{content:"";position:absolute;left:3px;top:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.4);transition:.2s}
   .sw input:checked+i{background:#16a34a}
   .sw input:checked+i:after{transform:translateX(22px)}
-  .editing .pill:not(.ceo):not(.imenda):not(.loja){outline:2px dashed #fff;outline-offset:3px;cursor:grab}
+  .editing .pill.esel{outline:3px dashed #f59e0b;outline-offset:3px;cursor:grab}
+  #moveBar{touch-action:manipulation}
   .placing.leaflet-container,.placing .leaflet-interactive{cursor:crosshair!important}
   .pill.plan{border-style:dashed;border-width:2px}
   button[disabled]{opacity:.45;pointer-events:none}
@@ -178,6 +179,32 @@
   .sw.on{box-shadow:0 0 0 3px #0056b3}
   html.dark #cabStyle{background:#000000;color:#f2f2f2;border:1px solid #2e2e32}
   .cab-h{background:none;border:0}
+  .rpmk{position:absolute;left:0;top:0;transform:translate(-50%,-50%);display:flex;align-items:center;gap:4px;background:#dc2626;color:#fff;border:2px solid #fff;border-radius:999px;padding:2px 9px;font:800 12px/1.25 system-ui,sans-serif;white-space:nowrap;animation:rpPulse 1.4s infinite;cursor:pointer}
+  .rpmk b{font-size:14px;animation:rpBlink 1s steps(2,start) infinite}
+  .rpmk.ok{background:#16a34a;animation:none}.rpmk.ok b{animation:none}
+  .rpmk.tmp{background:#f59e0b;color:#111}
+  @keyframes rpPulse{0%{box-shadow:0 0 0 0 rgba(220,38,38,.7),0 1px 5px rgba(0,0,0,.6)}70%{box-shadow:0 0 0 14px rgba(220,38,38,0),0 1px 5px rgba(0,0,0,.6)}100%{box-shadow:0 0 0 0 rgba(220,38,38,0),0 1px 5px rgba(0,0,0,.6)}}
+  @keyframes rpBlink{50%{opacity:.35}}
+  .rpw{font-style:normal;font-size:9px;line-height:1;color:#dc2626;margin-left:3px;vertical-align:top;text-shadow:0 0 2px #fff,0 0 2px #fff}
+  #rpWin .hd{position:sticky;top:0;z-index:2;background:inherit;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px 6px;border-bottom:1px solid #e2e8f0}
+  #rpWin .hd button{width:34px;height:34px;border-radius:50%;background:#f1f5f9;font-size:22px;line-height:1;color:#475569}
+  #rpWin .bd{padding:8px 12px 12px}
+  #rpWin .rsw{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:#334155;margin:2px 0 8px}
+  #rpWin .rit{display:flex;align-items:center;gap:8px;padding:7px 8px;margin-top:6px;border:1px solid #cbd5e1;border-radius:10px;background:#f8fafc}
+  #rpWin .rit.dn{opacity:.55}
+  #rpWin .rit input[type=checkbox],#rpWin .rsw input{width:20px;height:20px;flex:none;accent-color:#16a34a}
+  #rpWin .rno{flex:none;width:24px;height:24px;border-radius:7px;background:#e2e8f0;color:#334155;font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center}
+  #rpWin .rnm{font-weight:800;font-size:14px;color:#0f172a}
+  #rpWin .rln{font-size:12px;color:#475569;margin-top:2px;display:flex;flex-wrap:wrap;gap:1px 10px}
+  #rpWin .rft{margin-top:10px;font-size:12px;font-weight:700;color:#334155;border-top:1px solid #e2e8f0;padding-top:8px}
+  #rpWin .rcn{font-size:12px;font-weight:800;color:#334155}
+  #rpWin .rcn.all{color:#15803d}
+  #rpWin .rwr{margin:6px 0;padding:6px 8px;border-radius:8px;background:#fef3c7;color:#92400e;font-size:12px}
+  #rpWin summary{cursor:pointer;font-weight:800;font-size:13px;padding:6px 0}
+  html.dark #rpWin{background:#18181b;color:#f4f4f5;border-color:#2e2e32}html.dark #rpWin .hd{border-color:#2e2e32}html.dark #rpWin .hd button{background:#2a2a2e;color:#d4d4d8}html.dark #rpWin .rit{background:#1f1f23;border-color:#2e2e32}html.dark #rpWin .rnm{color:#f5f5f5}html.dark #rpWin .rln,html.dark #rpWin .rsw,html.dark #rpWin .rft,html.dark #rpWin .rcn{color:#a1a1aa}html.dark #rpWin .rno{background:#2e2e32;color:#d4d4d8}html.dark #rpDelModal>div{background:#1c1c20;border-color:#3a3a40}
+  .cpk{display:flex;align-items:center;gap:7px;white-space:nowrap;border-radius:8px;padding:7px 11px;font-size:13px;font-weight:700;color:#0f172a;background:#f1f5f9}
+  .cpk i{display:inline-block;width:18px;height:5px;border-radius:3px}
+  html.dark #cabPick,html.dark #ptModal>div,html.dark #pcModal>div{background:#1c1c20;border-color:#3a3a40}html.dark .cpk{background:#2a2a2e;color:#f5f5f5}
   .cab-h i{display:block;width:14px;height:14px;margin:7px;border-radius:50%;background:#fff;border:3px solid #0056b3;box-shadow:0 1px 5px rgba(0,0,0,.55)}
   .cab-m i{width:9px;height:9px;margin:9.5px;background:rgba(255,255,255,.8);border:2px solid #0056b3;opacity:.8}
   .ibtn{display:inline-flex;align-items:center;justify-content:center;gap:5px;border-radius:.5rem;padding:.4rem .65rem;background:#f1f5f9;color:#475569;transition:background .12s,transform .12s,color .12s;-webkit-tap-highlight-color:transparent}
@@ -208,9 +235,9 @@
   .lkb svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;overflow:visible}
   .lkb .sh{transform-origin:8px 11px;transform:rotate(-32deg);transition:transform .38s cubic-bezier(.3,1.4,.5,1)}
   .lkb.closed .sh{transform:rotate(0deg)}
-  body.ro #sheetBody button[data-a]:not([data-a=close]):not([data-a=gotobox]):not([data-a=fview]):not([data-a=hall]):not([data-a=slot]){display:none!important}
+  body.ro #sheetBody button[data-a]:not([data-a=close]):not([data-a=gotobox]):not([data-a=fview]):not([data-a=hall]):not([data-a=slot]):not([data-a=arminfo]){display:none!important}
   body.ro #sheetBody .slot,body.ro #sheetBody input,body.ro #sheetBody select,body.ro #sheetBody textarea,body.ro #sheetBody .tg,body.ro #sheetBody .pb,body.ro #sheetBody label{pointer-events:none}
-  body.ro #btnCabEd,body.ro #btnImport,body.ro #btnKml,body.ro .adv,body.ro [data-per=rur],body.ro [data-per=cid],body.ro [data-city=__manage]{display:none!important}
+  body.ro #btnCabEd,body.ro #btnRp,body.ro #btnImport,body.ro #btnKml,body.ro .adv,body.ro [data-per=rur],body.ro [data-per=cid],body.ro [data-city=__manage]{display:none!important}
   /* Armário: torres, AP e PON */
   .twrow{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
   .twc{flex:1 1 72px;min-width:0;text-align:center;border:1.5px solid #cbd5e1;border-radius:11px;padding:9px 2px;font-size:12.5px;font-weight:700;color:#64748b;background:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -235,6 +262,20 @@
   .apt .tx{position:absolute;top:0;right:3px;font-size:17px;line-height:1;color:#ef4444;padding:3px 5px}
   #sheetBody .apt input.ti[data-a]{width:100%;text-align:center;font-size:25px;font-weight:800;color:#0f172a;background:transparent;border:0;padding:0;line-height:1.15}
   #sheetBody .apt input.pf[data-a]{width:100%;margin-top:3px;font-size:16px;font-weight:800;padding:6px 8px;border:1px solid #cbd5e1;border-radius:8px;color:#0f172a;background:#fff;text-align:left}
+  .apt input.ti.lk{pointer-events:none}
+  .apbs{display:flex;gap:4px;justify-content:center;margin-top:5px}
+  .apbtn{font-size:11px;font-weight:700;color:#2563eb;border:1px solid #93c5fd;border-radius:8px;padding:2px 9px;background:#fff;line-height:1.5}
+  .apbtn.red{color:#dc2626;border-color:#fca5a5}
+  html.dark .apbtn{background:#1c1c20;border-color:#3b4a66;color:#93c5fd}html.dark .apbtn.red{color:#fca5a5;border-color:#7f3a3a}
+  .arminfo{margin-top:12px;border:1.5px solid #cbd5e1;border-radius:12px;background:#f8fafc;overflow:hidden}
+  .arminfo>button.hd{display:flex;width:100%;align-items:center;justify-content:space-between;padding:10px 12px;font-weight:800;font-size:14px;color:#0f172a;text-align:left}
+  .arminfo .ib{margin:0 8px 8px;padding:8px 10px;border:1px solid #cbd5e1;border-radius:10px;background:#fff;display:flex;gap:8px;align-items:flex-start}
+  .arminfo .ib .no{font-size:11px;font-weight:800;color:#64748b;white-space:nowrap}
+  .arminfo .ib .nm{font-weight:800;color:#0f172a;font-size:14px}
+  .arminfo .ib .ln{font-size:12px;color:#475569;margin-top:2px;display:flex;flex-wrap:wrap;gap:2px 10px;align-items:center}
+  .cntq{flex:none;min-width:30px;height:30px;border-radius:7px;border:1.5px solid #94a3b8;background:#f1f5f9;color:#0f172a;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;padding:0 4px}
+  .cdash{display:inline-block;width:18px;height:6px;border-radius:3px;vertical-align:middle;box-shadow:0 0 0 1px rgba(0,0,0,.4);margin-right:4px}
+  html.dark .arminfo{background:#121212;border-color:#2e2e32}html.dark .arminfo>button.hd{color:#f5f5f5}html.dark .arminfo .ib{background:#1a1a1d;border-color:#2e2e32}html.dark .arminfo .ib .nm{color:#f5f5f5}html.dark .arminfo .ib .ln{color:#a1a1aa}html.dark .cntq{background:#26262a;color:#f5f5f5;border-color:#4b4b52}
   .apt.add{border-style:dashed;border-color:#7dd3fc;background:transparent;color:#0ea5e9;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:62px;font-weight:700}
   .apt.add b{font-size:24px;line-height:1}.apt.add small{color:#0ea5e9;min-height:0}
   html.dark .twc{background:#0a0a0a;border-color:#2e2e32;color:#9ca3af}
@@ -290,6 +331,8 @@
   .pkm.pklow .pkb{height:46vh;max-height:46vh}
   .pkgrip{display:block;margin:-6px auto 4px;padding:8px 26px;flex:0 0 auto}
   .pkgrip span{display:block;width:46px;height:5px;border-radius:99px;background:#cbd5e1}
+  .menugrip{position:sticky;top:-16px;z-index:6;background:inherit;display:flex;justify-content:center;width:calc(100% + 32px);margin:-16px -16px 0;padding:12px 0 8px;touch-action:none}
+  html.dark #menuClose{background:#2a2a2e;color:#d4d4d8}
   html.dark .pkgrip span{background:#55555c}
   .pkq{width:100%;margin-top:8px;border:1.5px solid #94a3b8;border-radius:12px;padding:11px 13px;font-size:16px;color:#0f172a;background:#fff;flex:0 0 auto}
   .pkq:focus{outline:none;border-color:#3b82f6}
@@ -343,17 +386,28 @@
 <!-- Barra do modo edição -->
 <div id="editBar" class="hidden fixed z-[950] flex flex-wrap items-center justify-between gap-2 rounded-xl bg-[#0056b3] text-white text-sm shadow-xl px-3 py-2" style="left:50%;transform:translateX(-50%);width:min(94vw,640px);top:var(--tb,130px)"></div>
 
+<div id="moveBar" class="hidden fixed z-[950] flex items-center justify-between gap-2 rounded-lg bg-amber-400 text-slate-900 text-xs shadow-lg px-3 py-1" style="left:50%;transform:translateX(-50%);width:min(94vw,640px);top:190px"></div>
+<div id="rpBar" class="hidden fixed z-[950] rounded-xl bg-[#b91c1c] text-white text-sm shadow-xl px-3 py-2 space-y-1.5" style="left:50%;transform:translateX(-50%);width:min(94vw,640px);top:var(--tb,130px)"></div>
+<div id="rpCfm" class="hidden fixed z-[950] flex items-center justify-between gap-2 rounded-lg bg-amber-400 text-slate-900 text-xs shadow-lg px-3 py-1" style="left:50%;transform:translateX(-50%);width:min(94vw,640px);top:190px"><span class="font-semibold">Marcar o rompimento neste ponto?</span><span class="flex gap-2 shrink-0"><button data-r="cfmno" class="rounded-md bg-white/70 px-3 py-1 font-semibold">Cancelar</button><button data-r="cfmok" class="rounded-md bg-slate-900 text-white px-3 py-1 font-bold">Salvar</button></span></div>
+<div id="rpWin" class="hidden fixed z-[960] rounded-2xl bg-white text-slate-800 shadow-2xl border border-slate-200 overflow-y-auto" style="left:50%;transform:translateX(-50%);width:min(94vw,430px);bottom:74px;max-height:62vh"></div>
+<div id="rpDelModal" class="hidden fixed inset-0 z-[1300] flex items-end justify-center p-4" style="padding-bottom:26vh"><div class="bg-white rounded-xl p-2.5 w-full max-w-[220px] space-y-1.5 shadow-2xl border border-slate-200"><div class="text-sm font-bold text-slate-800">Rompimento</div><button data-r="delok" class="w-full rounded-lg bg-red-500 text-white py-2 text-sm font-semibold">🗑 Excluir rompimento</button><button data-r="delno" class="w-full rounded-lg border border-slate-300 text-slate-700 py-1.5 text-sm font-semibold">Cancelar</button></div></div>
 <div id="cabBar" class="hidden fixed z-[950] rounded-xl bg-[#0056b3] text-white text-sm shadow-xl px-3 py-2 space-y-1.5" style="left:50%;transform:translateX(-50%);width:min(94vw,640px);top:var(--tb,130px)"></div>
 <div id="cabChip" class="hidden fixed z-[950] rounded-xl bg-[#0056b3] text-white text-sm shadow-xl px-3 py-2 flex items-center gap-2" style="left:50%;transform:translateX(-50%);top:130px;max-width:94vw"><span id="cabChipTxt" class="font-semibold whitespace-nowrap"></span><button data-c="enter" class="cbtn go whitespace-nowrap">✏ Editar cabo</button><button data-c="x" class="cbtn">×</button></div>
 <div id="cabStyle" class="hidden fixed z-[960] rounded-xl bg-white text-slate-800 shadow-xl px-3 py-2 space-y-2 text-sm" style="left:50%;transform:translateX(-50%);width:min(94vw,560px);top:230px"></div>
-<div id="ptModal" class="hidden fixed inset-0 z-[1300] bg-black/50 flex items-center justify-center p-4">
-  <div class="bg-white rounded-2xl p-4 w-full max-w-xs space-y-2">
-    <h2 class="font-bold text-slate-800">Ponto do cabo</h2>
-    <button id="ptDel" class="w-full rounded-lg bg-red-500 text-white py-2.5 text-sm font-semibold">🗑 Apagar este ponto</button>
-    <button id="ptSplit" class="w-full rounded-lg bg-indigo-600 text-white py-2.5 text-sm font-semibold">✂ Dividir o cabo aqui (para mudar só uma parte)</button>
-    <button id="ptCancel" class="w-full rounded-lg border border-slate-300 text-slate-700 py-2 text-sm font-semibold">Cancelar</button>
+<div id="ptModal" class="hidden fixed inset-0 z-[1300] flex items-end justify-center p-4" style="padding-bottom:26vh">
+  <div class="bg-white rounded-xl p-2.5 w-full max-w-[210px] space-y-1.5 shadow-2xl border border-slate-200">
+    <h2 class="font-bold text-slate-800 text-sm">Ponto do cabo</h2>
+    <button id="ptDel" class="w-full rounded-lg bg-red-500 text-white py-2 text-sm font-semibold">🗑 Apagar este ponto</button>
+    <button id="ptCancel" class="w-full rounded-lg border border-slate-300 text-slate-700 py-1.5 text-sm font-semibold">Cancelar</button>
   </div>
 </div>
+<div id="pcModal" class="hidden fixed inset-0 z-[1300] flex items-end justify-center p-4" style="padding-bottom:26vh">
+  <div class="bg-white rounded-xl p-2.5 w-full max-w-[210px] space-y-1.5 shadow-2xl border border-slate-200">
+    <button id="pcDel" class="w-full rounded-lg bg-red-500 text-white py-2 text-sm font-semibold">🗑 Apagar este pedaço</button>
+    <button id="pcCancel" class="w-full rounded-lg border border-slate-300 text-slate-700 py-1.5 text-sm font-semibold">Cancelar</button>
+  </div>
+</div>
+<div id="cabPick" class="hidden fixed z-[1250] rounded-xl bg-white shadow-2xl border border-slate-300 p-1 flex flex-col gap-1" style="left:20px;top:200px"></div>
 
 <!-- GPS -->
 <button id="btnGps" title="Minha localização" class="fixed right-3 z-[900] w-12 h-12 rounded-full bg-sky-600 text-white text-xl shadow-xl active:scale-95" style="bottom:calc(env(safe-area-inset-bottom) + 12px)">📍</button>
@@ -459,7 +513,8 @@
 <!-- Menu de dados -->
 <div id="menu" class="hidden fixed inset-0 z-[1200] bg-black/60 flex items-end sm:items-center justify-center">
   <div id="menuBox" class="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-4 space-y-3 sm:max-h-[92vh] overflow-y-auto" style="padding-bottom:calc(env(safe-area-inset-bottom) + 16px)">
-    <div class="flex items-center gap-2"><h2 class="font-bold text-lg text-slate-800 flex-1 flex items-center gap-2"><svg viewBox="0 0 24 24" style="width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5h0a1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Configurações</h2><button id="lockIco" type="button" class="lkb" hidden aria-label="Conta só para visualizar"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2.5"/><path class="sh" d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></button><button id="btnHelp" title="Ajuda: como usar" class="w-7 h-7 rounded-full bg-sky-100 text-sky-700 text-sm font-extrabold active:scale-90">?</button><button id="menuClose" class="text-2xl text-slate-500 px-1 leading-none">×</button></div>
+    <button type="button" id="menuGrip" class="pkgrip menugrip" aria-label="Subir, abaixar ou fechar a janela"><span></span></button>
+    <div class="flex items-center gap-2"><h2 class="font-bold text-lg text-slate-800 flex items-center gap-2"><svg viewBox="0 0 24 24" style="width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5h0a1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Configurações</h2><button id="btnHelp" title="Ajuda: como usar" class="w-7 h-7 rounded-full bg-sky-100 text-sky-700 text-sm font-extrabold active:scale-90">?</button><span class="flex-1"></span><button id="lockIco" type="button" class="lkb" hidden aria-label="Conta só para visualizar"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2.5"/><path class="sh" d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></button><button id="menuClose" aria-label="Fechar" class="w-11 h-11 rounded-full bg-slate-100 text-slate-600 text-3xl leading-none flex items-center justify-center ml-2 active:scale-90">×</button></div>
     <input type="checkbox" id="editToggle" class="hidden">
     <p class="msec">Aparência</p>
     <div id="rowTheme" class="trow" role="button" tabindex="0"><span class="tic" id="themeIc">🌙</span><div class="flex-1 min-w-0"><b>Modo escuro</b><small id="themeSub"></small></div><button id="swTheme" type="button" role="switch" aria-label="Modo escuro" class="swt"></button></div>
@@ -474,6 +529,7 @@
       <button data-per="hdr" class="pbtn"><span>🎨 Cor da barra de cima</span><span>›</span></button>
     </div>
     <button id="btnCabEd" class="pbtn"><span>🧵 Editar cabos de fibra</span><span>›</span></button>
+    <button id="btnRp" class="pbtn"><span>⚠ Rompimento</span><span>›</span></button>
     <p class="text-xs font-semibold text-slate-500">Backup e arquivos</p>
     <div class="grid grid-cols-2 gap-2">
       <button id="btnExport" class="mbtn bg-emerald-600">⬇ Exportar backup</button>
@@ -802,7 +858,7 @@ function rebuildRegions(){            // nomes das cidades: padrão + renomeadas
   Object.keys(REGION_DEF).forEach(k=>{ REGIONS[k]=(state.cityNames&&state.cityNames[k])||REGION_DEF[k]; });
   (state.cityExtra||[]).forEach(c=>{ REGIONS[c.id]=c.name; });
 }
-const APP_VERSION = "3.48";
+const APP_VERSION = "3.49";
 const TEST_MODE = false;   // true = arquivo de teste (usa uma cópia dos dados) · false = site real
 const KEY_STATE = TEST_MODE?"ftth_state_test":"ftth_state_v1", KEY_NET = TEST_MODE?"ftth_net_test":"ftth_net_v1";
 const DOC_STATE = TEST_MODE?"state_teste":"state", DOC_NET = TEST_MODE?"net_teste":"net";
@@ -862,7 +918,7 @@ let state = jget(KEY_STATE, null);
 function fixState(){
   if(!state||typeof state!=="object") state={};
   ["clients","full","warn","names","notes","links","sn","so","pos","plan","vlan","vlanNames","cityNames","ceoOf","hist","ceoCap","ceoDesc","qcol","sdel","ceoCol","rur","arm"].forEach(k=>{ if(!state[k]||typeof state[k]!=="object"||Array.isArray(state[k])) state[k]={}; });
-  ["custom","cst","cityExtra"].forEach(k=>{ if(!Array.isArray(state[k])) state[k]=[]; });
+  ["custom","cst","cityExtra","rp"].forEach(k=>{ if(!Array.isArray(state[k])) state[k]=[]; });
   rebuildRegions();
   if(!Array.isArray(state.vlanList)) state.vlanList=["205","206"];
   Object.values(state.vlan).forEach(v=>{ if(v && !state.vlanList.includes(v)) state.vlanList.push(v); });   // caixas criadas / ruas criadas
@@ -949,7 +1005,7 @@ function ensureStreet(name,reg){
 const boxesOn= id => items.filter(i=>i.type==="cto" && stOf(i)===id);
 
 const ICO_PEN=`<svg viewBox="0 0 24 24"><path d="M9 3h6v12l-3 5-3-5z"/><path d="M9 7h6"/></svg>`, ICO_TRASH=`<svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>`;
-let vlOpen=false, portMark=false; let region = "sgb", currentId = null, editMode = false, placing = false, placingKind = null;
+let vlOpen=false, portMark=false; let region = "sgb", currentId = null, editMode = false, placing = false, placingKind = null; let editSel=null, pendMove=null;
 const FIBER_HEX = {VERDE:"#22c55e",AMARELA:"#facc15",BRANCA:"#ffffff",AZUL:"#3b82f6",VERMELHA:"#ef4444",ROXA:"#a855f7",VIOLETA:"#a855f7",LARANJA:"#f97316",MARROM:"#92400e",ROSA:"#ec4899",CINZA:"#94a3b8",PRETA:"#111111"};
 let infoMode = false; try{ infoMode = localStorage.getItem("ftth_info")==="1"; }catch(e){}
 let lpBlock = false, lpMapBlock = false;
@@ -968,6 +1024,8 @@ const lineLayer = L.layerGroup().addTo(map);
 const streetLayer = L.layerGroup().addTo(map);
 const markLayer = L.layerGroup().addTo(map);
 const cabLayer = L.layerGroup().addTo(map), cabLenLayer = L.layerGroup().addTo(map);
+rpLayer = L.layerGroup().addTo(map);
+var rpDirty=true, rpRes={}, rpStopped={}, rpOpenId=null, rpMode=null, rpT="p", rpPend=null, rpLayer;
 let cabMode=false, cabSnap=null, cabDirty=false, cabPoly={}, cabHalo={}, cabSel=null, hideCto=false, hideCeo=false, hideFib=false; try{ hideFib=localStorage.getItem("ftth_hidefib")==="1"; hideCto=localStorage.getItem("ftth_hidecto")==="1"; hideCeo=localStorage.getItem("ftth_hideceo")==="1"; }catch(e){}
 const markers = {}, stMk = {};
 function zoomCls(){ const z=map.getZoom(), c=map.getContainer().classList; c.toggle("zl16",z>=16); c.toggle("zl17",z>=17); }
@@ -997,6 +1055,7 @@ function iconFor(it){
   } else { cls=it.type; label=(it.type==="loja"?"🏠 ":"")+esc(nameOf(it)); }
   if(hl) cls += hl.has(it.id) ? " hl" : " dim";
   if(selSet.has(it.id)){ cls += " sel"; label = "✔ "+label; }
+  if(editMode && editSel===it.id) cls += " esel";
   if(infoMode && (it.type==="cto"||it.type==="ceo") && !isPlanned(it)){
     const pi=ponCard(it)||{};
     {
@@ -1011,7 +1070,8 @@ function iconFor(it){
       }
     }
   }
-  return L.divIcon({className:"",html:`<span class="pill ${cls}"${sty}>${label}</span>`,iconSize:[0,0]});
+  let rpb=""; if(rpStopped[it.id]){ const rr=(state.rp||[]).find(x=>x.id===rpStopped[it.id]); if(rr&&!rr.hide) rpb='<i class="rpw">⚠</i>'; }
+  return L.divIcon({className:"",html:`<span class="pill ${cls}"${sty}>${label}${rpb}</span>`,iconSize:[0,0]});
 }
 const zOf = it => (hl&&hl.has(it.id)) ? 2000 : (isFull(it)&&!isPlanned(it)) ? 1000 : it.type==="cto" ? 500 : (it.type==="arm"||it.type==="rural") ? 300 : 0;
 function stIcon(o){
@@ -1075,17 +1135,21 @@ function render(){
   Object.keys(markers).forEach(k=>delete markers[k]); Object.keys(stMk).forEach(k=>delete stMk[k]);
   const bounds = [];
   const raw=cabRawNow(), styled=[], hf=hideFib&&!cabMode;
-  net.lines.forEach(([t,c,o],li)=>{
+  const order=net.lines.map((_,i)=>i); if(raw&&cabSel!==null&&order.includes(cabSel)){ order.splice(order.indexOf(cabSel),1); order.push(cabSel); }
+  order.forEach(li=>{
+    const [t,c,o]=net.lines[li];
     if(lineReg(net.lines[li])!==region) return;
+    if(!cabVis(li)) return;
     if(hf){ c.forEach(p=>bounds.push([p[1],p[0]])); return; }
     const ll = c.map(p=>[p[1],p[0]]), pp=raw?ll:roundLL(ll), has=o&&(o.w||o.col);
     if(has) styled.push([t,pp,o]);
     if(raw && cabSel===li) cabHalo[li]=L.polyline(pp,{color:"#fde047",weight:13,opacity:.55,interactive:false}).addTo(lineLayer);
-    const st = (raw&&has) ? {color:o.col||(t==="p"?"#1d4ed8":"#38bdf8"),weight:o.w||(t==="p"?4:2.8),opacity:.95,interactive:false}
+    let st = (raw&&has) ? {color:o.col||(t==="p"?"#1d4ed8":"#38bdf8"),weight:o.w||(t==="p"?4:2.8),opacity:.95,interactive:false}
              : (t==="p" ? {color:"#1d4ed8",weight:4,opacity:.95,interactive:false} : {color:"#38bdf8",weight:2,opacity:.7,interactive:false});
+    if(raw && cabSel===li){ st=Object.assign({},st,{weight:(st.weight||3)+2.5,opacity:1}); }
     const pl=L.polyline(pp,st).addTo(lineLayer);
     if(raw) cabPoly[li]=pl;
-    if(!(cabMode&&(!raw||cabState==="draw"))) L.polyline(pp,{color:"#000",weight:20,opacity:.01,bubblingMouseEvents:false}).on("click",()=>cabTap(li)).addTo(lineLayer);
+    if(!(cabMode&&(!raw||cabState==="draw"))) L.polyline(pp,{color:"#000",weight:20,opacity:.01,bubblingMouseEvents:false}).on("click",ev=>cabTapAt(ev)).addTo(lineLayer);
     bounds.push(...ll);
   });
   if(!raw && !hf) fiberSegs().forEach(f=>{
@@ -1116,13 +1180,15 @@ function render(){
     if(it.region!==region) return;
     if(hideCto && (it.type==="cto"||it.type==="imenda"||it.type==="loja"||it.type==="rural"||it.type==="arm")) return;   // "Caixas" apagada esconde também emendas, loja, rural e armário
     if(hideCeo && it.type==="ceo") return;
-    const canDrag = editMode && (it.type==="cto"||it.type==="ceo"||it.type==="rural"||it.type==="arm");
+    const movable = it.type==="cto"||it.type==="ceo"||it.type==="rural"||it.type==="arm";
+    const canDrag = editMode && movable && it.id===editSel;
     const m = L.marker([it.lat,it.lng],{icon:iconFor(it),zIndexOffset:zOf(it),riseOnHover:true,draggable:canDrag,interactive:!cabRawNow()}).addTo(markLayer);
-    m.on("click",()=>{ if(placing||lpBlock) return; if(selMode){ if(it.type==="cto") toggleSel(it.id); return; } openSheet(it.id); });
+    m.on("click",()=>{ if(placing||lpBlock||rpMode) return; if(selMode){ if(it.type==="cto") toggleSel(it.id); return; } if(editMode && movable){ editPick(it.id); return; } openSheet(it.id); });
     if(canDrag){ m.on("dragstart",closeSheet); m.on("dragend",()=>onMoved(it,m)); }
     markers[it.id]=m; bounds.push([it.lat,it.lng]);
   });
   if(cabRawNow()) cabBuild();
+  rpMarkers();
   updateStats();
   return bounds;
 }
@@ -1180,7 +1246,7 @@ function dist(a,b){ const dx=(a[0]-b[0])*Math.cos(18.9*Math.PI/180)*111320, dy=(
 let linkMap = {};
 // Descobre a CEO de cada caixa seguindo o traçado dos cabos de 6 (menor caminho pela fibra)
 function computeLinks(){
-  linkMap = {}; fiberCache=null;
+  linkMap = {}; fiberCache=null; rpDirty=true;
   const V = [];
   const near = (p,r)=>{ let bi=-1,bd=r; for(let i=0;i<V.length;i++){ const d=dist(p,V[i].p); if(d<bd){bd=d;bi=i;} } return bi; };
   net.lines.forEach(([t,c])=>{
@@ -1214,6 +1280,66 @@ function computeLinks(){
     if(cid==="-") delete linkMap[bid]; else if(byId[cid]&&byId[cid].type==="ceo") linkMap[bid]=cid;
   });
   linkV=V;
+}
+/* ===== grafo de cabos (usado pela ficha do armário e pelo Rompimento) ===== */
+function cabV2(kind,reg){        // "p" = só cabos de 24 fibras; "f" = cabos de 6. Devolve vértices e trechos
+  const V=[], segs=[];
+  net.lines.forEach((ln,li)=>{
+    const [t,c]=ln;
+    if((t==="p")!==(kind==="p")) return;
+    if(reg && lineReg(ln)!==reg) return;
+    let prev=-1;
+    c.forEach((pt,k)=>{
+      let i=cabNear(V,pt,6);
+      if(i<0){ V.push({p:pt,adj:[]}); i=V.length-1; }
+      if(prev>=0 && prev!==i){ const d=dist(V[prev].p,V[i].p); V[prev].adj.push([i,d]); V[i].adj.push([prev,d]); segs.push({a:prev,b:i,li,k:k-1}); }
+      prev=i;
+    });
+  });
+  return {V,segs};
+}
+function cabV(kind,reg){ return cabV2(kind,reg).V; }
+function cabNear(V,pt,r){ let bi=-1,bd=r; for(let i=0;i<V.length;i++){ const d=dist(pt,V[i].p); if(d<bd){ bd=d; bi=i; } } return bi; }
+function cabDij(V,src){        // menor caminho a partir de vários pontos; devolve distância e "pai" de cada vértice
+  const D=V.map(()=>Infinity), P=V.map(()=>-1), done=V.map(()=>false);
+  src.forEach(i=>{ if(i>=0) D[i]=0; });
+  for(;;){ let u=-1,bd=Infinity; for(let i=0;i<V.length;i++) if(!done[i]&&D[i]<bd){ bd=D[i]; u=i; } if(u<0) break; done[u]=true;
+    V[u].adj.forEach(([j,w])=>{ if(D[u]+w<D[j]){ D[j]=D[u]+w; P[j]=u; } }); }
+  return {D,P};
+}
+const PAL6=["VERDE","AMARELA","BRANCA","AZUL","VERMELHA","VIOLETA"];
+function fibInfo(c){            // tubo e fibra da CEO, com as cores (a cor escrita na CEO prevalece)
+  const q=parseCeo(c.desc), f=q.fibra?+q.fibra:null;
+  if(!f) return {f:null,q};
+  const tubo=q.tubo?+q.tubo:Math.ceil(f/6), tc=PAL6[(tubo-1)%6];
+  const fc=q.cor?String(q.cor).toUpperCase().replace("ROXA","VIOLETA"):PAL6[(f-1)%6];
+  return {f,q,tubo,tc,fc,tHex:FIBER_HEX[tc],fHex:FIBER_HEX[fc]||"#94a3b8"};
+}
+const cap1=s=>String(s||"").charAt(0)+String(s||"").slice(1).toLowerCase();
+const cdash=hx=>`<i class="cdash" style="background:${hx}"></i>`;
+function ceoBoxCount(c){ return items.filter(x=>x.type==="cto"&&!isPlanned(x)&&linkMap[x.id]===c.id).length; }
+function armCeos(it){           // CEOs da cidade do armário, na ordem do cabo de 24 a partir dele
+  const ceos=items.filter(x=>x.type==="ceo"&&x.region===it.region), fib=c=>{ const f=parseCeo(c.desc).fibra; return f?+f:9999; };
+  const V=cabV("p",it.region), s=cabNear(V,[it.lng0!=null?it.lng0:it.lng,it.lat0!=null?it.lat0:it.lat],40);
+  const R=s>=0?cabDij(V,[s]):null;
+  const rows=ceos.map(c=>{ let d=Infinity; if(R){ const vi=cabNear(V,[c.lng0!=null?c.lng0:c.lng,c.lat0!=null?c.lat0:c.lat],20); if(vi>=0) d=R.D[vi]; } return {c,d}; });
+  rows.sort((a,b)=>{ const ai=a.d===Infinity, bi=b.d===Infinity; if(ai&&bi) return fib(a.c)-fib(b.c); if(ai) return 1; if(bi) return -1; return a.d-b.d||fib(a.c)-fib(b.c); });
+  return rows;
+}
+function armInfoH(it){
+  const open=!!armInfoOpen[it.id], rows=open?armCeos(it):[];
+  let h=`<div class="arminfo"><button data-a="arminfo" class="hd"><span>📋 Informações das CEOs</span><span>${open?"▴":"▾"}</span></button>`;
+  if(open){
+    if(!rows.length) h+=`<div class="px-3 pb-3 text-xs text-slate-500">Nenhuma CEO cadastrada nesta cidade.</div>`;
+    h+=rows.map(({c},i)=>{
+      const fi=fibInfo(c), q=fi.q, ln=[];
+      if(fi.f){ ln.push(`<span>${cdash(fi.tHex)}Tubo ${fi.tubo} (${cap1(fi.tc)})</span>`); ln.push(`<span>${cdash(fi.fHex)}Fibra ${fi.f} (${cap1(fi.fc)})</span>`); } else ln.push("<span>sem dados de fibra</span>");
+      if(q.card) ln.push(`<span>Card ${esc(q.card)}</span>`); if(q.pon) ln.push(`<span>PON ${esc(q.pon)}</span>`);
+      return `<div class="ib"><div class="min-w-0 flex-1"><div><span class="no">CEO ${i+1} ·</span> <span class="nm">${esc(nameOf(c))}</span></div><div class="ln">${ln.join("")}</div></div><div class="cntq" title="Caixas ligadas a esta CEO">${ceoBoxCount(c)}</div></div>`;
+    }).join("");
+    h+=`<div class="px-3 pb-2 text-[11px] text-slate-500">Ordem pelo cabo de 24 fibras a partir deste armário. O quadradinho é o número de caixas de cada CEO.</div>`;
+  }
+  return h+`</div>`;
 }
 function parseCeo(d){
   d = d||"";
@@ -1279,7 +1405,7 @@ function linkBlock(it){
 /* ======================= PAINEL ======================= */
 const sheet = document.getElementById("sheet"), body = document.getElementById("sheetBody");
 function takeBase(){ draftBase=JSON.stringify(state); }
-function drawDraftBar(){ const b=document.getElementById("draftBar"); if(b) b.classList.toggle("hidden",!draftDirty); }
+function drawDraftBar(){ const b=document.getElementById("draftBar"); if(b) b.classList.toggle("hidden",!draftDirty); const e=document.getElementById("draftBarEnd"); if(e) e.classList.toggle("hidden",!draftDirty); }
 function syncLook(){ rebuildRegions(); if(!REGIONS[region]) region="sgb"; drawTabs(); applyHdr(); applySlot(); applyStatusColors(); }
 function refreshLocal(){ syncLook(); rebuild(); computeStreets(); computeLinks(); render(); }
 function commitDraft(){ if(!draftDirty) return; draftDirty=false; heldRemote=null; jset(KEY_STATE,state); cloudPush(); takeBase(); drawDraftBar(); }
@@ -1293,6 +1419,8 @@ function cancelDraft(){
 function settleDraft(){ if(!draftDirty) return; if(confirm("Salvar as alterações desta caixa?\n\nOK = Salvar\nCancelar = Descartar as alterações")) commitDraft(); else cancelDraft(); }
 function closeSheet(){ if(draftDirty) settleDraft(); sheet.classList.add("closed"); sheet.style.removeProperty("max-height"); currentId=null; draftBase=null; draftDirty=false; drawDraftBar(); }
 function openSheet(id){
+  if(id!==currentId) apEd={};
+  if(rpOpenId) rpClose();
   if(draftDirty && id!==currentId) settleDraft();
   if(id!==currentId){ sheet.style.removeProperty("max-height"); colEdit=null; showAddSel=false; vlOpen=false; portMark=false; currentId=id; takeBase(); draftDirty=false; drawDraftBar(); const _p=byId[id]; if(_p&&(_p.type==="ceo"||_p.type==="cto")) loadPhotos(id); }
   drawSheet(); sheet.classList.remove("closed");
@@ -1309,7 +1437,7 @@ const CARD_T={GTGO:["GTGO",8,"GTGO (GPON, 8 PONs)"],GTGH:["GTGH",16,"GTGH (GPON,
 const INP="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-base text-slate-900 focus:outline-none focus:border-sky-500";
 const PLUG_IN="flex:1;min-width:0;width:100%;font-size:12px;padding:3px 4px;border:1px solid #94a3b8;border-radius:5px;color:#0f172a;background:#fff";
 const plugBox=(n,on)=>`<span style="flex:0 0 auto;width:17px;height:17px;border-radius:3px;background:${on?"#2563eb":"#94a3b8"};color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center">${n}</span>`;
-const armTw={}, armEd={};
+const armTw={}, armEd={}; let apEd={}; const armInfoOpen={};
 function armData(id){
   const ar=state.arm[id]||(state.arm[id]={aps:[],olt:{}});
   if(!Array.isArray(ar.towers)){ ar.towers=[{n:"Principal",ip:"",aps:Array.isArray(ar.aps)?ar.aps:[],pons:[]},{n:"Caixa d'água",ip:"",aps:[],pons:[]},{n:"Da Pedra",ip:"",aps:[],pons:[]}]; delete ar.aps; }
@@ -1332,7 +1460,8 @@ function specialSheet(it,gm){
       <div class="l" style="margin-top:10px">Faixa de IP (3 primeiros números)</div><div class="row"><input id="spIp1" class="oct" inputmode="numeric" maxlength="3" value="${att(ipP[0]||"")}"><span class="dot">.</span><input id="spIp2" class="oct" inputmode="numeric" maxlength="3" value="${att(ipP[1]||"")}"><span class="dot">.</span><input id="spIp3" class="oct" inputmode="numeric" maxlength="3" value="${att(ipP[2]||"")}"><span class="dot">.</span><span class="dot">___</span></div></div>`
     :`<div class="ipbx"><span>Faixa de IP desta torre</span><span style="display:flex;align-items:center;color:inherit"><b>${ipTxt}</b><button data-a="twedit" class="pen" title="Editar nome e faixa de IP">✏️</button></span></div>`;
   const apT=(x,i)=>{ const m=/^AP[\s-]*(\d.*|)$/i.exec(x.n||""), lab=m?"AP":"", v=m?m[1]:(x.n||"");
-    return `<div class="apt"><button data-a="apdel" data-i="${i}" class="tx" title="Apagar este AP">×</button><small>${lab||"&nbsp;"}</small><input class="ti" data-a="apf" data-i="${i}" data-pre="${lab?1:0}" value="${att(v)}" maxlength="12" placeholder="nº" enterkeyhint="done"></div>`; };
+    const e=!!apEd[id+":"+i];
+    return `<div class="apt"><small>${lab||"&nbsp;"}</small><input class="ti${e?"":" lk"}" ${e?"":"readonly "}data-a="apf" data-i="${i}" data-pre="${lab?1:0}" value="${att(v)}" maxlength="12" placeholder="nº" enterkeyhint="done"><div class="apbs"><button data-a="apedit" data-i="${i}" class="apbtn">${e?"OK":"Editar"}</button>${e?`<button data-a="apdel" data-i="${i}" class="apbtn red">Apagar</button>`:""}</div></div>`; };
   const ponT=(x,i)=>`<div class="apt"><button data-a="pondel" data-i="${i}" class="tx" title="Apagar esta PON">×</button><small style="text-align:left;padding-left:2px">PON</small><input class="pf" data-a="ponn" data-i="${i}" value="${att(x.n)}" maxlength="20" placeholder="Ex.: PON 8"></div>`;
   const rows=tw.aps.map(apT).join("")+`<button data-a="apadd" class="apt add"><b>＋</b><small>Adicionar</small></button>`;
   const ponRows=tw.pons.map(ponT).join("")+`<button data-a="ponadd" class="apt add"><b>＋</b><small>Adicionar</small></button>`;
@@ -1348,7 +1477,7 @@ function specialSheet(it,gm){
     <div class="twrow">${chips}</div>${ipBox}
     <div class="mt-3 text-sm font-bold text-slate-800">📡 Antenas (AP) desta torre</div>
     <div class="apg">${rows}</div>
-    <div class="mt-1 text-xs text-slate-500">Toque no número para mudar. Cada torre tem a sua lista.</div>
+    <div class="mt-1 text-xs text-slate-500">Toque em <b>Editar</b> para mudar o número. Cada torre tem a sua lista.</div>
     <div class="fibdiv"><b>🧵 Rede de fibra</b></div>
     <div class="mt-3 text-sm font-bold text-slate-800">🟢 PON (saídas) desta torre</div>
     <div class="apg p2">${ponRows}</div>
@@ -1360,7 +1489,7 @@ function specialSheet(it,gm){
     ${colH?`<div style="display:flex;gap:8px;overflow-x:auto;padding:6px 0 8px;-webkit-overflow-scrolling:touch">${colH}</div>`:`<div class="mt-1 text-xs text-slate-500">Nenhuma placa ainda.</div>`}
     ${dioH}
     <div class="mt-2 flex gap-1.5"><input id="spCardS" inputmode="numeric" maxlength="3" placeholder="Nº" class="w-14 shrink-0 rounded-lg border border-slate-300 px-2 py-2 text-base text-slate-900"><select id="spCardT" class="flex-1 min-w-0 rounded-lg border border-slate-300 px-2 py-2 text-sm text-slate-900">${Object.entries(CARD_T).map(([k,v])=>`<option value="${k}">${v[2]}</option>`).join("")}</select><button data-a="cardadd" class="shrink-0 rounded-lg border border-sky-300 text-sky-700 px-3 py-2 text-sm font-semibold">➕ Placa</button></div>
-    <div class="text-[11px] text-slate-500 mt-1">Nº = o número do encaixe (slot) no equipamento: 0, 1, 2, 3… Slot vazio? Só cadastre quando instalar a placa.</div>`+gmH+del;
+    <div class="text-[11px] text-slate-500 mt-1">Nº = o número do encaixe (slot) no equipamento: 0, 1, 2, 3… Slot vazio? Só cadastre quando instalar a placa.</div>`+armInfoH(it)+gmH+del+`<div id="draftBarEnd" class="${draftDirty?"":"hidden "}mt-3 flex items-center gap-2 rounded-lg bg-amber-100 border border-amber-300 px-2 py-1.5 text-xs text-amber-900"><span class="flex-1 font-semibold">✎ Alterações não salvas</span><button data-d="cancel" class="rounded-md bg-white border border-slate-300 text-slate-700 px-3 py-1.5 font-semibold">Cancelar</button><button data-d="save" class="rounded-md bg-emerald-600 text-white px-3 py-1.5 font-bold">Salvar</button></div>`;
 }
 function drawSheet(){
   const it=byId[currentId]; if(!it) return;
@@ -1370,12 +1499,12 @@ function drawSheet(){
   const kind = it.type==="cto"?(isPlanned(it)?"Caixa planejada":"Caixa"):it.type==="ceo"?"CEO (emenda)":it.type==="imenda"?"Caixa de emenda":it.type==="rural"?"Cliente zona rural (rádio)":it.type==="arm"?"Armário / Torre":"Local";
   let h = `<div class="flex items-start justify-between gap-2 mt-1">
       <div class="min-w-0"><div class="text-xs text-slate-500">${REGIONS[it.region]} · ${kind}${sid?" · 🛣 "+esc(stLabel(sid)):""}</div>
-      <h2 id="spTitle" class="text-lg font-extrabold text-slate-900 truncate">${it.type==="cto"?"Caixa ":""}${esc(nameOf(it))}</h2></div>
+      <div class="flex items-center gap-1.5 min-w-0"><h2 id="spTitle" class="text-lg font-extrabold text-slate-900 truncate">${it.type==="cto"?"Caixa ":""}${esc(nameOf(it))}</h2>${(it.type==="rural"||it.type==="arm")?"":`<button data-a="rename" title="Renomear" class="ibtn shrink-0">${ICO_PEN}</button>`}</div></div>
       </div>`;
   if(it.type==="rural"||it.type==="arm"){ body.innerHTML=h+specialSheet(it,gm); return; }
   if(isPlanned(it)){
     const pc=planOf(it).color;
-    h += `<div class="mt-2 flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-800"><span class="inline-block w-4 h-4 rounded-full border border-white shadow shrink-0" style="background:${pc};box-shadow:0 0 0 1px #94a3b8"></span>🛠 Caixa planejada / a instalar<span class="block text-xs font-normal text-slate-500 ml-auto text-right">Desmarque no Modo Edição quando instalada</span></div>`;
+    h += `<div class="mt-2 flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-800"><span class="inline-block w-4 h-4 rounded-full border border-white shadow shrink-0" style="background:${pc};box-shadow:0 0 0 1px #94a3b8"></span>🛠 Caixa planejada / a instalar<button data-a="planapply" class="ml-auto shrink-0 rounded-lg bg-emerald-600 text-white px-3 py-1.5 text-xs font-bold">✔ Aplicar</button></div>`;
   } else if(st){
     const free = forcedFull(it) ? 0 : Math.max(0,CAP-co);
     const T = {ok:[sdot("ok")+" Disponível","","","color:var(--c-ok,#059669)","background:var(--c-ok,#16a34a)"], warn:[sdot("warn")+" Atenção","","","color:var(--c-warn,#d97706)","background:var(--c-warn,#f59e0b)"], full:[sdot("full")+" LOTADA","","","color:var(--c-full,#dc2626)","background:var(--c-full,#dc2626)"]}[st];
@@ -1395,7 +1524,7 @@ function drawSheet(){
     const vdel=v=>`<button data-a="vldel" data-v="${v}" title="Apagar esta VLAN" class="ibtn red shrink-0">${ICO_TRASH}</button>`;
     const vpen=v=>`<button data-a="vledit" data-v="${v}" title="Editar esta VLAN" class="ibtn shrink-0">${ICO_PEN}</button>`;
     const vlcompact = cur
-      ? `<span class="inline-flex items-center gap-1"><button data-a="vlopen" title="Trocar de VLAN" class="rounded-lg bg-[#0056b3] text-white px-2.5 py-1 text-xs font-bold">VLAN ${esc(cur)} ▾</button><button data-a="vlanedit" title="Editar esta VLAN" class="ibtn shrink-0">${ICO_PEN}</button><button data-a="vldel" data-v="${esc(cur)}" title="Apagar esta VLAN" class="ibtn red shrink-0">${ICO_TRASH}</button></span>`
+      ? `<span class="inline-flex items-center gap-1"><button data-a="vlopen" title="Trocar de VLAN" class="rounded-lg bg-[#0056b3] text-white px-2.5 py-1 text-xs font-bold">VLAN ${esc(cur)} ▾</button></span>`
       : `<button data-a="vlopen" class="rounded-lg border border-slate-300 text-slate-700 px-2.5 py-1 text-xs font-semibold">＋ VLAN</button>`;
     const vlpanel = vlOpen ? `<div class="mt-1.5 rounded-lg border border-slate-200 p-2 flex flex-col gap-1.5">${state.vlanList.map(v=>`<div class="flex gap-1 w-full">${vbtn(v)}${vpen(v)}${vdel(v)}</div>`).join("")}<div class="flex gap-2 w-full">${cur?`<button data-a="vlan" data-v="" class="rounded-lg border border-slate-300 text-slate-600 px-3 py-1.5 text-sm">Nenhuma</button>`:""}<button data-a="vlnew" class="flex-1 rounded-lg border border-slate-300 text-slate-700 px-3 py-1.5 text-sm">➕ Nova VLAN</button><button data-a="vlclose" class="rounded-lg border border-slate-300 text-slate-600 px-3 py-1.5 text-sm">Fechar</button></div></div>` : "";
     h += `<div class="mt-3 flex items-start gap-2"><div class="min-w-0 flex-1 flex flex-col gap-2"><span class="text-sm font-semibold text-slate-700 leading-tight">Portas<span class="block text-xs font-normal text-slate-500">${ff?"lotada":c+"/"+CAP+" em uso"}</span></span><span>${vlcompact}</span></div>
@@ -1421,14 +1550,14 @@ function drawSheet(){
   h += linkBlock(it);
   h += photoBlock(it) + gmH;
   if(it.type==="ceo") h += noteH;
-  h += `<div class="mt-3 flex gap-2 text-xs"><button data-a="rename" class="rounded-lg border border-slate-300 text-slate-600 px-3 py-2">Renomear</button><button data-a="note" class="rounded-lg border border-slate-300 text-slate-600 px-3 py-2">Anotação</button>${it.custom?`<button data-a="delbox" class="rounded-lg border border-red-300 text-red-600 px-3 py-2">🗑 Excluir caixa</button>`:""}</div>`;
+  h += `<div class="mt-3 flex gap-2 text-xs"><button data-a="note" class="rounded-lg border border-slate-300 text-slate-600 px-3 py-2">Anotação</button>${it.custom?`<button data-a="delbox" class="rounded-lg border border-red-300 text-red-600 px-3 py-2">🗑 Excluir caixa</button>`:""}</div>`;
   body.innerHTML = h;
   drawPhotos(it.id);
 }
 body.addEventListener("click",e=>{
   const b=e.target.closest("[data-a]"); if(!b) return;
   const it=byId[currentId]; if(!it) return; const a=b.dataset.a, cl=clientsOf(it.id);
-  if(RO&&!["close","gotobox","fview","hall"].includes(a)) return;
+  if(RO&&!["close","gotobox","fview","hall","arminfo"].includes(a)) return;
   if(a==="close") return closeSheet();
   if(a==="add") return addClient();
   if(a==="pmark"){ portMark=!portMark; drawSheet(); return; }
@@ -1495,8 +1624,10 @@ body.addEventListener("click",e=>{
     ar.cards.push({s:String(+sv),t,p:Array.from({length:(CARD_T[t]||CARD_T.CTRL)[1]},()=>({t:""}))});
     ar.cards.sort((x,y)=>(isD(x.t)-isD(y.t))||(+x.s-+y.s)); save(); drawSheet(); return; }
   if(a==="movehere"){ setEdit(true); toast("Arraste o ponto para o novo lugar."); return; }
-  if(a==="apadd"){ const {t}=armTower(it.id); t.aps.push({n:"AP "+(t.aps.length+1)}); save(); drawSheet(); return; }
-  if(a==="apdel"){ const {t}=armTower(it.id), i=+b.dataset.i; if(t.aps[i]&&confirm(`Apagar o ${t.aps[i].n||"AP"}?`)){ t.aps.splice(i,1); save(); drawSheet(); } return; }
+  if(a==="apadd"){ const {t}=armTower(it.id); t.aps.push({n:"AP "+(t.aps.length+1)}); apEd[it.id+":"+(t.aps.length-1)]=true; save(); drawSheet(); return; }
+  if(a==="apedit"){ const k=it.id+":"+b.dataset.i; if(apEd[k]) delete apEd[k]; else apEd[k]=true; drawSheet(); if(apEd[k]){ const f=document.querySelector('#sheetBody input[data-a="apf"][data-i="'+b.dataset.i+'"]'); if(f){ f.focus(); try{ f.select(); }catch(_){} } } return; }
+  if(a==="arminfo"){ armInfoOpen[it.id]=!armInfoOpen[it.id]; drawSheet(); return; }
+  if(a==="apdel"){ const {t}=armTower(it.id), i=+b.dataset.i; if(t.aps[i]&&confirm(`Apagar o ${t.aps[i].n||"AP"}?`)){ t.aps.splice(i,1); apEd={}; save(); drawSheet(); } return; }
   if(a==="ponadd"){ const {t}=armTower(it.id); t.pons.push({n:"PON "+(t.pons.length+1)}); save(); drawSheet(); return; }
   if(a==="pondel"){ const {t}=armTower(it.id), i=+b.dataset.i; if(t.pons[i]&&confirm(`Apagar a ${t.pons[i].n||"PON"}?`)){ t.pons.splice(i,1); save(); drawSheet(); } return; }
   if(a==="twsel"){ const ar=armData(it.id), i=+b.dataset.i; if(i===(armTw[it.id]|0)&&!armEd[it.id]){ armEd[it.id]=true; } else { armTw[it.id]=i; armEd[it.id]=false; } drawSheet(); return; }
@@ -1517,6 +1648,7 @@ body.addEventListener("click",e=>{
     stageOn=false; draftDirty=false; save(); closeSheet(); rebuild(); computeStreets(); computeLinks(); render(); return; }
   if(a==="del"){ const i=+b.dataset.i; if(confirm(`Excluir "${cl[i].n}" desta caixa?`)){ const pn=+cl[i].p, fl=forcedFull(it); cl.splice(i,1); if(fl){ freeFaux(it,pn); } else { save(); drawSheet(); refreshMarker(it.id); } } return; }
   if(a==="rename"){ openEbOne(it); return; }
+  if(a==="planapply"){ const pp=state.plan[it.id]||{}; state.plan[it.id]={on:false,color:HEX.test(pp.color||"")?pp.color:PLAN_DEF}; stageOn=false; draftDirty=false; save(); computeStreets(); computeLinks(); drawSheet(); render(); toast("✔ Caixa instalada"); return; }
   if(a==="ceocolor"){ if(b.dataset.c) state.ceoCol[it.id]=b.dataset.c; else delete state.ceoCol[it.id]; save(); drawSheet(); refreshMarker(it.id); return; }
   if(a==="plancolor"){ state.plan[it.id]={on:true,color:b.dataset.c}; save(); drawSheet(); refreshMarker(it.id); return; }
   if(a==="note"){ const n=prompt("Anotação sobre este ponto:",state.notes[it.id]||""); if(n!==null){ if(n.trim()) state.notes[it.id]=n.trim(); else delete state.notes[it.id]; save(); drawSheet(); } return; }
@@ -1599,7 +1731,8 @@ document.getElementById("sheetX").addEventListener("click",()=>closeSheet());
     else sheet.style.setProperty("max-height",Math.max(220,window.innerHeight-90)+"px","important"); });
 })();
 document.getElementById("draftBar").addEventListener("click",e=>{ const d=e.target.dataset.d; if(d==="save") commitDraft(); else if(d==="cancel") cancelDraft(); });
-map.on("click",e=>{ if(lpMapBlock) return; hideChip(); openFibraPanel(false); if(pickPoint){ showNear(e.latlng.lat,e.latlng.lng,"Ponto marcado"); return; } if(cabRawNow()){ if(cabState==="draw") cabAddPt(e.latlng); else if(cabSel!==null){ cabSel=null; closeCabStyle(); render(); drawCabBar(); } return; } if(placing){ if(placingFor) placeQ(e.latlng); else if(placingKind) placeSpecial(e.latlng); else openNewBox(e.latlng); return; } if(selMode) return; closeSheet(); });
+document.getElementById("sheetBody").addEventListener("click",e=>{ const b=e.target.closest("button[data-d]"); if(!b) return; apEd={}; if(b.dataset.d==="save"){ commitDraft(); if(currentId&&byId[currentId]) drawSheet(); } else if(b.dataset.d==="cancel") cancelDraft(); });
+map.on("click",e=>{ if(lpMapBlock) return; hideChip(); hideCabPick(); if(rpMode){ if(rpMode==="tap") toast("Toque em cima de um cabo de "+(rpT==="p"?"24":"6")+" fibras"); return; } openFibraPanel(false); if(pickPoint){ showNear(e.latlng.lat,e.latlng.lng,"Ponto marcado"); return; } if(cabRawNow()){ if(cabState==="draw") cabAddPt(e.latlng); else if(cabSel!==null){ cabSel=null; closeCabStyle(); render(); drawCabBar(); } return; } if(placing){ if(placingFor) placeQ(e.latlng); else if(placingKind) placeSpecial(e.latlng); else openNewBox(e.latlng); return; } if(selMode) return; if(editMode&&editSel&&!pendMove){ editSel=null; render(); updateEditBar(); } closeSheet(); });
 
 /* ======================= BUSCA (rua / caixa / cliente) ======================= */
 const sInp=document.getElementById("search"), sRes=document.getElementById("results");
@@ -1776,11 +1909,31 @@ function updateEditBar(){
   map.getContainer().classList.toggle("placing",placing);
   editBar.innerHTML = placing
     ? `<span class="font-semibold leading-tight">👆 Toque no mapa onde ${placingFor?"fica a "+esc(placingFor.name)+" desta CEO":placingKind==="rural"?"fica o cliente da zona rural":placingKind==="arm"?"fica o armário":"a nova caixa ficará"}</span><button data-e="cancel" class="shrink-0 rounded-lg bg-white/20 px-3 py-2 font-semibold">Cancelar</button>`
-    : `<span class="font-semibold leading-tight">✏ Edição ativa<span class="block text-xs font-normal opacity-80">arraste as caixas, CEOs e pontos para movê-los</span></span><span class="flex gap-2 shrink-0"><button data-e="sel" class="rounded-lg bg-white/20 px-2.5 py-2 text-xs font-semibold">☑ Selecionar</button><button data-e="add" class="rounded-lg bg-emerald-500 px-3 py-2 font-bold shadow">+ Nova Caixa</button><button data-e="off" class="rounded-lg bg-white/20 px-2.5 py-2 text-xs font-semibold">🔒 Travar</button></span>`;
+    : `<div class="flex items-start justify-between gap-2 w-full"><span class="font-semibold leading-tight">✏ Edição ativa<span class="block text-xs font-normal opacity-80">${editSel&&byId[editSel]?"movendo "+esc(nameOf(byId[editSel]))+" — arraste para mudar de lugar":"toque numa caixa ou CEO para movê-la"}</span></span><button data-e="off" class="shrink-0 rounded-lg bg-white/20 px-2.5 py-2 text-xs font-semibold">🔒 Travar</button></div><span class="flex flex-wrap gap-1.5 w-full"><button data-e="sel" class="rounded-lg bg-white/20 px-2.5 py-2 text-xs font-semibold">☑ Selecionar</button><button data-e="add" class="rounded-lg bg-emerald-500 px-2.5 py-2 text-xs font-bold shadow">+ Nova Caixa</button>${editSel&&byId[editSel]?`<button data-e="open" class="rounded-lg bg-white/20 px-2.5 py-2 text-xs font-semibold">📂 Abrir caixa</button>`:""}</span>`;
+  updateMoveBar();
+}
+const moveBar=document.getElementById("moveBar");
+function updateMoveBar(){
+  const it=pendMove&&byId[pendMove.id];
+  if(!editMode||!it){ moveBar.classList.add("hidden"); return; }
+  moveBar.innerHTML=`<span class="font-semibold truncate">Mudou de lugar: ${esc(nameOf(it))}</span><span class="flex gap-2 shrink-0"><button data-m="cancel" class="rounded-md bg-white/70 px-3 py-1 font-semibold">Cancelar</button><button data-m="save" class="rounded-md bg-slate-900 text-white px-3 py-1 font-bold">Salvar</button></span>`;
+  moveBar.classList.remove("hidden");
+  requestAnimationFrame(()=>{ const r=editBar.getBoundingClientRect(); moveBar.style.top=(r.bottom+4)+"px"; });
+}
+moveBar.addEventListener("click",e=>{
+  const b=e.target.closest("button"); if(!b||!pendMove) return;
+  const it=byId[pendMove.id], m=it&&markers[it.id];
+  if(b.dataset.m==="cancel"){ if(m) m.setLatLng([pendMove.lat,pendMove.lng]); pendMove=null; updateMoveBar(); }
+  else if(b.dataset.m==="save"){ if(it&&m) applyMove(it,m); pendMove=null; updateMoveBar(); }
+});
+function editPick(id){
+  if(pendMove&&pendMove.id!==id){ toast("Salve ou cancele a mudança de lugar primeiro"); return; }
+  if(editSel===id) return;
+  editSel=id; render(); updateEditBar();
 }
 /* ======================= AJUSTAR CABOS ======================= */
 const cabBar=document.getElementById("cabBar"), cabChip=document.getElementById("cabChip"), cabStyle=document.getElementById("cabStyle"), ptModal=document.getElementById("ptModal");
-let cabState="edit", cabUndo=[], cabRedo=[], cabDraw=null, cabChipLi=null, cabChipT=null, cabStyleOpen=false, ptTarget=null;
+let cabState="edit", cabUndo=[], cabRedo=[], cabDraw=null, cabChipLi=null, cabChipT=null, cabStyleOpen=false, ptTarget=null, cabFilter="all", cabSelSnap="", pcTarget=null, pcHi=null;
 const cabRawNow=()=>cabMode && cabState!=="preview";
 const cabName=li=>(net.lines[li]&&net.lines[li][0]==="p")?"Cabo de 24 fibras":"Cabo de 6 fibras";
 function setTopVar(){ const tb=document.getElementById("tabs"); if(!tb) return; document.documentElement.style.setProperty("--tb",Math.max(60,Math.round(tb.getBoundingClientRect().bottom+6))+"px"); }
@@ -1837,7 +1990,8 @@ function cabBuild(){
   cabLayer.clearLayers();
   if(cabState==="draw"){ cabDrawTemp(); return; }
   const mk=(ll,cls)=>L.marker(ll,{icon:L.divIcon({className:"cab-h "+cls,html:"<i></i>",iconSize:[28,28],iconAnchor:[14,14]}),draggable:true,zIndexOffset:5000,keyboard:false}).addTo(cabLayer);
-  cabGroups().forEach(g=>{
+  if(cabSel===null||!net.lines[cabSel]) return;      // um cabo por vez: só o cabo tocado mostra os pontos
+  cabGroups().filter(g=>g.m.some(x=>x.li===cabSel)).forEach(g=>{
     const m=mk([g.p[1],g.p[0]],"cab-v");
     m.on("dragstart",()=>cabPush());
     m.on("drag",()=>{ const ll=m.getLatLng(), li=new Set(); g.m.forEach(x=>{ x.pt[0]=ll.lng; x.pt[1]=ll.lat; li.add(x.li); }); li.forEach(cabRefresh); });
@@ -1847,8 +2001,8 @@ function cabBuild(){
       ptTarget=g; ptModal.classList.remove("hidden");
     });
   });
-  net.lines.forEach(([t,c],li)=>{
-    if(lineReg(net.lines[li])!==region) return;
+  [net.lines[cabSel]].forEach(([t,c])=>{
+    const li=cabSel;
     for(let k=0;k<c.length-1;k++){
       const a=c[k], b=c[k+1]; if(dist(a,b)<8) continue;
       const m=mk([(a[1]+b[1])/2,(a[0]+b[0])/2],"cab-m"); let np=null;
@@ -1865,15 +2019,85 @@ function cabAddPt(ll){
 }
 /* toque num cabo */
 function hideChip(){ cabChip.classList.add("hidden"); clearTimeout(cabChipT); cabChipLi=null; }
+function cabVis(li){ if(!(cabMode&&cabState==="edit")||cabFilter==="all") return true; const t=net.lines[li]&&net.lines[li][0]; return cabFilter==="p"?t==="p":t!=="p"; }
+function cabSegDist(pt,a,b){        // distância (m) de um ponto a um trecho
+  const kx=Math.cos(18.9*Math.PI/180)*111320, ky=110540;
+  const px=pt[0]*kx, py=pt[1]*ky, ax=a[0]*kx, ay=a[1]*ky, bx=b[0]*kx, by=b[1]*ky, dx=bx-ax, dy=by-ay, l2=dx*dx+dy*dy;
+  let t=l2?((px-ax)*dx+(py-ay)*dy)/l2:0; t=Math.max(0,Math.min(1,t));
+  return Math.hypot(px-(ax+t*dx), py-(ay+t*dy));
+}
+function cabHits(ll){               // cabos tocados (mais perto primeiro)
+  let z=16; try{ z=map.getZoom(); }catch(e){}
+  const tol=14*156543.03*Math.cos(ll.lat*Math.PI/180)/Math.pow(2,z), pt=[ll.lng,ll.lat], out=[];
+  net.lines.forEach((ln,li)=>{
+    if(lineReg(ln)!==region||!cabVis(li)) return;
+    const c=ln[1]; let bd=Infinity;
+    for(let k=0;k<c.length-1;k++){ const d=cabSegDist(pt,c[k],c[k+1]); if(d<bd) bd=d; }
+    if(bd<=tol) out.push([bd,li]);
+  });
+  return out.sort((a,b)=>a[0]-b[0]).map(x=>x[1]);
+}
+function cabTapAt(ev){
+  const ll=ev.latlng; if(!ll) return;
+  if(rpMode==="tap"||rpMode==="confirm"){ rpTapAt(ll); return; }
+  if(cabMode&&cabState!=="edit") return;
+  if(!cabMode&&(selMode||placing)) return;
+  hideCabPick();
+  const hits=cabHits(ll);
+  if(!hits.length) return;
+  if(hits.length===1) cabChoose(hits[0],ll); else cabPickShow(hits,ll,ev.containerPoint);
+}
+const cabPick=document.getElementById("cabPick");
+function hideCabPick(){ cabPick.classList.add("hidden"); cabPick.innerHTML=""; }
+function cabPickShow(hits,ll,cp){
+  const lens=hits.map(li=>cabFmt(cabMeters(net.lines[li][1])));
+  cabPick.innerHTML=hits.map((li,i)=>{ const t=net.lines[li][0]==="p", dup=hits.some((o,j)=>j!==i&&(net.lines[o][0]==="p")===t);
+    return `<button data-li="${li}" class="cpk"><i style="background:${t?"#1d4ed8":"#38bdf8"}"></i>${cabName(li)}${dup?" · "+lens[i]:""}</button>`; }).join("");
+  cabPick.classList.remove("hidden");
+  const r=map.getContainer().getBoundingClientRect(), pt=cp||{x:r.width/2,y:r.height/2}, w=cabPick.offsetWidth||170, hh=cabPick.offsetHeight||70;
+  let x=Math.max(6,Math.min(innerWidth-w-6,r.left+pt.x-w/2)), y=r.top+pt.y+22; if(y+hh>innerHeight-10) y=Math.max(6,r.top+pt.y-hh-22);
+  cabPick.style.left=x+"px"; cabPick.style.top=y+"px";
+  cabPick._ll=ll;
+}
+cabPick.addEventListener("click",e=>{ const b=e.target.closest("[data-li]"); if(!b) return; const li=+b.dataset.li, ll=cabPick._ll; hideCabPick(); cabChoose(li,ll); });
+function cabChoose(li,ll){
+  if(!cabMode){ cabTap(li); return; }
+  if(cabSel===li){ cabPieceAsk(li,ll); return; }
+  const go=()=>{ cabSel=li; cabSelSnap=JSON.stringify(net.lines); render(); drawCabBar(); if(cabStyleOpen) drawCabStyle(); };
+  if(cabSel!==null && JSON.stringify(net.lines)!==cabSelSnap){
+    askSave("Salvar a mudança deste cabo?","Você mexeu no cabo selecionado. Salvar antes de trocar de cabo?",go,()=>{ try{ net.lines=JSON.parse(cabSelSnap); }catch(e){} go(); });
+    return;
+  }
+  go();
+}
+const pcModal=document.getElementById("pcModal");
+function cabPieceAsk(li,ll){
+  const c=net.lines[li][1]; let bk=0,bd=Infinity;
+  for(let k=0;k<c.length-1;k++){ const d=cabSegDist([ll.lng,ll.lat],c[k],c[k+1]); if(d<bd){ bd=d; bk=k; } }
+  pcTarget={li,k:bk}; pcModal.classList.remove("hidden");
+  try{ pcHi=L.polyline([[c[bk][1],c[bk][0]],[c[bk+1][1],c[bk+1][0]]],{color:"#ef4444",weight:9,opacity:.85,interactive:false}).addTo(cabLayer); }catch(e){ pcHi=null; }
+}
+function closePc(){ pcModal.classList.add("hidden"); pcTarget=null; try{ if(pcHi) cabLayer.removeLayer(pcHi); }catch(e){} pcHi=null; }
+function cabPieceDel(li,k){
+  const ln=net.lines[li]; if(!ln) return; const c=ln[1], n=c.length; cabPush();
+  if(n<=2) net.lines.splice(li,1);
+  else if(k===0) ln[1]=c.slice(1);
+  else if(k>=n-2) ln[1]=c.slice(0,n-1);
+  else { const A=[ln[0],c.slice(0,k+1)], B=[ln[0],c.slice(k+1)]; if(ln[2]){ A.push(Object.assign({},ln[2])); B.push(Object.assign({},ln[2])); } net.lines.splice(li,1,A,B); }
+  cabSel=null; closeCabStyle(); render(); drawCabBar();
+}
+document.getElementById("pcDel").onclick=()=>{ const t=pcTarget; closePc(); if(!t) return; cabPieceDel(t.li,t.k); toast("Pedaço apagado. Para fechar o vão, use ＋ Novo cabo ligando as pontas."); };
+document.getElementById("pcCancel").onclick=closePc;
+pcModal.addEventListener("click",e=>{ if(e.target===pcModal) closePc(); });
 function cabTap(li){
-  if(cabMode){ if(cabState==="edit"){ cabSel=(cabSel===li?null:li); if(cabSel===null) closeCabStyle(); render(); drawCabBar(); if(cabStyleOpen) drawCabStyle(); } return; }
+  if(cabMode) return;
   if(selMode||placing) return;
   cabChipLi=li; document.getElementById("cabChipTxt").textContent="🧵 "+cabName(li);
   cabChip.classList.remove("hidden"); placeCabUI(); clearTimeout(cabChipT); cabChipT=setTimeout(hideChip,8000);
 }
 cabChip.addEventListener("click",e=>{ const bt=e.target.closest("[data-c]"); if(!bt) return;
   if(bt.dataset.c==="x") return hideChip();
-  const li=cabChipLi; hideChip(); setCab(true); cabSel=li; render(); drawCabBar(); });
+  const li=cabChipLi; hideChip(); setCab(true); if(!cabMode) return; cabSel=li; cabSelSnap=JSON.stringify(net.lines); render(); drawCabBar(); });
 /* estilo (grossura e cor) */
 const CAB_W=[["","Auto"],[2,"Fina"],[3.5,"Normal"],[5.5,"Grossa"],[8,"Extra"]];
 const CAB_C=["","#1d4ed8","#38bdf8","#00b050","#ffe600","#ffffff","#ff1a1a","#7030a0","#a5682a","#ff3399","#f97316","#94a3b8","#111111"];
@@ -1882,7 +2106,7 @@ function drawCabStyle(){
   if(cabSel===null||!net.lines[cabSel]){ closeCabStyle(); return; }
   const o=net.lines[cabSel][2]||{}; cabStyleOpen=true; cabStyle.classList.remove("hidden");
   cabStyle.innerHTML=`<div class="font-semibold">Grossura</div><div class="flex flex-wrap gap-1.5">${CAB_W.map(([w,n])=>`<button data-w="${w}" class="rounded-lg border px-2.5 py-1 text-xs font-semibold ${(o.w||"")==w?"bg-[#0056b3] text-white border-[#0056b3]":"border-slate-300 text-slate-700"}">${n}</button>`).join("")}</div>
-  <div class="font-semibold">Cor <span class="text-xs font-normal opacity-70">(Auto = cor da fibra pela caixa)</span></div><div class="flex flex-wrap gap-2">${CAB_C.map(c=>`<button data-col="${c}" class="sw ${(o.col||"")===c?"on":""}" style="${c?`background:${c}`:"background:conic-gradient(#00b050,#ffe600,#ff1a1a,#7030a0,#00b0f0,#00b050)"}" title="${c||"Automática"}"></button>`).join("")}</div>
+  <div class="text-xs opacity-70">A cor do cabo é automática (pela rota da CEO). Cores diferentes: só pela CEO, em Personalizar.</div>
   <div class="text-right"><button data-s="close" class="rounded-lg bg-[#0056b3] text-white px-4 py-1.5 text-sm font-semibold">Pronto</button></div>`;
   placeCabUI();
 }
@@ -1892,7 +2116,6 @@ cabStyle.addEventListener("click",e=>{
   if(cabSel===null||!net.lines[cabSel]) return;
   cabPush(); const ln=net.lines[cabSel], o=ln[2]||(ln[2]={});
   if(b.dataset.w!==undefined){ if(b.dataset.w==="") delete o.w; else o.w=+b.dataset.w; }
-  if(b.dataset.col!==undefined){ if(b.dataset.col==="") delete o.col; else o.col=b.dataset.col; }
   if(!o.w&&!o.col&&!o.reg) ln.length=2;
   render(); drawCabStyle();
 });
@@ -1904,16 +2127,6 @@ document.getElementById("ptDel").onclick=()=>{
   const g=ptTarget; closePt(); if(!g) return; cabPush();
   g.m.slice().sort((a,b)=>b.k-a.k).forEach(x=>{ const c=net.lines[x.li][1]; const i=c.indexOf(x.pt); if(i>0&&i<c.length-1) c.splice(i,1); });
   render();
-};
-document.getElementById("ptSplit").onclick=()=>{
-  const g=ptTarget; closePt(); if(!g) return; cabPush();
-  g.m.slice().sort((a,b)=>b.li-a.li).forEach(x=>{
-    const ln=net.lines[x.li], c=ln[1], i=c.indexOf(x.pt); if(i<=0||i>=c.length-1) return;
-    const A=[ln[0],c.slice(0,i+1)], B=[ln[0],[[x.pt[0],x.pt[1]]].concat(c.slice(i+1))];
-    if(ln[2]){ A.push(Object.assign({},ln[2])); B.push(Object.assign({},ln[2])); }
-    net.lines.splice(x.li,1,A,B);
-  });
-  cabSel=null; render(); drawCabBar(); toast("Cabo dividido em dois.");
 };
 function drawCabBar(){
   if(!cabMode){ cabBar.classList.add("hidden"); cabLenDraw(); return; }
@@ -1928,11 +2141,12 @@ function drawCabBar(){
     row=b("t6","6 fibras",cabDraw.t==="f"?"on":"")+b("t24","24 fibras",cabDraw.t==="p"?"on":"")+b("undo","↶ Ponto","",!cabDraw.pts.length)+b("done","Concluir","go",cabDraw.pts.length<2)+b("canceldraw","Cancelar");
   } else {
     const sel=cabSel!==null&&net.lines[cabSel];
-    top=sel?`<span class="font-semibold">🧵 ${cabName(cabSel)} selecionado${cabTotTxt(net.lines[cabSel][1])}</span><span class="block text-xs opacity-80">Arraste os pontos · puxe o meio para curvar · toque na linha de novo para soltar</span>`
-          :`<span class="font-semibold">🧵 Ajustando cabos</span><span class="block text-xs opacity-80">Toque numa linha para escolher o cabo · arraste os pontos · puxe o meio para curvar</span>`;
+    top=sel?`<span class="font-semibold">🧵 ${cabName(cabSel)} selecionado${cabTotTxt(net.lines[cabSel][1])}</span><span class="block text-xs opacity-80">Arraste os pontos · puxe o meio para curvar · toque num pedaço do cabo para apagar só ele</span>`
+          :`<span class="font-semibold">🧵 Ajustando cabos</span><span class="block text-xs opacity-80">Toque num cabo para escolher (um por vez) · depois arraste os pontos</span>`;
     row=b("undo","↶","",!cabUndo.length)+b("redo","↷","",!cabRedo.length)+(sel?b("style","🎨 Estilo",cabStyleOpen?"on":"")+b("delcab","🗑 Apagar cabo"):"")+b("new","＋ Novo cabo")+b("view","💾 Salvar e ver","go")+b("cancel","Cancelar");
   }
-  cabBar.innerHTML=`<div>${top}</div><div class="flex flex-wrap gap-1.5">${row}</div>`;
+  const flt=(cabState==="edit")?`<div class="flex items-center gap-1.5 text-xs"><span class="opacity-80">Mostrar:</span>${[["all","Todos"],["f","Só cabos de 6"],["p","Só cabos de 24"]].map(([k,n])=>b("fl_"+k,n,cabFilter===k?"on":"")).join("")}</div>`:"";
+  cabBar.innerHTML=`<div>${top}</div><div class="flex flex-wrap gap-1.5">${row}</div>${flt}`;
   placeCabUI(); cabLenDraw();
 }
 function setCab(on){
@@ -1942,30 +2156,196 @@ function setCab(on){
   if(on){
     if(selMode) setSel(false); if(editMode) setEdit(false);
     closeSheet(); menu.classList.add("hidden");
-    cabSnap=JSON.stringify(net.lines); cabDirty=false; cabUndo=[]; cabRedo=[]; cabDraw=null; cabSel=null; cabState="edit"; cabMode=true; drawCabBar(); render();
+    cabSnap=JSON.stringify(net.lines); cabDirty=false; cabUndo=[]; cabRedo=[]; cabDraw=null; cabSel=null; cabFilter="all"; cabSelSnap=""; cabState="edit"; cabMode=true; drawCabBar(); render();
   } else {
-    cabMode=false; cabState="edit"; cabDraw=null; cabSel=null; cabUndo=[]; cabRedo=[]; closeCabStyle(); closePt(); cabLayer.clearLayers(); cabPoly={}; cabHalo={}; drawCabBar();
+    cabMode=false; cabState="edit"; cabDraw=null; cabSel=null; cabFilter="all"; cabUndo=[]; cabRedo=[]; closeCabStyle(); closePt(); closePc(); hideCabPick(); cabLayer.clearLayers(); cabPoly={}; cabHalo={}; drawCabBar();
   }
 }
 function cabDiscard(){ net.lines=JSON.parse(cabSnap); cabDirty=false; setCab(false); computeLinks(); render(); toast("Cabos voltaram como estavam"); }
 cabBar.addEventListener("click",e=>{
   const bt=e.target.closest("[data-c]"); if(!bt||bt.classList.contains("dis")) return; const c=bt.dataset.c;
+  if(c.startsWith("fl_")){ cabFilter=c.slice(3); hideCabPick(); if(cabSel!==null&&!cabVis(cabSel)){ cabSel=null; closeCabStyle(); } render(); drawCabBar(); return; }
   if(c==="undo"){ if(cabState==="draw"){ cabDraw.pts.pop(); cabLayer.clearLayers(); cabDrawTemp(); drawCabBar(); } else cabStep(cabUndo,cabRedo); }
   else if(c==="redo") cabStep(cabRedo,cabUndo);
-  else if(c==="new"){ closeCabStyle(); cabSel=null; cabState="draw"; cabDraw={t:"f",pts:[]}; drawCabBar(); render(); }
+  else if(c==="new"){ closeCabStyle(); hideCabPick(); cabSel=null; cabState="draw"; cabDraw={t:"f",pts:[]}; drawCabBar(); render(); }
   else if(c==="t6"||c==="t24"){ cabDraw.t=c==="t6"?"f":"p"; cabLayer.clearLayers(); cabDrawTemp(); drawCabBar(); }
-  else if(c==="done"){ cabPush(); net.lines.push([cabDraw.t,cabDraw.pts,{reg:region}]); cabSel=net.lines.length-1; cabDraw=null; cabState="edit"; drawCabBar(); render(); }
+  else if(c==="done"){ cabPush(); net.lines.push([cabDraw.t,cabDraw.pts,{reg:region}]); cabSel=net.lines.length-1; cabSelSnap=JSON.stringify(net.lines); cabDraw=null; cabState="edit"; drawCabBar(); render(); }
   else if(c==="canceldraw"){ cabDraw=null; cabState="edit"; drawCabBar(); render(); }
   else if(c==="style"){ if(cabStyleOpen) closeCabStyle(); else drawCabStyle(); drawCabBar(); }
   else if(c==="delcab"){ if(cabSel!==null && confirm("Apagar este cabo inteiro? (dá para desfazer com ↶)")){ cabPush(); net.lines.splice(cabSel,1); cabSel=null; closeCabStyle(); render(); drawCabBar(); } }
   else if(c==="view"){ closeCabStyle(); cabState="preview"; computeLinks(); drawCabBar(); render(); }
-  else if(c==="back"){ cabState="edit"; drawCabBar(); render(); }
+  else if(c==="back"){ cabState="edit"; cabSelSnap=JSON.stringify(net.lines); drawCabBar(); render(); }
   else if(c==="apply"){ if(cabDirty){ jset(KEY_NET,net); cloudPushNet(); } const old=Object.assign({},linkMap); computeLinks(); const d=cabDirty; setCab(false); render();
     const nw=items.filter(x=>x.type==="cto" && linkMap[x.id] && linkMap[x.id]!==old[x.id]);
     toast(d?"✔ Cabos aplicados"+(nw.length?" · 🔗 "+nw.slice(0,4).map(x=>esc(nameOf(x))+" ligada à "+esc(nameOf(byId[linkMap[x.id]]))).join(", ")+(nw.length>4?" e mais "+(nw.length-4):""):""):"Nada foi alterado"); }
   else if(c==="discard"){ if(confirm("Descartar tudo e voltar os cabos como estavam?")) cabDiscard(); }
   else if(c==="cancel"){ if(!cabDirty || confirm("Descartar as mudanças nos cabos?")) cabDiscard(); }
 });
+/* ======================= ROMPIMENTO ======================= */
+const rpBar=document.getElementById("rpBar"), rpCfm=document.getElementById("rpCfm"), rpWin=document.getElementById("rpWin"), rpDelModal=document.getElementById("rpDelModal");
+let rpHoldId=null;
+const rpById=id=>(state.rp||[]).find(x=>x.id===id);
+const rpKind=t=>t==="p"?"Cabo de 24 fibras":"Cabo de 6 fibras";
+function rpCalc(r){
+  const kind=r.t, G=cabV2(kind,r.region), V=G.V, res={t:kind,items:[],boxes:[],nBox:0,clients:0,approx:false,out:0};
+  if(!G.segs.length) return Object.assign(res,{msg:"Não achei cabos desse tipo desenhados nesta cidade."});
+  let best=null, bd=Infinity;
+  G.segs.forEach(s=>{ const d=cabSegDist([r.lng,r.lat],V[s.a].p,V[s.b].p); if(d<bd){ bd=d; best=s; } });
+  if(!best||bd>40) return Object.assign(res,{msg:"O ponto do rompimento não está mais em cima de um cabo. Exclua e marque de novo."});
+  let src=[]; const srcCeo={};
+  if(kind==="p") items.filter(x=>x.type==="arm"&&x.region===r.region).forEach(a=>{ const vi=cabNear(V,[a.lng0!=null?a.lng0:a.lng,a.lat0!=null?a.lat0:a.lat],40); if(vi>=0&&!src.includes(vi)) src.push(vi); });
+  else { items.filter(x=>x.type==="ceo"&&x.region===r.region).forEach(c=>{ const pt=[c.lng0!=null?c.lng0:c.lng,c.lat0!=null?c.lat0:c.lat], vi=cabNear(V,pt,20); if(vi>=0){ const d=dist(pt,V[vi].p); if(!srcCeo[vi]||d<srcCeo[vi].d) srcCeo[vi]={id:c.id,d}; } }); src=Object.keys(srcCeo).map(Number); }
+  let R=src.length?cabDij(V,src):null;
+  if((!R||(R.D[best.a]===Infinity&&R.D[best.b]===Infinity)) && kind==="p"){      // sem armário ligado: usa o começo de cada cabo de 24
+    R=null;
+    for(const ln of net.lines){ if(ln[0]!=="p"||lineReg(ln)!==r.region) continue; const s0=cabNear(V,ln[1][0],6); if(s0<0) continue; const R2=cabDij(V,[s0]); if(R2.D[best.a]<Infinity||R2.D[best.b]<Infinity){ R=R2; src=[s0]; res.approx=true; break; } }
+  }
+  if(!R||(R.D[best.a]===Infinity&&R.D[best.b]===Infinity)) return Object.assign(res,{msg:kind==="p"?"Este cabo não está ligado a nenhum armário pelo desenho, então não dá para saber o que ele alimenta.":"Este cabo não está ligado a nenhuma CEO pelo desenho, então não dá para saber o que ele alimenta."});
+  const {D,P}=R; let root=-1;
+  if(P[best.b]===best.a) root=best.b; else if(P[best.a]===best.b) root=best.a;
+  else return Object.assign(res,{msg:"Neste trecho a rede tem outro caminho para chegar, então não há ninguém parado por causa dele."});
+  const mem=new Array(V.length).fill(undefined); mem[root]=true;
+  const inSub=v=>{ const path=[]; let x=v, ans=false; for(;;){ if(x<0){ ans=false; break; } if(mem[x]!==undefined){ ans=mem[x]; break; } path.push(x); x=P[x]; } path.forEach(y=>{ mem[y]=ans; }); return ans; };
+  const done=r.done||{}, reg=r.region;
+  if(kind==="p"){
+    const ceos=items.filter(x=>x.type==="ceo"&&x.region===reg), cs=[];
+    ceos.forEach(c=>{ const vi=cabNear(V,[c.lng0!=null?c.lng0:c.lng,c.lat0!=null?c.lat0:c.lat],30); if(vi<0){ res.out++; return; } if(inSub(vi)) cs.push({c,vi}); });
+    cs.sort((a,b)=>D[a.vi]-D[b.vi]); res.items=cs.map(x=>x.c.id);
+    const set=new Set(res.items), bxs=items.filter(x=>x.type==="cto"&&!isPlanned(x)&&x.region===reg&&set.has(linkMap[x.id]));
+    res.nBox=bxs.length; res.clients=bxs.reduce((n,b)=>n+clientsOf(b.id).length,0);
+    res.boxes=bxs.filter(b=>!done[linkMap[b.id]]).map(b=>b.id);
+  } else {
+    const bs=items.filter(x=>x.type==="cto"&&!isPlanned(x)&&x.region===reg).map(b=>({b,vi:cabNear(V,[b.lng0,b.lat0],20)})).filter(x=>x.vi>=0&&inSub(x.vi)).sort((a,b)=>D[a.vi]-D[b.vi]);
+    res.items=bs.map(x=>x.b.id); res.nBox=bs.length; res.clients=bs.reduce((n,x)=>n+clientsOf(x.b.id).length,0);
+    res.boxes=res.items.filter(id=>!done[id]);
+    let x=root; while(P[x]>=0) x=P[x]; res.from=srcCeo[x]?srcCeo[x].id:null;
+  }
+  return res;
+}
+function rpRecalc(){
+  rpDirty=false; rpRes={}; rpStopped={};
+  (state.rp||[]).forEach(r=>{ try{ rpRes[r.id]=rpCalc(r); }catch(e){ rpRes[r.id]={items:[],boxes:[],msg:"Não consegui calcular este rompimento."}; } });
+  (state.rp||[]).forEach(r=>{ const res=rpRes[r.id]; if(res&&res.boxes) res.boxes.forEach(b=>{ if(!rpStopped[b]) rpStopped[b]=r.id; }); });
+}
+function rpAllDone(r){ const res=rpRes[r.id]; return !!(res&&res.items&&res.items.length&&res.items.every(k=>(r.done||{})[k])); }
+function rpMarkers(){
+  if(!rpLayer) return; rpLayer.clearLayers();
+  if(rpDirty) rpRecalc();
+  (state.rp||[]).forEach(r=>{
+    if(r.region!==region) return;
+    const ok=rpAllDone(r);
+    L.marker([r.lat,r.lng],{icon:L.divIcon({className:"",iconSize:[0,0],html:`<span class="rpmk${ok?" ok":""}" data-rp="${r.id}">${ok?"Resolvido":"Rompimento"} <b>${ok?"✔":"⚠"}</b></span>`}),zIndexOffset:6000,keyboard:false})
+      .on("click",()=>{ if(lpBlock||rpMode) return; rpOpen(r.id); }).addTo(rpLayer);
+  });
+  if(rpPend) L.marker([rpPend.lat,rpPend.lng],{icon:L.divIcon({className:"",iconSize:[0,0],html:`<span class="rpmk tmp">Aqui? <b>⚠</b></span>`}),interactive:false,zIndexOffset:6500}).addTo(rpLayer);
+  if(rpOpenId){ if(rpById(rpOpenId)) rpDraw(); else rpClose(); }
+}
+/* marcar */
+function rpStart(){
+  if(RO){ toast("Conta só para visualizar"); return; }
+  if(cabMode){ toast("Termine a edição dos cabos primeiro"); return; }
+  if(editMode) setEdit(false); if(selMode) setSel(false);
+  closeSheet(); rpClose(); rpMode="choose"; rpPend=null; rpBarDraw();
+}
+function rpEnd(){ rpMode=null; rpPend=null; rpBarDraw(); render(); }
+function rpBarDraw(){
+  if(!rpMode){ rpBar.classList.add("hidden"); rpCfm.classList.add("hidden"); return; }
+  const tb=document.getElementById("tabs"), top=Math.max(60,Math.round(tb.getBoundingClientRect().bottom+6)); rpBar.style.top=top+"px";
+  rpBar.classList.remove("hidden");
+  const bt=(r,t,c="")=>`<button data-r="${r}" class="cbtn ${c}">${t}</button>`;
+  rpBar.innerHTML = rpMode==="choose"
+    ? `<div class="font-semibold">⚠ Rompimento — qual cabo rompeu?</div><div class="flex flex-wrap gap-1.5">${bt("t24","Cabo de 24","go")}${bt("t6","Cabo de 6","go")}${bt("cancel","Cancelar")}</div>`
+    : `<div class="font-semibold">⚠ ${rpKind(rpT)}</div><div class="block text-xs opacity-90">${rpMode==="confirm"?"Confira o ponto marcado e salve.":"Toque no cabo, no ponto onde ele rompeu."}</div><div class="flex flex-wrap gap-1.5">${bt("back","↩ Trocar o cabo")}${bt("cancel","Cancelar")}</div>`;
+  if(rpMode==="confirm"){ rpCfm.classList.remove("hidden"); requestAnimationFrame(()=>{ rpCfm.style.top=(rpBar.getBoundingClientRect().bottom+4)+"px"; }); } else rpCfm.classList.add("hidden");
+}
+rpBar.addEventListener("click",e=>{ const b=e.target.closest("[data-r]"); if(!b) return; const r=b.dataset.r;
+  if(r==="t24"||r==="t6"){ rpT=r==="t24"?"p":"f"; rpMode="tap"; rpPend=null; rpBarDraw(); render(); }
+  else if(r==="back"){ rpMode="choose"; rpPend=null; rpBarDraw(); render(); }
+  else if(r==="cancel") rpEnd(); });
+function rpTapAt(ll){
+  const hits=cabHits(ll).filter(li=>(net.lines[li][0]==="p")===(rpT==="p"));
+  if(!hits.length){ toast("Toque em cima de um "+rpKind(rpT).toLowerCase()+"."); return; }
+  const c=net.lines[hits[0]][1], kx=Math.cos(18.9*Math.PI/180)*111320, ky=110540, pt=[ll.lng,ll.lat]; let bd=Infinity, bp=null;
+  for(let k=0;k<c.length-1;k++){
+    const a=c[k], b=c[k+1], px=pt[0]*kx, py=pt[1]*ky, ax=a[0]*kx, ay=a[1]*ky, dx=b[0]*kx-ax, dy=b[1]*ky-ay, l2=dx*dx+dy*dy;
+    let t=l2?((px-ax)*dx+(py-ay)*dy)/l2:0; t=Math.max(0,Math.min(1,t)); const q=[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t], d=Math.hypot(px-(ax+t*dx),py-(ay+t*dy));
+    if(d<bd){ bd=d; bp=q; }
+  }
+  rpPend={t:rpT,lng:bp[0],lat:bp[1]}; rpMode="confirm"; rpBarDraw(); rpMarkers();
+}
+rpCfm.addEventListener("click",e=>{ const b=e.target.closest("[data-r]"); if(!b) return;
+  if(b.dataset.r==="cfmno"){ rpPend=null; rpMode="tap"; rpBarDraw(); rpMarkers(); return; }
+  if(b.dataset.r==="cfmok"&&rpPend){
+    if(RO){ toast("Conta só para visualizar"); return; }
+    const id="rp"+Date.now().toString(36)+Math.random().toString(36).slice(2,4);
+    state.rp.push({id,t:rpPend.t,lat:rpPend.lat,lng:rpPend.lng,region,hide:false,done:{}});
+    stageOn=false; save(); rpDirty=true; rpMode=null; rpPend=null; rpBarDraw(); render(); rpOpen(id);
+  }
+});
+/* janela */
+function rpOpen(id){ if(!rpById(id)) return; closeSheet(); rpOpenId=id; rpDraw(); }
+function rpClose(){ rpOpenId=null; rpWin.classList.add("hidden"); }
+function rpDash(hx){ return `<i class="cdash" style="background:${hx}"></i>`; }
+function rpDraw(){
+  const r=rpById(rpOpenId); if(!r){ rpClose(); return; }
+  if(rpDirty) rpRecalc();
+  const res=rpRes[r.id]||{items:[],boxes:[]}, done=r.done||{}, ro=RO?" disabled":"";
+  const keep=rpWin.scrollTop; let h=`<div class="hd"><b>⚠ Rompimento · ${rpKind(r.t)}</b><button data-r="x" aria-label="Fechar">×</button></div><div class="bd">`;
+  h+=`<label class="rsw"><input type="checkbox" data-r="hide" ${r.hide?"":"checked"}${ro}>Mostrar o ⚠ pequeno nas caixas paradas</label>`;
+  if(res.approx) h+=`<div class="rwr">Atenção: não achei o armário ligado a este cabo. Usei o começo do cabo como origem — confira.</div>`;
+  if(res.msg) h+=`<div class="rwr">${esc(res.msg)}</div>`;
+  const n=res.items.length, nd=res.items.filter(k=>done[k]).length;
+  if(!res.msg){
+    if(r.t==="p"){
+      if(!n) h+=`<div class="rwr" style="background:#e0f2fe;color:#075985">Não há nenhuma CEO depois deste ponto.${res.out?` (${res.out} CEO${res.out>1?"s":""} desta cidade não encostam no cabo de 24 e não entraram na conta.)`:""}</div>`;
+      else {
+        h+=`<div class="rcn ${nd===n?"all":""}">${nd===n?"✔ Tudo resolvido":nd+" de "+n+" feitos"}</div>`;
+        h+=res.items.map((id,i)=>{ const c=byId[id]; if(!c) return ""; const fi=fibInfo(c), ln=[];
+          if(fi.f){ ln.push(`<span>${rpDash(fi.tHex)}Tubo ${fi.tubo} · ${cap1(fi.tc)}</span>`,`<span>${rpDash(fi.fHex)}Fibra ${fi.f} · ${cap1(fi.fc)}</span>`); } else ln.push("<span>sem dados</span>");
+          return `<label class="rit${done[id]?" dn":""}"><input type="checkbox" data-r="chk" data-k="${id}" ${done[id]?"checked":""}${ro}><span class="rno">${i+1}</span><span class="min-w-0"><span class="rnm">${esc(nameOf(c))}</span><span class="rln">${ln.join("")}</span></span></label>`; }).join("");
+        h+=`<div class="rft">${res.nBox} caixa${res.nBox===1?"":"s"} · ${res.clients} cliente${res.clients===1?"":"s"} parado${res.clients===1?"":"s"}</div>`;
+      }
+    } else {
+      const from=res.from&&byId[res.from];
+      if(from){ const fi=fibInfo(from); h+=`<div class="text-sm font-semibold">A rede vem da CEO <b>${esc(nameOf(from))}</b>${fi.f?` · ${rpDash(fi.fHex)}Fibra ${fi.f}`:""}</div>`; }
+      if(!n) h+=`<div class="rwr" style="background:#e0f2fe;color:#075985">Não há nenhuma caixa depois deste ponto.</div>`;
+      else {
+        h+=`<div class="rcn ${nd===n?"all":""}" style="margin-top:6px">${nd===n?"✔ Tudo resolvido":nd+" de "+n+" feitos"}</div>`;
+        h+=`<details><summary>Caixas paradas (${n})</summary>`+res.items.map((id,i)=>{ const b=byId[id]; if(!b) return ""; const m=/^\s*Q\s*(\d+)/i.exec(nameOf(b)||""), col=m?(HEX.test(state.qcol[id]||"")?state.qcol[id]:Q_FIBER[+m[1]-1]):null;
+          return `<label class="rit${done[id]?" dn":""}"><input type="checkbox" data-r="chk" data-k="${id}" ${done[id]?"checked":""}${ro}><span class="rno">${i+1}</span><span class="min-w-0"><span class="rnm">${esc(nameOf(b))}</span>${col?`<span class="rln"><span>${rpDash(col)}fibra desta caixa</span></span>`:""}</span></label>`; }).join("")+`</details>`;
+        h+=`<div class="rft">${res.nBox} caixa${res.nBox===1?"":"s"} · ${res.clients} cliente${res.clients===1?"":"s"} parado${res.clients===1?"":"s"}</div>`;
+      }
+    }
+  }
+  rpWin.innerHTML=h+`</div>`; rpWin.classList.remove("hidden"); rpWin.scrollTop=keep;
+}
+rpWin.addEventListener("click",e=>{ if(e.target.closest("button[data-r=x]")) rpClose(); });
+rpWin.addEventListener("change",e=>{
+  const i=e.target.closest("input[data-r]"); if(!i) return; const r=rpById(rpOpenId); if(!r) return;
+  if(RO){ toast("Conta só para visualizar"); rpDraw(); return; }
+  if(i.dataset.r==="hide"){ r.hide=!i.checked; }
+  else if(i.dataset.r==="chk"){ r.done=r.done||{}; if(i.checked) r.done[i.dataset.k]=true; else delete r.done[i.dataset.k]; }
+  stageOn=false; save(); rpDirty=true; render();
+});
+/* segurar o marcador = excluir */
+(function(){
+  const mc=map.getContainer(); let t=null, st=null;
+  const stop=()=>{ if(t){ clearTimeout(t); t=null; } };
+  mc.addEventListener("pointerdown",e=>{
+    const el=e.target.closest&&e.target.closest("[data-rp]"); if(!el) return;
+    const id=el.dataset.rp; st={x:e.clientX,y:e.clientY}; stop();
+    t=setTimeout(()=>{ t=null; lpBlock=true; setTimeout(()=>{ lpBlock=false; },800); rpHold(id); try{ navigator.vibrate&&navigator.vibrate(40); }catch(_){} },550);
+  });
+  mc.addEventListener("pointermove",e=>{ if(t&&st&&Math.hypot(e.clientX-st.x,e.clientY-st.y)>8) stop(); });
+  ["pointerup","pointercancel","pointerleave"].forEach(ev=>mc.addEventListener(ev,stop));
+})();
+function rpHold(id){ if(RO){ toast("Conta só para visualizar"); return; } rpHoldId=id; rpDelModal.classList.remove("hidden"); }
+rpDelModal.addEventListener("click",e=>{
+  const b=e.target.closest("[data-r]"); if(!b&&e.target!==rpDelModal) return;
+  const r=b&&b.dataset.r, id=rpHoldId; rpDelModal.classList.add("hidden"); rpHoldId=null;
+  if(r==="delok"&&id){ if(RO) return; state.rp=state.rp.filter(x=>x.id!==id); if(rpOpenId===id) rpClose(); stageOn=false; save(); rpDirty=true; render(); toast("Rompimento excluído. A rede voltou ao normal."); }
+});
+document.getElementById("btnRp").onclick=()=>{ menu.classList.add("hidden"); rpStart(); };
 /* ajuda */
 const helpModal=document.getElementById("helpModal");
 document.getElementById("btnHelp").onclick=()=>helpModal.classList.remove("hidden");
@@ -2159,19 +2539,21 @@ fibraPanel.addEventListener("click",e=>{
   drawFibraPanel(); render();
 });
 
-function setEdit(on){
+function setEdit(on,selId){
   if(on&&RO){ toast("Conta só para visualizar"); return; }
   if(on&&cabMode) return;
   if(on&&selMode) setSel(false);
+  pendMove=null; editSel=on?(selId||null):null;
   editMode=on; placing=false; placingFor=null; placingKind=null; editToggle.checked=on; closeSheet();
   map.getContainer().classList.toggle("editing",on); updateEditBar(); render();
   if(on) menu.classList.add("hidden");
 }
 function cancelPlacing(){ if(placing){ placing=false; placingFor=null; placingKind=null; updateEditBar(); } }
 function onMoved(it,m){
-  const oldLat=it.lat, oldLng=it.lng, nl=m.getLatLng();
-  if(Math.abs(nl.lat-oldLat)<1e-9 && Math.abs(nl.lng-oldLng)<1e-9) return;
-  askSave("Salvar alteração?","Você mudou "+nameOf(it)+" de lugar no mapa.",()=>applyMove(it,m),()=>{ m.setLatLng([oldLat,oldLng]); });
+  const nl=m.getLatLng();
+  if(!pendMove||pendMove.id!==it.id) pendMove={id:it.id,lat:it.lat,lng:it.lng};
+  if(Math.abs(nl.lat-pendMove.lat)<1e-9 && Math.abs(nl.lng-pendMove.lng)<1e-9) pendMove=null;
+  updateMoveBar();
 }
 function applyMove(it,m){
   const ll=m.getLatLng(); it.lat=ll.lat; it.lng=ll.lng;
@@ -2247,23 +2629,24 @@ document.getElementById("nbOk").onclick=()=>{
     const desc=[g("nbCard")?"CARD"+g("nbCard"):"", g("nbPon")?"PON"+g("nbPon"):"", g("nbFib")?"F"+g("nbFib"):"", cor].filter(Boolean).join(" ");
     state.custom.push({id,name,lat:pendingLL.lat,lng:pendingLL.lng,region,type:"ceo",desc}); if(cap!==8) state.ceoCap[id]=cap;
     save(); placing=false; nbModal.classList.add("hidden");
-    rebuild(); computeStreets(); computeLinks(); render(); updateEditBar(); openSheet(id); return;
+    rebuild(); computeStreets(); computeLinks(); editSel=id; render(); updateEditBar(); toast("✔ Caixa criada. Toque em “Abrir caixa” para preencher."); return;
   }
   state.custom.push({id,name,lat:pendingLL.lat,lng:pendingLL.lng,region});
   const sv=nbSt.value.trim(); if(sv) state.so[id]=ensureStreet(sv,region);
   const cv=document.getElementById("nbCeo").value; if(cv) state.ceoOf[id]=cv;
   if(nbPlan.checked) state.plan[id]={on:true,color:HEX.test(nbColor)?nbColor:PLAN_DEF};
   save(); placing=false; nbModal.classList.add("hidden");
-  rebuild(); computeStreets(); computeLinks(); render(); updateEditBar(); openSheet(id);
+  rebuild(); computeStreets(); computeLinks(); editSel=id; render(); updateEditBar(); toast("✔ Caixa criada. Toque em “Abrir caixa” para preencher.");
 };
 nbName.addEventListener("keydown",e=>{ if(e.key==="Enter"){ e.preventDefault(); nbSt.focus(); } });
 nbSt.addEventListener("keydown",e=>{ if(e.key==="Enter"){ e.preventDefault(); document.getElementById("nbOk").click(); } });
 editBar.addEventListener("click",e=>{
   const b=e.target.closest("button"); if(!b) return;
-  if(b.dataset.e==="add"){ placing=true; closeSheet(); updateEditBar(); }
+  if(b.dataset.e==="add"){ if(pendMove){ toast("Salve ou cancele a mudança de lugar primeiro"); return; } placing=true; closeSheet(); updateEditBar(); }
   else if(b.dataset.e==="cancel") cancelPlacing();
-  else if(b.dataset.e==="off") setEdit(false);
-  else if(b.dataset.e==="sel") setSel(true);
+  else if(b.dataset.e==="open"){ if(editSel&&byId[editSel]) openSheet(editSel); }
+  else if(b.dataset.e==="off"){ if(pendMove){ toast("Salve ou cancele a mudança de lugar antes de travar"); return; } setEdit(false); }
+  else if(b.dataset.e==="sel"){ if(pendMove){ toast("Salve ou cancele a mudança de lugar primeiro"); return; } setSel(true); }
 });
 editToggle.addEventListener("change",()=>setEdit(editToggle.checked));
 
@@ -2284,12 +2667,13 @@ document.getElementById("btnGps").onclick=()=>{
 const menu=document.getElementById("menu");
 const menuBox=document.getElementById("menuBox");
 document.getElementById("btnMenu").onclick=()=>{ menuBox.classList.remove("up"); menuBox.scrollTop=0; menu.classList.remove("hidden"); };
-menuBox.addEventListener("scroll",()=>{ if(menuBox.scrollTop>6) menuBox.classList.add("up"); },{passive:true});
-let menuY=null;
-menuBox.addEventListener("touchstart",e=>{ menuY=e.touches[0].clientY; },{passive:true});
-menuBox.addEventListener("touchmove",e=>{ if(menuY==null) return; if(e.touches[0].clientY-menuY>40&&menuBox.scrollTop<=0&&menuBox.classList.contains("up")){ menuBox.classList.remove("up"); menuY=null; } },{passive:true});
-menuBox.addEventListener("touchend",()=>{ menuY=null; });
-menuBox.addEventListener("wheel",e=>{ if(e.deltaY<0&&menuBox.scrollTop<=0&&menuBox.classList.contains("up")) menuBox.classList.remove("up"); },{passive:true});
+(function(){ const g=document.getElementById("menuGrip"); let y0=null, mv=false;
+  g.addEventListener("pointerdown",e=>{ y0=e.clientY; mv=false; try{ g.setPointerCapture(e.pointerId); }catch(_){} });
+  g.addEventListener("pointermove",e=>{ if(y0!=null&&Math.abs(e.clientY-y0)>8) mv=true; });
+  g.addEventListener("pointerup",e=>{ if(y0==null) return; const d=e.clientY-y0; y0=null;
+    if(d>60) menu.classList.add("hidden"); else if(d<-40) menuBox.classList.add("up"); else if(!mv) menuBox.classList.toggle("up"); });
+  g.addEventListener("pointercancel",()=>{ y0=null; });
+})();
 document.getElementById("menuClose").onclick=()=>menu.classList.add("hidden");
 menu.onclick=e=>{ if(e.target===menu) menu.classList.add("hidden"); };
 
@@ -2734,9 +3118,10 @@ document.getElementById("vlOk").onclick=()=>{
   mc.addEventListener("pointerdown",e=>{
     if(editMode||selMode||placing) return;
     const ic=e.target.closest(".leaflet-marker-icon"); if(!ic||!ic.querySelector(".pill.ok,.pill.warn,.pill.full,.pill.plan,.pill.ceo")) return;
+    const pid=Object.keys(markers).find(k=>markers[k]&&markers[k]._icon===ic)||null;
     st={x:e.clientX,y:e.clientY}; stop();
-    t=setTimeout(()=>{ t=null; lpBlock=true; setTimeout(()=>{ lpBlock=false; },800); setEdit(true); try{ navigator.vibrate&&navigator.vibrate(40); }catch(_){}
-      hintOnce("editon","✏ Edição ativa: arraste as caixas e CEOs para mover. Use + Nova Caixa na barra azul."); },600);
+    t=setTimeout(()=>{ t=null; lpBlock=true; setTimeout(()=>{ lpBlock=false; },800); setEdit(true,pid); try{ navigator.vibrate&&navigator.vibrate(40); }catch(_){}
+      hintOnce("editon","✏ Edição ativa: só a caixa marcada se move. Toque em outra para trocar. Depois Salvar ou Cancelar."); },600);
   });
   mc.addEventListener("pointermove",e=>{ if(t&&st&&Math.hypot(e.clientX-st.x,e.clientY-st.y)>8) stop(); });
   ["pointerup","pointercancel","pointerleave"].forEach(ev=>mc.addEventListener(ev,stop));
