@@ -229,6 +229,7 @@
   .cpon{background:rgba(59,130,246,.14);color:#3b82f6}
   html.dark .cpon{background:rgba(59,130,246,.18);color:#6aaeff}
   @media(max-width:639px){#menuBox{height:58vh;max-height:92vh;transition:height .28s ease;overscroll-behavior:contain}#menuBox.up{height:92vh}}
+  @media(min-width:640px){#menuBox{height:90vh;max-height:90vh;transition:height .28s ease;overscroll-behavior:contain}#menuBox.dn{height:58vh}}
   /* v3.46: conta só para visualizar */
   [hidden]{display:none!important}
   .lkb{width:24px;height:24px;display:flex;align-items:center;justify-content:center;color:#94a3b8;opacity:.6;background:none;border:0;padding:0;flex:none}
@@ -327,12 +328,23 @@
 
 <style id="v347">
   /* pop-ups de rua / ligar caixa: menores, com tracinho e busca embaixo */
-  .pkb{height:72vh;max-height:72vh;transition:height .18s ease}
-  .pkm.pklow .pkb{height:46vh;max-height:46vh}
+  .pkb{position:relative;height:auto;max-height:min(var(--pkc,60vh),calc(100% - 12px));transition:max-height .18s ease}
+  .pkb .pklist{flex:0 1 auto!important;min-height:0}
+  .pkm{align-items:flex-end!important}
+  @media(min-width:640px){.pkb{margin-bottom:6vh}}
+  .pkx{position:absolute;right:10px;top:6px;font-size:26px;line-height:1;color:#64748b;padding:4px 10px}
+  html.dark .pkx{color:#d4d4d8}
+  .pkempty{padding:14px 4px;text-align:center;font-size:14px;color:#64748b}
   .pkgrip{display:block;margin:-6px auto 4px;padding:8px 26px;flex:0 0 auto}
   .pkgrip span{display:block;width:46px;height:5px;border-radius:99px;background:#cbd5e1}
   .menugrip{position:sticky;top:-16px;z-index:6;background:inherit;display:flex;justify-content:center;width:calc(100% + 32px);margin:-16px -16px 0;padding:12px 0 8px;touch-action:none}
-  html.dark #menuClose{background:#2a2a2e;color:#d4d4d8}
+  #menuXw{position:sticky;top:0;z-index:7;height:0;margin:-16px -16px 0;width:calc(100% + 32px)}
+  #menuBox>.menugrip{margin:0 -16px 0!important}
+  #menuBox #lockIco{margin-right:42px}
+  #menuClose{position:absolute;right:12px;top:6px;width:34px;height:34px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:#eef2f7;color:#64748b;border:1px solid #e2e8f0;transition:background .12s,transform .12s}
+  #menuClose:active{transform:scale(.9);background:#dbe3ee}
+  html.dark #menuClose{background:#1a1a1a;color:#d4d4d8;border-color:#3a3a3d}
+  html.dark #menuClose:active{background:#3a3a3d}
   html.dark .pkgrip span{background:#55555c}
   .pkq{width:100%;margin-top:8px;border:1.5px solid #94a3b8;border-radius:12px;padding:11px 13px;font-size:16px;color:#0f172a;background:#fff;flex:0 0 auto}
   .pkq:focus{outline:none;border-color:#3b82f6}
@@ -429,7 +441,7 @@
     <button type="button" id="bulkGrip" class="pkgrip" aria-label="Abaixar ou subir a janela"><span></span></button>
     <div class="flex justify-between items-center"><h2 id="bulkTitle" class="font-bold text-slate-800">Definir rua</h2><button type="button" data-b="close" class="text-2xl text-slate-500 px-2" aria-label="Fechar">×</button></div>
     <p class="text-xs text-slate-500 mt-1">Toque na rua dessas caixas.</p>
-    <div id="bulkStList" class="overflow-y-auto flex-1 min-h-0 mt-2"></div>
+    <div id="bulkStList" class="pklist overflow-y-auto min-h-0 mt-2"></div>
     <input id="bulkQ" type="search" placeholder="🔎 Buscar rua…" autocomplete="off" class="pkq">
     <button type="button" data-b="add" class="mt-2 w-full rounded-lg border border-sky-300 text-sky-700 py-2.5 text-sm font-semibold">➕ Adicionar rua</button>
   </div>
@@ -513,8 +525,9 @@
 <!-- Menu de dados -->
 <div id="menu" class="hidden fixed inset-0 z-[1200] bg-black/60 flex items-end sm:items-center justify-center">
   <div id="menuBox" class="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-4 space-y-3 sm:max-h-[92vh] overflow-y-auto" style="padding-bottom:calc(env(safe-area-inset-bottom) + 16px)">
+    <div id="menuXw"><button id="menuClose" type="button" title="Fechar" aria-label="Fechar"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
     <button type="button" id="menuGrip" class="pkgrip menugrip" aria-label="Subir, abaixar ou fechar a janela"><span></span></button>
-    <div class="flex items-center gap-2"><h2 class="font-bold text-lg text-slate-800 flex items-center gap-2"><svg viewBox="0 0 24 24" style="width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5h0a1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Configurações</h2><button id="btnHelp" title="Ajuda: como usar" class="w-7 h-7 rounded-full bg-sky-100 text-sky-700 text-sm font-extrabold active:scale-90">?</button><span class="flex-1"></span><button id="lockIco" type="button" class="lkb" hidden aria-label="Conta só para visualizar"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2.5"/><path class="sh" d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></button><button id="menuClose" aria-label="Fechar" class="w-11 h-11 rounded-full bg-slate-100 text-slate-600 text-3xl leading-none flex items-center justify-center ml-2 active:scale-90">×</button></div>
+    <div class="flex items-center gap-2"><h2 class="font-bold text-lg text-slate-800 flex items-center gap-2"><svg viewBox="0 0 24 24" style="width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5h0a1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Configurações</h2><button id="btnHelp" title="Ajuda: como usar" class="w-7 h-7 rounded-full bg-sky-100 text-sky-700 text-sm font-extrabold active:scale-90">?</button><span class="flex-1"></span><button id="lockIco" type="button" class="lkb" hidden aria-label="Conta só para visualizar"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2.5"/><path class="sh" d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></button></div>
     <input type="checkbox" id="editToggle" class="hidden">
     <p class="msec">Aparência</p>
     <div id="rowTheme" class="trow" role="button" tabindex="0"><span class="tic" id="themeIc">🌙</span><div class="flex-1 min-w-0"><b>Modo escuro</b><small id="themeSub"></small></div><button id="swTheme" type="button" role="switch" aria-label="Modo escuro" class="swt"></button></div>
@@ -613,7 +626,7 @@
       <li><b>Lotada:</b> deixa todas as portas ocupadas e o mapa mostra a caixa com a palavra <b>LOTADA</b> (também quando as 16 portas já estão ocupadas). Quem já tem nome e porta continua como está. As cores de Disponível, Lotada, Atenção e das CEOs você escolhe em ⚙ Configurações → Personalizar, cada uma na sua tela.</li>
       <li><b>🟡 Atenção:</b> botão pequeno ao lado da VLAN. Deixa a caixa amarela mesmo com poucas portas ocupadas (manutenção preventiva).</li>
       <li><b>Tamanho da ficha (caixa e CEO):</b> ela abre no tamanho normal. <b>Toque na barrinha do topo</b> e ela sobe e abre mais; <b>toque nela de novo</b> e ela volta ao tamanho normal. O <b>×</b> fecha.</li>
-      <li><b>🧭 Ir com Google Maps:</b> fica no fim da ficha, junto das fotos.</li>
+      <li><b>🧭 Ir com Google Maps:</b> fica por último na ficha, depois de Anotação.</li>
       <li><b>Rua desta caixa:</b> toque no campo e escolha a rua na tela que abre (o <b>×</b> fecha). Para tirar a rua, toque de novo na rua que está marcada. Para <b>adicionar, apagar ou renomear</b> ruas, toque em <b>➕ Adicionar rua</b>: a tela que abre serve para adicionar, apagar e renomear. Se você não escolher, a caixa fica <b>sem rua</b> (não há mais rua automática).</li>
       <li><b>VLAN:</b> fica em cima das portas, ao lado de <b>☑ Marcar ocupadas</b>. Toque no número (ex.: <b>VLAN 205 ▾</b>) para trocar de VLAN, no <b>✏</b> para editar, na <b>🗑</b> para apagar a VLAN, ou em <b>＋ VLAN</b> para escolher/criar uma. Na lista que abre: <b>＋ Nova VLAN</b>, <b>Nenhuma</b> e <b>Fechar</b>.</li>
       <li><b>🔌 Ligação:</b> mostra de qual CEO a caixa vem (pelo traçado da fibra), com Card, PON, Fibra e Tubo. <b>✏ Editar</b> anota algo a mais.</li>
@@ -626,7 +639,7 @@
       <li><b>CEO:</b> aparece sempre em azul, com <b>[caixas/saídas]</b>, por exemplo [6/8]. Para trocar a cor de todas: ⚙ Configurações → Cores das CEOs. Para uma CEO ter outra cor: ative <b>Editar</b>, toque nela e escolha a <b>Cor desta CEO no mapa</b>.</li>
       <li><b>Split 1:8:</b> o padrão é 8 saídas. Os botões <b>＋</b> e <b>−</b> na ficha da CEO aumentam ou diminuem. Cada CEO guarda o seu número. Passando do limite, aparece o aviso em vermelho, mas dá para adicionar mesmo assim.</li>
       <li><b>Caixas desta CEO:</b> lista automática, em ordem de Q. O quadradinho na frente é a cor da fibra da caixa: <b>toque nele para escolher outra cor</b> (vale também para a cor do cabo no mapa). Toque no nome da caixa para ir até ela.</li>
-      <li><b>＋ próxima caixa (ex.: ＋ Q7):</b> depois da última caixa aparece a próxima da sequência, já com a cor dela (dá para trocar a cor tocando no quadrado). Toque em <b>＋ Q7</b> e depois no mapa, no lugar onde ela fica: a caixa nasce com o nome certo e já ligada à CEO. O <b>×</b> tira uma caixa da CEO. <b>↳ ligar uma caixa que já existe</b> escolhe uma caixa que o app não ligou sozinho.</li>
+      <li><b>＋ próxima caixa (ex.: ＋ Q7):</b> depois da última caixa aparece a próxima da sequência, já com a cor dela (dá para trocar a cor tocando no quadrado). Toque em <b>＋ Q7</b> e depois no mapa, no lugar onde ela fica: a caixa nasce com o nome certo e já ligada à CEO. O <b>×</b> tira uma caixa da CEO. a vaguinha <b>🔎 Ligar caixa existente…</b> abre a lista para escolher uma caixa que o app não ligou sozinho.</li>
       <li><b>📜 Histórico da rede:</b> escreva rompimentos e serviços e toque em <b>Salvar</b>. Cada anotação guarda a data. Mostra as 3 últimas; <b>ver todos</b> mostra o resto e <b>×</b> apaga uma.</li>
       <li><b>Dados da CEO (✏ lápis pequeno):</b> abre um formulário com Card, PON, Fibra, Tubo, cor da fibra e saídas do split. Vale para qualquer CEO. Deixando tudo vazio, ela volta aos dados originais do arquivo. Na ficha da CEO a ordem é: nome, dados, split e caixas, histórico da rede e, por último, o 🧭 Ir com Google Maps.</li>
     </ul></details>
@@ -748,9 +761,8 @@
 <div id="ceoPick" class="pkm hidden fixed inset-0 z-[1250] bg-black/60 flex items-end sm:items-center justify-center">
   <div class="pkb bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-4 flex flex-col" style="padding-bottom:calc(env(safe-area-inset-bottom) + 16px)">
     <button type="button" id="ceoPickGrip" class="pkgrip" aria-label="Abaixar ou subir a janela"><span></span></button>
-    <div class="flex justify-between items-center"><h2 class="font-bold text-slate-800">🔌 Ligar uma caixa na CEO</h2><button id="ceoPickX" class="text-2xl text-slate-500 px-2" aria-label="Fechar">×</button></div>
-    <p class="text-xs text-slate-500 mt-1">Toque na caixa que você quer ligar.</p>
-    <div id="ceoPickList" class="overflow-y-auto flex-1 min-h-0 mt-2"></div>
+    <button id="ceoPickX" type="button" class="pkx" aria-label="Fechar">×</button>
+    <div id="ceoPickList" class="pklist overflow-y-auto min-h-0 mt-2"></div>
     <input id="ceoPickQ" type="search" placeholder="🔎 Buscar caixa ou rua…" autocomplete="off" class="pkq">
   </div>
 </div>
@@ -759,9 +771,8 @@
 <div id="stPick" class="pkm hidden fixed inset-0 z-[1250] bg-black/60 flex items-end sm:items-center justify-center">
   <div class="pkb bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-4 flex flex-col" style="padding-bottom:calc(env(safe-area-inset-bottom) + 16px)">
     <button type="button" id="stPickGrip" class="pkgrip" aria-label="Abaixar ou subir a janela"><span></span></button>
-    <div class="flex justify-between items-center"><h2 class="font-bold text-slate-800">🛣 Rua desta caixa</h2><button id="stPickX" class="text-2xl text-slate-500 px-2" aria-label="Fechar">×</button></div>
-    <p class="text-xs text-slate-500 mt-1">Toque na rua desta caixa.</p>
-    <div id="stPickList" class="overflow-y-auto flex-1 min-h-0 mt-2"></div>
+    <button id="stPickX" type="button" class="pkx" aria-label="Fechar">×</button>
+    <div id="stPickList" class="pklist overflow-y-auto min-h-0 mt-2"></div>
     <input id="stPickQ" type="search" placeholder="🔎 Buscar rua…" autocomplete="off" class="pkq">
     <button id="stPickAdd" class="mt-2 w-full rounded-lg border border-sky-300 text-sky-700 py-2.5 text-sm font-semibold">➕ Adicionar rua</button>
   </div>
@@ -858,7 +869,7 @@ function rebuildRegions(){            // nomes das cidades: padrão + renomeadas
   Object.keys(REGION_DEF).forEach(k=>{ REGIONS[k]=(state.cityNames&&state.cityNames[k])||REGION_DEF[k]; });
   (state.cityExtra||[]).forEach(c=>{ REGIONS[c.id]=c.name; });
 }
-const APP_VERSION = "3.49";
+const APP_VERSION = "3.50";
 const TEST_MODE = false;   // true = arquivo de teste (usa uma cópia dos dados) · false = site real
 const KEY_STATE = TEST_MODE?"ftth_state_test":"ftth_state_v1", KEY_NET = TEST_MODE?"ftth_net_test":"ftth_net_v1";
 const DOC_STATE = TEST_MODE?"state_teste":"state", DOC_NET = TEST_MODE?"net_teste":"net";
@@ -1393,7 +1404,7 @@ function linkBlock(it){
       +`<div class="flex gap-1 mb-1.5">${Array.from({length:slots},(_,k)=>{ const x=mine[k]; return x?`<i class="flex-1 h-1.5 rounded-sm" style="background:${over?"#dc2626":colOf(x)};box-shadow:0 0 0 1px #94a3b8"></i>`:(k===mine.length?`<i class="flex-1 h-1.5 rounded-sm" style="background:${nx.col};opacity:.55;box-shadow:0 0 0 1px #94a3b8"></i>`:`<i class="flex-1 h-1.5 rounded-sm border border-dashed border-indigo-300"></i>`); }).join("")}</div>`
       +`<div class="flex flex-wrap gap-1.5">${mine.map(chip).join("")}${nextChip}</div>`+strip
       +`<div class="text-[11px] text-slate-500 mt-1">Toque no quadrado para mudar a cor · <b>＋ Q${nx.n}</b> coloca a próxima caixa no mapa · <b>×</b> tira da CEO</div>`
-      +`<button data-a="showadd" class="mt-1 text-xs underline text-indigo-700">↳ ligar uma caixa que já existe</button>`
+      +`<button data-a="showadd" type="button" class="mt-1.5 block text-left text-xs rounded-lg border border-indigo-300 bg-white px-2 py-1 text-slate-400" style="width:11.5rem">🔎 Ligar caixa existente…</button>`
       +`<div class="text-xs text-indigo-700 mt-2.5 mb-1">📜 Histórico da rede (rompimento, serviços…)</div>`
       +`<div class="flex gap-1.5"><textarea id="histTx" rows="2" maxlength="300" placeholder="Ex.: Rompimento na Rua X, emendado" class="flex-1 min-w-0 rounded-lg border border-indigo-200 px-2 py-1 text-xs text-slate-900"></textarea><button data-a="hadd" class="rounded-lg bg-[#0056b3] text-white px-2.5 text-xs font-semibold">Salvar</button></div>`
       +hshow.map(h=>`<div class="mt-1 flex items-start gap-1.5 text-xs text-slate-700"><span class="shrink-0 font-semibold text-indigo-700">${fd(h.t)}</span><span class="flex-1 min-w-0 break-words">${esc(h.x)}</span><button data-a="hdel" data-t="${h.t}" title="Apagar" class="text-slate-400 leading-none px-1">×</button></div>`).join("")
@@ -1548,9 +1559,9 @@ function drawSheet(){
     h += `<div class="mt-2 text-xs text-slate-500">Rua desta caixa<div class="mt-1 flex gap-2"><button data-a="stpick" class="flex-1 min-w-0 flex items-center justify-between gap-2 rounded-lg border border-slate-300 px-2.5 py-2 text-sm text-slate-900 text-left"><span class="truncate">${sid&&stLabel(sid)?esc(stLabel(sid)):"&nbsp;"}</span><span class="text-slate-400">▾</span></button></div><button data-a="allst" class="mt-1.5 rounded-lg border border-sky-300 text-sky-700 px-2.5 py-1.5 text-xs font-semibold">➕ Adicionar rua</button></div>`;
   }
   h += linkBlock(it);
-  h += photoBlock(it) + gmH;
+  h += photoBlock(it);
   if(it.type==="ceo") h += noteH;
-  h += `<div class="mt-3 flex gap-2 text-xs"><button data-a="note" class="rounded-lg border border-slate-300 text-slate-600 px-3 py-2">Anotação</button>${it.custom?`<button data-a="delbox" class="rounded-lg border border-red-300 text-red-600 px-3 py-2">🗑 Excluir caixa</button>`:""}</div>`;
+  h += `<div class="mt-3 flex gap-2 text-xs"><button data-a="note" class="rounded-lg border border-slate-300 text-slate-600 px-3 py-2">Anotação</button>${it.custom?`<button data-a="delbox" class="rounded-lg border border-red-300 text-red-600 px-3 py-2">🗑 Excluir caixa</button>`:""}</div>`+gmH;
   body.innerHTML = h;
   drawPhotos(it.id);
 }
@@ -1867,17 +1878,30 @@ ceoPickList.addEventListener("click",e=>{
 const _nz=t=>String(t==null?"":t).normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();
 function pkWire(mId,lId,qId,gId){
   const m=document.getElementById(mId), l=document.getElementById(lId), q=document.getElementById(qId), g=document.getElementById(gId);
-  const f=()=>{ const t=_nz(q.value).trim(); l.classList.toggle("pkl-b",!!t); Array.from(l.children).forEach(c=>{ c.hidden=!!t&&_nz(c.textContent).indexOf(t)<0; }); };
+  let base=window.innerHeight;
+  const vv=()=>window.visualViewport;
+  /* altura máxima em px, calculada na abertura (sem teclado): ~60% da tela; o tracinho sobe para ~85% */
+  const cap=()=>{ const v=vv(), h=v?Math.min(window.innerHeight,v.height):window.innerHeight; return Math.max(150,Math.round(Math.min(base*(m.classList.contains("pkbig")?0.85:0.6),h-16))); };
+  const size=()=>{ m.style.setProperty("--pkc",cap()+"px"); const v=vv(); m.style.paddingBottom=v?Math.max(0,Math.round(window.innerHeight-v.height-v.offsetTop))+"px":""; };
+  const f=()=>{
+    const t=_nz(q.value).trim(); l.classList.toggle("pkl-b",!!t);
+    Array.from(l.querySelectorAll(".pkempty")).forEach(x=>x.remove());
+    const kids=Array.from(l.children); let vis=0;
+    kids.forEach(c=>{ c.hidden=!!t&&_nz(c.textContent).indexOf(t)<0; if(!c.hidden) vis++; });
+    if(t&&!vis){ const d=document.createElement("div"); d.className="pkempty"; d.textContent="Nenhuma encontrada"; l.appendChild(d); }
+  };
   q.addEventListener("input",f);
-  g.addEventListener("click",e=>{ e.stopPropagation(); m.classList.toggle("pklow"); });
-  return {filter:f, reset:()=>{ q.value=""; m.classList.remove("pklow"); f(); }};
+  g.addEventListener("click",e=>{ e.stopPropagation(); m.classList.toggle("pkbig"); size(); });
+  const onVv=()=>{ if(!m.classList.contains("hidden")) size(); };
+  if(vv()){ vv().addEventListener("resize",onVv); vv().addEventListener("scroll",onVv); }
+  return {filter:f, size, reset:()=>{ q.value=""; m.classList.remove("pkbig"); base=window.innerHeight; size(); f(); }};
 }
 const stPick=document.getElementById("stPick"), stPickList=document.getElementById("stPickList"); let stPickId=null;
 const stPickW=pkWire("stPick","stPickList","stPickQ","stPickGrip");
 function openStPick(it,keep){
   stPickId=it.id; const cur=state.so[it.id]||"";
   stPickList.innerHTML=streetsAll().filter(x=>x[1]===it.region&&(stName(x[0])||cur===x[0])).map(x=>stRow(x[0],esc(stLabel(x[0])),cur===x[0])).join("");
-  stPick.classList.remove("hidden"); if(keep) stPickW.filter(); else stPickW.reset();
+  stPick.classList.remove("hidden"); if(keep){ stPickW.size(); stPickW.filter(); } else stPickW.reset();
 }
 const stPickClose=()=>{ stPick.classList.add("hidden"); stPickId=null; };
 document.getElementById("stPickX").onclick=stPickClose;
@@ -2666,12 +2690,13 @@ document.getElementById("btnGps").onclick=()=>{
 /* ======================= MENU / BACKUP ======================= */
 const menu=document.getElementById("menu");
 const menuBox=document.getElementById("menuBox");
-document.getElementById("btnMenu").onclick=()=>{ menuBox.classList.remove("up"); menuBox.scrollTop=0; menu.classList.remove("hidden"); };
+document.getElementById("btnMenu").onclick=()=>{ menuBox.classList.remove("up"); menuBox.classList.remove("dn"); menuBox.scrollTop=0; menu.classList.remove("hidden"); };
 (function(){ const g=document.getElementById("menuGrip"); let y0=null, mv=false;
   g.addEventListener("pointerdown",e=>{ y0=e.clientY; mv=false; try{ g.setPointerCapture(e.pointerId); }catch(_){} });
   g.addEventListener("pointermove",e=>{ if(y0!=null&&Math.abs(e.clientY-y0)>8) mv=true; });
   g.addEventListener("pointerup",e=>{ if(y0==null) return; const d=e.clientY-y0; y0=null;
-    if(d>60) menu.classList.add("hidden"); else if(d<-40) menuBox.classList.add("up"); else if(!mv) menuBox.classList.toggle("up"); });
+    const desk=window.matchMedia("(min-width:640px)").matches;   /* computador: abre grande e o tracinho diminui; celular: abre pequeno e o tracinho aumenta */
+    if(d>60) menu.classList.add("hidden"); else if(desk){ if(!mv||Math.abs(d)<=40) menuBox.classList.toggle("dn"); } else if(d<-40) menuBox.classList.add("up"); else if(!mv) menuBox.classList.toggle("up"); });
   g.addEventListener("pointercancel",()=>{ y0=null; });
 })();
 document.getElementById("menuClose").onclick=()=>menu.classList.add("hidden");
@@ -3137,36 +3162,62 @@ applyInfo();
 
 /* ======================= ENDEREÇO / PONTO -> CAIXA MAIS PRÓXIMA ======================= */
 const nearCard=document.getElementById("nearCard"), nearLayer=L.layerGroup().addTo(map), nearHi=L.layerGroup().addTo(map);
-let pickPoint=false, nearPt=null, nearList=[], nearSel=0, nearPin=null;
+let pickPoint=false, nearPt=null, nearList=[], nearSel=0, nearPin=null, nearVia=[], nearLab=-1, nearLine=null;
 const freeOf = x => status(x)==='full'?0:Math.max(0,CAP-occOf(x));
 const fmtD = d => d<1000 ? Math.round(d)+" m" : (d/1000).toFixed(1).replace(".",",")+" km";
-function nearClear(){ nearLayer.clearLayers(); nearHi.clearLayers(); nearPin=null; nearCard.classList.add("hidden"); pickPoint=false; nearPt=null; nearList=[]; }
+function nearClear(){ nearLayer.clearLayers(); nearHi.clearLayers(); nearPin=null; nearVia=[]; nearLab=-1; nearLine=null; nearCard.classList.add("hidden"); pickPoint=false; nearPt=null; nearList=[]; }
 const PIN_HTML='<div style="position:relative;width:38px;height:44px;font-size:32px;line-height:40px;text-align:center;filter:drop-shadow(0 1px 2px #000)">📍</div>';
 function nearPinMake(){
   nearPin=L.marker([nearPt.lat,nearPt.lng],{icon:L.divIcon({className:"",iconSize:[38,44],iconAnchor:[19,44],html:PIN_HTML}),draggable:true,keyboard:false,zIndexOffset:3000}).addTo(nearLayer);
   nearPin.on("dragend",()=>{ const p=nearPin.getLatLng(); showNear(p.lat,p.lng,"Ponto marcado",true); });
 }
 const SPAN0="position:absolute;left:0;top:0;transform:translate(-50%,-50%);white-space:nowrap;";
+/* curva do pino: nearVia = pontos por onde o caminho passa (no máximo 2); nearLab = qual deles carrega a etiqueta da distância */
+function dLL(a,b){ return dist([a[1],a[0]],[b[1],b[0]]); }
+function nearPts(o,vias){ return [[nearPt.lat,nearPt.lng]].concat((vias||nearVia).map(v=>[v[0],v[1]])).concat([[o.x.lat,o.x.lng]]); }
+function nearPathD(pts){ let d=0; for(let i=1;i<pts.length;i++) d+=dLL(pts[i-1],pts[i]); return d; }
+function nearDistOf(i){ const o=nearList[i]; if(!o) return 0; return (i===nearSel&&nearVia.length)?nearPathD(nearPts(o)):o.d; }
+function nearViaReset(){ nearVia=[]; nearLab=-1; }
+function nearLabHtml(d){ return `<span class="pinlab" style="${SPAN0}background:#f43f5e;color:#fff;border-radius:999px;padding:4px 5px 4px 14px;font:700 15px/26px system-ui,sans-serif;box-shadow:0 1px 4px rgba(0,0,0,.5);cursor:grab;touch-action:none"><span class="nd">${fmtD(d)}</span><span class="pinx" title="Tirar a marcação" style="display:inline-block;margin-left:14px;width:26px;height:26px;line-height:26px;border-radius:13px;background:#fff;color:#be123c;text-align:center;font-weight:800;font-size:16px">×</span></span>`; }
+const BALL_HTML='<span style="position:absolute;left:0;top:0;transform:translate(-50%,-50%);width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.9);border:3px dashed #f43f5e;box-shadow:0 1px 4px rgba(0,0,0,.5);box-sizing:border-box"></span>';
 function nearDraw(){
-  nearHi.clearLayers(); if(!nearPt) return;
+  nearHi.clearLayers(); nearLine=null; if(!nearPt) return;
   nearList.forEach((o,i)=>{
     const sel=i===nearSel, col=o.free>0?"#16a34a":"#dc2626";
     const html=`<span data-i="${i}" style="${SPAN0}background:#fff;color:#0f172a;border:${sel?4:3}px solid ${sel?"#0ea5e9":col};border-radius:999px;padding:${sel?"5px 12px":"4px 10px"};font:800 ${sel?17:15}px/1.1 system-ui,sans-serif;box-shadow:0 2px 6px rgba(0,0,0,.55)${sel?",0 0 0 5px rgba(14,165,233,.35)":""}">${esc(nameOf(o.x))}</span>`;
     L.marker([o.x.lat,o.x.lng],{icon:L.divIcon({className:"",iconSize:[0,0],html}),keyboard:false,zIndexOffset:sel?2500:2000}).on("click",()=>nearPick(i)).addTo(nearHi);
   });
-  const o=nearList[nearSel]; if(o){
-    L.polyline([[nearPt.lat,nearPt.lng],[o.x.lat,o.x.lng]],{color:"#f43f5e",weight:3,dashArray:"6 6",interactive:false}).addTo(nearHi);
-    const mid=[(nearPt.lat+o.x.lat)/2,(nearPt.lng+o.x.lng)/2];
-    L.marker(mid,{icon:L.divIcon({className:"",iconSize:[0,0],html:`<span style="${SPAN0}background:#f43f5e;color:#fff;border-radius:999px;padding:2px 4px 2px 10px;font:700 13px/22px system-ui,sans-serif;box-shadow:0 1px 4px rgba(0,0,0,.5)">${fmtD(o.d)}<span class="pinx" title="Tirar a marcação" style="display:inline-block;margin-left:8px;width:22px;height:22px;line-height:22px;border-radius:11px;background:#fff;color:#be123c;text-align:center;font-weight:800">×</span></span>`}),keyboard:false,zIndexOffset:2600}).on("click",e=>{ const t=e.originalEvent&&e.originalEvent.target; if(t&&t.closest&&t.closest(".pinx")) nearClear(); }).addTo(nearHi);
+  const o=nearList[nearSel]; if(!o) return;
+  const pts=nearPts(o);
+  nearLine=L.polyline(pts,{color:"#f43f5e",weight:3,dashArray:"6 6",interactive:false}).addTo(nearHi);
+  const mid=nearLab>=0&&nearVia[nearLab]?nearVia[nearLab]:[(nearPt.lat+o.x.lat)/2,(nearPt.lng+o.x.lng)/2];
+  const lab=L.marker(mid,{icon:L.divIcon({className:"",iconSize:[0,0],html:nearLabHtml(nearDistOf(nearSel))}),draggable:true,keyboard:false,zIndexOffset:2600}).addTo(nearHi);
+  const setTxt=d=>{ try{ const el=lab.getElement&&lab.getElement(); const n=el&&el.querySelector(".nd"); if(n) n.textContent=fmtD(d); }catch(_){} };
+  lab.on("click",e=>{ const t=e.originalEvent&&e.originalEvent.target; if(t&&t.closest&&t.closest(".pinx")) nearClear(); });
+  lab.on("drag",()=>{ const q=lab.getLatLng(), v=nearVia.map(x=>[x[0],x[1]]); if(nearLab>=0) v[nearLab]=[q.lat,q.lng]; else v.push([q.lat,q.lng]); const pp=nearPts(o,v); if(nearLine) nearLine.setLatLngs(pp); setTxt(nearPathD(pp)); });
+  lab.on("dragend",()=>{ const q=lab.getLatLng(); if(nearLab>=0) nearVia[nearLab]=[q.lat,q.lng]; else { nearVia=[[q.lat,q.lng]]; nearLab=0; } setTimeout(()=>{ nearDraw(); nearCardDraw(); },0); });
+  /* bolinha da 2ª curva (só uma): no meio do trecho mais longo; com a 2ª curva feita, toque na bolinha para tirar */
+  if(nearVia.length===1){
+    let k=0, best=-1; for(let j=0;j<pts.length-1;j++){ const d=dLL(pts[j],pts[j+1]); if(d>best){ best=d; k=j; } }
+    const bm=[(pts[k][0]+pts[k+1][0])/2,(pts[k][1]+pts[k+1][1])/2];
+    const ball=L.marker(bm,{icon:L.divIcon({className:"",iconSize:[0,0],html:BALL_HTML}),draggable:true,keyboard:false,zIndexOffset:2550}).addTo(nearHi);
+    ball.on("drag",()=>{ const q=ball.getLatLng(), v=nearVia.map(x=>[x[0],x[1]]); v.splice(k,0,[q.lat,q.lng]); const pp=nearPts(o,v); if(nearLine) nearLine.setLatLngs(pp); setTxt(nearPathD(pp)); });
+    ball.on("dragend",()=>{ const q=ball.getLatLng(); nearVia.splice(k,0,[q.lat,q.lng]); if(k<=nearLab) nearLab++; setTimeout(()=>{ nearDraw(); nearCardDraw(); },0); });
+  } else if(nearVia.length===2){
+    const idx=nearLab===0?1:0;
+    const ball=L.marker(nearVia[idx],{icon:L.divIcon({className:"",iconSize:[0,0],html:BALL_HTML}),draggable:true,keyboard:false,zIndexOffset:2550}).addTo(nearHi);
+    ball.on("drag",()=>{ const q=ball.getLatLng(), v=nearVia.map(x=>[x[0],x[1]]); v[idx]=[q.lat,q.lng]; const pp=nearPts(o,v); if(nearLine) nearLine.setLatLngs(pp); setTxt(nearPathD(pp)); });
+    ball.on("dragend",()=>{ const q=ball.getLatLng(); nearVia[idx]=[q.lat,q.lng]; setTimeout(()=>{ nearDraw(); nearCardDraw(); },0); });
+    ball.on("click",()=>{ nearVia.splice(idx,1); if(idx<nearLab) nearLab--; if(nearLab>=nearVia.length) nearLab=nearVia.length-1; nearDraw(); nearCardDraw(); });
   }
 }
-function nearPick(i){ nearSel=i; nearCardDraw(); nearDraw(); }
+function nearPick(i){ if(i!==nearSel){ nearSel=i; nearViaReset(); } else if(nearVia.length){ nearViaReset(); } nearCardDraw(); nearDraw(); }
 function nearCardDraw(){
-  const rows=nearList.map((o,i)=>`<button data-n="${i}" class="flex w-full items-center gap-2 text-left rounded-lg px-2 py-1.5 ${i===nearSel?"bg-sky-50 border border-sky-300":"border border-transparent"}"><b class="shrink-0">${esc(nameOf(o.x))}</b><span class="flex-1 min-w-0 truncate text-xs text-slate-500">${o.x.region!==region?esc(REGIONS[o.x.region])+" · ":""}${stOf(o.x)&&stName(stOf(o.x))?esc(stName(stOf(o.x))):""}</span><span class="text-xs shrink-0">${fmtD(o.d)}</span><span class="text-xs font-semibold shrink-0 ${o.free>0?"text-emerald-600":"text-red-600"}">${o.free>0?o.free+" vaga"+(o.free>1?"s":""):"lotada"}</span>${i===nearSel?'<span data-n="o" class="text-xs shrink-0 rounded-md bg-sky-600 text-white px-1.5 py-0.5">abrir caixa ›</span>':""}</button>`).join("");
+  const rows=nearList.map((o,i)=>`<button data-n="${i}" class="flex w-full items-center gap-2 text-left rounded-lg px-2 py-1.5 ${i===nearSel?"bg-sky-50 border border-sky-300":"border border-transparent"}"><b class="shrink-0">${esc(nameOf(o.x))}</b><span class="flex-1 min-w-0 truncate text-xs text-slate-500">${o.x.region!==region?esc(REGIONS[o.x.region])+" · ":""}${stOf(o.x)&&stName(stOf(o.x))?esc(stName(stOf(o.x))):""}</span><span class="text-xs shrink-0">${fmtD(nearDistOf(i))}</span><span class="text-xs font-semibold shrink-0 ${o.free>0?"text-emerald-600":"text-red-600"}">${o.free>0?o.free+" vaga"+(o.free>1?"s":""):"lotada"}</span><span data-n="o" data-i="${i}" class="text-xs shrink-0 rounded-md bg-sky-600 text-white px-1.5 py-0.5">abrir caixa ›</span></button>`).join("");
   const none=nearList.length&&!nearList.some(o=>o.free>0);
   nearCard.innerHTML=`<div class="flex items-center gap-2"><span class="flex-1 min-w-0 truncate font-bold">📍 ${esc(nearPt.label)}</span><button data-n="x" class="text-2xl leading-none text-slate-400 px-1" title="Tirar a marcação">×</button></div>
-    <div class="text-xs text-slate-500 mt-0.5 mb-1">${nearList.length?(none?"Nenhuma caixa com vaga por perto. Mais próximas":"Caixas mais próximas com vaga")+" (em linha reta):":"Nenhuma caixa nesta cidade."}</div>${rows}
-    <div class="text-[11px] text-slate-400 mt-1">Arraste o 📍 até a casa do cliente. Toque numa caixa para ver a linha e a distância.</div>`;
+    <div class="text-xs text-slate-500 mt-0.5 mb-1">${nearList.length?(none?"Nenhuma caixa com vaga por perto. Mais próximas":"Caixas mais próximas com vaga")+(nearVia.length?" (a marcada segue a curva; as outras em linha reta):":" (em linha reta):"):"Nenhuma caixa nesta cidade."}</div>${rows}
+    <div class="text-[11px] text-slate-400 mt-1">Arraste o 📍 até a casa do cliente. Toque numa caixa para ver a linha e a distância. Para seguir a rua, arraste o número da distância.</div>`;
   nearCard.classList.remove("hidden");
 }
 function nearFit(){
@@ -3177,7 +3228,7 @@ function nearFit(){
   map.fitBounds(pts,{paddingTopLeft:[50,top],paddingBottomRight:[50,70],maxZoom:19});
 }
 function showNear(lat,lng,label,keep){
-  pickPoint=false; nearPt={lat,lng,label};
+  pickPoint=false; nearPt={lat,lng,label}; nearViaReset();
   const all=items.filter(x=>x.type==="cto" && !isPlanned(x) && (region==="all"||x.region===region)).map(x=>({x,d:dist([lng,lat],[x.lng,x.lat]),free:freeOf(x)})).sort((a,b)=>a.d-b.d);
   const av=all.filter(o=>o.free>0).slice(0,2); nearList=av.length?av:all.slice(0,2); nearSel=0;
   if(!nearPin) nearPinMake(); else nearPin.setLatLng([lat,lng]);
@@ -3188,7 +3239,7 @@ function showNear(lat,lng,label,keep){
 nearCard.addEventListener("click",e=>{
   const b=e.target.closest("[data-n]"); if(!b) return; const n=b.dataset.n;
   if(n==="x") return nearClear();
-  if(n==="o"){ const o=nearList[nearSel]; if(o) openSheet(o.x.id); return; }
+  if(n==="o"){ const o=nearList[+b.dataset.i]; if(o) openSheet(o.x.id); return; }
   nearPick(+n);
 });
 /* segurar o dedo no mapa = marcar o ponto do cliente */
@@ -3201,7 +3252,7 @@ nearCard.addEventListener("click",e=>{
     if(e.target.closest(".leaflet-marker-icon,.leaflet-control,.leaflet-popup,button,a,path.leaflet-interactive")) return;
     st={x:e.clientX,y:e.clientY};
     t=setTimeout(()=>{ t=null; const ll=map.mouseEventToLatLng({clientX:st.x,clientY:st.y}); lpMapBlock=true; setTimeout(()=>{ lpMapBlock=false; },900); try{ navigator.vibrate&&navigator.vibrate(40); }catch(_){}
-      closeSheet(); showNear(ll.lat,ll.lng,"Ponto marcado"); },600);
+      closeSheet(); showNear(ll.lat,ll.lng,"Ponto marcado",true); },600);
   });
   mc.addEventListener("pointermove",e=>{ if(t&&st&&Math.hypot(e.clientX-st.x,e.clientY-st.y)>8) stop(); });
   ["pointerup","pointercancel","pointerleave"].forEach(ev=>mc.addEventListener(ev,stop));
