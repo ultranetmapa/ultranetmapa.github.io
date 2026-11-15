@@ -25,9 +25,9 @@
   html,body{height:100%;margin:0;overscroll-behavior:none;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
   #map{position:absolute;inset:0;z-index:0}
   .pill{display:inline-block;transform:translate(-50%,-50%);white-space:nowrap;font-weight:700;font-size:11px;line-height:1;padding:4px 7px;border-radius:999px;border:2px solid #fff;color:#fff;box-shadow:0 1px 4px rgba(0,0,0,.6)}
-  .pill.ok{background:#16a34a}
-  .pill.full{background:#dc2626;font-size:12px;padding:5px 9px;border-width:3px;box-shadow:0 0 0 3px rgba(220,38,38,.45),0 1px 5px rgba(0,0,0,.7)}
-  .pill.ceo{background:#2563eb}
+  .pill.ok{background:var(--c-ok,#16a34a);color:var(--tx-ok,#fff)}
+  .pill.full{background:var(--c-full,#dc2626);color:var(--tx-full,#fff)}
+  .pill.ceo{background:var(--c-ceo,#2563eb);color:var(--tx-ceo,#fff)}
   .pill.imenda{background:#6b7280}
   .pill.loja{background:#7c3aed}
   @keyframes pulse{50%{box-shadow:0 0 0 7px rgba(220,38,38,.15),0 1px 5px rgba(0,0,0,.7)}}
@@ -45,11 +45,15 @@
   .tg{position:relative;display:inline-flex}
   .tg input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer;z-index:1}
   .tg span{display:inline-flex;align-items:center;gap:3px;border:1px solid #cbd5e1;border-radius:999px;padding:3px 9px;font-size:11.5px;font-weight:700;color:#475569;min-height:28px;white-space:nowrap}
-  .tg.r input:checked+span{background:#dc2626;border-color:#dc2626;color:#fff}
-  .tg.y input:checked+span{background:#f59e0b;border-color:#f59e0b;color:#fff}
+  .tg.r input:checked+span,html.dark .tg.r input:checked+span{background:var(--c-full,#dc2626);border-color:var(--c-full,#dc2626);color:var(--tx-full,#fff)}
+  .tg.y input:checked+span,html.dark .tg.y input:checked+span{background:var(--c-warn,#f59e0b);border-color:var(--c-warn,#f59e0b);color:var(--tx-warn,#fff)}
+  .sdot{display:inline-block;width:10px;height:10px;border-radius:50%;flex-shrink:0}
+  .tg input:checked+span .sdot{background:#fff!important}
+  .pb{display:inline-flex;align-items:center;justify-content:center;gap:3px;border:1px solid #cbd5e1;border-radius:999px;padding:3px 9px;font-size:11.5px;font-weight:700;color:#475569;min-height:28px;white-space:nowrap;background:transparent}
+  .pb.on{background:#059669;border-color:#059669;color:#fff}
+  html.dark .pb{border-color:#3a3a3d;color:#d4d4d8}
+  html.dark .pb.on{border-color:#059669;color:#fff}
   html.dark .tg span{border-color:#3a3a3d;color:#d4d4d8}
-  html.dark .tg.r input:checked+span{color:#fff;border-color:#dc2626}
-  html.dark .tg.y input:checked+span{color:#fff;border-color:#f59e0b}
   #sheetX{position:absolute;right:12px;top:4px;width:28px;height:28px;border-radius:9px;display:flex;align-items:center;justify-content:center;background:#eef2f7;color:#64748b;border:1px solid #e2e8f0;transition:background .12s,transform .12s}
   #sheetX:active{transform:scale(.9);background:#dbe3ee}
   html.dark #sheetX{background:#2c2c2e;color:#d4d4d8;border-color:#3a3a3d}
@@ -57,7 +61,7 @@
   #sheet.closed{transform:translateY(105%)}
   .leaflet-control-layers{margin-top:70px!important}
   button{touch-action:manipulation}
-  .pill.warn{background:#f59e0b;color:#1c1400}
+  .pill.warn{background:var(--c-warn,#f59e0b);color:var(--tx-warn,#1c1400)}
   .pill.hl{animation:hlp 1s infinite;transform:translate(-50%,-50%) scale(1.3);position:relative;z-index:5;box-shadow:0 0 0 4px #fff,0 0 0 8px rgba(14,165,233,.9),0 0 22px 10px rgba(14,165,233,.7)}
   @keyframes hlp{50%{box-shadow:0 0 0 4px #fff,0 0 0 15px rgba(14,165,233,.25),0 0 30px 14px rgba(14,165,233,.5)}}
   .pill.dim{opacity:.2;filter:grayscale(.7)}
@@ -245,12 +249,24 @@
 
 <!-- Definir rua de várias caixas -->
 <div id="bulkModal" class="hidden fixed inset-0 z-[1300] bg-black/60 flex items-end sm:items-center justify-center">
-  <div class="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-4 space-y-3 max-h-[92vh] overflow-y-auto" style="padding-bottom:calc(env(safe-area-inset-bottom) + 16px)">
-    <div class="flex items-center justify-between gap-2 sticky top-0 z-10 bg-white -mt-4 pt-4 pb-2 -mx-4 px-4"><h2 id="bulkTitle" class="font-bold text-slate-800">Definir rua</h2><button type="button" data-xmod="#bulkModal [data-b=close]" class="text-2xl leading-none text-slate-500 px-2 shrink-0" aria-label="Fechar">×</button></div>
-    <label class="block text-xs text-slate-500">Rua (vazio = sem rua)
-      <input id="bulkSt" list="bulkList" maxlength="80" placeholder="Digite ou escolha a rua" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2.5 text-base text-slate-900"></label>
-    <datalist id="bulkList"></datalist>
-    <div class="grid grid-cols-2 gap-2"><button data-b="close" class="rounded-lg border border-slate-300 text-slate-700 py-2.5 font-semibold">Cancelar</button><button data-b="street" class="rounded-lg bg-emerald-600 text-white py-2.5 font-bold">Salvar</button></div>
+  <div class="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-4 max-h-[88vh] flex flex-col" style="padding-bottom:calc(env(safe-area-inset-bottom) + 16px)">
+    <div class="flex justify-between items-center"><h2 id="bulkTitle" class="font-bold text-slate-800">Definir rua</h2><button type="button" data-b="close" class="text-2xl text-slate-500 px-2" aria-label="Fechar">×</button></div>
+    <p class="text-xs text-slate-500 mt-1">Toque na rua dessas caixas.</p>
+    <div id="bulkStList" class="overflow-y-auto flex-1 min-h-0 mt-2"></div>
+    <button type="button" data-b="add" class="mt-2 w-full rounded-lg border border-sky-300 text-sky-700 py-2.5 text-sm font-semibold">➕ Adicionar rua</button>
+  </div>
+</div>
+
+<!-- Preencher vagas das caixas selecionadas -->
+<div id="fillModal" class="hidden fixed inset-0 z-[1300] bg-black/60 flex items-end sm:items-center justify-center">
+  <div class="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-4 space-y-3" style="padding-bottom:calc(env(safe-area-inset-bottom) + 16px)">
+    <div class="flex items-center justify-between"><h2 id="fillTitle" class="font-bold text-slate-800">Preencher vagas</h2><button type="button" data-f="close" class="text-2xl text-slate-500 px-2" aria-label="Fechar">×</button></div>
+    <div class="text-sm text-slate-700">Deixar cada caixa com <b>pelo menos</b> este número de vagas ocupadas:</div>
+    <div class="flex items-center justify-center gap-3"><button type="button" data-f="m" class="ibtn text-xl" style="width:48px;height:44px">−</button><input id="fillN" type="number" inputmode="numeric" min="1" max="16" value="16" class="w-24 text-center rounded-lg border border-slate-300 py-2 text-2xl font-bold text-slate-900"><button type="button" data-f="p" class="ibtn text-xl" style="width:48px;height:44px">＋</button><span class="text-sm text-slate-500">de 16</span></div>
+    <p id="fillInfo" class="text-sm text-slate-600"></p>
+    <label class="flex items-start gap-2 text-sm text-slate-700"><input id="fillRed" type="checkbox" class="mt-1"><span>Também <b>diminuir</b> as caixas que passam desse número <span class="text-xs text-slate-500">(tira só vagas ocupadas sem nome; cliente com nome nunca é apagado)</span></span></label>
+    <p class="text-xs text-slate-500">As vagas novas ficam ocupadas, sem nome. Caixas marcadas como <b>Lotada</b> perdem a marca e ficam com esse número. Sem a opção acima, caixas que já passam do número não mudam.</p>
+    <div class="grid grid-cols-2 gap-2"><button type="button" data-f="close" class="rounded-lg border border-slate-300 text-slate-700 py-2.5 font-semibold">Cancelar</button><button type="button" data-f="ok" class="rounded-lg bg-emerald-600 text-white py-2.5 font-bold">Aplicar</button></div>
   </div>
 </div>
 
@@ -302,7 +318,7 @@
   <div class="flex gap-2"><button id="fotoDel" class="rounded-lg bg-red-600 text-white px-4 py-2 text-sm font-semibold">🗑 Apagar</button><button id="fotoClose" class="rounded-lg bg-white/20 text-white px-4 py-2 text-sm font-semibold">Fechar</button></div>
 </div>
 <input id="fotoInp" type="file" accept="image/*" class="hidden">
-<div id="toast" class="hidden fixed z-[1400] left-1/2 -translate-x-1/2 rounded-xl bg-slate-900 text-white text-sm shadow-xl px-4 py-2.5 border border-slate-600" style="bottom:calc(env(safe-area-inset-bottom) + 130px)"></div>
+<div id="toast" class="hidden fixed z-[1400] left-1/2 -translate-x-1/2 rounded-xl bg-slate-900 text-white text-sm shadow-xl px-4 py-2.5 border border-slate-600" style="top:130px;max-width:min(92vw,420px)"></div>
 
 <!-- Login (só aparece quando a nuvem está ligada) -->
 <div id="login" class="hidden fixed inset-0 z-[3000] bg-[#0056b3] flex items-center justify-center p-6">
@@ -321,7 +337,14 @@
   <div class="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-4 space-y-3 max-h-[92vh] overflow-y-auto" style="padding-bottom:calc(env(safe-area-inset-bottom) + 16px)">
     <div class="flex items-center gap-2"><h2 class="font-bold text-slate-800 flex-1">Dados</h2><button id="btnHelp" title="Ajuda: como usar" class="w-7 h-7 rounded-full bg-sky-100 text-sky-700 text-sm font-extrabold active:scale-90">?</button><button id="menuClose" class="text-2xl text-slate-500 px-1 leading-none">×</button></div>
     <input type="checkbox" id="editToggle" class="hidden">
-    <button id="btnPer" class="mbtn bg-[#0056b3] w-full">🎨 Personalizar (cor da barra, cidades)</button>
+    <p class="text-xs font-semibold text-slate-500">Personalizar</p>
+    <div class="grid gap-1.5">
+      <button data-per="hdr" class="mbtn bg-[#0056b3] w-full flex items-center justify-between"><span>🎨 Cor da barra de cima</span><span>›</span></button>
+      <button data-per="slot" class="mbtn bg-[#0056b3] w-full flex items-center justify-between"><span>🟩 Vagas ocupadas (dentro das caixas)</span><span>›</span></button>
+      <button data-per="cx" class="mbtn bg-[#0056b3] w-full flex items-center justify-between"><span>🗺 Cores das caixas no mapa</span><span>›</span></button>
+      <button data-per="ceo" class="mbtn bg-[#0056b3] w-full flex items-center justify-between"><span>📡 Cores das CEOs no mapa</span><span>›</span></button>
+      <button data-per="cid" class="mbtn bg-[#0056b3] w-full flex items-center justify-between"><span>🏙 Cidades</span><span>›</span></button>
+    </div>
     <button id="btnCabEd" class="mbtn bg-slate-700 w-full">🧵 Editar cabos de fibra (traçar, mover, apagar)</button>
     <p class="text-xs font-semibold text-slate-500">Backup e arquivos</p>
     <div class="grid grid-cols-2 gap-2">
@@ -352,7 +375,7 @@
 <!-- Personalizar -->
 <div id="perModal" class="hidden fixed inset-0 z-[1250] bg-black/60 flex items-end sm:items-center justify-center">
   <div class="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-4 max-h-[92vh] flex flex-col" style="padding-bottom:calc(env(safe-area-inset-bottom) + 16px)">
-    <div class="flex items-center"><h2 class="font-bold text-slate-800 flex-1">🎨 Personalizar</h2><button id="perClose" class="text-2xl text-slate-500 px-2 leading-none">×</button></div>
+    <div class="flex items-center"><h2 id="perTitle" class="font-bold text-slate-800 flex-1">🎨 Personalizar</h2><button id="perClose" class="text-2xl text-slate-500 px-2 leading-none">×</button></div>
     <div id="perBody" class="overflow-y-auto flex-1 min-h-0 mt-2 space-y-4 text-sm text-slate-700"></div>
     <button id="perDone" class="mt-3 w-full rounded-lg bg-[#0056b3] text-white py-2.5 font-semibold">Concluir</button>
   </div>
@@ -375,7 +398,7 @@
     <p class="text-xs text-slate-500">Toque num assunto para abrir os detalhes.</p>
     <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">📍 No mapa (caixas e cores)</summary><ul class="list-disc pl-5 space-y-1 mt-2">
       <li><b>Tocar numa caixa</b> abre a ficha dela: clientes, rua, VLAN e ligação (CEO / CARD / PON). Mudanças dentro da ficha só valem quando você toca em <b>Salvar</b> (ou <b>Cancelar</b> para desfazer).</li>
-      <li><b>Cores da caixa:</b> verde = tem vaga · amarela ⚠ = quase cheia (11 ou mais de 16) · vermelha = lotada · colorida com 🛠 = a instalar.</li>
+      <li><b>Cores da caixa:</b> verde = tem vaga · amarela ⚠ = atenção (você marca) · vermelha = lotada · colorida com 🛠 = a instalar.</li>
       <li><b>[2/16]</b> no nome da caixa quer dizer 2 portas ocupadas de 16.</li>
       <li><b>Buscar:</b> a barra de pesquisa do alto acha rua, caixa (ex.: Q3), cliente, PON e CARD.</li>
       <li><b>📍</b> (botão azul no canto) mostra onde você está.</li>
@@ -384,7 +407,9 @@
     <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">📦 Ficha da caixa</summary><ul class="list-disc pl-5 space-y-1 mt-2">
       <li><b>Portas (1 a 16):</b> toque numa porta livre para escrever o nome do cliente. Toque numa ocupada para editar ou liberar.</li>
       <li><b>☑ Marcar ocupadas:</b> liga um modo em que você só toca nas portas ocupadas, sem escrever o nome. Aparecem como “ocupada”. Toque de novo para liberar.</li>
-      <li><b>🔴 Lotada:</b> botão pequeno ao lado da VLAN. Deixa todas as portas cheias e a caixa vermelha, sem listar clientes.</li>
+      <li><b>Liberar portas:</b> toque numa porta <b>ocupada sem nome</b> e ela fica livre na hora. Numa caixa marcada como Lotada, as outras portas viram ocupadas de verdade e a marcação sai; o mapa passa a mostrar sozinho (lotada ou normal, pelo número de vagas). Portas com nome abrem a ficha do cliente.</li>
+      <li><b>📥 Preencher vagas (várias caixas):</b> selecione as caixas no mapa e toque em <b>Preencher vagas</b>. Escolha o número, por exemplo 10: caixas com menos de 10 ocupadas ganham vagas ocupadas (sem nome) até chegar em 10; as que já têm 10 ou mais ficam como estão. Caixas marcadas como <b>Lotada</b> perdem a marca e ficam com 10. Se marcar <b>diminuir</b>, as que passam de 10 também descem para 10 (só perdem vagas sem nome). Toque em <b>Aplicar</b>. Dá para desfazer logo depois.</li>
+      <li><b>Lotada:</b> deixa todas as portas ocupadas e o mapa mostra a caixa com a palavra <b>LOTADA</b> (também quando as 16 portas já estão ocupadas). Quem já tem nome e porta continua como está. As cores de Disponível, Lotada, Atenção e das CEOs você escolhe em ⚙ Dados → Personalizar, cada uma na sua tela.</li>
       <li><b>🟡 Atenção:</b> botão pequeno ao lado da VLAN. Deixa a caixa amarela mesmo com poucas portas ocupadas (manutenção preventiva).</li>
       <li><b>Tamanho da ficha (caixa e CEO):</b> ela abre no tamanho normal. <b>Toque na barrinha do topo</b> e ela sobe e abre mais; <b>toque nela de novo</b> e ela volta ao tamanho normal. O <b>×</b> fecha.</li>
       <li><b>🧭 Ir com Google Maps:</b> fica no fim da ficha, junto das fotos.</li>
@@ -397,7 +422,7 @@
     </ul></details>
     <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">🔵 CEO (emenda)</summary><ul class="list-disc pl-5 space-y-1 mt-2">
       <li><b>Cor da borda:</b> a borda da CEO é da cor da fibra dela (ex.: VERMELHA no Card/PON/F anotado).</li>
-      <li><b>Lotação do split:</b> a CEO usa o mesmo sistema das caixas. Normal (azul) com saídas livres · <b>amarela ⚠</b> quando restam só 2 saídas · <b>vermelha [LOTADA]</b> quando não resta nenhuma. O nome mostra <b>[caixas/saídas]</b>, por exemplo [6/8].</li>
+      <li><b>CEO:</b> aparece sempre em azul, com <b>[caixas/saídas]</b>, por exemplo [6/8]. Para trocar a cor de todas: ⚙ Dados → Cores das CEOs. Para uma CEO ter outra cor: ative <b>Editar</b>, toque nela e escolha a <b>Cor desta CEO no mapa</b>.</li>
       <li><b>Split 1:8:</b> o padrão é 8 saídas. Os botões <b>＋</b> e <b>−</b> na ficha da CEO aumentam ou diminuem. Cada CEO guarda o seu número. Passando do limite, aparece o aviso em vermelho, mas dá para adicionar mesmo assim.</li>
       <li><b>Caixas desta CEO:</b> lista automática, em ordem de Q. O quadradinho na frente é a cor da fibra da caixa: <b>toque nele para escolher outra cor</b> (vale também para a cor do cabo no mapa). Toque no nome da caixa para ir até ela.</li>
       <li><b>＋ próxima caixa (ex.: ＋ Q7):</b> depois da última caixa aparece a próxima da sequência, já com a cor dela (dá para trocar a cor tocando no quadrado). Toque em <b>＋ Q7</b> e depois no mapa, no lugar onde ela fica: a caixa nasce com o nome certo e já ligada à CEO. O <b>×</b> tira uma caixa da CEO. <b>↳ ligar uma caixa que já existe</b> escolhe uma caixa que o app não ligou sozinho.</li>
@@ -453,8 +478,8 @@
       <li>Para o app atualizar no celular, feche por completo e abra de novo.</li>
     </ul></details>
     <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">⚙ Dados</summary><ul class="list-disc pl-5 space-y-1 mt-2">
-      <li><b>🎨 Personalizar:</b> cor da barra de cima (no tema escuro ela fica preta), nome das cidades e <b>➕ Adicionar cidade</b> (leve o mapa até a cidade antes). O 📍 muda o lugar da cidade e a lixeira apaga (só se não tiver caixas nem cabos).</li>
-      <li><b>Vagas ocupadas (dentro das caixas):</b> em Personalizar, escolha a cor do fundo e a cor do nome das portas ocupadas. A prévia mostra como fica. A primeira bolinha de cada linha volta ao padrão. A cor da barra e a das vagas valem só no aparelho em que você escolheu; as chaves de ver caixas, CEOs e fibra e o tema escuro também.</li>
+      <li><b>⚙ Dados → Personalizar:</b> cada item abre a sua própria tela. <b>Cor da barra de cima</b> (no tema escuro ela fica preta) · <b>Vagas ocupadas</b> · <b>Cores das caixas no mapa</b> (Disponível, Lotada e Atenção) · <b>Cores das CEOs no mapa</b> (normal, quase cheia e lotada; a borda continua com a cor da fibra) · <b>Cidades</b> (nome, <b>➕ Adicionar cidade</b> com o mapa já na cidade nova, 📍 muda o lugar e a lixeira apaga se não tiver caixas nem cabos). As cores valem só neste aparelho.</li>
+      <li><b>Vagas ocupadas (dentro das caixas):</b> na tela <b>Vagas ocupadas</b>, escolha a cor do fundo e a cor do nome das portas ocupadas. A prévia mostra como fica. A primeira bolinha de cada linha volta ao padrão. A cor da barra e a das vagas valem só no aparelho em que você escolheu; as chaves de ver caixas, CEOs e fibra e o tema escuro também.</li>
       <li><b>Exportar backup</b> baixa uma cópia de segurança. <b>Importar backup</b> devolve uma cópia.</li>
       <li><b>Importar KML</b> troca a rede inteira por outro arquivo.</li>
       <li><b>Apagar cadastros</b> limpa clientes, caixas novas e nomes (não tem volta, faça backup antes).</li>
@@ -624,7 +649,7 @@ function rebuildRegions(){            // nomes das cidades: padrão + renomeadas
   Object.keys(REGION_DEF).forEach(k=>{ REGIONS[k]=(state.cityNames&&state.cityNames[k])||REGION_DEF[k]; });
   (state.cityExtra||[]).forEach(c=>{ REGIONS[c.id]=c.name; });
 }
-const APP_VERSION = "3.29";
+const APP_VERSION = "3.39";
 const TEST_MODE = false;   // true = arquivo de teste (usa uma cópia dos dados) · false = site real
 const KEY_STATE = TEST_MODE?"ftth_state_test":"ftth_state_v1", KEY_NET = TEST_MODE?"ftth_net_test":"ftth_net_v1";
 const DOC_STATE = TEST_MODE?"state_teste":"state", DOC_NET = TEST_MODE?"net_teste":"net";
@@ -683,7 +708,7 @@ let net   = jget(KEY_NET, null) || { pts:PTS, lines:LINES };
 let state = jget(KEY_STATE, null);
 function fixState(){
   if(!state||typeof state!=="object") state={};
-  ["clients","full","warn","names","notes","links","sn","so","pos","plan","vlan","vlanNames","cityNames","ceoOf","hist","ceoCap","ceoDesc","qcol","sdel"].forEach(k=>{ if(!state[k]||typeof state[k]!=="object"||Array.isArray(state[k])) state[k]={}; });
+  ["clients","full","warn","names","notes","links","sn","so","pos","plan","vlan","vlanNames","cityNames","ceoOf","hist","ceoCap","ceoDesc","qcol","sdel","ceoCol"].forEach(k=>{ if(!state[k]||typeof state[k]!=="object"||Array.isArray(state[k])) state[k]={}; });
   ["custom","cst","cityExtra"].forEach(k=>{ if(!Array.isArray(state[k])) state[k]=[]; });
   rebuildRegions();
   if(!Array.isArray(state.vlanList)) state.vlanList=["205","206"];
@@ -706,19 +731,21 @@ const clientsOf = id => { const a = state.clients[id] || (state.clients[id]=[]);
 const nameOf    = it => state.names[it.id] || it.name;
 const forcedFull= it => (it.id in state.full) ? state.full[it.id] : it.seedFull;
 const forcedWarn= it => (it.id in state.warn) ? state.warn[it.id] : it.seedWarn;
-// Verde 0–10 · Amarelo 11–15 (ou forçado) · Vermelho 16 (ou lotada forçada)
+const sdot = k => `<i class="sdot" style="background:var(--c-${k},${{full:"#dc2626",warn:"#f59e0b",ok:"#16a34a"}[k]})"></i>`;
+const occOf  = it => clientsOf(it.id).length;
+// Verde = disponível · Vermelho = lotada (16 ocupadas ou marcada) · Amarelo = Atenção (manual)
 function status(it){
   if(it.type!=="cto") return null;
   const c = clientsOf(it.id).length;
   if(c>=CAP || forcedFull(it)) return "full";
-  if(c>=WARN_FROM || forcedWarn(it)) return "warn";
+  if(forcedWarn(it)) return "warn";
   return "ok";
 }
 const isFull = it => status(it)==="full";
-// CEO: mesma ideia das caixas — amarela quando restam só 2 saídas do split, vermelha quando não resta nenhuma
+// CEO: sempre azul (ou a cor escolhida); só mostra quantas caixas / saídas do split
 function ceoInfo(it){
   const n=items.filter(x=>x.type==="cto" && linkMap[x.id]===it.id).length, cap=Math.max(1,+state.ceoCap[it.id]||8), free=cap-n;
-  return {n,cap,free,st: free<=0?"full":free<=2?"warn":"ok"};
+  return {n,cap,free};
 }
 /* Caixas planejadas / a instalar: guardadas à parte em state.plan[id] = {on, color}. Não mexem nas regras de cor automática. */
 const HEX = /^#[0-9a-f]{6}$/i, PLAN_DEF = "#9333ea";
@@ -728,6 +755,13 @@ const isPlanned = it => !!planOf(it);
 function textOn(hex){ const n=parseInt(hex.slice(1),16), r=n>>16, g=(n>>8)&255, b=n&255; return (0.299*r+0.587*g+0.114*b)>150 ? "#111" : "#fff"; }
 function swatches(sel, attr){
   return PLAN_COLORS.map(([n,c])=>`<button type="button" ${attr} data-c="${c}" title="${n}" class="w-8 h-8 rounded-full shadow border-2 ${String(sel).toLowerCase()===c?'border-sky-500 ring-2 ring-sky-300':'border-white'}" style="background:${c}"></button>`).join("");
+}
+const CEO_COLORS=["#2563eb","#16a34a","#f59e0b","#7c3aed","#db2777","#475569","#000000","#dc2626"];
+function ceoColEditor(it){
+  if(!editMode || it.type!=="ceo") return "";
+  const own=state.ceoCol[it.id], on=HEX.test(own||""), cur=on?own:(HEX.test(look.cc||"")?look.cc:"#2563eb");
+  return `<div class="mt-2 rounded-lg border border-indigo-200 bg-white px-2 py-1.5"><div class="text-xs text-slate-600">Cor desta CEO no mapa</div>
+    <div class="mt-1 flex flex-wrap items-center gap-1.5">${CEO_COLORS.map(c=>`<button type="button" data-a="ceocolor" data-c="${c}" class="w-7 h-7 rounded-full shadow border-2 ${on&&own.toLowerCase()===c?'border-sky-500 ring-2 ring-sky-300':'border-white'}" style="background:${c}"></button>`).join("")}<input type="color" data-a="ceocustom" value="${cur}" title="Outra cor" class="w-9 h-8 p-0 border-0 bg-transparent cursor-pointer"><button data-a="ceocolor" data-c="" class="text-xs underline text-indigo-700">Padrão</button></div></div>`;
 }
 function planEditor(it){
   if(!editMode || it.type!=="cto") return "";
@@ -791,14 +825,16 @@ function iconFor(it){
     cls="plan"; sty=` style="background:${pl.color};color:${textOn(pl.color)}"`;
     label=`🛠 ${esc(nameOf(it))} [A INSTALAR]`;
   } else if(st){
-    const c=clientsOf(it.id).length;
+    const c=clientsOf(it.id).length, co=occOf(it);
     cls=st;
-    label=`${st==="warn"&&c<WARN_FROM?"⚠ ":""}${esc(nameOf(it))} [${(st==="full"&&c<CAP)?"LOTADA":c+"/"+CAP}]`;
+    label=`${st==="warn"?"⚠ ":""}${esc(nameOf(it))} [${st==="full"?"LOTADA":co+"/"+CAP}]`;
   } else if(it.type==="ceo"){
-    const ci=ceoInfo(it); cls=ci.st==="ok"?"ceo":ci.st;
-    label=`${ci.st==="warn"?"⚠ ":""}${esc(nameOf(it))} [${ci.st==="full"?"LOTADA":ci.n+"/"+ci.cap}]`;
-    const hx=FIBER_HEX[String(parseCeo(it.desc).cor||"").toUpperCase()];       // borda = cor da fibra da CEO
-    if(hx) sty=` style="border-color:${hx};border-width:3px;box-shadow:0 0 0 1.5px rgba(0,0,0,.6),0 1px 4px rgba(0,0,0,.6)"`;
+    const ci=ceoInfo(it); cls="ceo";
+    label=`${esc(nameOf(it))} [${ci.n}/${ci.cap}]`;
+    const cc=state.ceoCol[it.id], hx=FIBER_HEX[String(parseCeo(it.desc).cor||"").toUpperCase()];       // borda = cor da fibra da CEO
+    const css=[]; if(HEX.test(cc||"")) css.push(`background:${cc};color:${textOn(cc)}`);
+    if(hx) css.push("border-color:"+hx+";border-width:3px;box-shadow:0 0 0 1.5px rgba(0,0,0,.6),0 1px 4px rgba(0,0,0,.6)");
+    if(css.length) sty=` style="${css.join(";")}"`;
   } else { cls=it.type; label=(it.type==="loja"?"🏠 ":"")+esc(nameOf(it)); }
   if(hl) cls += hl.has(it.id) ? " hl" : " dim";
   if(selSet.has(it.id)){ cls += " sel"; label = "✔ "+label; }
@@ -951,7 +987,7 @@ function updateStats(){
   const st = vis.map(status), full=st.filter(s=>s==="full").length, warn=st.filter(s=>s==="warn").length;
   const total = vis.reduce((s,i)=>s+clientsOf(i.id).length,0);
   document.getElementById("stats").innerHTML =
-    `<b>${vis.length}</b> caixas · <span class="text-red-400 font-bold">${full} lotadas</span> · <span class="text-amber-400 font-bold">${warn} atenção</span> · <span class="text-emerald-400 font-bold">${vis.length-full-warn} livres</span> · ${total} clientes${plan.length?` · <span class="text-violet-300 font-bold">${plan.length} planejada${plan.length>1?"s":""}</span>`:""}`;
+    `<b>${vis.length}</b> caixas · <span class="font-bold" style="color:var(--c-full,#f87171)">${full} lotadas</span> · <span class="font-bold" style="color:var(--c-warn,#fbbf24)">${warn} atenção</span> · <span class="font-bold" style="color:var(--c-ok,#34d399)">${vis.length-full-warn} livres</span> · ${total} clientes${plan.length?` · <span class="text-violet-300 font-bold">${plan.length} planejada${plan.length>1?"s":""}</span>`:""}`;
 }
 
 /* ======================= ABAS ======================= */
@@ -1039,7 +1075,7 @@ function linkBlock(it){
     const mine=items.filter(x=>x.type==="cto" && linkMap[x.id]===it.id).sort((a,b)=>qn(a)-qn(b)||String(nameOf(a)).localeCompare(String(nameOf(b))));
     const cap=Math.max(1,+state.ceoCap[it.id]||8), over=mine.length>cap, nx=ceoNext(it);
     const sq=(col,id)=>`<button data-a="qcol" data-id="${id}" title="Mudar a cor desta fibra" class="inline-block w-4 h-4 rounded-sm shrink-0" style="background:${col};box-shadow:0 0 0 1px #64748b"></button>`;
-    const chip=x=>{ const st=status(x), c=clientsOf(x.id).length;
+    const chip=x=>{ const st=status(x), c=occOf(x);
       return `<span class="inline-flex items-center rounded-lg border border-indigo-200 bg-white overflow-hidden"><span class="pl-1.5 flex items-center">${sq(colOf(x),x.id)}</span><button data-a="gotobox" data-id="${x.id}" class="px-1.5 py-1 text-xs font-semibold text-indigo-900">${esc(nameOf(x))} <span class="font-normal ${st==="full"?"text-red-600":"text-slate-500"}">${st==="full"?"lotada":c+"/"+CAP}</span></button><button data-a="crem" data-id="${x.id}" title="Tirar desta CEO" class="px-1.5 py-1 text-slate-400 text-sm leading-none border-l border-indigo-200">×</button></span>`; };
     const nextChip=`<span class="inline-flex items-center rounded-lg border border-dashed border-indigo-400 bg-white overflow-hidden"><span class="pl-1.5 flex items-center">${sq(nx.col,"__next")}</span><button data-a="qnew" title="Toque aqui e depois no mapa, onde fica a Q${nx.n}" class="px-2 py-1 text-xs font-semibold text-indigo-700">＋ Q${nx.n}</button></span>`;
     const SWC=["#00b050","#ffe600","#ffffff","#00b0f0","#ff1a1a","#7030a0","#a5682a","#f97316","#ec4899","#94a3b8","#111111"];
@@ -1049,7 +1085,8 @@ function linkBlock(it){
     const fd=t=>{ try{ return new Date(t).toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit",year:"2-digit"}); }catch(e){ return ""; } };
     const slots=Math.max(cap,mine.length+1);
     return box(`<div class="flex items-center mb-1"><span class="flex-1 text-sm font-bold text-indigo-900">🔌 Dados da CEO</span><button data-a="ceodesc" title="Editar os dados da CEO" class="ibtn" style="padding:.2rem .45rem">${ICO_PEN}</button></div>`+(ch?`<div class="flex flex-wrap gap-1.5">${ch}</div>`:`<div class="text-xs text-slate-500">Sem Card/PON/Fibra anotados. Toque no lápis para preencher.</div>`)
-      +`<div class="flex items-center gap-2 mt-2 mb-1"><span class="flex-1 text-xs text-indigo-700">${{ok:"🟢",warn:"🟡",full:"🔴"}[ceoInfo(it).st]} Split 1:${cap} · <b class="${over?"text-red-600":""}">${mine.length}/${cap}</b> caixas${over?" (passou do split!)":" · "+(cap-mine.length)+" livre"+(cap-mine.length===1?"":"s")}</span><button data-a="capdn" title="Diminuir o split" class="ibtn text-sm" ${cap<=1?"disabled":""}>−</button><button data-a="capup" title="Aumentar o split (mais uma saída)" class="ibtn text-sm">＋</button></div>`
+      +ceoColEditor(it)
+      +`<div class="flex items-center gap-2 mt-2 mb-1"><span class="flex-1 text-xs text-indigo-700">Split 1:${cap} · <b class="${over?"text-red-600":""}">${mine.length}/${cap}</b> caixas${over?" (passou do split!)":" · "+(cap-mine.length)+" livre"+(cap-mine.length===1?"":"s")}</span><button data-a="capdn" title="Diminuir o split" class="ibtn text-sm" ${cap<=1?"disabled":""}>−</button><button data-a="capup" title="Aumentar o split (mais uma saída)" class="ibtn text-sm">＋</button></div>`
       +`<div class="flex gap-1 mb-1.5">${Array.from({length:slots},(_,k)=>{ const x=mine[k]; return x?`<i class="flex-1 h-1.5 rounded-sm" style="background:${over?"#dc2626":colOf(x)};box-shadow:0 0 0 1px #94a3b8"></i>`:(k===mine.length?`<i class="flex-1 h-1.5 rounded-sm" style="background:${nx.col};opacity:.55;box-shadow:0 0 0 1px #94a3b8"></i>`:`<i class="flex-1 h-1.5 rounded-sm border border-dashed border-indigo-300"></i>`); }).join("")}</div>`
       +`<div class="flex flex-wrap gap-1.5">${mine.map(chip).join("")}${nextChip}</div>`+strip
       +`<div class="text-[11px] text-slate-500 mt-1">Toque no quadrado para mudar a cor · <b>＋ Q${nx.n}</b> coloca a próxima caixa no mapa · <b>×</b> tira da CEO</div>`
@@ -1066,7 +1103,7 @@ function linkBlock(it){
 const sheet = document.getElementById("sheet"), body = document.getElementById("sheetBody");
 function takeBase(){ draftBase=JSON.stringify(state); }
 function drawDraftBar(){ const b=document.getElementById("draftBar"); if(b) b.classList.toggle("hidden",!draftDirty); }
-function syncLook(){ rebuildRegions(); if(!REGIONS[region]) region="sgb"; drawTabs(); applyHdr(); applySlot(); }
+function syncLook(){ rebuildRegions(); if(!REGIONS[region]) region="sgb"; drawTabs(); applyHdr(); applySlot(); applyStatusColors(); }
 function refreshLocal(){ syncLook(); rebuild(); computeStreets(); computeLinks(); render(); }
 function commitDraft(){ if(!draftDirty) return; draftDirty=false; heldRemote=null; jset(KEY_STATE,state); cloudPush(); takeBase(); drawDraftBar(); }
 function cancelDraft(){
@@ -1085,10 +1122,16 @@ function openSheet(id){
   const it=byId[id]; map.panTo([it.lat,it.lng],{animate:true});
   setTimeout(()=>{ const p=map.latLngToContainerPoint([it.lat,it.lng]); const h=sheet.offsetHeight; if(p.y>window.innerHeight-h-30) map.panBy([0,p.y-(window.innerHeight-h)/2]); },300);
 }
+function freeFaux(it,pn){
+  const cl=clientsOf(it.id), used=new Set(); cl.forEach(x=>{ const q=+x.p; if(q>=1&&q<=CAP&&!used.has(q)) used.add(q); });
+  const empties=[]; for(let q=1;q<=CAP;q++) if(!used.has(q)) empties.push(q);
+  empties.forEach(q=>{ if(q!==pn) cl.push({n:"",p:String(q)}); });
+  state.full[it.id]=false; save(); drawSheet(); refreshMarker(it.id);
+}
 function drawSheet(){
   const it=byId[currentId]; if(!it) return;
   sheet.classList.toggle("ceo",it.type==="ceo");
-  const cl = clientsOf(it.id), c=cl.length, st=status(it), sid=stOf(it);
+  const cl = clientsOf(it.id), c=cl.length, co=c, st=status(it), sid=stOf(it);
   const gm = `https://www.google.com/maps/dir/?api=1&destination=${it.lat},${it.lng}&travelmode=driving`;
   const kind = it.type==="cto"?(isPlanned(it)?"Caixa planejada":"Caixa"):it.type==="ceo"?"CEO (emenda)":it.type==="imenda"?"Caixa de emenda":"Local";
   let h = `<div class="flex items-start justify-between gap-2 mt-1">
@@ -1099,11 +1142,11 @@ function drawSheet(){
     const pc=planOf(it).color;
     h += `<div class="mt-2 flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-800"><span class="inline-block w-4 h-4 rounded-full border border-white shadow shrink-0" style="background:${pc};box-shadow:0 0 0 1px #94a3b8"></span>🛠 Caixa planejada / a instalar<span class="block text-xs font-normal text-slate-500 ml-auto text-right">Desmarque no Modo Edição quando instalada</span></div>`;
   } else if(st){
-    const free = st==="full" ? 0 : CAP-c;
-    const T = {ok:["🟢 Disponível","text-emerald-600","bg-emerald-500"], warn:["🟡 Quase cheia","text-amber-600","bg-amber-400"], full:["🔴 LOTADA","text-red-600","bg-red-600"]}[st];
-    h += `<div class="mt-2 flex items-center justify-between"><span class="font-bold ${T[1]}">${T[0]} — ${c}/${CAP} ocupadas</span><span class="text-xs text-slate-500">${free} livres</span></div>
-      <div class="h-2.5 rounded-full bg-slate-200 mt-1 overflow-hidden"><div class="h-full ${T[2]}" style="width:${st==="full"?100:Math.round(c/CAP*100)}%"></div></div>`;
-    if(st==="warn") h += `<div class="mt-1.5 text-sm font-semibold text-amber-700">${forcedWarn(it)&&c<WARN_FROM?"⚠ Atenção marcada manualmente (manutenção preventiva).":`⚠ Quase cheia — restam apenas ${free} vaga${free>1?"s":""}.`}</div>`;
+    const free = forcedFull(it) ? 0 : Math.max(0,CAP-co);
+    const T = {ok:[sdot("ok")+" Disponível","","","color:var(--c-ok,#059669)","background:var(--c-ok,#16a34a)"], warn:[sdot("warn")+" Atenção","","","color:var(--c-warn,#d97706)","background:var(--c-warn,#f59e0b)"], full:[sdot("full")+" LOTADA","","","color:var(--c-full,#dc2626)","background:var(--c-full,#dc2626)"]}[st];
+    h += `<div class="mt-2 flex items-center justify-between"><span class="font-bold inline-flex items-center gap-1.5 ${T[1]}" style="${T[3]}">${T[0]} — ${co}/${CAP} ocupadas</span><span class="text-xs text-slate-500">${free} livres</span></div>
+      <div class="h-2.5 rounded-full bg-slate-200 mt-1 overflow-hidden"><div class="h-full ${T[2]}" style="${T[4]};width:${st==="full"?100:Math.round(co/CAP*100)}%"></div></div>`;
+    if(st==="warn") h += `<div class="mt-1.5 text-sm font-semibold" style="color:var(--c-warn,#b45309)">⚠ Atenção marcada manualmente (manutenção preventiva).</div>`;
   }
   const descH = (it.desc && it.type!=="ceo") ? `<div class="mt-2 text-sm bg-amber-50 border border-amber-200 text-amber-900 rounded-lg px-3 py-2">📝 ${esc(it.desc)}</div>` : "";
   const noteH = state.notes[it.id] ? `<div class="mt-2 text-sm bg-sky-50 border border-sky-200 text-sky-900 rounded-lg px-3 py-2">🗒 ${esc(state.notes[it.id])}</div>` : "";
@@ -1120,16 +1163,16 @@ function drawSheet(){
       ? `<span class="inline-flex items-center gap-1"><button data-a="vlopen" title="Trocar de VLAN" class="rounded-lg bg-[#0056b3] text-white px-2.5 py-1 text-xs font-bold">VLAN ${esc(cur)} ▾</button><button data-a="vlanedit" title="Editar esta VLAN" class="ibtn shrink-0">${ICO_PEN}</button><button data-a="vldel" data-v="${esc(cur)}" title="Apagar esta VLAN" class="ibtn red shrink-0">${ICO_TRASH}</button></span>`
       : `<button data-a="vlopen" class="rounded-lg border border-slate-300 text-slate-700 px-2.5 py-1 text-xs font-semibold">＋ VLAN</button>`;
     const vlpanel = vlOpen ? `<div class="mt-1.5 rounded-lg border border-slate-200 p-2 flex flex-col gap-1.5">${state.vlanList.map(v=>`<div class="flex gap-1 w-full">${vbtn(v)}${vpen(v)}${vdel(v)}</div>`).join("")}<div class="flex gap-2 w-full">${cur?`<button data-a="vlan" data-v="" class="rounded-lg border border-slate-300 text-slate-600 px-3 py-1.5 text-sm">Nenhuma</button>`:""}<button data-a="vlnew" class="flex-1 rounded-lg border border-slate-300 text-slate-700 px-3 py-1.5 text-sm">➕ Nova VLAN</button><button data-a="vlclose" class="rounded-lg border border-slate-300 text-slate-600 px-3 py-1.5 text-sm">Fechar</button></div></div>` : "";
-    h += `<div class="mt-3 flex items-center justify-between gap-2"><span class="text-sm font-semibold text-slate-700">Portas <span class="text-xs font-normal text-slate-500">${ff?"· caixa marcada como lotada":c+"/"+CAP+" em uso"}</span></span><button data-a="pmark" class="rounded-lg border px-2.5 py-1 text-xs font-semibold ${portMark?"bg-emerald-600 text-white border-emerald-600":"border-slate-300 text-slate-700"}">${portMark?"✔ Marcando ocupadas":"☑ Marcar ocupadas"}</button></div>
-      <div class="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-2"><span class="mr-auto">${vlcompact}</span><span class="inline-flex items-center gap-3"><label class="tg r" title="Marcar caixa como lotada (sem listar clientes)"><input type="checkbox" data-a="force" ${forcedFull(it)?'checked':''}><span>🔴 Lotada</span></label><label class="tg y" title="Marcar caixa como quase cheia / atenção (amarela)"><input type="checkbox" data-a="warnchk" ${forcedWarn(it)?'checked':''}><span>🟡 Atenção</span></label></span></div>${vlpanel}
-      <div class="text-xs text-slate-500 mt-1">${portMark?"Toque nas portas ocupadas — não precisa do nome. Toque de novo para liberar.":"Toque numa porta para colocar o nome. Use ☑ Marcar ocupadas para marcar sem nome."}</div><div class="mt-1 grid grid-cols-4 gap-1.5">`;
+    h += `<div class="mt-3 flex items-start gap-2"><div class="min-w-0 flex-1 flex flex-col gap-2"><span class="text-sm font-semibold text-slate-700 leading-tight">Portas<span class="block text-xs font-normal text-slate-500">${ff?"lotada":c+"/"+CAP+" em uso"}</span></span><span>${vlcompact}</span></div>
+      <div class="shrink-0 grid grid-cols-2 gap-x-2.5 gap-y-2.5 justify-items-stretch"><button data-a="pmark" class="pb ${portMark?"on":""}" style="grid-column:1 / -1">${portMark?"✔ Marcando ocupadas":"☑ Marcar ocupadas"}</button><label class="tg r" title="Marcar caixa como lotada (sem listar clientes)"><input type="checkbox" data-a="force" ${forcedFull(it)?'checked':''}><span>${sdot("full")}Lotada</span></label><label class="tg y" title="Atenção: aviso de manutenção preventiva"><input type="checkbox" data-a="warnchk" ${forcedWarn(it)?'checked':''}><span>${sdot("warn")}Atenção</span></label></div></div>${vlpanel}
+      <div class="text-xs text-slate-500 mt-1">${portMark?"Toque nas portas ocupadas — não precisa do nome. Toque de novo para liberar.":"Toque numa porta livre para colocar o nome. ☑ Marcar ocupadas marca sem nome. Toque numa ocupada sem nome para liberar."}</div><div class="mt-1 grid grid-cols-4 gap-1.5">`;
     for(let pn=1;pn<=CAP;pn++){
       const i=bySlot[pn];
       if(i!==undefined){
         const nm=cl[i].n;
         h += `<button data-a="slot" data-i="${i}" class="slot fill${nm?"":" occ"}"><span class="pn">${pn}</span><span class="nm">${nm?esc(nm):"ocupada"}</span></button>`;
       } else if(ff){
-        h += `<button data-a="slot" data-p="${pn}" class="slot fill occ"><span class="pn">${pn}</span><span class="nm">cheia</span></button>`;
+        h += `<button data-a="slot" data-p="${pn}" data-faux="1" class="slot fill occ"><span class="pn">${pn}</span><span class="nm">ocupada</span></button>`;
       } else {
         h += `<button data-a="slot" data-p="${pn}" class="slot empty"><span class="pn">${pn}</span><span class="nm">livre</span></button>`;
       }
@@ -1155,6 +1198,8 @@ body.addEventListener("click",e=>{
   if(a==="pmark"){ portMark=!portMark; drawSheet(); return; }
   if(a==="slot"){
     const i=b.dataset.i!==undefined?+b.dataset.i:-1, pn=+b.dataset.p||0;
+    if(b.dataset.faux){ freeFaux(it,pn); return; }   // porta "ocupada" de Lotada: libera esta e deixa as outras como ocupadas de verdade
+    if(i>=0 && !cl[i].n){ cl.splice(i,1); save(); drawSheet(); refreshMarker(it.id); return; }   // ocupada sem nome: um toque libera
     if(portMark){
       if(i>=0 && !cl[i].n){ cl.splice(i,1); save(); drawSheet(); refreshMarker(it.id); return; }   // libera
       if(i<0){ if(cl.length>=CAP){ alert(`Caixa já tem ${CAP} clientes.`); return; } cl.push({n:"",p:String(pn)}); save(); drawSheet(); refreshMarker(it.id); return; }
@@ -1209,10 +1254,11 @@ body.addEventListener("click",e=>{
   if(a==="delbox"){
     if(!confirm(`Excluir a caixa "${nameOf(it)}" e seus ${cl.length} cliente(s)? Não dá para desfazer.`)) return;
     const id=it.id; state.custom=state.custom.filter(x=>x.id!==id);
-    ["clients","full","warn","names","notes","links","so","plan","vlan","ceoOf","hist","ceoCap","qcol"].forEach(k=>delete state[k][id]);
+    ["clients","full","warn","names","notes","links","so","plan","vlan","ceoOf","hist","ceoCap","qcol","ceoCol"].forEach(k=>delete state[k][id]);
     save(); closeSheet(); rebuild(); computeStreets(); computeLinks(); render(); return; }
-  if(a==="del"){ const i=+b.dataset.i; if(confirm(`Excluir "${cl[i].n}" desta caixa?`)){ cl.splice(i,1); save(); drawSheet(); refreshMarker(it.id); } return; }
+  if(a==="del"){ const i=+b.dataset.i; if(confirm(`Excluir "${cl[i].n}" desta caixa?`)){ const pn=+cl[i].p, fl=forcedFull(it); cl.splice(i,1); if(fl){ freeFaux(it,pn); } else { save(); drawSheet(); refreshMarker(it.id); } } return; }
   if(a==="rename"){ openEbOne(it); return; }
+  if(a==="ceocolor"){ if(b.dataset.c) state.ceoCol[it.id]=b.dataset.c; else delete state.ceoCol[it.id]; save(); drawSheet(); refreshMarker(it.id); return; }
   if(a==="plancolor"){ state.plan[it.id]={on:true,color:b.dataset.c}; save(); drawSheet(); refreshMarker(it.id); return; }
   if(a==="note"){ const n=prompt("Anotação sobre este ponto:",state.notes[it.id]||""); if(n!==null){ if(n.trim()) state.notes[it.id]=n.trim(); else delete state.notes[it.id]; save(); drawSheet(); } return; }
 });
@@ -1222,6 +1268,7 @@ body.addEventListener("change",e=>{
   if(a==="force" && it){ state.full[it.id]=e.target.checked; save(); drawSheet(); refreshMarker(it.id); }
   if(a==="warnchk" && it){ state.warn[it.id]=e.target.checked; save(); drawSheet(); refreshMarker(it.id); }
   if(a==="planchk" && it){ const p=state.plan[it.id]||{}; state.plan[it.id]={on:e.target.checked,color:HEX.test(p.color||"")?p.color:PLAN_DEF}; save(); drawSheet(); refreshMarker(it.id); }
+  if(a==="ceocustom" && it && HEX.test(e.target.value)){ state.ceoCol[it.id]=e.target.value; save(); drawSheet(); refreshMarker(it.id); }
   if(a==="plancustom" && it && HEX.test(e.target.value)){ state.plan[it.id]={on:true,color:e.target.value}; save(); drawSheet(); refreshMarker(it.id); }
 });
 // seletor de cor livre: pré-visualiza no mapa enquanto arrasta, sem redesenhar o painel (o seletor nativo fecharia)
@@ -1256,7 +1303,8 @@ document.getElementById("cliOk").onclick=()=>{
 document.getElementById("cliDel").onclick=()=>{
   if(!cliCtx||cliCtx.i<0) return; const it=byId[cliCtx.id], cl=clientsOf(it.id), c=cl[cliCtx.i];
   if(!confirm(`Excluir "${c.n||"porta ocupada"}" desta caixa?`)) return;
-  cl.splice(cliCtx.i,1); closeCli(); save(); drawSheet(); refreshMarker(it.id);
+  const pn=+c.p, fl=forcedFull(it); cl.splice(cliCtx.i,1); closeCli();
+  if(fl){ freeFaux(it,pn); } else { save(); drawSheet(); refreshMarker(it.id); }
 };
 function addClient(){
   const it=byId[currentId], inp=document.getElementById("newClient"); if(!inp) return;
@@ -1415,8 +1463,7 @@ ceoPickList.addEventListener("click",e=>{
 const stPick=document.getElementById("stPick"), stPickList=document.getElementById("stPickList"); let stPickId=null;
 function openStPick(it){
   stPickId=it.id; const cur=state.so[it.id]||"";
-  const row=(v,txt)=>`<button data-sid="${v}" class="flex w-full items-center justify-between gap-2 text-left rounded-lg border px-3 py-3 mb-1.5 text-base text-slate-800" style="${cur===v?"border-color:#0ea5e9;box-shadow:0 0 0 1px #0ea5e9":"border-color:#cbd5e1"}"><span class="min-w-0 truncate">${txt}</span>${cur===v?'<span class="text-sky-500 font-bold">✓</span>':""}</button>`;
-  stPickList.innerHTML=row("","— Sem rua —")+streetsAll().filter(x=>x[1]===it.region&&(stName(x[0])||cur===x[0])).map(x=>row(x[0],esc(stLabel(x[0])))).join("");
+  stPickList.innerHTML=stRow("","— Sem rua —",cur==="")+streetsAll().filter(x=>x[1]===it.region&&(stName(x[0])||cur===x[0])).map(x=>stRow(x[0],esc(stLabel(x[0])),cur===x[0])).join("");
   stPick.classList.remove("hidden");
 }
 const stPickClose=()=>{ stPick.classList.add("hidden"); stPickId=null; };
@@ -1425,6 +1472,7 @@ stPick.addEventListener("click",e=>{ if(e.target===stPick) stPickClose(); });
 document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&!stPick.classList.contains("hidden")) stPickClose(); });
 document.getElementById("stPickAdd").onclick=()=>{ stPickClose(); drawStEdit(); stModal.classList.remove("hidden"); };
 stPickList.addEventListener("click",e=>{
+  const d=e.target.closest("button[data-sdel]"); if(d){ const it0=byId[stPickId]; if(removeStreet(d.dataset.sdel)){ if(it0) openStPick(it0); afterStreetChange(); } return; }
   const b=e.target.closest("button[data-sid]"); if(!b) return; const it=byId[stPickId]; if(!it){ stPickClose(); return; }
   const v=b.dataset.sid; if(v) state.so[it.id]=v; else delete state.so[it.id];
   stageOn=currentId===it.id; save(); stageOn=false; stPickClose(); if(currentId===it.id) drawSheet(); else render();
@@ -1585,7 +1633,7 @@ document.getElementById("ptSplit").onclick=()=>{
     if(ln[2]){ A.push(Object.assign({},ln[2])); B.push(Object.assign({},ln[2])); }
     net.lines.splice(x.li,1,A,B);
   });
-  cabSel=null; render(); drawCabBar(); toast("Cabo dividido em dois. Toque numa parte para mudar cor ou grossura.");
+  cabSel=null; render(); drawCabBar(); toast("Cabo dividido em dois.");
 };
 function drawCabBar(){
   if(!cabMode){ cabBar.classList.add("hidden"); cabLenDraw(); return; }
@@ -1651,7 +1699,8 @@ function hdrSafe(hex){            // texto da barra é branco: escurece cores mu
   return "#"+[r,g,b].map(v=>v.toString(16).padStart(2,"0")).join("");
 }
 /* Cores de Personalizar (barra de cima e vagas): ficam só NESTE aparelho; não vão para a nuvem */
-let look={hdr:"",bg:"",tx:""};
+let look={hdr:"",bg:"",tx:"",cf:"",co:"",cw:"",cc:"",cy:"",cr:""};
+const LOOKKEY={full:"cf",ok:"co",warn:"cw",ceo:"cc"};
 try{ const j=localStorage.getItem("ftth_look");
   if(j) look=Object.assign(look,JSON.parse(j));
   else { look={hdr:typeof state.hdrColor==="string"?state.hdrColor:"", bg:typeof state.slotBg==="string"?state.slotBg:"", tx:typeof state.slotTx==="string"?state.slotTx:""}; localStorage.setItem("ftth_look",JSON.stringify(look)); }   // 1ª vez: leva a escolha que já estava salva
@@ -1669,6 +1718,14 @@ function applySlot(){
   } else { st.removeProperty("--slotbg"); st.removeProperty("--slotbd"); if(!tx) st.removeProperty("--slottx"); }
   if(tx) st.setProperty("--slottx",tx);
 }
+function applyStatusColors(){
+  const st=document.documentElement.style, ok=v=>/^#[0-9a-f]{6}$/i.test(v||"");
+  [["full",look.cf],["ok",look.co],["warn",look.cw],["ceo",look.cc]].forEach(([k,c])=>{
+    if(ok(c)){ const r=parseInt(c.slice(1,3),16), g=parseInt(c.slice(3,5),16), b=parseInt(c.slice(5,7),16), lum=(0.2126*r+0.7152*g+0.0722*b)/255;
+      st.setProperty("--c-"+k,c); st.setProperty("--tx-"+k,lum>0.6?"#111827":"#ffffff"); }
+    else { st.removeProperty("--c-"+k); st.removeProperty("--tx-"+k); } });
+}
+applyStatusColors();
 function applyHdr(){
   const c=hdrSafe(look.hdr), h=document.getElementById("hdr");
   if(h) h.style.background=c?c+"f7":"";
@@ -1676,37 +1733,48 @@ function applyHdr(){
 }
 const perModal=document.getElementById("perModal"), perBody=document.getElementById("perBody");
 function perSave(){ draftDirty=false; save(); }
+let perSec="hdr";
+const PER_TITLES={hdr:"🎨 Cor da barra de cima",slot:"🟩 Vagas ocupadas (dentro das caixas)",cx:"🗺 Cores das caixas no mapa",ceo:"📡 Cores das CEOs no mapa",cid:"🏙 Cidades"};
 function drawPer(){
   const cur=look.hdr||"";
-  let h=`<div><div class="font-bold text-slate-800 mb-1.5">Cor da barra de cima</div><div class="flex flex-wrap gap-2 items-center">${HDR_COLORS.map(c=>`<button data-hc="${c}" class="sw ${cur===c?"on":""}" style="background:${c||"#0056b3"}" title="${c||"Padrão (azul Ultranet)"}"></button>`).join("")}
+  const S={}; S.hdr=`<div><div class="flex flex-wrap gap-2 items-center">${HDR_COLORS.map(c=>`<button data-hc="${c}" class="sw ${cur===c?"on":""}" style="background:${c||"#0056b3"}" title="${c||"Padrão (azul Ultranet)"}"></button>`).join("")}
     <label class="flex items-center gap-1 text-xs ml-1">Outra: <input id="perColor" type="color" value="${hdrSafe(cur)||"#0056b3"}" class="w-9 h-7 p-0 border-0 bg-transparent"></label></div>
     <p class="text-xs opacity-70 mt-1">A primeira bolinha é a cor padrão. Cores muito claras são escurecidas para o texto branco continuar legível. <b>Vale só neste aparelho.</b></p></div>`;
   const sb=look.bg||"", sx=look.tx||"";
-  h+=`<div><div class="font-bold text-slate-800 mb-1.5">Vagas ocupadas (dentro das caixas)</div>
+  S.slot=`<div>
     <div class="text-xs mb-1">Cor do fundo:</div><div class="flex flex-wrap gap-2 items-center">${SLOT_BG.map(c=>`<button data-sb="${c}" class="sw ${sb===c?"on":""}" style="background:${c||"#10b981"}" title="${c||"Padrão (verde)"}"></button>`).join("")}
     <label class="flex items-center gap-1 text-xs ml-1">Outra: <input id="perSlotBg" type="color" value="${sb||"#10b981"}" class="w-9 h-7 p-0 border-0 bg-transparent"></label></div>
     <div class="text-xs mt-2 mb-1">Cor do nome:</div><div class="flex flex-wrap gap-2 items-center">${SLOT_TX.map(c=>`<button data-sx="${c}" class="sw ${sx===c?"on":""}" style="background:${c||"linear-gradient(135deg,#fff 50%,#111 50%)"}" title="${c||"Automática"}"></button>`).join("")}
     <label class="flex items-center gap-1 text-xs ml-1">Outra: <input id="perSlotTx" type="color" value="${sx||"#ffffff"}" class="w-9 h-7 p-0 border-0 bg-transparent"></label></div>
     <div class="grid grid-cols-2 gap-2 mt-2"><div class="slot fill"><span class="pn">2</span><span class="nm">Nome do cliente</span></div><div class="slot fill occ"><span class="pn">3</span><span class="nm">ocupada</span></div></div>
     <p class="text-xs opacity-70 mt-1">A primeira bolinha de cada linha é o padrão. A cor do nome fica automática (preto ou branco) se você não escolher. <b>Vale só neste aparelho.</b></p></div>`;
-  h+=`<div><div class="font-bold text-slate-800 mb-1.5">Cidades</div>`;
+  const stRow=(k,cls,lbl,cur,def)=>`<div class="flex items-center gap-2 mb-2"><span class="pill ${cls}" style="position:static;transform:none;min-width:96px;text-align:center">${lbl}</span><input type="color" data-cc2="${k}" value="${/^#[0-9a-f]{6}$/i.test(cur||"")?cur:def}" class="w-10 h-8 p-0 border-0 bg-transparent"><button data-cs="${k}" class="text-xs underline">Padrão</button></div>`;
+  S.cx=`<div>${stRow("ok","ok","Q1 [3/16]",look.co,"#16a34a")}${stRow("full","full","LOTADA",look.cf,"#dc2626")}${stRow("warn","warn","⚠ Atenção",look.cw,"#f59e0b")}
+    <p class="text-xs opacity-70 mt-1">Toque no quadradinho colorido para escolher outra cor. O botão <b>Padrão</b> volta à cor original. <b>Vale só neste aparelho.</b></p></div>`;
+  S.ceo=`<div>${stRow("ceo","ceo","CEO [3/8]",look.cc,"#2563eb")}
+    <p class="text-xs opacity-70 mt-1">Todas as CEOs usam esta cor (azul é o padrão). A borda continua com a cor da fibra. <b>Vale só neste aparelho.</b></p>
+    <p class="text-xs opacity-70 mt-2">Para uma CEO ter uma cor diferente das outras: ative <b>Editar</b>, toque na CEO e escolha em <b>Cor desta CEO no mapa</b>. Essa cor <b>vale para todos os aparelhos</b>.</p></div>`;
+  let hc=`<div>`;
   Object.entries(REGIONS).forEach(([k,n])=>{
     const ex=(state.cityExtra||[]).find(c=>c.id===k);
-    h+=`<div class="flex items-center gap-1 mb-1.5"><input data-cn="${k}" value="${esc(n)}" maxlength="40" class="flex-1 min-w-0 rounded-lg border border-slate-300 px-2 py-1.5 text-sm text-slate-900">${ex?`<button data-cc="${k}" title="Usar o centro do mapa atual como o lugar desta cidade" class="ibtn text-xs">📍</button><button data-cd="${k}" title="Apagar cidade" class="ibtn red">${ICO_TRASH}</button>`:""}</div>`;
+    hc+=`<div class="flex items-center gap-1 mb-1.5"><input data-cn="${k}" value="${esc(n)}" maxlength="40" class="flex-1 min-w-0 rounded-lg border border-slate-300 px-2 py-1.5 text-sm text-slate-900">${ex?`<button data-cc="${k}" title="Usar o centro do mapa atual como o lugar desta cidade" class="ibtn text-xs">📍</button><button data-cd="${k}" title="Apagar cidade" class="ibtn red">${ICO_TRASH}</button>`:""}</div>`;
   });
-  h+=`<button id="perAdd" class="mt-1 w-full rounded-lg border border-sky-300 text-sky-700 py-2 text-sm font-semibold">➕ Adicionar cidade</button>
+  hc+=`<button id="perAdd" class="mt-1 w-full rounded-lg border border-sky-300 text-sky-700 py-2 text-sm font-semibold">➕ Adicionar cidade</button>
     <p class="text-xs opacity-70 mt-1">Antes de adicionar, feche esta janela e leve o mapa até a cidade nova: ela abre nesse lugar. Depois use <b>+ Nova Caixa</b> e <b>toque num cabo → ＋ Novo cabo</b> dentro dela. O 📍 muda o lugar da cidade.</p></div>`;
-  perBody.innerHTML=h;
+  S.cid=hc;
+  document.getElementById("perTitle").textContent=PER_TITLES[perSec]||PER_TITLES.hdr;
+  perBody.innerHTML=S[perSec]||S.hdr;
 }
 document.getElementById("btnCabEd").onclick=()=>{ menu.classList.add("hidden");
   if(region==="all"){ toast("Escolha uma cidade nas abas do topo para editar os cabos dela."); return; }
-  setCab(true); toast("🧵 Editor de cabos: toque numa linha para escolher o cabo, ou use ＋ Novo cabo."); };
-document.getElementById("btnPer").onclick=()=>{ menu.classList.add("hidden"); closeSheet(); drawPer(); perModal.classList.remove("hidden"); };
+  setCab(true); hintOnce("cabed","🧵 Editor de cabos: toque numa linha para escolher o cabo, ou use ＋ Novo cabo."); };
+document.getElementById("menu").addEventListener("click",e=>{ const b=e.target.closest("[data-per]"); if(!b) return; perSec=b.dataset.per; document.getElementById("menu").classList.add("hidden"); closeSheet(); drawPer(); perModal.classList.remove("hidden"); });
 const closePer=()=>perModal.classList.add("hidden");
 document.getElementById("perClose").onclick=closePer; document.getElementById("perDone").onclick=closePer;
 perModal.addEventListener("click",e=>{ if(e.target===perModal) closePer(); });
 perBody.addEventListener("click",e=>{
   const b=e.target.closest("button"); if(!b) return;
+  if(b.dataset.cs){ look[LOOKKEY[b.dataset.cs]]=""; lookSave(); applyStatusColors(); drawPer(); return; }
   if(b.dataset.hc!==undefined){ look.hdr=b.dataset.hc; lookSave(); applyHdr(); drawPer(); return; }
   if(b.dataset.sb!==undefined){ look.bg=b.dataset.sb; lookSave(); applySlot(); drawPer(); return; }
   if(b.dataset.sx!==undefined){ look.tx=b.dataset.sx; lookSave(); applySlot(); drawPer(); return; }
@@ -1714,7 +1782,7 @@ perBody.addEventListener("click",e=>{
     const n=prompt("Nome da nova cidade:",""); if(n===null||!n.trim()) return;
     const c=map.getCenter(), id="c"+Date.now().toString(36);
     state.cityExtra.push({id,name:n.trim(),c:[c.lat,c.lng,map.getZoom()]}); rebuildRegions(); perSave();
-    region=id; drawTabs(); fit(); closePer(); toast("Cidade \""+n.trim()+"\" criada. Ela abre aqui; adicione caixas e cabos."); return; }
+    region=id; drawTabs(); fit(); closePer(); toast("Cidade \""+n.trim()+"\" criada."); return; }
   if(b.dataset.cc){ const ex=state.cityExtra.find(x=>x.id===b.dataset.cc), c=map.getCenter(); if(ex){ ex.c=[c.lat,c.lng,map.getZoom()]; perSave(); toast("Lugar da cidade atualizado"); } return; }
   if(b.dataset.cd){
     const id=b.dataset.cd, nbox=items.filter(i=>i.region===id).length, nln=net.lines.filter(l=>lineReg(l)===id).length;
@@ -1723,7 +1791,8 @@ perBody.addEventListener("click",e=>{
     state.cityExtra=state.cityExtra.filter(x=>x.id!==id); state.cst=state.cst.filter(x=>x.region!==id); _sm=null; rebuildRegions(); perSave();
     if(region===id){ region="sgb"; fit(); } drawTabs(); drawPer(); render(); return; }
 });
-perBody.addEventListener("input",e=>{ if(e.target.id==="perColor"){ look.hdr=e.target.value; lookSave(); applyHdr(); }
+perBody.addEventListener("input",e=>{ const k2=e.target.dataset&&e.target.dataset.cc2; if(k2){ look[LOOKKEY[k2]]=e.target.value; lookSave(); applyStatusColors(); return; }
+  if(e.target.id==="perColor"){ look.hdr=e.target.value; lookSave(); applyHdr(); }
   else if(e.target.id==="perSlotBg"){ look.bg=e.target.value; lookSave(); applySlot(); }
   else if(e.target.id==="perSlotTx"){ look.tx=e.target.value; lookSave(); applySlot(); } });
 perBody.addEventListener("change",e=>{
@@ -1815,7 +1884,7 @@ function placeQ(ll){
   state.custom.push({id,name:pf.name,lat:ll.lat,lng:ll.lng,region:ceo.region}); state.ceoOf[id]=ceo.id;
   if(pf.custom) state.qcol[id]=pf.col; delete nextColBy[ceo.id];
   save(); rebuild(); computeStreets(); computeLinks(); render(); updateEditBar(); openSheet(ceo.id);
-  toast("✔ "+pf.name+" criada e ligada à "+nameOf(ceo)+". Agora ligue o cabo dela, se precisar.");
+  toast("✔ "+pf.name+" criada e ligada à "+nameOf(ceo)+".");
 }
 function openNewBox(ll){
   pendingLL=ll; nbName.value=""; nbSt.value=""; setNbKind("cto");
@@ -2006,12 +2075,13 @@ function toggleSel(id){ if(selSet.has(id)) selSet.delete(id); else selSet.add(id
 function updateSelBar(){
   const b=document.getElementById("selBar"); b.classList.toggle("hidden",!selMode); if(!selMode) return;
   const n=selSet.size, d=n?"":"disabled";
-  b.innerHTML=`<div class="flex items-center justify-between gap-2"><span class="font-semibold leading-tight">☑ ${n} selecionada${n===1?"":"s"}<span class="block text-xs font-normal opacity-80">${rectMode?"arraste no mapa para marcar várias de uma vez":"toque nas caixas para marcar ou desmarcar · PC: Shift + arrastar"}</span></span><button data-s="off" class="shrink-0 rounded-lg bg-white/20 px-3 py-1.5 text-xs font-semibold">Concluir</button></div>
+  b.innerHTML=`<div class="flex items-center justify-between gap-2"><span class="font-semibold leading-tight">☑ ${n} selecionada${n===1?"":"s"}<span class="block text-xs font-normal opacity-80">${rectMode?"arraste no mapa para marcar várias de uma vez":"toque nas caixas para marcar ou desmarcar · PC: Shift + arrastar"}</span></span><button data-s="off" class="shrink-0 rounded-lg bg-white/20 px-3 py-1.5 text-xs font-semibold">Salvar</button></div>
     <div class="mt-2 flex flex-wrap gap-1.5 text-xs font-semibold">
       <button ${d} data-s="st" class="rounded-lg bg-white text-[#0056b3] px-2.5 py-1.5">🛣 Definir rua</button>
-      <button ${d} data-s="full" class="rounded-lg bg-red-500 px-2.5 py-1.5">🔴 Lotada</button>
-      <button ${d} data-s="warn" class="rounded-lg bg-amber-400 text-slate-900 px-2.5 py-1.5">🟡 Atenção</button>
-      <button ${d} data-s="free" class="rounded-lg bg-emerald-500 px-2.5 py-1.5">🟢 Livre</button>
+      <button ${d} data-s="full" class="rounded-lg px-2.5 py-1.5 inline-flex items-center gap-1.5" style="background:var(--c-full,#ef4444);color:var(--tx-full,#fff)">Lotada</button>
+      <button ${d} data-s="warn" class="rounded-lg px-2.5 py-1.5 inline-flex items-center gap-1.5" style="background:var(--c-warn,#fbbf24);color:var(--tx-warn,#1c1400)">Atenção</button>
+      <button ${d} data-s="free" class="rounded-lg px-2.5 py-1.5" style="background:var(--c-ok,#10b981);color:var(--tx-ok,#fff)">Livre</button>
+      <button ${d} data-s="fill" class="rounded-lg bg-sky-600 px-2.5 py-1.5">📥 Preencher vagas</button>
       <button ${d} data-s="vlan" class="rounded-lg bg-indigo-500 px-2.5 py-1.5">📡 VLAN</button>
       <button data-s="rect" class="rounded-lg px-2.5 py-1.5 ${rectMode?"bg-yellow-400 text-slate-900":"bg-white/20"}">▭ Retângulo</button>
       <button data-s="all" class="rounded-lg bg-white/20 px-2.5 py-1.5">Todas da tela</button>
@@ -2033,6 +2103,7 @@ document.getElementById("selBar").addEventListener("click",e=>{
   else if(a==="all"){ const bd=map.getBounds(); items.forEach(i=>{ if(i.type==="cto"&&i.region===region&&bd.contains([i.lat,i.lng])) selSet.add(i.id); }); render(); updateSelBar(); }
   else if(a==="st") openBulkStreet();
   else if(a==="vlan"){ if(selSet.size){ document.getElementById("vlanGrid").innerHTML=state.vlanList.map(v=>`<button data-v="${esc(v)}" class="rounded-lg bg-[#0056b3] text-white py-3 font-bold">VLAN ${esc(v)}</button>`).join(""); document.getElementById("vlanModal").classList.remove("hidden"); } }
+  else if(a==="fill") openFill();
   else if(a==="full"||a==="warn"||a==="free") bulkStatus(a);
 });
 // seleção por retângulo (PC: Shift + arrastar · celular: botão "Retângulo")
@@ -2065,12 +2136,19 @@ let toastT=null;
 function toast(msg,undo){
   const el=document.getElementById("toast");
   el.innerHTML=`<span>${msg}</span>${undo?'<button id="toastUndo" class="ml-3 underline font-bold">Desfazer</button>':""}`;
-  el.classList.remove("hidden"); clearTimeout(toastT); toastT=setTimeout(()=>el.classList.add("hidden"),12000);
+  el.classList.remove("hidden");
+  // fica no alto da tela (abaixo das barras azuis, se houver), sem tapar a ficha; só o "Desfazer" recebe toque
+  let top=parseFloat(document.documentElement.style.getPropertyValue("--tb"))||130;
+  ["editBar","cabBar","selBar","nearCard"].forEach(id=>{ const b=document.getElementById(id); if(b&&!b.classList.contains("hidden")) top=Math.max(top,b.getBoundingClientRect().bottom+6); });
+  el.style.top=Math.round(top+2)+"px"; el.style.bottom="auto"; el.style.pointerEvents=undo?"auto":"none";
+  clearTimeout(toastT); toastT=setTimeout(()=>el.classList.add("hidden"),undo?10000:5000);
   if(undo) document.getElementById("toastUndo").onclick=()=>{ undo(); el.classList.add("hidden"); };
 }
+/* explicações (dicas): aparecem só uma vez neste aparelho */
+function hintOnce(k,msg){ try{ if(localStorage.getItem("ftth_hint_"+k)) return; localStorage.setItem("ftth_hint_"+k,"1"); }catch(e){} toast(msg); }
 function applyBulk(label,fn){
   const base=JSON.stringify(state); let n=0;
-  [...selSet].forEach(id=>{ const it=byId[id]; if(it&&it.type==="cto"){ fn(it); n++; } });
+  [...selSet].forEach(id=>{ const it=byId[id]; if(it&&it.type==="cto"){ if(fn(it)!==false) n++; } });
   save(); computeStreets(); render(); bulkModal.classList.add("hidden");
   toast(`✔ ${label} em ${n} caixa${n===1?"":"s"}`,()=>{ try{ state=JSON.parse(base); }catch(e){ return; } fixState(); rebuild(); save(); computeStreets(); computeLinks(); render(); });
 }
@@ -2084,22 +2162,75 @@ document.getElementById("vlanModal").addEventListener("click",e=>{
     applyBulk(v?`VLAN ${v} aplicada`:"VLAN removida",it=>{ if(v) state.vlan[it.id]=v; else delete state.vlan[it.id]; });
   });
 });
+/* linha de rua (usada na lista "Rua desta caixa" e na de várias caixas): toque na rua escolhe · 🗑 apaga a rua */
+const stRow=(v,txt,sel)=>`<div class="flex items-stretch gap-1.5 mb-1.5"><button data-sid="${v}" class="flex flex-1 min-w-0 items-center justify-between gap-2 text-left rounded-lg border px-3 py-3 text-base text-slate-800" style="${sel?"border-color:#0ea5e9;box-shadow:0 0 0 1px #0ea5e9":"border-color:#cbd5e1"}"><span class="min-w-0 truncate">${txt}</span>${sel?'<span class="text-sky-500 font-bold">✓</span>':""}</button>${v?`<button data-sdel="${v}" title="Apagar esta rua" aria-label="Apagar esta rua" class="ibtn red shrink-0" style="width:46px">${ICO_TRASH}</button>`:""}</div>`;
+function removeStreet(id){
+  const nb=boxesOn(id).length, nm=stLabel(id);
+  if(!confirm(`Apagar a rua "${nm}"?${nb?"\n\n"+nb+" caixa"+(nb>1?"s":"")+" dela ficar"+(nb>1?"ão":"á")+" sem rua.":""}`)) return false;
+  if(id.startsWith("cs")) state.cst=state.cst.filter(x=>x.id!==id); else state.sdel[id]=1;
+  delete state.sn[id]; Object.keys(state.so).forEach(k=>{ if(state.so[k]===id) delete state.so[k]; });
+  _sm=null; save(); return true;
+}
+/* Preencher vagas: leva as caixas selecionadas a N ocupadas (acrescenta sem nome; opcionalmente tira só as sem nome que passam de N; tira a marca Lotada) */
+const fillModal=document.getElementById("fillModal"), fillNI=document.getElementById("fillN");
+const fillNum=()=>Math.max(1,Math.min(CAP,parseInt(fillNI.value,10)||CAP));
+function fillPlan(it,N,red){
+  const cl=clientsOf(it.id), N2=Math.min(N,CAP), out={add:[],del:[],unflag:forcedFull(it)};
+  if(cl.length<N2){
+    const used=new Set(); cl.forEach(x=>{ const q=+x.p; if(q>=1&&q<=CAP) used.add(q); });
+    for(let q=1;q<=CAP&&out.add.length<N2-cl.length;q++) if(!used.has(q)) out.add.push(q);
+  } else if(red && cl.length>N2){
+    out.del=cl.map((x,i)=>i).filter(i=>!String(cl[i].n||"").trim()).sort((a,b)=>(+cl[b].p||0)-(+cl[a].p||0)).slice(0,cl.length-N2);
+  }
+  out.chg=out.unflag||out.add.length>0||out.del.length>0;
+  return out;
+}
+const fillBoxes=()=>[...selSet].map(id=>byId[id]).filter(it=>it&&it.type==="cto"&&!isPlanned(it));
+const fillRedOn=()=>document.getElementById("fillRed").checked;
+function fillInfoDraw(){
+  const N=fillNum(), red=fillRedOn(), bx=fillBoxes(), pl=bx.map(it=>fillPlan(it,N,red)), chg=pl.filter(x=>x.chg).length, unf=pl.filter(x=>x.unflag).length;
+  document.getElementById("fillInfo").innerHTML=`<b>${chg}</b> caixa${chg===1?"":"s"} ${chg===1?"vai":"vão"} mudar`+(unf?` (<b>${unf}</b> ${unf===1?"deixa":"deixam"} de ficar marcada${unf===1?"":"s"} como Lotada)`:"")+` · <b>${bx.length-chg}</b> ${bx.length-chg===1?"fica":"ficam"} como ${bx.length-chg===1?"está":"estão"}.`;
+}
+function openFill(){
+  const n=selSet.size; if(!n) return;
+  document.getElementById("fillTitle").textContent=`Preencher vagas de ${n} caixa${n===1?"":"s"}`;
+  fillNI.value=String(CAP); document.getElementById("fillRed").checked=false; fillInfoDraw(); fillModal.classList.remove("hidden");
+}
+fillNI.addEventListener("input",fillInfoDraw); document.getElementById("fillRed").addEventListener("change",fillInfoDraw);
+fillModal.addEventListener("click",e=>{
+  if(e.target===fillModal){ fillModal.classList.add("hidden"); return; }
+  const b=e.target.closest("[data-f]"); if(!b) return; const k=b.dataset.f;
+  if(k==="close") fillModal.classList.add("hidden");
+  else if(k==="m"||k==="p"){ fillNI.value=String(Math.max(1,Math.min(CAP,fillNum()+(k==="p"?1:-1)))); fillInfoDraw(); }
+  else if(k==="ok"){ const N=fillNum(), red=fillRedOn(); fillModal.classList.add("hidden");
+    applyBulk(`Vagas ajustadas para ${N}`,it=>{ if(it.type!=="cto"||isPlanned(it)) return false; const pl=fillPlan(it,N,red); if(!pl.chg) return false;
+      const cl=clientsOf(it.id); [...pl.del].sort((a,b)=>b-a).forEach(i=>cl.splice(i,1)); pl.add.forEach(q=>cl.push({n:"",p:String(q)})); if(pl.unflag) state.full[it.id]=false; }); }
+});
+document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&!fillModal.classList.contains("hidden")) fillModal.classList.add("hidden"); });
 function openBulkStreet(){
   const n=selSet.size; if(!n) return;
   document.getElementById("bulkTitle").textContent=`Definir rua de ${n} caixa${n===1?"":"s"}`;
-  document.getElementById("bulkSt").value="";
-  document.getElementById("bulkList").innerHTML=streetsAll().filter(s=>s[1]===region && stName(s[0])).map(s=>`<option value="${esc(stName(s[0]))}">`).join("");
-  bulkModal.classList.remove("hidden"); setTimeout(()=>document.getElementById("bulkSt").focus(),60);
+  const regs=new Set([...selSet].map(id=>byId[id]&&byId[id].region));
+  document.getElementById("bulkStList").innerHTML=stRow("","— Sem rua —",false)+streetsAll().filter(s=>regs.has(s[1])&&stName(s[0])).map(s=>stRow(s[0],esc(stLabel(s[0])),false)).join("");
+  bulkModal.classList.remove("hidden");
 }
-function saveBulkStreet(){
-  const name=document.getElementById("bulkSt").value.trim(), cache={};
-  applyBulk(name?`Rua "${name}" aplicada`:"Rua tirada (sem rua)",it=>{ if(!name) delete state.so[it.id]; else { cache[it.region]=cache[it.region]||ensureStreet(name,it.region); state.so[it.id]=cache[it.region]; } });
+function saveBulkStreet(sid){
+  const nm=sid?stLabel(sid):"", n=selSet.size;
+  bulkModal.classList.add("hidden");
+  askSave("Salvar alterações?",sid?`${n} caixa${n===1?"":"s"} ficar${n===1?"á":"ão"} na rua "${nm}".`:`${n} caixa${n===1?"":"s"} ficar${n===1?"á":"ão"} sem rua.`,()=>{
+    const reg=sid?(streetsAll().find(x=>x[0]===sid)||[])[1]:null;
+    applyBulk(sid?`Rua "${nm}" aplicada`:"Rua tirada (sem rua)",it=>{ if(!sid) delete state.so[it.id]; else if(it.region===reg) state.so[it.id]=sid; });
+  },()=>{ bulkModal.classList.remove("hidden"); });
 }
 bulkModal.addEventListener("click",e=>{
-  const b=e.target.closest("[data-b]"); if(!b){ if(e.target===bulkModal) bulkModal.classList.add("hidden"); return; }
-  if(b.dataset.b==="close") bulkModal.classList.add("hidden"); else if(b.dataset.b==="street") saveBulkStreet();
+  if(e.target===bulkModal){ bulkModal.classList.add("hidden"); return; }
+  const d=e.target.closest("button[data-sdel]"); if(d){ if(removeStreet(d.dataset.sdel)){ openBulkStreet(); afterStreetChange(); } return; }
+  const r=e.target.closest("button[data-sid]"); if(r){ saveBulkStreet(r.dataset.sid); return; }
+  const b=e.target.closest("[data-b]"); if(!b) return;
+  if(b.dataset.b==="close") bulkModal.classList.add("hidden");
+  else if(b.dataset.b==="add"){ bulkModal.classList.add("hidden"); drawStEdit(); stModal.classList.remove("hidden"); }
 });
-bulkModal.addEventListener("keydown",e=>{ if(e.key==="Escape") bulkModal.classList.add("hidden"); if(e.key==="Enter"){ e.preventDefault(); saveBulkStreet(); } });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&!bulkModal.classList.contains("hidden")) bulkModal.classList.add("hidden"); });
 const cfModal=document.getElementById("cfModal"); let cfFn=null, cfNo=null;
 function askSave(title,text,fn,no){ cfNo=no||null; document.getElementById("cfTitle").textContent=title; document.getElementById("cfText").textContent=text; cfFn=fn; cfModal.classList.remove("hidden"); }
 document.getElementById("cfCancel").onclick=()=>{ cfModal.classList.add("hidden"); cfFn=null; const n=cfNo; cfNo=null; if(n) n(); };
@@ -2107,12 +2238,12 @@ cfModal.addEventListener("click",e=>{ if(e.target===cfModal) document.getElement
 document.getElementById("cfOk").onclick=()=>{ const f=cfFn; cfNo=null; cfModal.classList.add("hidden"); cfFn=null; if(f) f(); };
 function bulkStatus(kind){
   const n=selSet.size; if(!n) return;
-  const lbl={full:"LOTADA (vermelha)",warn:"ATENÇÃO / quase cheia (amarela)",free:"LIVRE (remove as marcações manuais de lotada e atenção)"}[kind];
+  const lbl={full:"LOTADA (todas as portas ocupadas)",warn:"ATENÇÃO (aviso de manutenção)",free:"LIVRE (remove as marcações manuais de lotada e atenção)"}[kind];
   askSave("Salvar alterações?",`${n} caixa${n===1?"":"s"} ser${n===1?"á":"ão"} marcada${n===1?"":"s"} como ${lbl}.`+(kind==="free"?" Caixas com clientes cadastrados continuam contando pelo número de clientes.":""),()=>{
     applyBulk(({full:"Marcadas como lotadas",warn:"Marcadas como atenção",free:"Marcadas como livres"})[kind],it=>{
-      if(kind==="full"){ state.full[it.id]=true; state.warn[it.id]=false; }
-      else if(kind==="warn"){ state.full[it.id]=false; state.warn[it.id]=true; }
-      else { state.full[it.id]=false; state.warn[it.id]=false; }
+      if(kind==="full"){ state.full[it.id]=true; state.warn[it.id]=false }
+      else if(kind==="warn"){ state.full[it.id]=false; state.warn[it.id]=true }
+      else { state.full[it.id]=false; state.warn[it.id]=false }
     });
   });
 }
@@ -2179,7 +2310,7 @@ document.getElementById("vlOk").onclick=()=>{
     const ic=e.target.closest(".leaflet-marker-icon"); if(!ic||!ic.querySelector(".pill.ok,.pill.warn,.pill.full,.pill.plan,.pill.ceo")) return;
     st={x:e.clientX,y:e.clientY}; stop();
     t=setTimeout(()=>{ t=null; lpBlock=true; setTimeout(()=>{ lpBlock=false; },800); setEdit(true); try{ navigator.vibrate&&navigator.vibrate(40); }catch(_){}
-      toast("✏ Edição ativa: arraste as caixas e CEOs para mover. Use + Nova Caixa na barra azul."); },600);
+      hintOnce("editon","✏ Edição ativa: arraste as caixas e CEOs para mover. Use + Nova Caixa na barra azul."); },600);
   });
   mc.addEventListener("pointermove",e=>{ if(t&&st&&Math.hypot(e.clientX-st.x,e.clientY-st.y)>8) stop(); });
   ["pointerup","pointercancel","pointerleave"].forEach(ev=>mc.addEventListener(ev,stop));
@@ -2196,7 +2327,7 @@ applyInfo();
 /* ======================= ENDEREÇO / PONTO -> CAIXA MAIS PRÓXIMA ======================= */
 const nearCard=document.getElementById("nearCard"), nearLayer=L.layerGroup().addTo(map), nearHi=L.layerGroup().addTo(map);
 let pickPoint=false, nearPt=null, nearList=[], nearSel=0, nearPin=null;
-const freeOf = x => forcedFull(x)?0:Math.max(0,CAP-clientsOf(x.id).length);
+const freeOf = x => status(x)==='full'?0:Math.max(0,CAP-occOf(x));
 const fmtD = d => d<1000 ? Math.round(d)+" m" : (d/1000).toFixed(1).replace(".",",")+" km";
 function nearClear(){ nearLayer.clearLayers(); nearHi.clearLayers(); nearPin=null; nearCard.classList.add("hidden"); pickPoint=false; nearPt=null; nearList=[]; }
 const PIN_HTML='<div style="position:relative;width:38px;height:44px;font-size:32px;line-height:40px;text-align:center;filter:drop-shadow(0 1px 2px #000)">📍</div>';
