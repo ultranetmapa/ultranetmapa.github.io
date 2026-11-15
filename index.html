@@ -293,6 +293,9 @@
   html.dark .pkgrip span{background:#55555c}
   .pkq{width:100%;margin-top:8px;border:1.5px solid #94a3b8;border-radius:12px;padding:11px 13px;font-size:16px;color:#0f172a;background:#fff;flex:0 0 auto}
   .pkq:focus{outline:none;border-color:#3b82f6}
+  .pkl-b{display:flex;flex-direction:column}
+  .pkl-b::before{content:"";flex:1 1 0;min-height:0}
+  .pkl-b>*{flex:0 0 auto}
   html.dark .pkq{background:#121212;color:#f5f5f5;border-color:#3b82f6}
   /* barra "Rede de fibra" no armário */
   .fibdiv{display:flex;align-items:center;gap:10px;margin:18px 0 6px}
@@ -555,7 +558,7 @@
       <li><b>🟡 Atenção:</b> botão pequeno ao lado da VLAN. Deixa a caixa amarela mesmo com poucas portas ocupadas (manutenção preventiva).</li>
       <li><b>Tamanho da ficha (caixa e CEO):</b> ela abre no tamanho normal. <b>Toque na barrinha do topo</b> e ela sobe e abre mais; <b>toque nela de novo</b> e ela volta ao tamanho normal. O <b>×</b> fecha.</li>
       <li><b>🧭 Ir com Google Maps:</b> fica no fim da ficha, junto das fotos.</li>
-      <li><b>Rua desta caixa:</b> toque no campo e escolha a rua na tela que abre (o <b>×</b> fecha). Para <b>adicionar, apagar ou renomear</b> ruas, toque em <b>➕ Adicionar rua</b>: a tela que abre serve para adicionar, apagar e renomear. Se você não escolher, a caixa fica <b>sem rua</b> (não há mais rua automática).</li>
+      <li><b>Rua desta caixa:</b> toque no campo e escolha a rua na tela que abre (o <b>×</b> fecha). Para tirar a rua, toque de novo na rua que está marcada. Para <b>adicionar, apagar ou renomear</b> ruas, toque em <b>➕ Adicionar rua</b>: a tela que abre serve para adicionar, apagar e renomear. Se você não escolher, a caixa fica <b>sem rua</b> (não há mais rua automática).</li>
       <li><b>VLAN:</b> fica em cima das portas, ao lado de <b>☑ Marcar ocupadas</b>. Toque no número (ex.: <b>VLAN 205 ▾</b>) para trocar de VLAN, no <b>✏</b> para editar, na <b>🗑</b> para apagar a VLAN, ou em <b>＋ VLAN</b> para escolher/criar uma. Na lista que abre: <b>＋ Nova VLAN</b>, <b>Nenhuma</b> e <b>Fechar</b>.</li>
       <li><b>🔌 Ligação:</b> mostra de qual CEO a caixa vem (pelo traçado da fibra), com Card, PON, Fibra e Tubo. <b>✏ Editar</b> anota algo a mais.</li>
       <li><b>Caixa planejada / a instalar:</b> marque a opção e escolha a cor do pino. A caixa fica colorida com 🛠 até você desmarcar.</li>
@@ -799,7 +802,7 @@ function rebuildRegions(){            // nomes das cidades: padrão + renomeadas
   Object.keys(REGION_DEF).forEach(k=>{ REGIONS[k]=(state.cityNames&&state.cityNames[k])||REGION_DEF[k]; });
   (state.cityExtra||[]).forEach(c=>{ REGIONS[c.id]=c.name; });
 }
-const APP_VERSION = "3.47";
+const APP_VERSION = "3.48";
 const TEST_MODE = false;   // true = arquivo de teste (usa uma cópia dos dados) · false = site real
 const KEY_STATE = TEST_MODE?"ftth_state_test":"ftth_state_v1", KEY_NET = TEST_MODE?"ftth_net_test":"ftth_net_v1";
 const DOC_STATE = TEST_MODE?"state_teste":"state", DOC_NET = TEST_MODE?"net_teste":"net";
@@ -1346,10 +1349,10 @@ function specialSheet(it,gm){
     <div class="mt-3 text-sm font-bold text-slate-800">📡 Antenas (AP) desta torre</div>
     <div class="apg">${rows}</div>
     <div class="mt-1 text-xs text-slate-500">Toque no número para mudar. Cada torre tem a sua lista.</div>
+    <div class="fibdiv"><b>🧵 Rede de fibra</b></div>
     <div class="mt-3 text-sm font-bold text-slate-800">🟢 PON (saídas) desta torre</div>
     <div class="apg p2">${ponRows}</div>
     <div class="mt-1 text-xs text-slate-500">Toque na caixinha e escreva o nome que quiser (PON 8, PON 10…).</div>
-    <div class="fibdiv"><b>🧵 Rede de fibra</b></div>
     <div class="mt-2 text-sm font-bold text-slate-800">🔌 OLT</div>
     <div class="grid grid-cols-2 gap-2"><label class="block text-xs text-slate-500">Nome da OLT<input data-a="oltf" data-k="n" value="${att(olt.n)}" maxlength="40" placeholder="Ex.: OLT01" class="${INP}"></label>
       <label class="block text-xs text-slate-500">VLAN<input data-a="oltf" data-k="vlan" value="${att(olt.vlan)}" maxlength="6" inputmode="numeric" placeholder="Ex.: 205" class="${INP}"></label></div>
@@ -1413,7 +1416,7 @@ function drawSheet(){
     if(extra.length) h += `<div class="mt-2 text-xs text-slate-500">Sem porta definida (toque para escolher a porta):<div class="mt-1 flex flex-wrap gap-1.5">${extra.map(i=>`<button data-a="slot" data-i="${i}" class="slot fill" style="min-height:0;padding:4px 8px"><span class="nm" style="-webkit-line-clamp:1">${cl[i].n?esc(cl[i].n):"ocupada"}</span></button>`).join("")}</div></div>`;
     h += planEditor(it);
     h += descH + noteH;
-    h += `<div class="mt-2 text-xs text-slate-500">Rua desta caixa<div class="mt-1 flex gap-2"><button data-a="stpick" class="flex-1 min-w-0 flex items-center justify-between gap-2 rounded-lg border border-slate-300 px-2.5 py-2 text-sm text-slate-900 text-left"><span class="truncate">${sid&&stLabel(sid)?esc(stLabel(sid)):"— Sem rua —"}</span><span class="text-slate-400">▾</span></button></div><button data-a="allst" class="mt-1.5 rounded-lg border border-sky-300 text-sky-700 px-2.5 py-1.5 text-xs font-semibold">➕ Adicionar rua</button></div>`;
+    h += `<div class="mt-2 text-xs text-slate-500">Rua desta caixa<div class="mt-1 flex gap-2"><button data-a="stpick" class="flex-1 min-w-0 flex items-center justify-between gap-2 rounded-lg border border-slate-300 px-2.5 py-2 text-sm text-slate-900 text-left"><span class="truncate">${sid&&stLabel(sid)?esc(stLabel(sid)):"&nbsp;"}</span><span class="text-slate-400">▾</span></button></div><button data-a="allst" class="mt-1.5 rounded-lg border border-sky-300 text-sky-700 px-2.5 py-1.5 text-xs font-semibold">➕ Adicionar rua</button></div>`;
   }
   h += linkBlock(it);
   h += photoBlock(it) + gmH;
@@ -1731,7 +1734,7 @@ ceoPickList.addEventListener("click",e=>{
 const _nz=t=>String(t==null?"":t).normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();
 function pkWire(mId,lId,qId,gId){
   const m=document.getElementById(mId), l=document.getElementById(lId), q=document.getElementById(qId), g=document.getElementById(gId);
-  const f=()=>{ const t=_nz(q.value).trim(); Array.from(l.children).forEach(c=>{ c.hidden=!!t&&_nz(c.textContent).indexOf(t)<0; }); };
+  const f=()=>{ const t=_nz(q.value).trim(); l.classList.toggle("pkl-b",!!t); Array.from(l.children).forEach(c=>{ c.hidden=!!t&&_nz(c.textContent).indexOf(t)<0; }); };
   q.addEventListener("input",f);
   g.addEventListener("click",e=>{ e.stopPropagation(); m.classList.toggle("pklow"); });
   return {filter:f, reset:()=>{ q.value=""; m.classList.remove("pklow"); f(); }};
@@ -1740,7 +1743,7 @@ const stPick=document.getElementById("stPick"), stPickList=document.getElementBy
 const stPickW=pkWire("stPick","stPickList","stPickQ","stPickGrip");
 function openStPick(it,keep){
   stPickId=it.id; const cur=state.so[it.id]||"";
-  stPickList.innerHTML=stRow("","— Sem rua —",cur==="")+streetsAll().filter(x=>x[1]===it.region&&(stName(x[0])||cur===x[0])).map(x=>stRow(x[0],esc(stLabel(x[0])),cur===x[0])).join("");
+  stPickList.innerHTML=streetsAll().filter(x=>x[1]===it.region&&(stName(x[0])||cur===x[0])).map(x=>stRow(x[0],esc(stLabel(x[0])),cur===x[0])).join("");
   stPick.classList.remove("hidden"); if(keep) stPickW.filter(); else stPickW.reset();
 }
 const stPickClose=()=>{ stPick.classList.add("hidden"); stPickId=null; };
@@ -1751,7 +1754,7 @@ document.getElementById("stPickAdd").onclick=()=>{ stPickClose(); drawStEdit(); 
 stPickList.addEventListener("click",e=>{
   const d=e.target.closest("button[data-sdel]"); if(d){ const it0=byId[stPickId]; if(removeStreet(d.dataset.sdel)){ if(it0) openStPick(it0,true); afterStreetChange(); } return; }
   const b=e.target.closest("button[data-sid]"); if(!b) return; const it=byId[stPickId]; if(!it){ stPickClose(); return; }
-  const v=b.dataset.sid; if(v) state.so[it.id]=v; else delete state.so[it.id];
+  const v=b.dataset.sid; if(v&&state.so[it.id]!==v) state.so[it.id]=v; else delete state.so[it.id];
   stageOn=currentId===it.id; save(); stageOn=false; stPickClose(); if(currentId===it.id) drawSheet(); else render();
 });
 document.getElementById("stDone").onclick=()=>{
@@ -2634,7 +2637,7 @@ function openBulkStreet(){
   const n=selSet.size; if(!n) return;
   document.getElementById("bulkTitle").textContent=`Definir rua de ${n} caixa${n===1?"":"s"}`;
   const regs=new Set([...selSet].map(id=>byId[id]&&byId[id].region));
-  document.getElementById("bulkStList").innerHTML=stRow("","— Sem rua —",false)+streetsAll().filter(s=>regs.has(s[1])&&stName(s[0])).map(s=>stRow(s[0],esc(stLabel(s[0])),false)).join("");
+  document.getElementById("bulkStList").innerHTML=streetsAll().filter(s=>regs.has(s[1])&&stName(s[0])).map(s=>stRow(s[0],esc(stLabel(s[0])),false)).join("");
   bulkModal.classList.remove("hidden"); bulkW.reset();
 }
 function saveBulkStreet(sid){
