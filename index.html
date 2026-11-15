@@ -212,8 +212,8 @@
   body.ro #sheetBody .slot,body.ro #sheetBody input,body.ro #sheetBody select,body.ro #sheetBody textarea,body.ro #sheetBody .tg,body.ro #sheetBody .pb,body.ro #sheetBody label{pointer-events:none}
   body.ro #btnCabEd,body.ro #btnImport,body.ro #btnKml,body.ro .adv,body.ro [data-per=rur],body.ro [data-per=cid],body.ro [data-city=__manage]{display:none!important}
   /* Armário: torres, AP e PON */
-  .twrow{display:flex;gap:6px;margin-top:6px}
-  .twc{flex:1 1 0;min-width:0;text-align:center;border:1.5px solid #cbd5e1;border-radius:11px;padding:9px 2px;font-size:12.5px;font-weight:700;color:#64748b;background:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .twrow{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+  .twc{flex:1 1 72px;min-width:0;text-align:center;border:1.5px solid #cbd5e1;border-radius:11px;padding:9px 2px;font-size:12.5px;font-weight:700;color:#64748b;background:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .twc.on{border-color:#3b82f6;color:#2563eb;background:rgba(59,130,246,.12)}
   .twc.plus{flex:0 0 40px;border-style:dashed;border-color:#7dd3fc;color:#0ea5e9;font-size:18px;background:transparent}
   .ipbx{margin-top:8px;display:flex;justify-content:space-between;align-items:center;gap:8px;border-radius:11px;padding:8px 10px;font-size:12.5px;background:#f1f5f9;border:1px solid #e2e8f0}
@@ -275,13 +275,44 @@
   html.dark .text-emerald-600{color:#34d399!important}
   html.dark .text-amber-600{color:#fbbf24!important}
   html.dark .border-sky-200,html.dark .border-amber-200,html.dark .border-amber-300,html.dark .border-sky-300{border-color:#2e2e32!important}
-  html.dark #draftBar{background:#1c1504!important}
-  html.dark #draftBar .bg-white{background:#000000!important}
+  html.dark #draftBar,html.dark #perBar{background:#1c1504!important}
+  html.dark #draftBar .bg-white,html.dark #perBar .bg-white{background:#000000!important}
   html.dark .leaflet-container{background:#000000}
   .leaflet-tile-pane{filter:brightness(.82)}
   html.dark .leaflet-tile-pane{filter:brightness(.9)}
   html.dark .tiles-street{filter:brightness(.62)}
   html.dark .leaflet-control-layers,html.dark .leaflet-bar a{background:#000000!important;color:#f2f2f2!important;border-color:#2e2e32!important}
+</style>
+
+<style id="v347">
+  /* pop-ups de rua / ligar caixa: menores, com tracinho e busca embaixo */
+  .pkb{height:72vh;max-height:72vh;transition:height .18s ease}
+  .pkm.pklow .pkb{height:46vh;max-height:46vh}
+  .pkgrip{display:block;margin:-6px auto 4px;padding:8px 26px;flex:0 0 auto}
+  .pkgrip span{display:block;width:46px;height:5px;border-radius:99px;background:#cbd5e1}
+  html.dark .pkgrip span{background:#55555c}
+  .pkq{width:100%;margin-top:8px;border:1.5px solid #94a3b8;border-radius:12px;padding:11px 13px;font-size:16px;color:#0f172a;background:#fff;flex:0 0 auto}
+  .pkq:focus{outline:none;border-color:#3b82f6}
+  html.dark .pkq{background:#121212;color:#f5f5f5;border-color:#3b82f6}
+  /* barra "Rede de fibra" no armário */
+  .fibdiv{display:flex;align-items:center;gap:10px;margin:18px 0 6px}
+  .fibdiv::before,.fibdiv::after{content:"";height:2px;flex:1;border-radius:2px}
+  .fibdiv::before{background:linear-gradient(90deg,transparent,var(--ac,#0056b3))}
+  .fibdiv::after{background:linear-gradient(270deg,transparent,var(--ac,#0056b3))}
+  .fibdiv b{display:flex;align-items:center;gap:7px;border-radius:99px;padding:7px 16px;font-size:13.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--ac,#0056b3);border:1px solid var(--ac,#0056b3);background:rgba(0,86,179,.08)}
+  html.dark .fibdiv b{background:rgba(59,130,246,.16);color:#8cc2ff;border-color:rgba(96,165,250,.7);box-shadow:0 0 14px rgba(59,130,246,.25)}
+  /* placas (Card / DIO) no modo escuro: fundo escuro, campos claros */
+  html.dark #sheetBody .plc{background:#141416!important;border-color:#34343a!important}
+  html.dark #sheetBody .plc b{color:#e5e7eb!important}
+  html.dark #sheetBody .plc span[style*="font-size:10px"]{color:#9ca3af!important}
+  html.dark #sheetBody .plc span[style*="background:#94a3b8"]{background:#334155!important;color:#cbd5e1!important}
+  html.dark #sheetBody .plc input{background:#f1f5f9!important;color:#0f172a!important;border-color:#64748b!important}
+  html.dark #sheetBody .plc input::placeholder{color:#64748b!important}
+  /* seletor de cidade (Personalizar) */
+  .cchip{border:1.5px solid #cbd5e1;border-radius:11px;padding:8px 12px;font-size:13px;font-weight:700;color:#64748b;background:#fff}
+  .cchip.on{border-color:#3b82f6;color:#2563eb;background:rgba(59,130,246,.12)}
+  html.dark .cchip{background:#0a0a0a;border-color:#2e2e32;color:#9ca3af}
+  html.dark .cchip.on{border-color:#3b82f6;color:#6aaeff;background:rgba(59,130,246,.18)}
 </style>
 </head>
 <body class="bg-slate-900">
@@ -336,11 +367,13 @@
 <div id="selBar" class="hidden fixed z-[950] rounded-xl bg-[#0056b3] text-white text-sm shadow-xl px-3 py-2" style="left:50%;transform:translateX(-50%);width:min(94vw,640px);top:var(--tb,130px)"></div>
 
 <!-- Definir rua de várias caixas -->
-<div id="bulkModal" class="hidden fixed inset-0 z-[1300] bg-black/60 flex items-end sm:items-center justify-center">
-  <div class="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-4 max-h-[88vh] flex flex-col" style="padding-bottom:calc(env(safe-area-inset-bottom) + 16px)">
+<div id="bulkModal" class="pkm hidden fixed inset-0 z-[1300] bg-black/60 flex items-end sm:items-center justify-center">
+  <div class="pkb bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-4 flex flex-col" style="padding-bottom:calc(env(safe-area-inset-bottom) + 16px)">
+    <button type="button" id="bulkGrip" class="pkgrip" aria-label="Abaixar ou subir a janela"><span></span></button>
     <div class="flex justify-between items-center"><h2 id="bulkTitle" class="font-bold text-slate-800">Definir rua</h2><button type="button" data-b="close" class="text-2xl text-slate-500 px-2" aria-label="Fechar">×</button></div>
     <p class="text-xs text-slate-500 mt-1">Toque na rua dessas caixas.</p>
     <div id="bulkStList" class="overflow-y-auto flex-1 min-h-0 mt-2"></div>
+    <input id="bulkQ" type="search" placeholder="🔎 Buscar rua…" autocomplete="off" class="pkq">
     <button type="button" data-b="add" class="mt-2 w-full rounded-lg border border-sky-300 text-sky-700 py-2.5 text-sm font-semibold">➕ Adicionar rua</button>
   </div>
 </div>
@@ -429,15 +462,15 @@
     <div id="rowTheme" class="trow" role="button" tabindex="0"><span class="tic" id="themeIc">🌙</span><div class="flex-1 min-w-0"><b>Modo escuro</b><small id="themeSub"></small></div><button id="swTheme" type="button" role="switch" aria-label="Modo escuro" class="swt"></button></div>
     <p class="msec">Personalizar</p>
     <div class="grid gap-2">
-      <button data-per="rur" class="pbtn"><span>📶 Rede (zona rural e armário)</span><span>›</span></button>
-      <button data-per="hdr" class="pbtn"><span>🎨 Cor da barra de cima</span><span>›</span></button>
-      <button data-per="slot" class="pbtn"><span>🟩 Vagas ocupadas</span><span>›</span></button>
-      <button id="rowConta" data-per="conta" class="pbtn" hidden><span>👤 Conta</span><span>›</span></button>
-      <button data-per="cx" class="pbtn"><span>🗺 Cores das caixas no mapa</span><span>›</span></button>
-      <button data-per="ceo" class="pbtn"><span>📡 Cores das CEOs no mapa</span><span>›</span></button>
       <button data-per="cid" class="pbtn"><span>🏙 Cidades</span><span>›</span></button>
+      <button data-per="rur" class="pbtn"><span>📶 Rede (zona rural e armário)</span><span>›</span></button>
+      <button data-per="cx" class="pbtn"><span>🗺 Cores das caixas no mapa</span><span>›</span></button>
+      <button id="rowConta" data-per="conta" class="pbtn" hidden><span>👤 Conta</span><span>›</span></button>
+      <button data-per="ceo" class="pbtn"><span>📡 Personalização CEO</span><span>›</span></button>
+      <button data-per="slot" class="pbtn"><span>🟩 Vagas ocupadas</span><span>›</span></button>
+      <button data-per="hdr" class="pbtn"><span>🎨 Cor da barra de cima</span><span>›</span></button>
     </div>
-    <button id="btnCabEd" class="mbtn bg-slate-700 w-full">🧵 Editar cabos de fibra (traçar, mover, apagar)</button>
+    <button id="btnCabEd" class="pbtn"><span>🧵 Editar cabos de fibra</span><span>›</span></button>
     <p class="text-xs font-semibold text-slate-500">Backup e arquivos</p>
     <div class="grid grid-cols-2 gap-2">
       <button id="btnExport" class="mbtn bg-emerald-600">⬇ Exportar backup</button>
@@ -468,8 +501,8 @@
 <div id="perModal" class="hidden fixed inset-0 z-[1250] bg-black/60 flex items-end sm:items-center justify-center">
   <div class="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-4 max-h-[92vh] flex flex-col" style="padding-bottom:calc(env(safe-area-inset-bottom) + 16px)">
     <div class="flex items-center"><h2 id="perTitle" class="font-bold text-slate-800 flex-1">🎨 Personalizar</h2><button id="perClose" class="text-2xl text-slate-500 px-2 leading-none">×</button></div>
+    <div id="perBar" class="hidden mt-2 flex items-center gap-2 rounded-lg bg-amber-100 border border-amber-300 px-2 py-1.5 text-xs text-amber-900"><span class="flex-1 font-semibold">✎ Alterações não salvas</span><button type="button" data-pd="cancel" class="rounded-md bg-white border border-slate-300 text-slate-700 px-3 py-1.5 font-semibold">Cancelar</button><button type="button" data-pd="save" class="rounded-md bg-emerald-600 text-white px-3 py-1.5 font-bold">Salvar</button></div>
     <div id="perBody" class="overflow-y-auto flex-1 min-h-0 mt-2 space-y-4 text-sm text-slate-700"></div>
-    <button id="perDone" class="mt-3 w-full rounded-lg bg-[#0056b3] text-white py-2.5 font-semibold">Concluir</button>
   </div>
 </div>
 
@@ -585,6 +618,9 @@
       <li>O botão de camadas (canto de cima, à direita) troca entre <b>Satélite</b> e <b>Ruas</b>. Os nomes das ruas que aparecem no mapa “Ruas” são do próprio mapa.</li>
       <li>Se o zoom passar do que o satélite tem, a imagem é esticada (fica mais desfocada, mas não aparece quadrado cinza).</li>
       <li><b>Modo escuro:</b> fica em ⚙ Configurações, na primeira opção (chavinha). Ligado, os fundos ficam bem pretos.</li>
+      <li><b>Personalização por cidade:</b> em ⚙ Configurações, <b>Personalização CEO</b>, <b>Cores das caixas no mapa</b> e <b>Vagas ocupadas</b> têm um seletor de cidade no alto. A cor vale só para a cidade escolhida (e só neste aparelho). Só vale depois de tocar em <b>Salvar</b>; <b>Cancelar</b> volta como estava.</li>
+      <li><b>Armário e cliente rural:</b> o que você muda nessas fichas só vale quando toca em <b>Salvar</b> (barra amarela no alto da ficha). <b>Cancelar</b> desfaz tudo o que mudou. A barra <b>Rede de fibra</b> separa a parte da torre (AP e PON) da parte da OLT e das placas.</li>
+      <li><b>Janelas de rua e de ligar caixa:</b> o tracinho no alto abaixa e sobe a janela. A busca fica embaixo: digite um pedaço do nome.</li>
       <li>Para o app atualizar no celular, feche por completo e abra de novo.</li>
     </ul></details>
     <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">⚙ Configurações</summary><ul class="list-disc pl-5 space-y-1 mt-2">
@@ -650,20 +686,24 @@
 </div>
 
 <!-- Escolher a caixa para ligar na CEO -->
-<div id="ceoPick" class="hidden fixed inset-0 z-[1250] bg-black/60 flex items-end sm:items-center justify-center">
-  <div class="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-4 max-h-[88vh] flex flex-col" style="padding-bottom:calc(env(safe-area-inset-bottom) + 16px)">
+<div id="ceoPick" class="pkm hidden fixed inset-0 z-[1250] bg-black/60 flex items-end sm:items-center justify-center">
+  <div class="pkb bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-4 flex flex-col" style="padding-bottom:calc(env(safe-area-inset-bottom) + 16px)">
+    <button type="button" id="ceoPickGrip" class="pkgrip" aria-label="Abaixar ou subir a janela"><span></span></button>
     <div class="flex justify-between items-center"><h2 class="font-bold text-slate-800">🔌 Ligar uma caixa na CEO</h2><button id="ceoPickX" class="text-2xl text-slate-500 px-2" aria-label="Fechar">×</button></div>
     <p class="text-xs text-slate-500 mt-1">Toque na caixa que você quer ligar.</p>
     <div id="ceoPickList" class="overflow-y-auto flex-1 min-h-0 mt-2"></div>
+    <input id="ceoPickQ" type="search" placeholder="🔎 Buscar caixa ou rua…" autocomplete="off" class="pkq">
   </div>
 </div>
 
 <!-- Escolher a rua da caixa -->
-<div id="stPick" class="hidden fixed inset-0 z-[1250] bg-black/60 flex items-end sm:items-center justify-center">
-  <div class="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-4 max-h-[88vh] flex flex-col" style="padding-bottom:calc(env(safe-area-inset-bottom) + 16px)">
+<div id="stPick" class="pkm hidden fixed inset-0 z-[1250] bg-black/60 flex items-end sm:items-center justify-center">
+  <div class="pkb bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-4 flex flex-col" style="padding-bottom:calc(env(safe-area-inset-bottom) + 16px)">
+    <button type="button" id="stPickGrip" class="pkgrip" aria-label="Abaixar ou subir a janela"><span></span></button>
     <div class="flex justify-between items-center"><h2 class="font-bold text-slate-800">🛣 Rua desta caixa</h2><button id="stPickX" class="text-2xl text-slate-500 px-2" aria-label="Fechar">×</button></div>
     <p class="text-xs text-slate-500 mt-1">Toque na rua desta caixa.</p>
     <div id="stPickList" class="overflow-y-auto flex-1 min-h-0 mt-2"></div>
+    <input id="stPickQ" type="search" placeholder="🔎 Buscar rua…" autocomplete="off" class="pkq">
     <button id="stPickAdd" class="mt-2 w-full rounded-lg border border-sky-300 text-sky-700 py-2.5 text-sm font-semibold">➕ Adicionar rua</button>
   </div>
 </div>
@@ -759,7 +799,7 @@ function rebuildRegions(){            // nomes das cidades: padrão + renomeadas
   Object.keys(REGION_DEF).forEach(k=>{ REGIONS[k]=(state.cityNames&&state.cityNames[k])||REGION_DEF[k]; });
   (state.cityExtra||[]).forEach(c=>{ REGIONS[c.id]=c.name; });
 }
-const APP_VERSION = "3.46";
+const APP_VERSION = "3.47";
 const TEST_MODE = false;   // true = arquivo de teste (usa uma cópia dos dados) · false = site real
 const KEY_STATE = TEST_MODE?"ftth_state_test":"ftth_state_v1", KEY_NET = TEST_MODE?"ftth_net_test":"ftth_net_v1";
 const DOC_STATE = TEST_MODE?"state_teste":"state", DOC_NET = TEST_MODE?"net_teste":"net";
@@ -1108,6 +1148,7 @@ function updateStats(){
 
 /* ======================= ABAS ======================= */
 function drawTabs(){
+  if(_lookReady) applyCityLook();
   const el = document.getElementById("tabs");
   el.innerHTML = `<button id="cityBtn"><svg viewBox="0 0 24 24"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span>${esc(REGIONS[region]||"Cidades")}</span><svg viewBox="0 0 24 24" style="width:14px;height:14px"><path d="m6 9 6 6 6-6"/></svg></button>`;
   document.getElementById("cityBtn").onclick=e=>{ e.stopPropagation(); toggleCityPop(); };
@@ -1279,7 +1320,7 @@ function specialSheet(it,gm){
   const nm=`<label class="block mt-2 text-xs text-slate-500">Nome<input data-a="spf" data-k="name" value="${att(nameOf(it))}" maxlength="60" class="${INP}"></label>`;
   if(it.type==="rural"){
     const r=state.rur[id]||{};
-    return nm+`<label class="block mt-1 text-xs text-slate-500">Sinal<input data-a="spf" data-k="sig" value="${att(r.sig)}" maxlength="12" inputmode="text" placeholder="Ex.: 70" class="${INP}"></label>`+gmH+del;
+    return nm+`<div class="apg p2" style="margin-top:10px"><div class="apt"><small style="text-align:left;padding-left:2px">SINAL</small><input class="pf" data-a="spf" data-k="sig" value="${att(r.sig)}" maxlength="12" inputmode="text" placeholder="Ex.: 70"></div><div class="apt"><small style="text-align:left;padding-left:2px">PAINEL</small><input class="pf" data-a="spf" data-k="pnl" value="${att(r.pnl)}" maxlength="30" placeholder="Ex.: Painel 3"></div></div><div class="mt-1 text-xs text-slate-500">Toque no quadradinho e escreva. O painel é o que o cliente está conectado.</div>`+gmH+del;
   }
   const {ar:a,i:twi,t:tw}=armTower(id), olt=a.olt||{}, ed=!!armEd[id];
   const ipP=(tw.ip||"").split("."), ipTxt=tw.ip?`${att(tw.ip)}<em>.___</em>`:`<em>não definida</em>`;
@@ -1298,8 +1339,8 @@ function specialSheet(it,gm){
     return `<div style="display:flex;align-items:center;gap:4px;margin-top:4px">${plugBox(n,!!(String(v).trim()||au.length))}<input data-a="ponf" data-i="${i}" data-n="${n-1}" value="${att(v)}" maxlength="30" placeholder="${att(aF)}" style="${PLUG_IN}"></div>`; };
   const head=(c,i,T)=>`<div style="display:flex;align-items:center;justify-content:space-between;gap:3px"><b style="font-size:12px;color:#0f172a;white-space:nowrap">${T[0]==="DIO"?"DIO ":""}${esc(c.s)}</b><span style="font-size:10px;color:#475569;white-space:nowrap">${T[0]==="DIO"?"":T[0]}</span><button data-a="carddel" data-i="${i}" title="Apagar" style="font-size:15px;line-height:1;color:#dc2626;padding:0 2px">×</button></div>`;
   const olts=cards.map((c,i)=>({c,i,T:CARD_T[c.t]||CARD_T.CTRL})), oc=olts.filter(x=>x.T[0]!=="DIO"), dc=olts.filter(x=>x.T[0]==="DIO");
-  const colH=oc.map(({c,i,T})=>`<div style="flex:0 0 auto;width:${T[1]?118:64}px;border:1px solid #94a3b8;border-radius:10px;background:#e5e7eb;padding:6px 5px">${head(c,i,T)}${Array.from({length:T[1]},(_,k)=>plug(c,i,k+1)).join("")}${T[1]?"":`<div style="font-size:10px;color:#64748b;margin-top:4px">sem conectores</div>`}</div>`).join("");
-  const dioH=dc.map(({c,i,T})=>`<div style="border:1px solid #94a3b8;border-radius:10px;background:#e5e7eb;padding:6px 6px;margin-top:6px">${head(c,i,T)}<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0 8px">${Array.from({length:T[1]},(_,k)=>plug(c,i,k+1)).join("")}</div></div>`).join("");
+  const colH=oc.map(({c,i,T})=>`<div class="plc" style="flex:0 0 auto;width:${T[1]?118:64}px;border:1px solid #94a3b8;border-radius:10px;background:#e5e7eb;padding:6px 5px">${head(c,i,T)}${Array.from({length:T[1]},(_,k)=>plug(c,i,k+1)).join("")}${T[1]?"":`<div style="font-size:10px;color:#64748b;margin-top:4px">sem conectores</div>`}</div>`).join("");
+  const dioH=dc.map(({c,i,T})=>`<div class="plc" style="border:1px solid #94a3b8;border-radius:10px;background:#e5e7eb;padding:6px 6px;margin-top:6px">${head(c,i,T)}<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0 8px">${Array.from({length:T[1]},(_,k)=>plug(c,i,k+1)).join("")}</div></div>`).join("");
   return nm+`<div class="mt-3 text-sm font-bold text-slate-800">🗼 Qual torre?</div>
     <div class="twrow">${chips}</div>${ipBox}
     <div class="mt-3 text-sm font-bold text-slate-800">📡 Antenas (AP) desta torre</div>
@@ -1308,7 +1349,8 @@ function specialSheet(it,gm){
     <div class="mt-3 text-sm font-bold text-slate-800">🟢 PON (saídas) desta torre</div>
     <div class="apg p2">${ponRows}</div>
     <div class="mt-1 text-xs text-slate-500">Toque na caixinha e escreva o nome que quiser (PON 8, PON 10…).</div>
-    <div class="mt-3 text-sm font-bold text-slate-800">🔌 OLT</div>
+    <div class="fibdiv"><b>🧵 Rede de fibra</b></div>
+    <div class="mt-2 text-sm font-bold text-slate-800">🔌 OLT</div>
     <div class="grid grid-cols-2 gap-2"><label class="block text-xs text-slate-500">Nome da OLT<input data-a="oltf" data-k="n" value="${att(olt.n)}" maxlength="40" placeholder="Ex.: OLT01" class="${INP}"></label>
       <label class="block text-xs text-slate-500">VLAN<input data-a="oltf" data-k="vlan" value="${att(olt.vlan)}" maxlength="6" inputmode="numeric" placeholder="Ex.: 205" class="${INP}"></label></div>
     <div class="mt-2 text-xs text-slate-500">Escreva em cada conector o que está espetado nele (ex.: F15). Em cinza, a fibra que vem sozinha das CEOs com aquele Card e PON.</div>
@@ -1469,7 +1511,7 @@ body.addEventListener("click",e=>{
     else if(!confirm(`Excluir a caixa "${nameOf(it)}" e seus ${cl.length} cliente(s)? Não dá para desfazer.`)) return;
     const id=it.id; state.custom=state.custom.filter(x=>x.id!==id);
     ["clients","full","warn","names","notes","links","so","plan","vlan","ceoOf","hist","ceoCap","qcol","ceoCol","rur","arm"].forEach(k=>delete state[k][id]);
-    save(); closeSheet(); rebuild(); computeStreets(); computeLinks(); render(); return; }
+    stageOn=false; draftDirty=false; save(); closeSheet(); rebuild(); computeStreets(); computeLinks(); render(); return; }
   if(a==="del"){ const i=+b.dataset.i; if(confirm(`Excluir "${cl[i].n}" desta caixa?`)){ const pn=+cl[i].p, fl=forcedFull(it); cl.splice(i,1); if(fl){ freeFaux(it,pn); } else { save(); drawSheet(); refreshMarker(it.id); } } return; }
   if(a==="rename"){ openEbOne(it); return; }
   if(a==="ceocolor"){ if(b.dataset.c) state.ceoCol[it.id]=b.dataset.c; else delete state.ceoCol[it.id]; save(); drawSheet(); refreshMarker(it.id); return; }
@@ -1544,7 +1586,7 @@ body.addEventListener("change",e=>{
   save(); drawSheet();
 });
 // alterações feitas dentro do painel da caixa só valem depois de "Salvar"
-["click","change","keydown"].forEach(ev=>{ body.addEventListener(ev,()=>{ const c=byId[currentId]; stageOn=!(c&&(c.type==="rural"||c.type==="arm")); },true); body.addEventListener(ev,()=>{stageOn=false;}); });
+["click","change","keydown","input"].forEach(ev=>{ body.addEventListener(ev,()=>{ stageOn=true; },true); body.addEventListener(ev,()=>{stageOn=false;}); });
 document.getElementById("sheetX").addEventListener("click",()=>closeSheet());
 /* tocar no tracinho do topo: abre mais (sobe) · tocar de novo: recolhe ao tamanho normal */
 (function(){
@@ -1671,11 +1713,12 @@ stList.addEventListener("click",e=>{
 document.getElementById("stClose").onclick=()=>stModal.classList.add("hidden");
 document.addEventListener("click",e=>{ const x=e.target.closest("[data-xmod]"); if(!x) return; const b=document.querySelector(x.dataset.xmod); if(b) b.click(); });
 const ceoPick=document.getElementById("ceoPick"), ceoPickList=document.getElementById("ceoPickList"); let ceoPickId=null;
+const ceoPickW=pkWire("ceoPick","ceoPickList","ceoPickQ","ceoPickGrip");
 function openCeoPick(it){
   ceoPickId=it.id;
   const cand=items.filter(x=>x.type==="cto" && x.region===it.region && linkMap[x.id]!==it.id).sort((a,b)=>qnum(a)-qnum(b));
   ceoPickList.innerHTML=cand.length?cand.map(x=>`<button data-cid="${x.id}" class="flex w-full items-center justify-between gap-2 text-left rounded-lg border px-3 py-3 mb-1.5 text-base text-slate-800" style="border-color:#cbd5e1"><span class="min-w-0 truncate">${esc(nameOf(x))}${stOf(x)?" · "+esc(stLabel(stOf(x))):""}</span></button>`).join(""):`<div class="text-sm text-slate-500 py-3">Não há outra caixa para ligar.</div>`;
-  ceoPick.classList.remove("hidden");
+  ceoPick.classList.remove("hidden"); ceoPickW.reset();
 }
 const ceoPickClose=()=>{ ceoPick.classList.add("hidden"); ceoPickId=null; };
 document.getElementById("ceoPickX").onclick=ceoPickClose;
@@ -1685,11 +1728,20 @@ ceoPickList.addEventListener("click",e=>{
   const b=e.target.closest("button[data-cid]"); if(!b) return; const it=byId[ceoPickId]; if(!it){ ceoPickClose(); return; }
   state.ceoOf[b.dataset.cid]=it.id; stageOn=currentId===it.id; save(); stageOn=false; ceoPickClose(); computeLinks(); render(); if(currentId===it.id) drawSheet();
 });
+const _nz=t=>String(t==null?"":t).normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();
+function pkWire(mId,lId,qId,gId){
+  const m=document.getElementById(mId), l=document.getElementById(lId), q=document.getElementById(qId), g=document.getElementById(gId);
+  const f=()=>{ const t=_nz(q.value).trim(); Array.from(l.children).forEach(c=>{ c.hidden=!!t&&_nz(c.textContent).indexOf(t)<0; }); };
+  q.addEventListener("input",f);
+  g.addEventListener("click",e=>{ e.stopPropagation(); m.classList.toggle("pklow"); });
+  return {filter:f, reset:()=>{ q.value=""; m.classList.remove("pklow"); f(); }};
+}
 const stPick=document.getElementById("stPick"), stPickList=document.getElementById("stPickList"); let stPickId=null;
-function openStPick(it){
+const stPickW=pkWire("stPick","stPickList","stPickQ","stPickGrip");
+function openStPick(it,keep){
   stPickId=it.id; const cur=state.so[it.id]||"";
   stPickList.innerHTML=stRow("","— Sem rua —",cur==="")+streetsAll().filter(x=>x[1]===it.region&&(stName(x[0])||cur===x[0])).map(x=>stRow(x[0],esc(stLabel(x[0])),cur===x[0])).join("");
-  stPick.classList.remove("hidden");
+  stPick.classList.remove("hidden"); if(keep) stPickW.filter(); else stPickW.reset();
 }
 const stPickClose=()=>{ stPick.classList.add("hidden"); stPickId=null; };
 document.getElementById("stPickX").onclick=stPickClose;
@@ -1697,7 +1749,7 @@ stPick.addEventListener("click",e=>{ if(e.target===stPick) stPickClose(); });
 document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&!stPick.classList.contains("hidden")) stPickClose(); });
 document.getElementById("stPickAdd").onclick=()=>{ stPickClose(); drawStEdit(); stModal.classList.remove("hidden"); };
 stPickList.addEventListener("click",e=>{
-  const d=e.target.closest("button[data-sdel]"); if(d){ const it0=byId[stPickId]; if(removeStreet(d.dataset.sdel)){ if(it0) openStPick(it0); afterStreetChange(); } return; }
+  const d=e.target.closest("button[data-sdel]"); if(d){ const it0=byId[stPickId]; if(removeStreet(d.dataset.sdel)){ if(it0) openStPick(it0,true); afterStreetChange(); } return; }
   const b=e.target.closest("button[data-sid]"); if(!b) return; const it=byId[stPickId]; if(!it){ stPickClose(); return; }
   const v=b.dataset.sid; if(v) state.so[it.id]=v; else delete state.so[it.id];
   stageOn=currentId===it.id; save(); stageOn=false; stPickClose(); if(currentId===it.id) drawSheet(); else render();
@@ -1931,7 +1983,25 @@ try{ const j=localStorage.getItem("ftth_look");
   if(j) look=Object.assign(look,JSON.parse(j));
   else { look={hdr:typeof state.hdrColor==="string"?state.hdrColor:"", bg:typeof state.slotBg==="string"?state.slotBg:"", tx:typeof state.slotTx==="string"?state.slotTx:""}; localStorage.setItem("ftth_look",JSON.stringify(look)); }   // 1ª vez: leva a escolha que já estava salva
 }catch(e){}
-const lookSave=()=>{ try{ localStorage.setItem("ftth_look",JSON.stringify(look)); }catch(e){} };
+var _lookReady=false;
+const LK=["bg","tx","cf","co","cw","cc"];            // cores que valem por cidade (só neste aparelho)
+const lookBase={}; LK.forEach(k=>{ lookBase[k]=look[k]||""; });
+let lookC={}; try{ lookC=JSON.parse(localStorage.getItem("ftth_look_city")||"{}")||{}; }catch(e){ lookC={}; }
+const lookSave=()=>{ try{ const o=Object.assign({},look); LK.forEach(k=>{ o[k]=lookBase[k]||""; }); localStorage.setItem("ftth_look",JSON.stringify(o)); }catch(e){} };
+const lookCSave=()=>{ try{ localStorage.setItem("ftth_look_city",JSON.stringify(lookC)); }catch(e){} };
+function cityLookOf(r){ const o={}, c=lookC[r]; LK.forEach(k=>{ o[k]=(c?c[k]:lookBase[k])||""; }); return o; }
+function applyCityLook(){ const v=cityLookOf(region); LK.forEach(k=>{ look[k]=v[k]; }); applySlot(); applyStatusColors(); }
+/* rascunho da tela Personalizar (Salvar / Cancelar) */
+let perCity=null, perD={}, perT={}, perDirty=false;
+const PER_CITY_SECS=["cx","ceo","slot"];
+function perEff(){ if(!perCity||!REGIONS[perCity]) perCity=REGIONS[region]?region:Object.keys(REGIONS)[0]; return perD[perCity]||(perD[perCity]=cityLookOf(perCity)); }
+function perBarShow(){ const b=document.getElementById("perBar"); if(b) b.classList.toggle("hidden",!(perDirty&&PER_CITY_SECS.includes(perSec))); }
+function perPreview(){ const v=perEff(); LK.forEach(k=>{ look[k]=v[k]||""; }); applySlot(); applyStatusColors(); }
+function perSet(k,v){ perEff()[k]=v; perT[perCity]=true; perDirty=true; perPreview(); perBarShow(); }
+function perCommit(){ Object.keys(perT).forEach(c=>{ lookC[c]=Object.assign({},perD[c]); }); lookCSave(); perD={}; perT={}; perDirty=false; applyCityLook(); perBarShow(); if(!perModal.classList.contains("hidden")) drawPer(); }
+function perCancel(){ perD={}; perT={}; perDirty=false; applyCityLook(); perBarShow(); if(!perModal.classList.contains("hidden")) drawPer(); }
+const cityChips=()=>{ perEff(); return `<div class="mb-2"><div class="text-xs opacity-70 mb-1">Cidade</div><div class="flex flex-wrap gap-1.5">${Object.entries(REGIONS).map(([k,n])=>`<button type="button" data-pc="${k}" class="cchip ${k===perCity?"on":""}">${esc(n)}</button>`).join("")}</div></div>`; };
+_lookReady=true; applyCityLook();
 const SLOT_BG=["","#1d4ed8","#0f766e","#7e22ce","#c2410c","#b91c1c","#334155"], SLOT_TX=["","#ffffff","#111827","#fde047"];
 function applySlot(){
   const st=document.documentElement.style, ok=v=>/^#[0-9a-f]{6}$/i.test(v||"");
@@ -1971,25 +2041,25 @@ function applyHdr(){
 const perModal=document.getElementById("perModal"), perBody=document.getElementById("perBody");
 function perSave(){ draftDirty=false; save(); }
 let perSec="hdr";
-const PER_TITLES={conta:"👤 Conta",rur:"📶 Rede (zona rural e armário)",hdr:"🎨 Cor da barra de cima",slot:"🟩 Vagas ocupadas (dentro das caixas)",cx:"🗺 Cores das caixas no mapa",ceo:"📡 Cores das CEOs no mapa",cid:"🏙 Cidades"};
+const PER_TITLES={conta:"👤 Conta",rur:"📶 Rede (zona rural e armário)",hdr:"🎨 Cor da barra de cima",slot:"🟩 Vagas ocupadas (dentro das caixas)",cx:"🗺 Cores das caixas no mapa",ceo:"📡 Personalização CEO",cid:"🏙 Cidades"};
 function drawPer(){
   const cur=look.hdr||"";
   const S={}; S.hdr=`<div><div class="flex flex-wrap gap-2 items-center">${HDR_COLORS.map(c=>`<button data-hc="${c}" class="sw ${cur===c?"on":""}" style="background:${c||"#0056b3"}" title="${c||"Padrão (azul Ultranet)"}"></button>`).join("")}
     <label class="flex items-center gap-1 text-xs ml-1">Outra: <input id="perColor" type="color" value="${hdrSafe(cur)||"#0056b3"}" class="w-9 h-7 p-0 border-0 bg-transparent"></label></div>
     <p class="text-xs opacity-70 mt-1">A primeira bolinha é a cor padrão. Cores muito claras são escurecidas para o texto branco continuar legível. <b>Vale só neste aparelho.</b></p></div>`;
-  const sb=look.bg||"", sx=look.tx||"";
-  S.slot=`<div>
+  const E=perEff(), sb=E.bg||"", sx=E.tx||"";
+  S.slot=`<div>${cityChips()}
     <div class="text-xs mb-1">Cor do fundo:</div><div class="flex flex-wrap gap-2 items-center">${SLOT_BG.map(c=>`<button data-sb="${c}" class="sw ${sb===c?"on":""}" style="background:${c||"#10b981"}" title="${c||"Padrão (verde)"}"></button>`).join("")}
     <label class="flex items-center gap-1 text-xs ml-1">Outra: <input id="perSlotBg" type="color" value="${sb||"#10b981"}" class="w-9 h-7 p-0 border-0 bg-transparent"></label></div>
     <div class="text-xs mt-2 mb-1">Cor do nome:</div><div class="flex flex-wrap gap-2 items-center">${SLOT_TX.map(c=>`<button data-sx="${c}" class="sw ${sx===c?"on":""}" style="background:${c||"linear-gradient(135deg,#fff 50%,#111 50%)"}" title="${c||"Automática"}"></button>`).join("")}
     <label class="flex items-center gap-1 text-xs ml-1">Outra: <input id="perSlotTx" type="color" value="${sx||"#ffffff"}" class="w-9 h-7 p-0 border-0 bg-transparent"></label></div>
     <div class="grid grid-cols-2 gap-2 mt-2"><div class="slot fill"><span class="pn">2</span><span class="nm">Nome do cliente</span></div><div class="slot fill occ"><span class="pn">3</span><span class="nm">ocupada</span></div></div>
-    <p class="text-xs opacity-70 mt-1">A primeira bolinha de cada linha é o padrão. A cor do nome fica automática (preto ou branco) se você não escolher. <b>Vale só neste aparelho.</b></p></div>`;
+    <p class="text-xs opacity-70 mt-1">A primeira bolinha de cada linha é o padrão. A cor do nome fica automática (preto ou branco) se você não escolher. <b>Vale só neste aparelho e só para a cidade escolhida.</b></p></div>`;
   const stRow=(k,cls,lbl,cur,def)=>`<div class="flex items-center gap-2 mb-2"><span class="pill ${cls}" style="position:static;transform:none;min-width:96px;text-align:center">${lbl}</span><input type="color" data-cc2="${k}" value="${/^#[0-9a-f]{6}$/i.test(cur||"")?cur:def}" class="w-10 h-8 p-0 border-0 bg-transparent"><button data-cs="${k}" class="text-xs underline">Padrão</button></div>`;
-  S.cx=`<div>${stRow("ok","ok","Q1 [3/16]",look.co,"#16a34a")}${stRow("full","full","LOTADA",look.cf,"#dc2626")}${stRow("warn","warn","⚠ Atenção",look.cw,"#f59e0b")}
-    <p class="text-xs opacity-70 mt-1">Toque no quadradinho colorido para escolher outra cor. O botão <b>Padrão</b> volta à cor original. <b>Vale só neste aparelho.</b></p></div>`;
-  S.ceo=`<div>${stRow("ceo","ceo","CEO [3/8]",look.cc,"#2563eb")}
-    <p class="text-xs opacity-70 mt-1">Todas as CEOs usam esta cor (azul é o padrão). A borda continua com a cor da fibra. <b>Vale só neste aparelho.</b></p>
+  S.cx=`<div>${cityChips()}${stRow("ok","ok","Q1 [3/16]",E.co,"#16a34a")}${stRow("full","full","LOTADA",E.cf,"#dc2626")}${stRow("warn","warn","⚠ Atenção",E.cw,"#f59e0b")}
+    <p class="text-xs opacity-70 mt-1">Toque no quadradinho colorido para escolher outra cor. O botão <b>Padrão</b> volta à cor original. <b>Vale só neste aparelho e só para a cidade escolhida.</b></p></div>`;
+  S.ceo=`<div>${cityChips()}${stRow("ceo","ceo","CEO [3/8]",E.cc,"#2563eb")}
+    <p class="text-xs opacity-70 mt-1">Todas as CEOs <b>da cidade escolhida</b> usam esta cor (azul é o padrão). As outras cidades não mudam. A borda continua com a cor da fibra. <b>Vale só neste aparelho.</b></p>
     <p class="text-xs opacity-70 mt-2">Para uma CEO ter uma cor diferente das outras: ative <b>Editar</b>, toque na CEO e escolha em <b>Cor desta CEO no mapa</b>. Essa cor <b>vale para todos os aparelhos</b>.</p></div>`;
   { const rl=items.filter(i=>i.type==="rural").sort((a,b)=>String(nameOf(a)).localeCompare(String(nameOf(b)))), al=items.filter(i=>i.type==="arm");
     const row=i=>{ const r=state.rur[i.id]||{}; return `<button data-rg="${i.id}" class="w-full text-left rounded-lg border border-slate-300 px-3 py-2 mb-1.5 text-sm flex justify-between gap-2"><span class="truncate">${esc(nameOf(i))}${i.type==="rural"&&String(r.sig||"").trim()?" / "+esc(String(r.sig).trim()):""}</span><span class="opacity-60 shrink-0">${esc(REGIONS[i.region]||"")}</span></button>`; };
@@ -2014,14 +2084,15 @@ function drawPer(){
   S.cid=hc;
   document.getElementById("perTitle").textContent=PER_TITLES[perSec]||PER_TITLES.hdr;
   perBody.innerHTML=S[perSec]||S.hdr;
-  document.getElementById("perDone").style.display=perSec==="conta"?"none":"";
+  perBarShow();
 }
 document.getElementById("btnCabEd").onclick=()=>{ menu.classList.add("hidden");
   if(region==="all"){ toast("Escolha uma cidade nas abas do topo para editar os cabos dela."); return; }
   setCab(true); hintOnce("cabed","🧵 Editor de cabos: toque numa linha para escolher o cabo, ou use ＋ Novo cabo."); };
-document.getElementById("menu").addEventListener("click",e=>{ const b=e.target.closest("[data-per]"); if(!b) return; perSec=b.dataset.per; document.getElementById("menu").classList.add("hidden"); closeSheet(); drawPer(); perModal.classList.remove("hidden"); });
-function closePer(){ perModal.classList.add("hidden"); }
-document.getElementById("perClose").onclick=closePer; document.getElementById("perDone").onclick=closePer;
+document.getElementById("menu").addEventListener("click",e=>{ const b=e.target.closest("[data-per]"); if(!b) return; perSec=b.dataset.per; perCity=null; perD={}; perT={}; perDirty=false; document.getElementById("menu").classList.add("hidden"); closeSheet(); drawPer(); perModal.classList.remove("hidden"); });
+function closePer(){ if(perDirty){ if(confirm("Salvar as alterações?\n\nOK = Salvar\nCancelar = Descartar as alterações")) perCommit(); else perCancel(); } perModal.classList.add("hidden"); }
+document.getElementById("perClose").onclick=closePer;
+document.getElementById("perBar").addEventListener("click",e=>{ const d=e.target.dataset.pd; if(d==="save"){ perCommit(); toast("✔ Salvo"); } else if(d==="cancel") perCancel(); });
 perModal.addEventListener("click",e=>{ if(e.target===perModal) closePer(); });
 perBody.addEventListener("click",e=>{
   const b=e.target.closest("button"); if(!b) return;
@@ -2030,10 +2101,11 @@ perBody.addEventListener("click",e=>{
   if(b.id==="accAdd"){ document.getElementById("accEmail").value=""; document.getElementById("accModal").classList.remove("hidden"); setTimeout(()=>document.getElementById("accEmail").focus(),50); return; }
   if(b.dataset.ra){ startPlaceSpecial(b.dataset.ra); return; }
   if(b.dataset.rg){ const x=byId[b.dataset.rg]; if(x){ closePer(); if(region!=="all"&&x.region!==region){ region=x.region; drawTabs(); render(); } map.setView([x.lat,x.lng],18); openSheet(x.id); } return; }
-  if(b.dataset.cs){ look[LOOKKEY[b.dataset.cs]]=""; lookSave(); applyStatusColors(); drawPer(); return; }
+  if(b.dataset.pc){ perCity=b.dataset.pc; perPreview(); drawPer(); return; }
+  if(b.dataset.cs){ perSet(LOOKKEY[b.dataset.cs],""); drawPer(); return; }
   if(b.dataset.hc!==undefined){ look.hdr=b.dataset.hc; lookSave(); applyHdr(); drawPer(); return; }
-  if(b.dataset.sb!==undefined){ look.bg=b.dataset.sb; lookSave(); applySlot(); drawPer(); return; }
-  if(b.dataset.sx!==undefined){ look.tx=b.dataset.sx; lookSave(); applySlot(); drawPer(); return; }
+  if(b.dataset.sb!==undefined){ perSet("bg",b.dataset.sb); drawPer(); return; }
+  if(b.dataset.sx!==undefined){ perSet("tx",b.dataset.sx); drawPer(); return; }
   if(b.id==="perAdd"){
     const n=prompt("Nome da nova cidade:",""); if(n===null||!n.trim()) return;
     const c=map.getCenter(), id="c"+Date.now().toString(36);
@@ -2047,14 +2119,14 @@ perBody.addEventListener("click",e=>{
     state.cityExtra=state.cityExtra.filter(x=>x.id!==id); state.cst=state.cst.filter(x=>x.region!==id); _sm=null; rebuildRegions(); perSave();
     if(region===id){ region="sgb"; fit(); } drawTabs(); drawPer(); render(); return; }
 });
-perBody.addEventListener("input",e=>{ const k2=e.target.dataset&&e.target.dataset.cc2; if(k2){ look[LOOKKEY[k2]]=e.target.value; lookSave(); applyStatusColors(); return; }
+perBody.addEventListener("input",e=>{ const k2=e.target.dataset&&e.target.dataset.cc2; if(k2){ perSet(LOOKKEY[k2],e.target.value); return; }
   if(e.target.id==="perColor"){ look.hdr=e.target.value; lookSave(); applyHdr(); }
-  else if(e.target.id==="perSlotBg"){ look.bg=e.target.value; lookSave(); applySlot(); }
-  else if(e.target.id==="perSlotTx"){ look.tx=e.target.value; lookSave(); applySlot(); } });
+  else if(e.target.id==="perSlotBg"){ perSet("bg",e.target.value); }
+  else if(e.target.id==="perSlotTx"){ perSet("tx",e.target.value); } });
 perBody.addEventListener("change",e=>{
   if(e.target.id==="perColor"){ look.hdr=e.target.value; lookSave(); applyHdr(); drawPer(); return; }
-  if(e.target.id==="perSlotBg"){ look.bg=e.target.value; lookSave(); applySlot(); drawPer(); return; }
-  if(e.target.id==="perSlotTx"){ look.tx=e.target.value; lookSave(); applySlot(); drawPer(); return; }
+  if(e.target.id==="perSlotBg"){ perSet("bg",e.target.value); drawPer(); return; }
+  if(e.target.id==="perSlotTx"){ perSet("tx",e.target.value); drawPer(); return; }
   const k=e.target.dataset.cn; if(!k) return; const v=e.target.value.trim(); if(!v){ drawPer(); return; }
   const ex=state.cityExtra.find(x=>x.id===k); if(ex) ex.name=v; else state.cityNames[k]=v;
   rebuildRegions(); perSave(); drawTabs(); if(currentId) drawSheet();
@@ -2557,12 +2629,13 @@ fillModal.addEventListener("click",e=>{
       const cl=clientsOf(it.id); [...pl.del].sort((a,b)=>b-a).forEach(i=>cl.splice(i,1)); pl.add.forEach(q=>cl.push({n:"",p:String(q)})); if(pl.unflag) state.full[it.id]=false; }); }
 });
 document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&!fillModal.classList.contains("hidden")) fillModal.classList.add("hidden"); });
+const bulkW=pkWire("bulkModal","bulkStList","bulkQ","bulkGrip");
 function openBulkStreet(){
   const n=selSet.size; if(!n) return;
   document.getElementById("bulkTitle").textContent=`Definir rua de ${n} caixa${n===1?"":"s"}`;
   const regs=new Set([...selSet].map(id=>byId[id]&&byId[id].region));
   document.getElementById("bulkStList").innerHTML=stRow("","— Sem rua —",false)+streetsAll().filter(s=>regs.has(s[1])&&stName(s[0])).map(s=>stRow(s[0],esc(stLabel(s[0])),false)).join("");
-  bulkModal.classList.remove("hidden");
+  bulkModal.classList.remove("hidden"); bulkW.reset();
 }
 function saveBulkStreet(sid){
   const nm=sid?stLabel(sid):"", n=selSet.size;
