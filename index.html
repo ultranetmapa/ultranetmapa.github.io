@@ -60,6 +60,11 @@
   #sheetX:active{transform:scale(.9);background:#dbe3ee}
   html.dark #sheetX{background:#1a1a1a;color:#d4d4d8;border-color:#3a3a3d}
   html.dark #sheetX:active{background:#3a3a3d}
+  .volta{display:inline-flex;align-items:center;gap:2px;flex:none;font-size:12.5px;font-weight:800;color:#0056b3;background:#e8f0fb;border-radius:99px;padding:6px 12px;white-space:nowrap;transition:transform .12s,background .12s;-webkit-tap-highlight-color:transparent}
+  .volta:active{transform:scale(.93);background:#cfe0f7}
+  html.dark .volta{color:#8ab4ff;background:#16213a}html.dark .volta:active{background:#22325a}
+  #sheetBack{position:absolute;left:12px;top:5px;z-index:2}#sheetBack.hidden{display:none}
+  body:not(.ismain) .adv{display:none!important}
   #sheet.closed{transform:translateY(105%)}
   .leaflet-control-layers{margin-top:70px!important}
   button{touch-action:manipulation}
@@ -215,19 +220,43 @@
   .sctab{flex:1;padding:8px;border-radius:9px;background:#e2e8f0;font-weight:700;font-size:13px;color:#334155}.sctab.on{background:#0056b3;color:#fff}
   .scb{display:flex;align-items:center;justify-content:center;background:#e2e8f0;border-radius:10px;padding:10px;font-weight:700;font-size:13px;color:#0f172a;cursor:pointer}
   .scbig{background:#10b981;color:#fff;font-weight:800;border-radius:12px;padding:13px;font-size:15px;text-align:center;width:100%}
-  html.dark #scanModal,html.dark #ctrModal>div{background:#121212;color:#f5f5f5}html.dark #scanModal .scb{background:#2a2a2e;color:#f5f5f5}html.dark .sctab{background:#2a2a2e;color:#f5f5f5}html.dark .sctab.on{background:#000;color:#fff;border:1px solid #2e2e32}
+  .sctab,.scb,.scbig,.rcb{transition:transform .12s,background .15s,box-shadow .15s;-webkit-tap-highlight-color:transparent}
+  .sctab:active,.scb:active,.scbig:active,.rcb:active{transform:scale(.95)}
+  .scb:active{background:#cbd5e1}html.dark .scb:active{background:#3a3a40!important}.scbig:active{filter:brightness(.92)}
+  #scTabs{position:relative}
+  #scTabs .sctab{position:relative;z-index:1;background:transparent;border:1px solid #cbd5e1;transition:color .2s,transform .12s}
+  #scTabs .sctab.on{background:transparent;color:#fff;border-color:transparent}
+  #scPill{position:absolute;z-index:0;border-radius:9px;background:#0056b3;pointer-events:none;transition:left .26s cubic-bezier(.4,0,.2,1),width .26s cubic-bezier(.4,0,.2,1)}
+  html.dark #scTabs .sctab{background:#000;border-color:#2e2e32;color:#e5e7eb}
+  html.dark #scTabs .sctab.on{background:transparent;color:#fff;border-color:transparent}
+  html.dark #scPill{background:linear-gradient(180deg,#2f7bff,#1450d6);box-shadow:0 0 0 1px #5b9bff88,0 0 14px 2px #2f7bff88;animation:pillglow 2.6s ease-in-out infinite}
+  @keyframes pillglow{50%{box-shadow:0 0 0 1px #5b9bffaa,0 0 20px 4px #2f7bffaa}}
+  .zb{background:rgba(0,0,0,.55);color:#fff;border-radius:99px;padding:5px 12px;font-size:12px;font-weight:800}.zb.on{background:#fff;color:#000}
+  .scv{font-size:26px;font-weight:900;line-height:1.2}
+  .vbx{display:inline-block;border-radius:8px;padding:5px 9px;font-weight:800;font-size:13px;margin-top:4px}
+  .vbad{background:#fee2e2;color:#991b1b}.vok{background:#dcfce7;color:#166534}.vwarn{background:#fef3c7;color:#92400e}
+  html.dark .vbad{background:#4a1a1a;color:#fca5a5}html.dark .vok{background:#123a24;color:#86efac}html.dark .vwarn{background:#4a3a10;color:#fcd34d}
+  .recimg{display:inline-flex;align-items:center;gap:5px;border:1px solid #93b8e8;background:#eef5ff;color:#0056b3;border-radius:9px;padding:6px 11px;font-size:12.5px;font-weight:800;cursor:pointer;transition:transform .12s}
+  .recimg:active{transform:scale(.95)}html.dark .recimg{border-color:#2a4a8a;background:#101c33;color:#8ab4ff}
+  html.dark #scanModal,html.dark #ctrModal>div{background:#121212;color:#f5f5f5}html.dark #scanModal .scb{background:#2a2a2e;color:#f5f5f5}html.dark .sctab{background:#2a2a2e;color:#f5f5f5}html.dark .sctab.on{background:linear-gradient(180deg,#2f7bff,#1450d6);color:#fff;border:1px solid #5b9bff;box-shadow:0 0 12px 1px #2f7bff77}
   html.dark #scanModal input,html.dark #ctrModal input{background:#1c1c20;color:#f5f5f5;border-color:#3a3a40}
   #btnMenu{position:relative}
   #recDot{position:absolute;top:1px;right:1px;width:12px;height:12px;border-radius:50%;background:#ef4444;border:2px solid #fff;pointer-events:none}
   #btnRec[hidden]{display:none!important}
   #recModal{background:#fff}#recPanel{width:100%;max-width:640px;display:flex;flex-direction:column;min-height:0;background:#fff;color:#0f172a}
   @media(min-width:700px){#recModal{background:rgba(0,0,0,.5);padding:24px 0}#recPanel{border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,.5);overflow:hidden}}
-  .rca{display:flex;justify-content:flex-end;gap:6px;margin-top:6px}.rcx.del{color:#ef4444}
+  .rca{display:flex;justify-content:flex-end;gap:7px;margin-top:8px}
   .recpv{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12.5px;border-bottom:1px solid #f1f5f9;padding:6px 0}.recpv button{color:#ef4444;font-weight:800;padding:2px 8px;flex:none}
   html.dark #recModal{background:#121212}@media(min-width:700px){html.dark #recModal{background:rgba(0,0,0,.6)}}html.dark #recPanel,html.dark #recAddBox,html.dark #recEditModal>div{background:#121212;color:#f5f5f5}html.dark .recpv{border-color:#2e2e32}
   .rc{border:1px solid #e2e8f0;border-radius:12px;padding:10px;font-size:13.5px;color:#0f172a;background:#fff}
   .rcs{color:#64748b;font-size:11.5px;margin-top:3px}.rcm{color:#0056b3;text-decoration:none;font-weight:600}
-  .rcx{flex:none;width:34px;height:34px;border-radius:9px;border:1px solid #cbd5e1;color:#334155;font-size:15px}.rcx.del{border-color:#fca5a5}html.dark .rcx{border-color:#3a3a40;color:#f5f5f5}html.dark .rcx.del{border-color:#7f1d1d;color:#f87171}
+  .rcx{flex:none;height:40px;min-width:40px;padding:0 10px;border-radius:11px;border:1px solid #cbd5e1;color:#334155;font-size:17px;font-weight:800;background:#fff;display:inline-flex;align-items:center;justify-content:center;transition:transform .12s,background .12s,box-shadow .15s;-webkit-tap-highlight-color:transparent}
+  .rcx:active{transform:scale(.92);background:#dbeafe}
+  .rcx.re{font-size:12.5px;color:#0056b3;border-color:#93b8e8;background:#eef5ff;padding:0 13px}
+  .rcx.del{color:#6b7280;border-color:#d1d5db}
+  .rcx.del.flash{background:#ef4444;border-color:#ef4444;color:#fff;box-shadow:0 0 0 4px rgba(239,68,68,.35)}
+  .rc{transition:opacity .2s,transform .2s}.rc.gone{opacity:0;transform:translateX(-36px)}
+  html.dark .rcx{border-color:#3a3a40;color:#f5f5f5;background:#0b0b0d}html.dark .rcx.re{color:#8ab4ff;border-color:#2a4a8a;background:#101c33}html.dark .rcx.del{border-color:#3a3a40;color:#9ca3af}html.dark .rcx:active{background:#1b2a4a}html.dark .rcx.del.flash{background:#ef4444;border-color:#ef4444;color:#fff}
   .rcb{border-radius:8px;padding:7px 10px;font-weight:700;font-size:12px;background:#e2e8f0;color:#0f172a}.rcb.on{background:#0056b3;color:#fff}
   .rci{display:block;width:100%;border:1px solid #cbd5e1;border-radius:9px;padding:8px 10px;font-size:14px;background:#fff;color:#0f172a}
   html.dark #recModal,html.dark #recAddModal>div{background:#121212;color:#f5f5f5}
@@ -439,11 +468,11 @@
 <div id="mapMenu" class="hidden"><button data-mm="pt" type="button">📍 Marcar ponto do cliente</button><button data-mm="box" type="button">➕ Nova caixa aqui</button></div>
 <button id="btnScanTop" type="button" title="Ler QR Code / código de barras" aria-label="Ler QR Code / código de barras"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M4 12h16"/></svg></button>
 <div id="scanModal" class="hidden fixed inset-0 z-[1300] bg-white flex flex-col" style="padding-top:env(safe-area-inset-top)">
-  <div class="flex items-center gap-2 px-3 py-2 border-b border-slate-200"><button id="scClose" type="button" class="text-2xl px-2 leading-none" aria-label="Fechar">✕</button><b class="flex-1">📷 Leitor</b></div>
-  <div class="flex gap-2 px-3 pt-2"><button id="scTabR" type="button" class="sctab on">Ler código</button><button id="scTabC" type="button" class="sctab">Calcular contrato</button></div>
+  <div class="flex items-center gap-2 px-3 py-2 border-b border-slate-200"><button id="scClose" type="button" class="text-2xl px-2 leading-none" aria-label="Fechar">✕</button><b class="flex-1">📷 Leitor</b><button id="scBack" type="button" class="volta">‹ Voltar</button></div>
+  <div id="scTabs" class="flex gap-2 px-3 pt-2"><i id="scPill"></i><button id="scTabR" type="button" class="sctab on">Ler código</button><button id="scTabC" type="button" class="sctab">Calcular contrato</button></div>
   <div id="scRead" class="flex-1 flex flex-col min-h-0 overflow-y-auto">
-    <div id="scCam" class="relative bg-black mx-3 mt-2 rounded-xl overflow-hidden" style="height:52vh;flex:none"><video id="scVid" playsinline muted class="w-full h-full" style="object-fit:cover"></video><div class="absolute inset-0 flex items-center justify-center pointer-events-none"><div style="width:62%;aspect-ratio:1;border:3px solid #fff;border-radius:18px;box-shadow:0 0 0 999px rgba(0,0,0,.45)"></div></div><div id="scMsg" class="absolute left-0 right-0 bottom-2 text-center text-white text-xs px-3"></div></div>
-    <div id="scBtns" class="flex gap-2 px-3 py-2"><label class="scb flex-1"><input id="scFile" type="file" accept="image/*" class="hidden">🖼 Foto da galeria</label><button id="scTorch" type="button" class="scb flex-1 hidden">🔦 Lanterna</button></div>
+    <div id="scCam" class="relative bg-black mx-3 mt-2 rounded-xl overflow-hidden" style="height:52vh;flex:none"><video id="scVid" playsinline muted class="w-full h-full" style="object-fit:cover"></video><div class="absolute inset-0 flex items-center justify-center pointer-events-none"><div style="width:62%;aspect-ratio:1;border:3px solid #fff;border-radius:18px;box-shadow:0 0 0 999px rgba(0,0,0,.45)"></div></div><div id="scMsg" class="absolute left-0 right-0 bottom-2 text-center text-white text-xs px-3"></div><div id="scZoom" class="hidden absolute right-2 top-2 flex gap-1.5"><button id="scZ1" type="button" class="zb on">1x</button><button id="scZ2" type="button" class="zb">2x</button></div></div>
+    <div id="scBtns" class="flex flex-col gap-2 px-3 py-2"><label class="scb w-full"><input id="scFileCam" type="file" accept="image/*" capture="environment" class="hidden">📷 Foto com a câmera do celular</label><div class="flex gap-2"><label class="scb flex-1"><input id="scFile" type="file" accept="image/*" class="hidden">🖼 Foto da galeria</label><button id="scTorch" type="button" class="scb flex-1 hidden">🔦 Lanterna</button></div></div>
     <div id="scRes" class="hidden px-4 py-3"></div>
   </div>
   <div id="scCtr" class="hidden flex-1 px-4 py-3 overflow-y-auto">
@@ -455,14 +484,14 @@
 </div>
 <div id="recModal" class="hidden fixed inset-0 z-[1300] flex justify-center">
   <div id="recPanel">
-    <div class="flex items-center gap-2 px-3 py-2 border-b border-slate-200" style="padding-top:calc(env(safe-area-inset-top) + 8px)"><button id="recClose" type="button" class="text-2xl px-2 leading-none" aria-label="Fechar">✕</button><b class="flex-1">📦 Recolhidos</b><button id="recAdd" type="button" class="hidden rounded-lg px-3 py-2 text-sm font-bold" style="background:#dbeafe;color:#0056b3">＋ Adicionar</button></div>
+    <div class="flex items-center gap-2 px-3 py-2 border-b border-slate-200" style="padding-top:calc(env(safe-area-inset-top) + 8px)"><button id="recClose" type="button" class="text-2xl px-2 leading-none" aria-label="Fechar">✕</button><b class="flex-1 min-w-0 truncate">📦 Recolhidos</b><button id="recBack" type="button" class="volta">‹ Voltar</button><button id="recAdd" type="button" class="hidden rounded-lg px-2.5 py-2 text-xs font-bold" style="background:#dbeafe;color:#0056b3">＋ Adicionar</button></div>
     <div id="recList" class="flex-1 overflow-y-auto px-3 py-2 space-y-2"></div>
-    <div id="recFoot" class="hidden px-3 py-2 border-t border-slate-200 flex gap-2" style="padding-bottom:calc(env(safe-area-inset-bottom) + 8px)"><button id="recResendAll" type="button" class="scb flex-1" style="font-size:12.5px">🔔 Reenviar pendentes</button><button id="recClean" type="button" class="scb flex-1" style="font-size:12.5px">🧹 Limpar lista</button></div>
+    <div id="recFoot" class="hidden px-3 py-2 border-t border-slate-200 flex gap-2" style="padding-bottom:calc(env(safe-area-inset-bottom) + 8px)"><button id="recResendAll" type="button" class="scb flex-1" style="font-size:12.5px">↻ Reenviar pendentes</button><button id="recClean" type="button" class="scb flex-1" style="font-size:12.5px">🧹 Limpar lista</button></div>
   </div>
 </div>
 <div id="recAddModal" class="hidden fixed inset-0 z-[1350] bg-black/50 flex items-end justify-center"><div id="recAddBox" class="bg-white w-full max-w-xl rounded-t-2xl p-3" style="padding-bottom:calc(env(safe-area-inset-bottom) + 12px);max-height:82vh;overflow-y:auto">
   <div class="flex gap-2 mb-2"><button id="recTabP" type="button" class="sctab on">📋 Colar da planilha</button><button id="recTabU" type="button" class="sctab">Um por um</button></div>
-  <div id="recPaneP"><textarea id="recPaste" rows="3" class="rci" placeholder="Copie as células da planilha (nome e endereço) e cole aqui"></textarea><div id="recPrev"></div><button id="recPasteOk" type="button" class="scbig mt-2 hidden"></button></div>
+  <div id="recPaneP"><textarea id="recPaste" rows="3" class="rci" placeholder="Copie as células da planilha (nome e endereço) e cole aqui"></textarea><div class="flex items-center gap-2 mt-2 flex-wrap"><label class="recimg"><input id="recImg" type="file" accept="image/*" class="hidden">📁 Escolher imagem</label><span class="hidden md:inline text-[11px] opacity-60">ou aperte Ctrl+V com um print copiado</span></div><div id="recOcr" class="hidden text-xs mt-1 font-semibold"></div><div id="recPrev"></div><button id="recPasteOk" type="button" class="scbig mt-2 hidden"></button></div>
   <div id="recPaneU" class="hidden space-y-2"><input id="recNome" type="text" maxlength="80" placeholder="Nome do cliente" class="rci"><input id="recEnd" type="text" maxlength="140" placeholder="Endereço" class="rci"><input id="recObs" type="text" maxlength="140" placeholder="Descrição (opcional)" class="rci"><button id="recAddOk" type="button" class="scbig" style="padding:11px">Adicionar</button></div>
   <button id="recAddClose" type="button" class="scb w-full mt-2">Fechar</button>
 </div></div>
@@ -476,7 +505,7 @@
   <div><label class="text-xs font-bold text-slate-500">Valor do contrato (R$)</label><input id="ctrVal" type="number" step="0.01" inputmode="decimal" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-base mt-1"></div>
   <div><label class="text-xs font-bold text-slate-500">Duração (meses)</label><input id="ctrMes" type="number" inputmode="numeric" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-base mt-1"></div>
   <p class="text-xs text-slate-400">O cálculo desconta o valor dia a dia, até o fim do contrato.</p>
-  <div class="flex gap-2"><button id="ctrCancel" type="button" class="scb flex-1">Cancelar</button><button id="ctrSaveBtn" type="button" class="scbig flex-1" style="padding:10px">Salvar</button></div>
+  <div class="flex gap-2"><button id="ctrCancel" type="button" class="scb flex-1">‹ Voltar</button><button id="ctrSaveBtn" type="button" class="scbig flex-1" style="padding:10px">Salvar</button></div>
 </div></div>
 <div id="cabChip" class="hidden fixed z-[950] rounded-xl bg-[#0056b3] text-white text-sm shadow-xl px-3 py-2 flex items-center gap-2" style="left:50%;transform:translateX(-50%);top:130px;max-width:94vw"><span id="cabChipTxt" class="font-semibold whitespace-nowrap"></span><button data-c="enter" class="cbtn go whitespace-nowrap">✏ Editar cabo</button><button data-c="x" class="cbtn">×</button></div>
 <div id="cabStyle" class="hidden fixed z-[960] rounded-xl bg-white text-slate-800 shadow-xl px-3 py-2 space-y-2 text-sm" style="left:50%;transform:translateX(-50%);width:min(94vw,560px);top:230px"></div>
@@ -496,7 +525,7 @@
 
 <!-- Painel inferior -->
 <div id="sheet" class="closed fixed inset-x-0 bottom-0 z-[1100] bg-white rounded-t-2xl shadow-2xl flex flex-col" style="padding-bottom:env(safe-area-inset-bottom)">
-  <div id="sheetHd" class="relative flex items-center justify-center shrink-0" style="height:40px"><button id="sheetGrip" type="button" aria-label="Abrir mais ou recolher" title="Toque para abrir mais / recolher"><span class="w-12 h-1.5 rounded-full bg-slate-300 block"></span></button>
+  <div id="sheetHd" class="relative flex items-center justify-center shrink-0" style="height:40px"><button id="sheetBack" type="button" class="volta hidden">‹ Voltar</button><button id="sheetGrip" type="button" aria-label="Abrir mais ou recolher" title="Toque para abrir mais / recolher"><span class="w-12 h-1.5 rounded-full bg-slate-300 block"></span></button>
     <button id="sheetX" title="Fechar" aria-label="Fechar"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
   <div id="draftBar" class="hidden mx-3 mb-1 flex items-center gap-2 rounded-lg bg-amber-100 border border-amber-300 px-2 py-1.5 text-xs text-amber-900"><span class="flex-1 font-semibold">✎ Alterações não salvas</span><button data-d="cancel" class="rounded-md bg-white border border-slate-300 text-slate-700 px-3 py-1.5 font-semibold">Cancelar</button><button data-d="save" class="rounded-md bg-emerald-600 text-white px-3 py-1.5 font-bold">Salvar</button></div>
   <div id="sheetBody" class="overflow-y-auto px-3 pb-3"></div>
@@ -945,7 +974,7 @@ function rebuildRegions(){            // nomes das cidades: padrão + renomeadas
   Object.keys(REGION_DEF).forEach(k=>{ REGIONS[k]=(state.cityNames&&state.cityNames[k])||REGION_DEF[k]; });
   (state.cityExtra||[]).forEach(c=>{ REGIONS[c.id]=c.name; });
 }
-const APP_VERSION = "3.58";
+const APP_VERSION = "3.59";
 const TEST_MODE = false;   // true = arquivo de teste (usa uma cópia dos dados) · false = site real
 const KEY_STATE = TEST_MODE?"ftth_state_test":"ftth_state_v1", KEY_NET = TEST_MODE?"ftth_net_test":"ftth_net_v1";
 const DOC_STATE = TEST_MODE?"state_teste":"state", DOC_NET = TEST_MODE?"net_teste":"net";
@@ -1541,7 +1570,7 @@ function cancelDraft(){
   takeBase();
 }
 function settleDraft(){ if(!draftDirty) return; if(confirm("Salvar as alterações desta caixa?\n\nOK = Salvar\nCancelar = Descartar as alterações")) commitDraft(); else cancelDraft(); }
-function closeSheet(){ if(draftDirty) settleDraft(); sheet.classList.add("closed"); sheet.style.removeProperty("max-height"); currentId=null; draftBase=null; draftDirty=false; drawDraftBar(); }
+function closeSheet(){ if(draftDirty) settleDraft(); sheet.classList.add("closed"); sheet.style.removeProperty("max-height"); currentId=null; draftBase=null; draftDirty=false; drawDraftBar(); updSheetBack(); }
 function openSheet(id){
   if(id!==currentId) apEd={};
   if(rpOpenId) rpClose();
@@ -1562,6 +1591,9 @@ const INP="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-base te
 const PLUG_IN="flex:1;min-width:0;width:100%;font-size:12px;padding:3px 4px;border:1px solid #94a3b8;border-radius:5px;color:#0f172a;background:#fff";
 const plugBox=(n,on)=>`<span style="flex:0 0 auto;width:17px;height:17px;border-radius:3px;background:${on?"#2563eb":"#94a3b8"};color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center">${n}</span>`;
 const armTw={}, armEd={}; let apEd={}; const armInfoOpen={};
+/* botão "‹ Voltar" do armário: aparece quando tem algo aberto dentro (informações das CEOs, edição da torre ou do AP) e fecha só isso, sem fechar o armário */
+function armSub(it){ return !!it&&it.type==="arm"&&!!(armInfoOpen[it.id]||armEd[it.id]||Object.keys(apEd).some(k=>k.indexOf(it.id+":")===0&&apEd[k])); }
+function updSheetBack(){ const b=document.getElementById("sheetBack"); if(b) b.classList.toggle("hidden",!armSub(currentId?byId[currentId]:null)); }
 function armData(id){
   const ar=state.arm[id]||(state.arm[id]={aps:[],olt:{}});
   if(!Array.isArray(ar.towers)){ ar.towers=[{n:"Principal",ip:"",aps:Array.isArray(ar.aps)?ar.aps:[],pons:[]},{n:"Caixa d'água",ip:"",aps:[],pons:[]},{n:"Da Pedra",ip:"",aps:[],pons:[]}]; delete ar.aps; }
@@ -1617,6 +1649,7 @@ function specialSheet(it,gm){
 }
 function drawSheet(){
   const it=byId[currentId]; if(!it) return;
+  updSheetBack();
   sheet.classList.toggle("ceo",it.type==="ceo");
   const cl = clientsOf(it.id), c=cl.length, co=c, st=status(it), sid=stOf(it);
   const gm = `https://www.google.com/maps/dir/?api=1&destination=${it.lat},${it.lng}&travelmode=driving`;
@@ -1847,6 +1880,11 @@ body.addEventListener("change",e=>{
 // alterações feitas dentro do painel da caixa só valem depois de "Salvar"
 ["click","change","keydown","input"].forEach(ev=>{ body.addEventListener(ev,()=>{ stageOn=true; },true); body.addEventListener(ev,()=>{stageOn=false;}); });
 document.getElementById("sheetX").addEventListener("click",()=>closeSheet());
+document.getElementById("sheetBack").addEventListener("click",()=>{
+  const it=byId[currentId]; if(!it) return;
+  armInfoOpen[it.id]=false; armEd[it.id]=false; Object.keys(apEd).forEach(k=>{ if(k.indexOf(it.id+":")===0) delete apEd[k]; });
+  drawSheet(); body.scrollTop=0;
+});
 /* tocar no tracinho do topo: abre mais (sobe) · tocar de novo: recolhe ao tamanho normal */
 (function(){
   const grip=document.getElementById("sheetGrip");
@@ -2917,7 +2955,7 @@ delBody.addEventListener("click",e=>{ const b=e.target.closest("[data-d]"); if(!
   if(b.dataset.d==="no") return delClose();
   if(b.dataset.d==="bk"){ try{ exportBackup(); }catch(err){ alert("Não consegui baixar o backup. Por segurança, nada foi apagado."); return; } delStep2(); } });
 delModal.addEventListener("click",e=>{ if(e.target===delModal) delClose(); });
-document.getElementById("btnReset").onclick=()=>{ delStep1(); delModal.classList.remove("hidden"); };
+document.getElementById("btnReset").onclick=()=>{ if(!isMain()) return; delStep1(); delModal.classList.remove("hidden"); };
 document.getElementById("btnKml").onclick=()=>document.getElementById("fileKml").click();
 document.getElementById("fileKml").onchange=e=>{
   const f=e.target.files[0]; if(!f) return; const r=new FileReader();
@@ -2989,6 +3027,7 @@ function applyAccess(){
   document.body.classList.toggle("ro",RO);
   const lk=document.getElementById("lockIco"); if(lk){ lk.hidden=!(me&&lockables().includes(me)); lk.classList.toggle("closed",RO); lk.setAttribute("aria-label",RO?"Conta só para visualizar":"Você pode editar"); }
   const rc=document.getElementById("rowConta"); if(rc) rc.hidden=!isMain();
+  document.body.classList.toggle("ismain",isMain());
   if(RO&&!was){ try{ if(editMode) setEdit(false); if(cabMode) setCab(false); if(selMode) setSel(false); cancelPlacing(); closeSheet(); render(); }catch(e){} }
   if(!RO&&was){ try{ drawSheet(); render(); }catch(e){} }
 }
@@ -3518,7 +3557,7 @@ new MutationObserver(()=>{ if(RO) document.querySelectorAll("#sheetBody input,#s
 /* ======================= VERSÃO / MODO TESTE ======================= */
 /* ======================= LEITOR (QR Code Pix / código de barras) + CONTRATO ======================= */
 const scanModal=document.getElementById("scanModal"), scVid=document.getElementById("scVid"), scRes=document.getElementById("scRes"), scMsg=document.getElementById("scMsg");
-let scStream=null, scDet=null, scRun=false, scTorchOn=false, scTab="r";
+let scStream=null, scDet=null, scRun=false, scTorchOn=false, scTab="r", scFrom="menu", scBusy=false, scZmin=1, scZmax=1;
 function brl(n){ return "R$ "+(Math.round(n*100)/100).toFixed(2).replace(".",",").replace(/\B(?=(\d{3})+(?!\d))/g,"."); }
 function mod10(s){ let sum=0,m=2; for(let i=s.length-1;i>=0;i--){ let p=(+s[i])*m; if(p>9) p=Math.floor(p/10)+p%10; sum+=p; m=m===2?1:2; } const r=sum%10; return r===0?0:10-r; }
 function mod11c(s){ let sum=0,m=2; for(let i=s.length-1;i>=0;i--){ sum+=(+s[i])*m; m=m===9?2:m+1; } const r=sum%11; return (r===0||r===1)?0:(r===10?1:11-r); }
@@ -3528,6 +3567,11 @@ function barToLinha(code){                 // 44 números do código de barras -
   return c1+mod10(c1)+c2+mod10(c2)+c3+mod10(c3)+code[4]+code.slice(5,19);
 }
 function emvParse(s){ const o={}; let i=0; while(i+4<=s.length){ const t=s.substr(i,2), l=parseInt(s.substr(i+2,2),10); if(isNaN(l)||i+4+l>s.length) break; o[t]=s.substr(i+4,l); i+=4+l; } return o; }
+function boletoDue(f){          // fator de vencimento -> data (o contador voltou a 1000 em 22/02/2025)
+  f=+f; if(!(f>=1000)) return null; const DAY=864e5, n=new Date(), t=Date.UTC(n.getFullYear(),n.getMonth(),n.getDate());
+  const d1=Date.UTC(1997,9,7)+f*DAY, d2=Date.UTC(2025,1,22)+(f-1000)*DAY, ms=Math.abs(d1-t)<=Math.abs(d2-t)?d1:d2;
+  return {ms,days:Math.round((ms-t)/DAY)};
+}
 function scanClassify(raw){          // devolve {kind,label,copy,info[]}
   const t=String(raw||"").trim(), digits=t.replace(/[\s.\-]/g,"");
   if(/^000201/.test(t) && /br\.gov\.bcb\.pix/i.test(t)){
@@ -3536,8 +3580,19 @@ function scanClassify(raw){          // devolve {kind,label,copy,info[]}
   }
   if(/^\d{44}$/.test(digits)||/^\d{47}$/.test(digits)||/^\d{48}$/.test(digits)){
     const line=digits.length===44?barToLinha(digits):digits, info=[];
-    if(line[0]!=="8" && line.length===47){ const v=parseInt(line.slice(37,47),10)/100; if(v>0) info.push("Valor: <b>"+brl(v)+"</b>"); }
-    else if(line[0]==="8") info.push("Conta de consumo / convênio");
+    if(line[0]!=="8" && line.length===47){
+      const v=parseInt(line.slice(37,47),10)/100; if(v>0) info.push("Valor: <b class=\"scv\">"+brl(v)+"</b>");
+      const dd=boletoDue(line.slice(33,37));
+      if(dd){ const ds=new Date(dd.ms).toLocaleDateString("pt-BR",{timeZone:"UTC"}), n=Math.abs(dd.days);
+        info.push(dd.days<0?`<span class="vbx vbad">⚠ Vencido · ${ds} (há ${n} dia${n>1?"s":""})</span>`:dd.days===0?`<span class="vbx vwarn">Vence hoje · ${ds}</span>`:`<span class="vbx vok">Vence ${ds} (em ${n} dia${n>1?"s":""})</span>`); }
+      else info.push("Sem data de vencimento no código");
+      info.push('<span class="text-xs" style="opacity:.65">O código não diz se o boleto já foi pago. Só o banco sabe.</span>');
+    } else if(line[0]==="8"){
+      info.push("Conta de consumo / convênio");
+      const c=line.length===48?line.slice(0,11)+line.slice(12,23)+line.slice(24,35)+line.slice(36,47):"";
+      if(c.length===44&&(c[2]==="6"||c[2]==="8")){ const v=parseInt(c.slice(4,15),10)/100; if(v>0) info.push("Valor: <b class=\"scv\">"+brl(v)+"</b>"); }
+      info.push('<span class="text-xs" style="opacity:.65">A data de vencimento nem sempre vem no código. Também não dá para saber se já foi paga.</span>');
+    }
     return {kind:"boleto",label:"BOLETO · números para pagar",copy:line,info};
   }
   if(/^https?:\/\//i.test(t)) return {kind:"link",label:"LINK",copy:t,info:[]};
@@ -3581,19 +3636,23 @@ async function scDetector(){
 async function scStart(){
   scStop(); scRes.classList.add("hidden"); scRes.innerHTML="";
   document.getElementById("scCam").classList.remove("hidden"); document.getElementById("scBtns").classList.remove("hidden");
-  document.getElementById("scTorch").classList.add("hidden");
+  document.getElementById("scTorch").classList.add("hidden"); document.getElementById("scZoom").classList.add("hidden");
   scMsg.textContent="Aponte para o QR Code ou código de barras";
   const det=await scDetector();
   if(!det){ scMsg.textContent="Este navegador não tem leitor de código. Atualize o Chrome do celular."; return; }
   if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){ scMsg.textContent="A câmera não está disponível aqui. Use “Foto da galeria”."; return; }
   try{
-    scStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:"environment"}},audio:false});
+    scStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:"environment"},width:{ideal:1920},height:{ideal:1080}},audio:false});
   }catch(e){
     scMsg.textContent=(e&&e.name==="NotAllowedError")?"Permita o uso da câmera para este app e toque em “Ler outro”. Ou use “Foto da galeria”.":"Não consegui abrir a câmera. Use “Foto da galeria”.";
     return;
   }
   scVid.srcObject=scStream; try{ await scVid.play(); }catch(e){}
-  try{ const tr=scStream.getVideoTracks()[0], cp=tr.getCapabilities&&tr.getCapabilities(); if(cp&&cp.torch) document.getElementById("scTorch").classList.remove("hidden"); }catch(e){}
+  try{ const tr=scStream.getVideoTracks()[0], cp=tr.getCapabilities&&tr.getCapabilities();
+    if(cp&&cp.torch) document.getElementById("scTorch").classList.remove("hidden");
+    if(cp&&cp.focusMode&&cp.focusMode.indexOf("continuous")>=0){ try{ await tr.applyConstraints({advanced:[{focusMode:"continuous"}]}); }catch(e){} }
+    if(cp&&cp.zoom&&cp.zoom.max>1){ scZmin=cp.zoom.min||1; scZmax=cp.zoom.max; document.getElementById("scZoom").classList.remove("hidden"); scZoomSet(1); }
+  }catch(e){}
   scRun=true;
   const tick=async()=>{
     if(!scRun) return;
@@ -3605,24 +3664,58 @@ async function scStart(){
 document.getElementById("scTorch").onclick=async()=>{
   try{ const tr=scStream&&scStream.getVideoTracks()[0]; if(!tr) return; scTorchOn=!scTorchOn; await tr.applyConstraints({advanced:[{torch:scTorchOn}]}); }catch(e){ toast("Lanterna não disponível"); }
 };
-document.getElementById("scFile").onchange=async e=>{
-  const f=e.target.files&&e.target.files[0]; e.target.value=""; if(!f) return;
-  const det=await scDetector(); if(!det){ toast("Este navegador não tem leitor de código"); return; }
-  try{ const bmp=await createImageBitmap(f); const r=await det.detect(bmp); if(r&&r.length&&r[0].rawValue) scShowRes(r[0].rawValue); else toast("Não achei código nessa foto. Tente outra mais de perto."); }
-  catch(err){ toast("Não consegui ler essa foto"); }
-};
+async function scZoomSet(x){
+  try{ const tr=scStream&&scStream.getVideoTracks()[0]; if(!tr) return; const z=x===1?scZmin:Math.min(2,scZmax); await tr.applyConstraints({advanced:[{zoom:z}]}); }catch(e){}
+  document.getElementById("scZ1").classList.toggle("on",x===1); document.getElementById("scZ2").classList.toggle("on",x!==1);
+}
+document.getElementById("scZ1").onclick=()=>scZoomSet(1);
+document.getElementById("scZ2").onclick=()=>scZoomSet(2);
+async function scFromFile(f){
+  if(!f) return; scBusy=true; scStop();
+  const det=await scDetector(); if(!det){ toast("Este navegador não tem leitor de código"); scBusy=false; return; }
+  let res=null;
+  try{
+    const bmp=await createImageBitmap(f); res=await det.detect(bmp);
+    if(!(res&&res.length)){   // 2ª tentativa: ampliada, em preto e branco, com mais contraste
+      const m=Math.max(bmp.width,bmp.height), k=1800/m, c=document.createElement("canvas"); c.width=Math.round(bmp.width*k); c.height=Math.round(bmp.height*k);
+      const cx=c.getContext("2d"); try{ cx.filter="grayscale(1) contrast(1.5)"; }catch(e){} cx.drawImage(bmp,0,0,c.width,c.height); res=await det.detect(c);
+    }
+  }catch(err){ toast("Não consegui ler essa foto"); scBusy=false; scStart(); return; }
+  scBusy=false;
+  if(res&&res.length&&res[0].rawValue) scShowRes(res[0].rawValue);
+  else { toast("Não achei código nessa foto. Tente de mais perto, com boa luz."); scStart(); }
+}
+function scPickWatch(){   // a câmera/galeria do celular toma conta da tela: para a prévia e volta se a pessoa cancelar
+  scStop();
+  const back=()=>{ window.removeEventListener("focus",back); setTimeout(()=>{ if(!scanModal.classList.contains("hidden")&&scTab==="r"&&scRes.classList.contains("hidden")&&!scStream&&!scBusy) scStart(); },1600); };
+  window.addEventListener("focus",back);
+}
+["scFile","scFileCam"].forEach(id=>{
+  const inp=document.getElementById(id);
+  inp.addEventListener("click",scPickWatch);
+  inp.onchange=e=>{ const f=e.target.files&&e.target.files[0]; e.target.value=""; scFromFile(f); };
+});
 function scTabSet(t){
   scTab=t; document.getElementById("scTabR").classList.toggle("on",t==="r"); document.getElementById("scTabC").classList.toggle("on",t==="c");
   document.getElementById("scRead").classList.toggle("hidden",t!=="r"); document.getElementById("scCtr").classList.toggle("hidden",t!=="c");
+  scPillPos(true);
   if(t==="r") scStart(); else { scStop(); ctrDraw(); }
 }
-function openScan(tab){ if(cabMode) return; scanModal.classList.remove("hidden"); menu.classList.add("hidden"); closeSheet(); scTabSet(tab||"r"); }
+function scPillPos(anim){   // a barra azul desliza para a aba marcada
+  const p=document.getElementById("scPill"), b=document.getElementById(scTab==="r"?"scTabR":"scTabC"); if(!p||!b||!b.offsetWidth) return;
+  if(!anim) p.style.transition="none";
+  p.style.left=b.offsetLeft+"px"; p.style.top=b.offsetTop+"px"; p.style.width=b.offsetWidth+"px"; p.style.height=b.offsetHeight+"px";
+  if(!anim){ void p.offsetWidth; p.style.transition=""; }
+}
+window.addEventListener("resize",()=>scPillPos(false));
+function openScan(tab,from){ if(cabMode) return; scFrom=from||"menu"; scanModal.classList.remove("hidden"); menu.classList.add("hidden"); closeSheet(); scTabSet(tab||"r"); scPillPos(false); }
 function closeScan(){ scStop(); scanModal.classList.add("hidden"); }
 document.getElementById("scClose").onclick=closeScan;
+document.getElementById("scBack").onclick=()=>{ closeScan(); if(scFrom==="menu") menu.classList.remove("hidden"); };
 document.getElementById("scTabR").onclick=()=>scTabSet("r");
 document.getElementById("scTabC").onclick=()=>scTabSet("c");
-document.getElementById("btnScan").onclick=()=>openScan("r");
-document.getElementById("btnScanTop").onclick=()=>openScan("r");
+document.getElementById("btnScan").onclick=()=>openScan("r","menu");
+document.getElementById("btnScanTop").onclick=()=>openScan("r","home");
 /* ---- contrato: valor × dias que faltam ÷ dias do contrato ---- */
 function ctrCfg(){ const c=state.ctr||{}; return {val:(+c.val>0?+c.val:250), meses:(+c.meses>0?Math.round(+c.meses):12)}; }
 function ctrCalc(startStr,cfg,today){
@@ -3649,7 +3742,7 @@ document.getElementById("ctrOut").addEventListener("click",async e=>{
 });
 const ctrModal=document.getElementById("ctrModal");
 document.getElementById("btnCtr").onclick=()=>{ const c=ctrCfg(); document.getElementById("ctrVal").value=c.val; document.getElementById("ctrMes").value=c.meses; menu.classList.add("hidden"); ctrModal.classList.remove("hidden"); };
-document.getElementById("ctrCancel").onclick=()=>ctrModal.classList.add("hidden");
+document.getElementById("ctrCancel").onclick=()=>{ ctrModal.classList.add("hidden"); menu.classList.remove("hidden"); };
 document.getElementById("ctrSaveBtn").onclick=()=>{
   const v=parseFloat(String(document.getElementById("ctrVal").value).replace(",",".")), m=parseInt(document.getElementById("ctrMes").value,10);
   if(!(v>0)||!(m>0)){ toast("Digite um valor e os meses (maiores que zero)"); return; }
@@ -3690,12 +3783,13 @@ const recDt=ms=>{ try{ return new Date(ms).toLocaleString("pt-BR",{day:"2-digit"
 const recDay=s=>{ const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(s||""); return m?m[3]+"/"+m[2]:""; };
 function recTitle(s){ const sm=["de","da","do","das","dos","e"]; return s.toLowerCase().split(/(\s+)/).map((w,i)=>{ if(!w||/^\s+$/.test(w)) return w; if(i>0&&sm.includes(w)) return w; return w.charAt(0).toUpperCase()+w.slice(1); }).join(""); }
 const recFix=s=>{ s=String(s||"").trim(); return (s&&s===s.toUpperCase()&&/[A-ZÀ-Ú]/.test(s))?recTitle(s):s; };
-function recParse(t){      // linhas copiadas da planilha: nome [TAB] endereço [TAB] observação
+function recParse(t,ocr){      // linhas copiadas da planilha: nome [TAB] endereço [TAB] observação
   const out=[];
   String(t||"").split(/\r?\n/).forEach(l=>{
     l=l.trim(); if(!l) return;
     let p=l.split("\t").map(x=>x.trim()).filter(Boolean);
     if(p.length<2) p=l.split(/\s{2,}|;|\s\|\s/).map(x=>x.trim()).filter(Boolean);
+    if(p.length<2&&ocr){ const m=l.match(/^(.+?)\s+((?:Rua|R\.|Av\.?|Avenida|Travessa|Tv\.|Pra[cç]a|Estrada|Rodovia|Rod\.|Alameda|Al\.|Beco|Largo|Vila|Sítio|Sitio|Fazenda|Loteamento)\s.+)$/i); if(m) p=[m[1].trim(),m[2].trim()]; }
     const nome=recFix(p[0]||""), end=recFix(p[1]||""), obs=p.slice(2).join(" ").trim();
     if(!nome) return; if(/^nome$/i.test(nome)&&/^endere/i.test(end)) return;
     out.push({nome,end,obs});
@@ -3710,9 +3804,9 @@ function recCard(x){
     +(x.end?`<div class="rcs">📍 ${esc(x.end)}</div>`:"")
     +(x.obs?`<div class="rcs" style="color:#0056b3">📝 ${esc(x.obs)}</div>`:"")
     +(x.det?`<div class="rcs">“${esc(x.det)}”</div>`:"")
-    +`<div class="rcs">${x.status==="pend"?"enviado por "+esc(nameFromEmail(x.createdBy||""))+" · "+recDt(x.created):"por "+esc(nameFromEmail(x.by||""))+" · "+recDt(x.upd||x.created)}${x.resent?" · 🔔 reenviado "+recDt(x.resent):""}</div>`;
+    +`<div class="rcs">${x.status==="pend"?"enviado por "+esc(nameFromEmail(x.createdBy||""))+" · "+recDt(x.created):"por "+esc(nameFromEmail(x.by||""))+" · "+recDt(x.upd||x.created)}${x.resent?" · ↻ reenviado "+recDt(x.resent):""}</div>`;
   if(main){
-    h+=`<div class="rca">${done?"":`<button type="button" data-rre="${esc(x.id)}" class="rcx" aria-label="Reenviar" title="Reenviar">🔔</button>`}<button type="button" data-red="${esc(x.id)}" class="rcx" aria-label="Editar" title="Editar">✏</button><button type="button" data-rdel="${esc(x.id)}" class="rcx del" aria-label="Apagar" title="Apagar">🗑</button></div>`;
+    h+=`<div class="rca">${done?"":`<button type="button" data-rre="${esc(x.id)}" class="rcx re" aria-label="Reenviar" title="Reenviar">↻ Reenviar</button>`}<button type="button" data-red="${esc(x.id)}" class="rcx" aria-label="Editar" title="Editar">✏</button><button type="button" data-rdel="${esc(x.id)}" class="rcx del" aria-label="Apagar" title="Apagar">🗑</button></div>`;
   }
   if(showOpts){
     const sel=d.st||"";
@@ -3731,20 +3825,23 @@ function recDraw(){
   const main=isMain(), pend=arr.filter(x=>x.status!=="ok").length;
   document.getElementById("recAdd").classList.toggle("hidden",!main);
   document.getElementById("recFoot").classList.toggle("hidden",!(main&&arr.length));
-  const ra=document.getElementById("recResendAll"); ra.classList.toggle("hidden",!pend); ra.textContent="🔔 Reenviar pendentes ("+pend+")";
+  const ra=document.getElementById("recResendAll"); ra.classList.toggle("hidden",!pend); ra.textContent="↻ Reenviar pendentes ("+pend+")";
 }
 function openRec(){ if(!canRec()) return; menu.classList.add("hidden"); closeSheet(); recModal.classList.remove("hidden"); recMarkSeen(); recDraw(); }
 function closeRec(){ recModal.classList.add("hidden"); recAddModal.classList.add("hidden"); recEditModal.classList.add("hidden"); recMarkSeen(); }
 document.getElementById("btnRec").onclick=openRec;
 document.getElementById("recClose").onclick=closeRec;
+document.getElementById("recBack").onclick=()=>{ closeRec(); menu.classList.remove("hidden"); };
 recList.addEventListener("focusout",()=>{ setTimeout(()=>{ if(recPend&&!recModal.classList.contains("hidden")&&!(recList.contains(document.activeElement)&&/INPUT|TEXTAREA/.test(document.activeElement.tagName))) recDraw(); },150); });
 const recRef=id=>fbDb.collection("rede").doc(REC_PFX+id);
 recList.addEventListener("click",e=>{
   const del=e.target.closest("[data-rdel]");
   if(del){ const id=del.dataset.rdel, x=recItems.find(y=>y.id===id); if(!x||!isMain()) return;
-    if(confirm("Apagar "+x.nome+" da lista?\n\nSome para todas as contas.")) recRef(id).delete().catch(()=>toast("Não consegui apagar. Veja a internet.")); return; }
+    if(del.dataset.busy) return; del.dataset.busy="1"; del.classList.add("flash");     // apaga direto: o botão pisca vermelho e o cartão some
+    const card=del.closest(".rc"); setTimeout(()=>{ if(card) card.classList.add("gone"); },160);
+    setTimeout(()=>{ recRef(id).delete().catch(()=>{ toast("Não consegui apagar. Veja a internet."); recDraw(); }); },360); return; }
   const re=e.target.closest("[data-rre]");
-  if(re){ if(!isMain()) return; const now=Date.now(); recRef(re.dataset.rre).update({ev:now,evby:myEmail(),resent:now}).then(()=>toast("🔔 Reenviado")).catch(()=>toast("Não consegui reenviar. Veja a internet.")); return; }
+  if(re){ if(!isMain()) return; const now=Date.now(); recRef(re.dataset.rre).update({ev:now,evby:myEmail(),resent:now}).then(()=>toast("↻ Reenviado")).catch(()=>toast("Não consegui reenviar. Veja a internet.")); return; }
   const ed=e.target.closest("[data-red]");
   if(ed){ const x=recItems.find(y=>y.id===ed.dataset.red); if(!x||!isMain()) return; recEditId=x.id; document.getElementById("recENome").value=x.nome||""; document.getElementById("recEEnd").value=x.end||""; document.getElementById("recEObs").value=x.obs||""; recEditModal.classList.remove("hidden"); return; }
   const rs=e.target.closest("[data-rs]"); if(rs){ const id=rs.dataset.id; recDraft[id]=Object.assign(recDraft[id]||{},{st:rs.dataset.rs}); recDraw(); return; }
@@ -3769,7 +3866,7 @@ document.getElementById("recEditCancel").onclick=()=>recEditModal.classList.add(
 document.getElementById("recResendAll").onclick=()=>{
   if(!isMain()) return; const p=recItems.filter(x=>x.status!=="ok"); if(!p.length) return;
   if(!confirm("Reenviar os "+p.length+" pendentes?\n\nOs funcionários recebem o aviso de novo.")) return;
-  const now=Date.now(), b=fbDb.batch(); p.forEach(x=>b.update(recRef(x.id),{ev:now,evby:myEmail(),resent:now})); b.commit().then(()=>toast("🔔 Pendentes reenviados")).catch(()=>toast("Não consegui reenviar. Veja a internet."));
+  const now=Date.now(), b=fbDb.batch(); p.forEach(x=>b.update(recRef(x.id),{ev:now,evby:myEmail(),resent:now})); b.commit().then(()=>toast("↻ Pendentes reenviados")).catch(()=>toast("Não consegui reenviar. Veja a internet."));
 };
 document.getElementById("recClean").onclick=()=>{
   if(!isMain()||!recItems.length) return; const ok=recItems.filter(x=>x.status==="ok").length, pe=recItems.length-ok;
@@ -3786,9 +3883,44 @@ function recPrev(){
 }
 recPaste.addEventListener("input",()=>{ recParsed=recParse(recPaste.value); recPrev(); });
 document.getElementById("recPrev").addEventListener("click",e=>{ const b=e.target.closest("[data-rpx]"); if(!b) return; recParsed.splice(+b.dataset.rpx,1); recPrev(); });
-document.getElementById("recAdd").onclick=()=>{ if(!isMain()) return; recPaste.value=""; recParsed=[]; recPrev(); ["recNome","recEnd","recObs"].forEach(i=>document.getElementById(i).value=""); recTab("p"); recAddModal.classList.remove("hidden"); setTimeout(()=>recPaste.focus(),60); };
+document.getElementById("recAdd").onclick=()=>{ if(!isMain()) return; recPaste.value=""; recParsed=[]; recPrev(); recOcrMsg(""); ["recNome","recEnd","recObs"].forEach(i=>document.getElementById(i).value=""); recTab("p"); recAddModal.classList.remove("hidden"); setTimeout(()=>recPaste.focus(),60); };
 document.getElementById("recTabP").onclick=()=>recTab("p"); document.getElementById("recTabU").onclick=()=>{ recTab("u"); setTimeout(()=>document.getElementById("recNome").focus(),50); };
 document.getElementById("recAddClose").onclick=()=>recAddModal.classList.add("hidden");
+/* ---- ler um print da planilha (imagem): precisa de internet na 1ª vez; não é 100% certo, por isso mostra para conferir ---- */
+let recOcrBusy=false;
+function recOcrMsg(t,err){ const el=document.getElementById("recOcr"); if(!el) return; el.textContent=t||""; el.style.color=err?"#b91c1c":""; el.classList.toggle("hidden",!t); }
+function recLoadOcr(){ return new Promise((ok,no)=>{ if(window.Tesseract) return ok(); const sc=document.createElement("script"); sc.src="https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js"; sc.onload=()=>window.Tesseract?ok():no(new Error("x")); sc.onerror=()=>no(new Error("net")); document.head.appendChild(sc); }); }
+async function recImgPrep(file){
+  try{ const bmp=await createImageBitmap(file), m=Math.max(bmp.width,bmp.height), k=m>2400?2400/m:(m<1000?Math.min(2,1000/m):1); if(k===1) return file;
+    const c=document.createElement("canvas"); c.width=Math.round(bmp.width*k); c.height=Math.round(bmp.height*k); c.getContext("2d").drawImage(bmp,0,0,c.width,c.height); return c; }catch(e){ return file; }
+}
+function recOcrText(data){     // junta as palavras de cada linha; espaço grande vira TAB (separa nome e endereço)
+  const out=[];
+  (data.lines||[]).forEach(ln=>{
+    const ws=(ln.words||[]).filter(w=>{ const t=String(w.text||"").trim(); return t&&!/^[|¦_—–\-.]+$/.test(t); }); if(!ws.length) return;
+    const h=Math.max(8,ln.bbox?ln.bbox.y1-ln.bbox.y0:ws[0].bbox.y1-ws[0].bbox.y0); let t=ws[0].text.trim();
+    for(let i=1;i<ws.length;i++){ const gap=ws[i].bbox.x0-ws[i-1].bbox.x1; t+=(gap>h*0.9?"\t":" ")+ws[i].text.trim(); }
+    out.push(t);
+  });
+  return out.length?out.join("\n"):String(data.text||"");
+}
+async function recFromImage(file){
+  if(!file||recOcrBusy) return; recOcrBusy=true; recOcrMsg("Preparando a leitura da imagem…");
+  try{
+    await recLoadOcr(); const img=await recImgPrep(file);
+    const r=await Tesseract.recognize(img,"por",{logger:m=>{ if(m&&m.status){ recOcrMsg(m.status==="recognizing text"?"Lendo a imagem… "+Math.round((m.progress||0)*100)+"%":"Baixando o leitor de imagem (só na 1ª vez)…"); } }});
+    const txt=recOcrText(r.data); recPaste.value=txt; recParsed=recParse(txt,true); recPrev();
+    recOcrMsg(recParsed.length?"✔ Imagem lida. Confira abaixo (dá para corrigir o texto na caixa).":"Não achei nomes nessa imagem. Tente um print mais nítido.",!recParsed.length);
+  }catch(e){ recOcrMsg("Não consegui ler a imagem. Precisa de internet na 1ª vez.",true); }
+  recOcrBusy=false;
+}
+document.getElementById("recImg").onchange=e=>{ const f=e.target.files&&e.target.files[0]; e.target.value=""; recFromImage(f); };
+document.addEventListener("paste",e=>{   // Ctrl+V com um print copiado (só quando não veio texto junto)
+  if(recAddModal.classList.contains("hidden")||!e.clipboardData) return;
+  const it=Array.prototype.find.call(e.clipboardData.items||[],i=>i.type&&i.type.indexOf("image/")===0); if(!it) return;
+  if(e.clipboardData.getData("text/plain")) return; const f=it.getAsFile(); if(!f) return;
+  e.preventDefault(); recTab("p"); recFromImage(f);
+});
 function recNew(x,now,i){ const id=now.toString(36)+i+Math.random().toString(36).slice(2,5); return {id,doc:{kind:REC_KIND,id,nome:x.nome,end:x.end||"",obs:x.obs||"",status:"pend",det:"",until:"",created:now+i,upd:now+i,ev:now+i,evby:myEmail(),by:myEmail(),createdBy:myEmail()}}; }
 document.getElementById("recPasteOk").onclick=()=>{
   if(!isMain()||!fbDb||!recParsed.length) return; const now=Date.now(), b=fbDb.batch(), n=recParsed.length;
