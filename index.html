@@ -206,6 +206,7 @@
   .cpk i{display:inline-block;width:18px;height:5px;border-radius:3px}
   html.dark #cabPick,html.dark #ptModal>div,html.dark #pcModal>div{background:#1c1c20;border-color:#3a3a40}html.dark .cpk{background:#2a2a2e;color:#f5f5f5}
   .cab-h i{display:block;width:14px;height:14px;margin:7px;border-radius:50%;background:#fff;border:3px solid #0056b3;box-shadow:0 1px 5px rgba(0,0,0,.55)}
+  .cab-mv i{display:block;width:38px;height:38px;margin:3px;border-radius:50%;background:#fde047;border:3px solid #0056b3;box-shadow:0 2px 8px rgba(0,0,0,.6);font-style:normal;text-align:center;line-height:32px;font-size:20px}
   .cab-m i{width:9px;height:9px;margin:9.5px;background:rgba(255,255,255,.8);border:2px solid #0056b3;opacity:.8}
   .ibtn{display:inline-flex;align-items:center;justify-content:center;gap:5px;border-radius:.5rem;padding:.4rem .65rem;background:#f1f5f9;color:#475569;transition:background .12s,transform .12s,color .12s;-webkit-tap-highlight-color:transparent}
   .ibtn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -409,13 +410,17 @@
 <div id="ptModal" class="hidden fixed inset-0 z-[1300] flex items-end justify-center p-4" style="padding-bottom:26vh">
   <div class="bg-white rounded-xl p-2.5 w-full max-w-[210px] space-y-1.5 shadow-2xl border border-slate-200">
     <h2 class="font-bold text-slate-800 text-sm">Ponto do cabo</h2>
+    <button id="ptNew" class="w-full rounded-lg bg-[#0056b3] text-white py-2 text-sm font-semibold">➕ Sair daqui</button>
     <button id="ptDel" class="w-full rounded-lg bg-red-500 text-white py-2 text-sm font-semibold">🗑 Apagar este ponto</button>
     <button id="ptCancel" class="w-full rounded-lg border border-slate-300 text-slate-700 py-1.5 text-sm font-semibold">Cancelar</button>
   </div>
 </div>
 <div id="pcModal" class="hidden fixed inset-0 z-[1300] flex items-end justify-center p-4" style="padding-bottom:26vh">
-  <div class="bg-white rounded-xl p-2.5 w-full max-w-[210px] space-y-1.5 shadow-2xl border border-slate-200">
-    <button id="pcDel" class="w-full rounded-lg bg-red-500 text-white py-2 text-sm font-semibold">🗑 Apagar este pedaço</button>
+  <div class="bg-white rounded-xl p-2.5 w-full max-w-[250px] space-y-1.5 shadow-2xl border border-slate-200">
+    <h2 class="font-bold text-slate-800 text-sm">Cortar o cabo aqui</h2>
+    <button id="pcA" class="w-full rounded-lg bg-red-500 text-white py-2 text-sm font-semibold">🟥 Apagar daqui até a ponta vermelha</button>
+    <button id="pcB" class="w-full rounded-lg bg-orange-500 text-white py-2 text-sm font-semibold">🟧 Apagar daqui até a ponta laranja</button>
+    <button id="pcDel" class="w-full rounded-lg bg-slate-700 text-white py-2 text-sm font-semibold">⬛ Apagar só o pedaço marcado em preto</button>
     <button id="pcCancel" class="w-full rounded-lg border border-slate-300 text-slate-700 py-1.5 text-sm font-semibold">Cancelar</button>
   </div>
 </div>
@@ -869,7 +874,7 @@ function rebuildRegions(){            // nomes das cidades: padrão + renomeadas
   Object.keys(REGION_DEF).forEach(k=>{ REGIONS[k]=(state.cityNames&&state.cityNames[k])||REGION_DEF[k]; });
   (state.cityExtra||[]).forEach(c=>{ REGIONS[c.id]=c.name; });
 }
-const APP_VERSION = "3.50";
+const APP_VERSION = "3.51";
 const TEST_MODE = false;   // true = arquivo de teste (usa uma cópia dos dados) · false = site real
 const KEY_STATE = TEST_MODE?"ftth_state_test":"ftth_state_v1", KEY_NET = TEST_MODE?"ftth_net_test":"ftth_net_v1";
 const DOC_STATE = TEST_MODE?"state_teste":"state", DOC_NET = TEST_MODE?"net_teste":"net";
@@ -1107,18 +1112,20 @@ function fiberSegs(){
   items.forEach(it=>{
     if(it.type!=="cto") return; const ceo=linkMap[it.id]; if(!ceo) return;
     const m=/^\s*Q\s*(\d+)/i.exec(nameOf(it)||""); if(!m) return;
-    const v=near([it.lng0,it.lat0],20); if(v<0) return;
+    let v=near([it.lng0,it.lat0],20); if(v<0&&(it.lng!==it.lng0||it.lat!==it.lat0)) v=near([it.lng,it.lat],20); if(v<0) return;
     (byCeo[ceo]=byCeo[ceo]||[]).push({n:+m[1],v,region:it.region,id:it.id});
   });
   Object.keys(byCeo).forEach(cid=>{
-    const c=byId[cid]; if(!c) return; const cv=near([c.lng0,c.lat0],20); if(cv<0) return;
+    const c=byId[cid]; if(!c) return; let cv=near([c.lng0,c.lat0],20); if(cv<0&&(c.lng!==c.lng0||c.lat!==c.lat0)) cv=near([c.lng,c.lat],20); if(cv<0) return;
     const list=byCeo[cid].sort((a,b)=>a.n-b.n);
-    list.forEach((b,i)=>{
-      const col=HEX.test(state.qcol[b.id]||"")?state.qcol[b.id]:Q_FIBER[b.n-1]; if(!col) return;
-      const src=i>0?list[i-1].v:cv; if(src===b.v) return;
-      const {D,P}=sp(src); if(D[b.v]===Infinity) return;
-      const pts=[]; for(let x=b.v;x>=0;x=P[x]){ pts.push([V[x].p[1],V[x].p[0]]); if(x===src) break; }
-      if(pts.length>1) out.push({n:b.n,col,pts,region:b.region});
+    const seen=new Set([cv]), {D,P}=sp(cv);      // árvore de rotas saindo da CO: cada fibra só é pintada no trecho novo
+    list.forEach(b=>{
+      const col=HEX.test(state.qcol[b.id]||"")?state.qcol[b.id]:Q_FIBER[b.n-1];
+      if(b.v===cv||D[b.v]===Infinity) return;
+      const path=[]; for(let x=b.v;x>=0;x=P[x]){ path.push(x); if(x===cv) break; }
+      path.reverse(); let st=0; path.forEach((x,k)=>{ if(seen.has(x)) st=k; }); path.forEach(x=>seen.add(x));
+      const seg=path.slice(st); if(!col||seg.length<2) return;
+      out.push({n:b.n,col,pts:seg.map(x=>[V[x].p[1],V[x].p[0]]),region:b.region});
     });
   });
   out.sort((a,b)=>a.n-b.n);
@@ -1273,8 +1280,8 @@ function computeLinks(){
   const best = V.map(()=>({d:Infinity,ceo:null}));
   const pq = [];
   items.filter(i=>i.type==="ceo").forEach(c=>{
-    const i=near([c.lng0,c.lat0],20);
-    if(i>=0){ const d=dist([c.lng0,c.lat0],V[i].p); if(d<best[i].d){ best[i]={d,ceo:c.id}; pq.push([d,i]); } }
+    let q=[c.lng0,c.lat0], i=near(q,20); if(i<0&&(c.lng!==c.lng0||c.lat!==c.lat0)){ q=[c.lng,c.lat]; i=near(q,20); }   // original longe de cabo: usa onde ela está agora
+    if(i>=0){ const d=dist(q,V[i].p); if(d<best[i].d){ best[i]={d,ceo:c.id}; pq.push([d,i]); } }
   });
   while(pq.length){
     pq.sort((a,b)=>a[0]-b[0]);
@@ -1283,7 +1290,8 @@ function computeLinks(){
   }
   items.forEach(it=>{
     if(it.type!=="cto") return;
-    const i=near([it.lng0,it.lat0],20);   // posição original: mover a caixa não perde a CEO identificada
+    let i=near([it.lng0,it.lat0],20);   // posição original: mover a caixa não perde a CEO identificada
+    if(i<0&&(it.lng!==it.lng0||it.lat!==it.lat0)) i=near([it.lng,it.lat],20);   // original longe de cabo: usa onde ela está agora
     if(i>=0 && best[i].ceo) linkMap[it.id]=best[i].ceo;
   });
   Object.entries(state.ceoOf||{}).forEach(([bid,cid])=>{      // escolha manual: CEO de cada caixa ("-" = nenhuma)
@@ -1957,6 +1965,7 @@ function editPick(id){
 }
 /* ======================= AJUSTAR CABOS ======================= */
 const cabBar=document.getElementById("cabBar"), cabChip=document.getElementById("cabChip"), cabStyle=document.getElementById("cabStyle"), ptModal=document.getElementById("ptModal");
+let cabMove=null, cabLost=[], cabLinkBase={}, ptEnd=false;
 let cabState="edit", cabUndo=[], cabRedo=[], cabDraw=null, cabChipLi=null, cabChipT=null, cabStyleOpen=false, ptTarget=null, cabFilter="all", cabSelSnap="", pcTarget=null, pcHi=null;
 const cabRawNow=()=>cabMode && cabState!=="preview";
 const cabName=li=>(net.lines[li]&&net.lines[li][0]==="p")?"Cabo de 24 fibras":"Cabo de 6 fibras";
@@ -2015,14 +2024,26 @@ function cabBuild(){
   if(cabState==="draw"){ cabDrawTemp(); return; }
   const mk=(ll,cls)=>L.marker(ll,{icon:L.divIcon({className:"cab-h "+cls,html:"<i></i>",iconSize:[28,28],iconAnchor:[14,14]}),draggable:true,zIndexOffset:5000,keyboard:false}).addTo(cabLayer);
   if(cabSel===null||!net.lines[cabSel]) return;      // um cabo por vez: só o cabo tocado mostra os pontos
+  if(cabMove!==null&&cabMove===cabSel){            // modo "mover cabo": uma mãozinha move o cabo inteiro
+    const li=cabSel, c=net.lines[li][1];
+    const m=L.marker(cabMidPt(c),{icon:L.divIcon({className:"cab-h cab-mv",html:"<i>✋</i>",iconSize:[44,44],iconAnchor:[22,22]}),draggable:true,zIndexOffset:6000,keyboard:false}).addTo(cabLayer);
+    let snap=null, o=null;
+    m.on("dragstart",()=>{ cabPush(); snap=c.map(q=>[q[0],q[1]]); o=m.getLatLng(); });
+    m.on("drag",()=>{ if(!o) return; const q=m.getLatLng(), dx=q.lng-o.lng, dy=q.lat-o.lat; c.forEach((pt,k)=>{ pt[0]=snap[k][0]+dx; pt[1]=snap[k][1]+dy; }); cabRefresh(li); });
+    m.on("dragend",()=>{ setTimeout(render,0); });
+    return;
+  }
   cabGroups().filter(g=>g.m.some(x=>x.li===cabSel)).forEach(g=>{
     const m=mk([g.p[1],g.p[0]],"cab-v");
     m.on("dragstart",()=>cabPush());
     m.on("drag",()=>{ const ll=m.getLatLng(), li=new Set(); g.m.forEach(x=>{ x.pt[0]=ll.lng; x.pt[1]=ll.lat; li.add(x.li); }); li.forEach(cabRefresh); });
     m.on("dragend",()=>{ setTimeout(render,0); });
     m.on("click",()=>{
-      if(g.m.some(x=>x.k===0||x.k===net.lines[x.li][1].length-1)) return toast("Esta é a ponta do cabo: só dá para arrastar");
-      ptTarget=g; ptModal.classList.remove("hidden");
+      const isEnd=g.m.some(x=>x.k===0||x.k===net.lines[x.li][1].length-1);
+      ptTarget=g; ptEnd=isEnd;
+      document.getElementById("ptDel").classList.toggle("hidden",isEnd);
+      document.getElementById("ptNew").textContent=isEnd?"➕ Continuar daqui":"➕ Sair daqui (novo cabo)";
+      ptModal.classList.remove("hidden");
     });
   });
   [net.lines[cabSel]].forEach(([t,c])=>{
@@ -2098,10 +2119,26 @@ const pcModal=document.getElementById("pcModal");
 function cabPieceAsk(li,ll){
   const c=net.lines[li][1]; let bk=0,bd=Infinity;
   for(let k=0;k<c.length-1;k++){ const d=cabSegDist([ll.lng,ll.lat],c[k],c[k+1]); if(d<bd){ bd=d; bk=k; } }
-  pcTarget={li,k:bk}; pcModal.classList.remove("hidden");
-  try{ pcHi=L.polyline([[c[bk][1],c[bk][0]],[c[bk+1][1],c[bk+1][0]]],{color:"#ef4444",weight:9,opacity:.85,interactive:false}).addTo(cabLayer); }catch(e){ pcHi=null; }
+  const a=c[bk], b=c[bk+1], kx=Math.cos(18.9*Math.PI/180)*111320, ky=110540;
+  const dx=(b[0]-a[0])*kx, dy=(b[1]-a[1])*ky, l2=dx*dx+dy*dy;
+  let t=l2?(((ll.lng-a[0])*kx*dx+(ll.lat-a[1])*ky*dy)/l2):0; t=Math.max(0,Math.min(1,t));
+  const q=[a[0]+t*(b[0]-a[0]), a[1]+t*(b[1]-a[1])];      // ponto exato do corte, em cima do cabo
+  pcTarget={li,k:bk,q}; pcModal.classList.remove("hidden");
+  const ll2=pts=>pts.map(x=>[x[1],x[0]]);
+  try{ pcHi=[
+    L.polyline(ll2([a,b]),{color:"#111",weight:14,opacity:.45,interactive:false}).addTo(cabLayer),
+    L.polyline(ll2(c.slice(0,bk+1).concat([q])),{color:"#ef4444",weight:7,opacity:.9,interactive:false}).addTo(cabLayer),
+    L.polyline(ll2([q].concat(c.slice(bk+1))),{color:"#f97316",weight:7,opacity:.9,interactive:false}).addTo(cabLayer)
+  ]; }catch(e){ pcHi=null; }
 }
-function closePc(){ pcModal.classList.add("hidden"); pcTarget=null; try{ if(pcHi) cabLayer.removeLayer(pcHi); }catch(e){} pcHi=null; }
+function closePc(){ pcModal.classList.add("hidden"); pcTarget=null; try{ (pcHi||[]).forEach(x=>cabLayer.removeLayer(x)); }catch(e){} pcHi=null; }
+function cabCutAt(li,k,q,side){         // side "a" = apaga do começo até o corte; "b" = apaga do corte até o fim
+  const ln=net.lines[li]; if(!ln) return; const c=ln[1]; cabPush();
+  let nc=side==="a"?[q].concat(c.slice(k+1)):c.slice(0,k+1).concat([q]);
+  nc=nc.filter((pt,i)=>i===0||dist(pt,nc[i-1])>0.3);
+  if(nc.length<2){ net.lines.splice(li,1); cabSel=null; closeCabStyle(); } else { ln[1]=nc; cabSelSnap=JSON.stringify(net.lines); }
+  render(); drawCabBar();
+}
 function cabPieceDel(li,k){
   const ln=net.lines[li]; if(!ln) return; const c=ln[1], n=c.length; cabPush();
   if(n<=2) net.lines.splice(li,1);
@@ -2111,6 +2148,8 @@ function cabPieceDel(li,k){
   cabSel=null; closeCabStyle(); render(); drawCabBar();
 }
 document.getElementById("pcDel").onclick=()=>{ const t=pcTarget; closePc(); if(!t) return; cabPieceDel(t.li,t.k); toast("Pedaço apagado. Para fechar o vão, use ＋ Novo cabo ligando as pontas."); };
+document.getElementById("pcA").onclick=()=>{ const t=pcTarget; closePc(); if(!t) return; cabCutAt(t.li,t.k,t.q,"a"); toast("Cortado. Dá para desfazer com ↶"); };
+document.getElementById("pcB").onclick=()=>{ const t=pcTarget; closePc(); if(!t) return; cabCutAt(t.li,t.k,t.q,"b"); toast("Cortado. Dá para desfazer com ↶"); };
 document.getElementById("pcCancel").onclick=closePc;
 pcModal.addEventListener("click",e=>{ if(e.target===pcModal) closePc(); });
 function cabTap(li){
@@ -2147,6 +2186,12 @@ cabStyle.addEventListener("click",e=>{
 function closePt(){ ptModal.classList.add("hidden"); ptTarget=null; }
 document.getElementById("ptCancel").onclick=closePt;
 ptModal.addEventListener("click",e=>{ if(e.target===ptModal) closePt(); });
+document.getElementById("ptNew").onclick=()=>{
+  const g=ptTarget; closePt(); if(!g||cabSel===null||!net.lines[cabSel]) return;
+  const t=net.lines[cabSel][0]; closeCabStyle(); hideCabPick(); cabMove=null;
+  cabSel=null; cabState="draw"; cabDraw={t:t==="p"?"p":"f",pts:[[g.m[0].pt[0],g.m[0].pt[1]]]}; drawCabBar(); render();
+  toast("Toque no mapa para continuar o cabo a partir deste ponto");
+};
 document.getElementById("ptDel").onclick=()=>{
   const g=ptTarget; closePt(); if(!g) return; cabPush();
   g.m.slice().sort((a,b)=>b.k-a.k).forEach(x=>{ const c=net.lines[x.li][1]; const i=c.indexOf(x.pt); if(i>0&&i<c.length-1) c.splice(i,1); });
@@ -2158,16 +2203,19 @@ function drawCabBar(){
   const b=(c,txt,cls="",dis=false)=>`<button data-c="${c}" class="cbtn ${cls}${dis?" dis":""}">${txt}</button>`;
   let top, row;
   if(cabState==="preview"){
-    top=`<span class="font-semibold">👁 Veja como ficou — ainda não foi aplicado</span><span class="block text-xs opacity-80">Se você não aplicar, tudo volta como estava. A 📏 distância dos cabos novos aparece só agora.</span>`;
+    top=`<span class="font-semibold">👁 Veja como ficou — ainda não foi aplicado</span><span class="block text-xs opacity-80">Se você não aplicar, tudo volta como estava. A 📏 distância dos cabos novos aparece só agora.</span>`
+      +(cabLost.length?`<span class="block text-xs font-semibold" style="color:#fde047">⚠ ${cabLost.length} caixa${cabLost.length>1?"s":""} ficaria${cabLost.length>1?"m":""} sem CO: ${cabLost.slice(0,6).map(x=>esc(nameOf(x))).join(", ")}${cabLost.length>6?" e mais "+(cabLost.length-6):""}. Toque em ✏ Continuar editando para ligar o cabo.</span>`:`<span class="block text-xs" style="color:#bbf7d0">✔ Nenhuma caixa perdeu a CO</span>`);
     row=b("back","✏ Continuar editando")+b("discard","Descartar")+b("apply","✔ Aplicar","go");
   } else if(cabState==="draw"){
     top=`<span class="font-semibold">✏ Traçando um cabo novo</span><span class="block text-xs opacity-80">Toque no mapa para marcar o caminho. Perto de outro cabo, ele se liga. (${cabDraw.pts.length} ponto${cabDraw.pts.length===1?"":"s"}${cabTotTxt(cabDraw.pts)})</span>`;
     row=b("t6","6 fibras",cabDraw.t==="f"?"on":"")+b("t24","24 fibras",cabDraw.t==="p"?"on":"")+b("undo","↶ Ponto","",!cabDraw.pts.length)+b("done","Concluir","go",cabDraw.pts.length<2)+b("canceldraw","Cancelar");
   } else {
     const sel=cabSel!==null&&net.lines[cabSel];
-    top=sel?`<span class="font-semibold">🧵 ${cabName(cabSel)} selecionado${cabTotTxt(net.lines[cabSel][1])}</span><span class="block text-xs opacity-80">Arraste os pontos · puxe o meio para curvar · toque num pedaço do cabo para apagar só ele</span>`
+    const mv=sel&&cabMove===cabSel;
+    top=mv?`<span class="font-semibold">✋ Movendo o ${cabName(cabSel).toLowerCase()}${cabTotTxt(net.lines[cabSel][1])}</span><span class="block text-xs opacity-80">Arraste a mãozinha para mover o cabo inteiro. As emendas com outros cabos se soltam. Dá para desfazer com ↶</span>`
+      :sel?`<span class="font-semibold">🧵 ${cabName(cabSel)} selecionado${cabTotTxt(net.lines[cabSel][1])}</span><span class="block text-xs opacity-80">Arraste os pontos · toque num ponto para continuar ou sair dele · toque no cabo para cortar</span>`
           :`<span class="font-semibold">🧵 Ajustando cabos</span><span class="block text-xs opacity-80">Toque num cabo para escolher (um por vez) · depois arraste os pontos</span>`;
-    row=b("undo","↶","",!cabUndo.length)+b("redo","↷","",!cabRedo.length)+(sel?b("style","🎨 Estilo",cabStyleOpen?"on":"")+b("delcab","🗑 Apagar cabo"):"")+b("new","＋ Novo cabo")+b("view","💾 Salvar e ver","go")+b("cancel","Cancelar");
+    row=b("undo","↶","",!cabUndo.length)+b("redo","↷","",!cabRedo.length)+(sel?b("mv","✋ Mover cabo",mv?"on":"")+b("style","🎨 Estilo",cabStyleOpen?"on":"")+b("delcab","🗑 Apagar cabo"):"")+b("new","＋ Novo cabo")+b("view","💾 Salvar e ver","go")+b("cancel","Cancelar");
   }
   const flt=(cabState==="edit")?`<div class="flex items-center gap-1.5 text-xs"><span class="opacity-80">Mostrar:</span>${[["all","Todos"],["f","Só cabos de 6"],["p","Só cabos de 24"]].map(([k,n])=>b("fl_"+k,n,cabFilter===k?"on":"")).join("")}</div>`:"";
   cabBar.innerHTML=`<div>${top}</div><div class="flex flex-wrap gap-1.5">${row}</div>${flt}`;
@@ -2180,9 +2228,9 @@ function setCab(on){
   if(on){
     if(selMode) setSel(false); if(editMode) setEdit(false);
     closeSheet(); menu.classList.add("hidden");
-    cabSnap=JSON.stringify(net.lines); cabDirty=false; cabUndo=[]; cabRedo=[]; cabDraw=null; cabSel=null; cabFilter="all"; cabSelSnap=""; cabState="edit"; cabMode=true; drawCabBar(); render();
+    cabSnap=JSON.stringify(net.lines); cabLinkBase=Object.assign({},linkMap); cabLost=[]; cabMove=null; cabDirty=false; cabUndo=[]; cabRedo=[]; cabDraw=null; cabSel=null; cabFilter="all"; cabSelSnap=""; cabState="edit"; cabMode=true; drawCabBar(); render();
   } else {
-    cabMode=false; cabState="edit"; cabDraw=null; cabSel=null; cabFilter="all"; cabUndo=[]; cabRedo=[]; closeCabStyle(); closePt(); closePc(); hideCabPick(); cabLayer.clearLayers(); cabPoly={}; cabHalo={}; drawCabBar();
+    cabMode=false; cabMove=null; cabState="edit"; cabDraw=null; cabSel=null; cabFilter="all"; cabUndo=[]; cabRedo=[]; closeCabStyle(); closePt(); closePc(); hideCabPick(); cabLayer.clearLayers(); cabPoly={}; cabHalo={}; drawCabBar();
   }
 }
 function cabDiscard(){ net.lines=JSON.parse(cabSnap); cabDirty=false; setCab(false); computeLinks(); render(); toast("Cabos voltaram como estavam"); }
@@ -2195,9 +2243,11 @@ cabBar.addEventListener("click",e=>{
   else if(c==="t6"||c==="t24"){ cabDraw.t=c==="t6"?"f":"p"; cabLayer.clearLayers(); cabDrawTemp(); drawCabBar(); }
   else if(c==="done"){ cabPush(); net.lines.push([cabDraw.t,cabDraw.pts,{reg:region}]); cabSel=net.lines.length-1; cabSelSnap=JSON.stringify(net.lines); cabDraw=null; cabState="edit"; drawCabBar(); render(); }
   else if(c==="canceldraw"){ cabDraw=null; cabState="edit"; drawCabBar(); render(); }
+  else if(c==="mv"){ if(cabSel===null) return; cabMove=(cabMove===cabSel)?null:cabSel; hideCabPick(); closeCabStyle(); drawCabBar(); render(); }
   else if(c==="style"){ if(cabStyleOpen) closeCabStyle(); else drawCabStyle(); drawCabBar(); }
   else if(c==="delcab"){ if(cabSel!==null && confirm("Apagar este cabo inteiro? (dá para desfazer com ↶)")){ cabPush(); net.lines.splice(cabSel,1); cabSel=null; closeCabStyle(); render(); drawCabBar(); } }
-  else if(c==="view"){ closeCabStyle(); cabState="preview"; computeLinks(); drawCabBar(); render(); }
+  else if(c==="view"){ closeCabStyle(); cabMove=null; cabState="preview"; computeLinks();
+    cabLost=items.filter(x=>x.type==="cto"&&cabLinkBase[x.id]&&!linkMap[x.id]); drawCabBar(); render(); }
   else if(c==="back"){ cabState="edit"; cabSelSnap=JSON.stringify(net.lines); drawCabBar(); render(); }
   else if(c==="apply"){ if(cabDirty){ jset(KEY_NET,net); cloudPushNet(); } const old=Object.assign({},linkMap); computeLinks(); const d=cabDirty; setCab(false); render();
     const nw=items.filter(x=>x.type==="cto" && linkMap[x.id] && linkMap[x.id]!==old[x.id]);
@@ -2239,7 +2289,7 @@ function rpCalc(r){
     res.nBox=bxs.length; res.clients=bxs.reduce((n,b)=>n+clientsOf(b.id).length,0);
     res.boxes=bxs.filter(b=>!done[linkMap[b.id]]).map(b=>b.id);
   } else {
-    const bs=items.filter(x=>x.type==="cto"&&!isPlanned(x)&&x.region===reg).map(b=>({b,vi:cabNear(V,[b.lng0,b.lat0],20)})).filter(x=>x.vi>=0&&inSub(x.vi)).sort((a,b)=>D[a.vi]-D[b.vi]);
+    const bs=items.filter(x=>x.type==="cto"&&!isPlanned(x)&&x.region===reg).map(b=>{ let vi=cabNear(V,[b.lng0,b.lat0],20); if(vi<0&&(b.lng!==b.lng0||b.lat!==b.lat0)) vi=cabNear(V,[b.lng,b.lat],20); return {b,vi}; }).filter(x=>x.vi>=0&&inSub(x.vi)).sort((a,b)=>D[a.vi]-D[b.vi]);
     res.items=bs.map(x=>x.b.id); res.nBox=bs.length; res.clients=bs.reduce((n,x)=>n+clientsOf(x.b.id).length,0);
     res.boxes=res.items.filter(id=>!done[id]);
     let x=root; while(P[x]>=0) x=P[x]; res.from=srcCeo[x]?srcCeo[x].id:null;
