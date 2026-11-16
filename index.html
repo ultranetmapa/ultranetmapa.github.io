@@ -84,7 +84,8 @@
   .sw i:after{content:"";position:absolute;left:3px;top:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.4);transition:.2s}
   .sw input:checked+i{background:#16a34a}
   .sw input:checked+i:after{transform:translateX(22px)}
-  .editing .pill.esel{outline:3px dashed #f59e0b;outline-offset:3px;cursor:grab}
+  .editing .pill.esel{cursor:grab;animation:eselp 1.4s ease-in-out infinite}
+  @keyframes eselp{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.18)}}
   #moveBar{touch-action:manipulation}
   .placing.leaflet-container,.placing .leaflet-interactive{cursor:crosshair!important}
   .pill.plan{border-style:dashed;border-width:2px}
@@ -125,7 +126,7 @@
   html.dark #hdr input#search{background:#141414!important;color:#f1f5f9!important;border-color:#333338!important}
   html.dark #hdr input#search::placeholder{color:#8b8f99}
   html.dark .hs svg{color:#8b8f99}
-  html.dark #editBar,html.dark #cabBar,html.dark #cabChip,html.dark #selBar{background:#000000!important;border:1px solid #2e2e32}
+  html.dark #editBar,html.dark #moveBar,html.dark #cabBar,html.dark #cabSave,html.dark #cabChip,html.dark #selBar{background:#000000!important;border:1px solid #2e2e32}
   html.dark #hdr .hb{background:#141414;border-color:#333338;color:#f1f5f9}
   html.dark #hdr #btnInfo.on{background:color-mix(in srgb,var(--ac,#2f8fe8) 22%,#141414);color:var(--ac,#2f8fe8);border:2px solid var(--ac,#2f8fe8);box-shadow:0 0 0 2px color-mix(in srgb,var(--ac,#2f8fe8) 20%,transparent),0 0 8px color-mix(in srgb,var(--ac,#2f8fe8) 32%,transparent)}
   html.dark #cityBtn{background:rgba(59,130,246,.2);border-color:rgba(96,165,250,.65);color:#6aaeff}
@@ -205,6 +206,35 @@
   .cpk{display:flex;align-items:center;gap:7px;white-space:nowrap;border-radius:8px;padding:7px 11px;font-size:13px;font-weight:700;color:#0f172a;background:#f1f5f9}
   .cpk i{display:inline-block;width:18px;height:5px;border-radius:3px}
   html.dark #cabPick,html.dark #ptModal>div,html.dark #pcModal>div{background:#1c1c20;border-color:#3a3a40}html.dark .cpk{background:#2a2a2e;color:#f5f5f5}
+  .cpk .cpe{margin-left:auto;background:#dbeafe;color:#0056b3;border-radius:7px;padding:0 7px;font-size:14px;line-height:22px}
+  html.dark .cpk .cpe{background:#3a3a40;color:#fff}
+  #mapMenu{position:fixed;z-index:1250;background:#fff;border:1px solid #cbd5e1;border-radius:11px;box-shadow:0 6px 18px rgba(0,0,0,.4);overflow:hidden}
+  #mapMenu button{display:block;width:100%;text-align:left;white-space:nowrap;padding:8px 12px;font-size:12.5px;font-weight:700;color:#0f172a;background:transparent}
+  #mapMenu button+button{border-top:1px solid #e2e8f0}
+  html.dark #mapMenu{background:#1c1c20;border-color:#3a3a40}html.dark #mapMenu button{color:#f5f5f5}html.dark #mapMenu button+button{border-color:#3a3a40}
+  .sctab{flex:1;padding:8px;border-radius:9px;background:#e2e8f0;font-weight:700;font-size:13px;color:#334155}.sctab.on{background:#0056b3;color:#fff}
+  .scb{display:flex;align-items:center;justify-content:center;background:#e2e8f0;border-radius:10px;padding:10px;font-weight:700;font-size:13px;color:#0f172a;cursor:pointer}
+  .scbig{background:#10b981;color:#fff;font-weight:800;border-radius:12px;padding:13px;font-size:15px;text-align:center;width:100%}
+  html.dark #scanModal,html.dark #ctrModal>div{background:#121212;color:#f5f5f5}html.dark #scanModal .scb{background:#2a2a2e;color:#f5f5f5}html.dark .sctab{background:#2a2a2e;color:#f5f5f5}html.dark .sctab.on{background:#000;color:#fff;border:1px solid #2e2e32}
+  html.dark #scanModal input,html.dark #ctrModal input{background:#1c1c20;color:#f5f5f5;border-color:#3a3a40}
+  #btnMenu{position:relative}
+  #recDot{position:absolute;top:1px;right:1px;width:12px;height:12px;border-radius:50%;background:#ef4444;border:2px solid #fff;pointer-events:none}
+  #btnRec[hidden]{display:none!important}
+  #recModal{background:#fff}#recPanel{width:100%;max-width:640px;display:flex;flex-direction:column;min-height:0;background:#fff;color:#0f172a}
+  @media(min-width:700px){#recModal{background:rgba(0,0,0,.5);padding:24px 0}#recPanel{border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,.5);overflow:hidden}}
+  .rca{display:flex;justify-content:flex-end;gap:6px;margin-top:6px}.rcx.del{color:#ef4444}
+  .recpv{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12.5px;border-bottom:1px solid #f1f5f9;padding:6px 0}.recpv button{color:#ef4444;font-weight:800;padding:2px 8px;flex:none}
+  html.dark #recModal{background:#121212}@media(min-width:700px){html.dark #recModal{background:rgba(0,0,0,.6)}}html.dark #recPanel,html.dark #recAddBox,html.dark #recEditModal>div{background:#121212;color:#f5f5f5}html.dark .recpv{border-color:#2e2e32}
+  .rc{border:1px solid #e2e8f0;border-radius:12px;padding:10px;font-size:13.5px;color:#0f172a;background:#fff}
+  .rcs{color:#64748b;font-size:11.5px;margin-top:3px}.rcm{color:#0056b3;text-decoration:none;font-weight:600}
+  .rcx{flex:none;width:34px;height:34px;border-radius:9px;border:1px solid #cbd5e1;color:#334155;font-size:15px}.rcx.del{border-color:#fca5a5}html.dark .rcx{border-color:#3a3a40;color:#f5f5f5}html.dark .rcx.del{border-color:#7f1d1d;color:#f87171}
+  .rcb{border-radius:8px;padding:7px 10px;font-weight:700;font-size:12px;background:#e2e8f0;color:#0f172a}.rcb.on{background:#0056b3;color:#fff}
+  .rci{display:block;width:100%;border:1px solid #cbd5e1;border-radius:9px;padding:8px 10px;font-size:14px;background:#fff;color:#0f172a}
+  html.dark #recModal,html.dark #recAddModal>div{background:#121212;color:#f5f5f5}
+  html.dark .rc{background:#1c1c20;border-color:#2e2e32;color:#f5f5f5}html.dark .rcs{color:#a1a1aa}html.dark .rcm{color:#6aaeff}
+  html.dark .rcb{background:#2a2a2e;color:#f5f5f5}html.dark .rcb.on{background:#0056b3;color:#fff}
+  html.dark .rci{background:#1c1c20;color:#f5f5f5;border-color:#3a3a40}html.dark #recModal .scb{background:#2a2a2e;color:#f5f5f5}
+  #btnScanTop{position:fixed;right:12px;top:96px;z-index:1001;width:30px;height:30px;border-radius:9px;background:rgba(255,255,255,.08);color:#fff;opacity:.45;display:flex;align-items:center;justify-content:center}
   .cab-h i{display:block;width:14px;height:14px;margin:7px;border-radius:50%;background:#fff;border:3px solid #0056b3;box-shadow:0 1px 5px rgba(0,0,0,.55)}
   .cab-mv i{display:block;width:38px;height:38px;margin:3px;border-radius:50%;background:#fde047;border:3px solid #0056b3;box-shadow:0 2px 8px rgba(0,0,0,.6);font-style:normal;text-align:center;line-height:32px;font-size:20px}
   .cab-m i{width:9px;height:9px;margin:9.5px;background:rgba(255,255,255,.8);border:2px solid #0056b3;opacity:.8}
@@ -378,11 +408,11 @@
 
 <!-- Cabeçalho -->
 <div id="hdr" class="fixed top-0 inset-x-0 z-[1000] text-white shadow-lg" style="padding-top:env(safe-area-inset-top)">
-  <div id="testBanner" class="hidden bg-orange-500 text-white text-xs font-bold text-center py-1 px-2">🧪 VERSÃO DE TESTE — só neste aparelho, sem login e sem nuvem</div>
+  <div id="testBanner" class="hidden bg-orange-500 text-white text-xs font-bold text-center py-1 px-2">🧪 VERSÃO DE TESTE — usa uma cópia dos dados (os dados reais não mudam)</div>
   <div class="flex items-center gap-2 px-3 pt-2">
     <button id="btnInfo" title="O que mostrar no mapa" aria-label="O que mostrar no mapa" class="hb"><svg viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></button>
     <div class="hs"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="search" type="search" placeholder="Buscar rua, caixa (Q3), cliente, PON 8, CARD 2…" class="w-full text-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 border"></div>
-    <button id="btnMenu" title="Configurações" aria-label="Configurações" class="hb"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5h0a1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
+    <button id="btnMenu" title="Configurações" aria-label="Configurações" class="hb"><i id="recDot" class="hidden"></i><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5h0a1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
   </div>
   <div class="flex justify-start gap-1 px-3 text-xs" id="tabs"></div>
   <div id="hlChip" class="hidden flex items-center justify-between gap-2 mx-3 mb-2 rounded-lg bg-slate-900 px-3 py-1.5 text-xs font-semibold"><span class="truncate"></span><button id="hlClear" class="text-base leading-none px-1" title="Limpar destaque">✕</button></div>
@@ -399,12 +429,55 @@
 <!-- Barra do modo edição -->
 <div id="editBar" class="hidden fixed z-[950] flex flex-wrap items-center justify-between gap-2 rounded-xl bg-[#0056b3] text-white text-sm shadow-xl px-3 py-2" style="left:50%;transform:translateX(-50%);width:min(94vw,640px);top:var(--tb,130px)"></div>
 
-<div id="moveBar" class="hidden fixed z-[950] flex items-center justify-between gap-2 rounded-lg bg-amber-400 text-slate-900 text-xs shadow-lg px-3 py-1" style="left:50%;transform:translateX(-50%);width:min(94vw,640px);top:190px"></div>
+<div id="moveBar" class="hidden fixed z-[950] flex items-center justify-between gap-2 rounded-xl bg-[#0056b3] text-white text-sm shadow-xl px-3 py-2" style="left:50%;transform:translateX(-50%);width:min(94vw,640px);top:var(--tb,130px)"></div>
 <div id="rpBar" class="hidden fixed z-[950] rounded-xl bg-[#b91c1c] text-white text-sm shadow-xl px-3 py-2 space-y-1.5" style="left:50%;transform:translateX(-50%);width:min(94vw,640px);top:var(--tb,130px)"></div>
 <div id="rpCfm" class="hidden fixed z-[950] flex items-center justify-between gap-2 rounded-lg bg-amber-400 text-slate-900 text-xs shadow-lg px-3 py-1" style="left:50%;transform:translateX(-50%);width:min(94vw,640px);top:190px"><span class="font-semibold">Marcar o rompimento neste ponto?</span><span class="flex gap-2 shrink-0"><button data-r="cfmno" class="rounded-md bg-white/70 px-3 py-1 font-semibold">Cancelar</button><button data-r="cfmok" class="rounded-md bg-slate-900 text-white px-3 py-1 font-bold">Salvar</button></span></div>
 <div id="rpWin" class="hidden fixed z-[960] rounded-2xl bg-white text-slate-800 shadow-2xl border border-slate-200 overflow-y-auto" style="left:50%;transform:translateX(-50%);width:min(94vw,430px);bottom:74px;max-height:62vh"></div>
 <div id="rpDelModal" class="hidden fixed inset-0 z-[1300] flex items-end justify-center p-4" style="padding-bottom:26vh"><div class="bg-white rounded-xl p-2.5 w-full max-w-[220px] space-y-1.5 shadow-2xl border border-slate-200"><div class="text-sm font-bold text-slate-800">Rompimento</div><button data-r="delok" class="w-full rounded-lg bg-red-500 text-white py-2 text-sm font-semibold">🗑 Excluir rompimento</button><button data-r="delno" class="w-full rounded-lg border border-slate-300 text-slate-700 py-1.5 text-sm font-semibold">Cancelar</button></div></div>
 <div id="cabBar" class="hidden fixed z-[950] rounded-xl bg-[#0056b3] text-white text-sm shadow-xl px-3 py-2 space-y-1.5" style="left:50%;transform:translateX(-50%);width:min(94vw,640px);top:var(--tb,130px)"></div>
+<div id="cabSave" class="hidden fixed z-[950] flex items-center justify-between gap-2 rounded-b-xl bg-[#0056b3] text-white text-sm shadow-xl px-3 py-2" style="left:50%;transform:translateX(-50%);width:min(94vw,640px);top:200px;border-top:1px solid rgba(255,255,255,.2)"></div>
+<div id="mapMenu" class="hidden"><button data-mm="pt" type="button">📍 Marcar ponto do cliente</button><button data-mm="box" type="button">➕ Nova caixa aqui</button></div>
+<button id="btnScanTop" type="button" title="Ler QR Code / código de barras" aria-label="Ler QR Code / código de barras"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M4 12h16"/></svg></button>
+<div id="scanModal" class="hidden fixed inset-0 z-[1300] bg-white flex flex-col" style="padding-top:env(safe-area-inset-top)">
+  <div class="flex items-center gap-2 px-3 py-2 border-b border-slate-200"><button id="scClose" type="button" class="text-2xl px-2 leading-none" aria-label="Fechar">✕</button><b class="flex-1">📷 Leitor</b></div>
+  <div class="flex gap-2 px-3 pt-2"><button id="scTabR" type="button" class="sctab on">Ler código</button><button id="scTabC" type="button" class="sctab">Calcular contrato</button></div>
+  <div id="scRead" class="flex-1 flex flex-col min-h-0 overflow-y-auto">
+    <div id="scCam" class="relative bg-black mx-3 mt-2 rounded-xl overflow-hidden" style="height:52vh;flex:none"><video id="scVid" playsinline muted class="w-full h-full" style="object-fit:cover"></video><div class="absolute inset-0 flex items-center justify-center pointer-events-none"><div style="width:62%;aspect-ratio:1;border:3px solid #fff;border-radius:18px;box-shadow:0 0 0 999px rgba(0,0,0,.45)"></div></div><div id="scMsg" class="absolute left-0 right-0 bottom-2 text-center text-white text-xs px-3"></div></div>
+    <div id="scBtns" class="flex gap-2 px-3 py-2"><label class="scb flex-1"><input id="scFile" type="file" accept="image/*" class="hidden">🖼 Foto da galeria</label><button id="scTorch" type="button" class="scb flex-1 hidden">🔦 Lanterna</button></div>
+    <div id="scRes" class="hidden px-4 py-3"></div>
+  </div>
+  <div id="scCtr" class="hidden flex-1 px-4 py-3 overflow-y-auto">
+    <label class="text-xs font-bold text-slate-500">Data em que o cliente iniciou</label>
+    <input id="ctrDate" type="date" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-base mt-1 mb-3">
+    <div id="ctrOut"></div>
+    <p id="ctrNote" class="text-xs text-slate-400 mt-3"></p>
+  </div>
+</div>
+<div id="recModal" class="hidden fixed inset-0 z-[1300] flex justify-center">
+  <div id="recPanel">
+    <div class="flex items-center gap-2 px-3 py-2 border-b border-slate-200" style="padding-top:calc(env(safe-area-inset-top) + 8px)"><button id="recClose" type="button" class="text-2xl px-2 leading-none" aria-label="Fechar">✕</button><b class="flex-1">📦 Recolhidos</b><button id="recAdd" type="button" class="hidden rounded-lg px-3 py-2 text-sm font-bold" style="background:#dbeafe;color:#0056b3">＋ Adicionar</button></div>
+    <div id="recList" class="flex-1 overflow-y-auto px-3 py-2 space-y-2"></div>
+    <div id="recFoot" class="hidden px-3 py-2 border-t border-slate-200 flex gap-2" style="padding-bottom:calc(env(safe-area-inset-bottom) + 8px)"><button id="recResendAll" type="button" class="scb flex-1" style="font-size:12.5px">🔔 Reenviar pendentes</button><button id="recClean" type="button" class="scb flex-1" style="font-size:12.5px">🧹 Limpar lista</button></div>
+  </div>
+</div>
+<div id="recAddModal" class="hidden fixed inset-0 z-[1350] bg-black/50 flex items-end justify-center"><div id="recAddBox" class="bg-white w-full max-w-xl rounded-t-2xl p-3" style="padding-bottom:calc(env(safe-area-inset-bottom) + 12px);max-height:82vh;overflow-y:auto">
+  <div class="flex gap-2 mb-2"><button id="recTabP" type="button" class="sctab on">📋 Colar da planilha</button><button id="recTabU" type="button" class="sctab">Um por um</button></div>
+  <div id="recPaneP"><textarea id="recPaste" rows="3" class="rci" placeholder="Copie as células da planilha (nome e endereço) e cole aqui"></textarea><div id="recPrev"></div><button id="recPasteOk" type="button" class="scbig mt-2 hidden"></button></div>
+  <div id="recPaneU" class="hidden space-y-2"><input id="recNome" type="text" maxlength="80" placeholder="Nome do cliente" class="rci"><input id="recEnd" type="text" maxlength="140" placeholder="Endereço" class="rci"><input id="recObs" type="text" maxlength="140" placeholder="Descrição (opcional)" class="rci"><button id="recAddOk" type="button" class="scbig" style="padding:11px">Adicionar</button></div>
+  <button id="recAddClose" type="button" class="scb w-full mt-2">Fechar</button>
+</div></div>
+<div id="recEditModal" class="hidden fixed inset-0 z-[1360] bg-black/60 flex items-center justify-center p-4"><div class="bg-white rounded-2xl p-4 w-full max-w-sm space-y-2">
+  <b class="text-base">Editar recolhimento</b>
+  <input id="recENome" type="text" maxlength="80" placeholder="Nome do cliente" class="rci"><input id="recEEnd" type="text" maxlength="140" placeholder="Endereço" class="rci"><input id="recEObs" type="text" maxlength="140" placeholder="Descrição (opcional)" class="rci">
+  <div class="flex gap-2 pt-1"><button id="recEditCancel" type="button" class="scb flex-1">Cancelar</button><button id="recEditOk" type="button" class="scbig flex-1" style="padding:10px">Salvar</button></div>
+</div></div>
+<div id="ctrModal" class="hidden fixed inset-0 z-[1350] bg-black/60 flex items-center justify-center p-4"><div class="bg-white rounded-2xl p-4 w-full max-w-sm space-y-3">
+  <b class="text-lg">💲 Contrato</b>
+  <div><label class="text-xs font-bold text-slate-500">Valor do contrato (R$)</label><input id="ctrVal" type="number" step="0.01" inputmode="decimal" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-base mt-1"></div>
+  <div><label class="text-xs font-bold text-slate-500">Duração (meses)</label><input id="ctrMes" type="number" inputmode="numeric" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-base mt-1"></div>
+  <p class="text-xs text-slate-400">O cálculo desconta o valor dia a dia, até o fim do contrato.</p>
+  <div class="flex gap-2"><button id="ctrCancel" type="button" class="scb flex-1">Cancelar</button><button id="ctrSaveBtn" type="button" class="scbig flex-1" style="padding:10px">Salvar</button></div>
+</div></div>
 <div id="cabChip" class="hidden fixed z-[950] rounded-xl bg-[#0056b3] text-white text-sm shadow-xl px-3 py-2 flex items-center gap-2" style="left:50%;transform:translateX(-50%);top:130px;max-width:94vw"><span id="cabChipTxt" class="font-semibold whitespace-nowrap"></span><button data-c="enter" class="cbtn go whitespace-nowrap">✏ Editar cabo</button><button data-c="x" class="cbtn">×</button></div>
 <div id="cabStyle" class="hidden fixed z-[960] rounded-xl bg-white text-slate-800 shadow-xl px-3 py-2 space-y-2 text-sm" style="left:50%;transform:translateX(-50%);width:min(94vw,560px);top:230px"></div>
 <div id="ptModal" class="hidden fixed z-[1300] flex items-center gap-1.5 bg-white rounded-xl p-1.5 shadow-2xl border border-slate-200" style="left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px))">
@@ -528,6 +601,12 @@
     <input type="checkbox" id="editToggle" class="hidden">
     <p class="msec">Aparência</p>
     <div id="rowTheme" class="trow" role="button" tabindex="0"><span class="tic" id="themeIc">🌙</span><div class="flex-1 min-w-0"><b>Modo escuro</b><small id="themeSub"></small></div><button id="swTheme" type="button" role="switch" aria-label="Modo escuro" class="swt"></button></div>
+    <p class="msec">Ferramentas</p>
+    <div class="grid gap-2">
+      <button id="btnScan" type="button" class="pbtn"><span>📷 Ler QR Code / código de barras</span><span>›</span></button>
+      <button id="btnRec" type="button" class="pbtn" hidden><span>📦 Recolhidos</span><span id="recBadge" class="hidden" style="background:#ef4444;color:#fff;border-radius:99px;font-size:11px;font-weight:800;padding:1px 9px"></span></button>
+      <button id="btnCtr" type="button" class="pbtn"><span>💲 Contrato</span><span id="ctrSub" class="font-bold opacity-90"></span></button>
+    </div>
     <p class="msec">Personalizar</p>
     <div class="grid gap-2">
       <button data-per="cid" class="pbtn"><span>🏙 Cidades</span><span>›</span></button>
@@ -866,7 +945,7 @@ function rebuildRegions(){            // nomes das cidades: padrão + renomeadas
   Object.keys(REGION_DEF).forEach(k=>{ REGIONS[k]=(state.cityNames&&state.cityNames[k])||REGION_DEF[k]; });
   (state.cityExtra||[]).forEach(c=>{ REGIONS[c.id]=c.name; });
 }
-const APP_VERSION = "3.54";
+const APP_VERSION = "3.58";
 const TEST_MODE = false;   // true = arquivo de teste (usa uma cópia dos dados) · false = site real
 const KEY_STATE = TEST_MODE?"ftth_state_test":"ftth_state_v1", KEY_NET = TEST_MODE?"ftth_net_test":"ftth_net_v1";
 const DOC_STATE = TEST_MODE?"state_teste":"state", DOC_NET = TEST_MODE?"net_teste":"net";
@@ -1013,7 +1092,7 @@ function ensureStreet(name,reg){
 const boxesOn= id => items.filter(i=>i.type==="cto" && stOf(i)===id);
 
 const ICO_PEN=`<svg viewBox="0 0 24 24"><path d="M9 3h6v12l-3 5-3-5z"/><path d="M9 7h6"/></svg>`, ICO_TRASH=`<svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>`;
-let vlOpen=false, portMark=false; let region = "sgb", currentId = null, editMode = false, placing = false, placingKind = null; let editSel=null, pendMove=null;
+let vlOpen=false, portMark=false; let region = "sgb", currentId = null, editMode = false, placing = false, placingKind = null; let editSel=null, pendMove=null, moveDone=null;
 const FIBER_HEX = {VERDE:"#22c55e",AMARELA:"#facc15",BRANCA:"#ffffff",AZUL:"#3b82f6",VERMELHA:"#ef4444",ROXA:"#a855f7",VIOLETA:"#a855f7",LARANJA:"#f97316",MARROM:"#92400e",ROSA:"#ec4899",CINZA:"#94a3b8",PRETA:"#111111"};
 let infoMode = false; try{ infoMode = localStorage.getItem("ftth_info")==="1"; }catch(e){}
 let lpBlock = false, lpMapBlock = false;
@@ -1777,7 +1856,7 @@ document.getElementById("sheetX").addEventListener("click",()=>closeSheet());
 })();
 document.getElementById("draftBar").addEventListener("click",e=>{ const d=e.target.dataset.d; if(d==="save") commitDraft(); else if(d==="cancel") cancelDraft(); });
 document.getElementById("sheetBody").addEventListener("click",e=>{ const b=e.target.closest("button[data-d]"); if(!b) return; apEd={}; if(b.dataset.d==="save"){ commitDraft(); if(currentId&&byId[currentId]) drawSheet(); } else if(b.dataset.d==="cancel") cancelDraft(); });
-map.on("click",e=>{ if(lpMapBlock) return; hideChip(); hideCabPick(); if(rpMode){ if(rpMode==="tap") toast("Toque em cima de um cabo de "+(rpT==="p"?"24":"6")+" fibras"); return; } openFibraPanel(false); if(pickPoint){ showNear(e.latlng.lat,e.latlng.lng,"Ponto marcado"); return; } if(cabRawNow()){ try{ closePc(); closePt(); }catch(_){} if(cabState==="draw") cabAddPt(e.latlng); else if(cabSel!==null){ cabSel=null; closeCabStyle(); render(); drawCabBar(); } return; } if(placing){ if(placingFor) placeQ(e.latlng); else if(placingKind) placeSpecial(e.latlng); else openNewBox(e.latlng); return; } if(selMode) return; if(editMode&&editSel&&!pendMove){ editSel=null; render(); updateEditBar(); } closeSheet(); });
+map.on("click",e=>{ if(lpMapBlock) return; hideMapMenu(); hideChip(); hideCabPick(); if(rpMode){ if(rpMode==="tap") toast("Toque em cima de um cabo de "+(rpT==="p"?"24":"6")+" fibras"); return; } openFibraPanel(false); if(pickPoint){ showNear(e.latlng.lat,e.latlng.lng,"Ponto marcado"); return; } if(cabRawNow()){ try{ closePc(); closePt(); }catch(_){} if(cabState==="draw") cabAddPt(e.latlng); else if(cabSel!==null){ cabSel=null; closeCabStyle(); render(); drawCabBar(); } return; } if(placing){ if(placingFor) placeQ(e.latlng); else if(placingKind) placeSpecial(e.latlng); else openNewBox(e.latlng); return; } if(selMode) return; if(editMode&&editSel&&!pendMove){ editSel=null; moveDone=null; render(); updateEditBar(); } closeSheet(); });
 
 /* ======================= BUSCA (rua / caixa / cliente) ======================= */
 const sInp=document.getElementById("search"), sRes=document.getElementById("results");
@@ -1972,21 +2051,28 @@ function updateEditBar(){
 }
 const moveBar=document.getElementById("moveBar");
 function updateMoveBar(){
-  const it=pendMove&&byId[pendMove.id];
-  if(!editMode||!it){ moveBar.classList.add("hidden"); return; }
-  moveBar.innerHTML=`<span class="font-semibold truncate">Mudou de lugar: ${esc(nameOf(it))}</span><span class="flex gap-2 shrink-0"><button data-m="cancel" class="rounded-md bg-white/70 px-3 py-1 font-semibold">Cancelar</button><button data-m="save" class="rounded-md bg-slate-900 text-white px-3 py-1 font-bold">Salvar</button></span>`;
-  moveBar.classList.remove("hidden");
-  requestAnimationFrame(()=>{ const r=editBar.getBoundingClientRect(); moveBar.style.top=(r.bottom+4)+"px"; });
+  const it=pendMove&&byId[pendMove.id], dn=(!it&&editMode&&moveDone&&byId[moveDone])?byId[moveDone]:null;
+  if(!editMode||(!it&&!dn)){ moveBar.classList.add("hidden"); if(editMode) editBar.classList.remove("hidden"); return; }   // sem mudança pendente: barra de edição volta
+  if(dn){
+    moveBar.innerHTML=`<span class="font-semibold truncate">✔ ${esc(nameOf(dn))} salva</span><span class="flex gap-2 shrink-0"><button data-m="cont" class="rounded-lg bg-white/20 px-3 py-2 text-xs font-semibold">Continuar editando</button><button data-m="lock" class="rounded-lg bg-emerald-500 px-3 py-2 text-xs font-bold shadow">🔒 Travar</button></span>`;
+    moveBar.classList.remove("hidden"); editBar.classList.add("hidden"); return;
+  }
+  moveBar.innerHTML=`<span class="font-semibold truncate">Mudou de lugar: ${esc(nameOf(it))}</span><span class="flex gap-2 shrink-0"><button data-m="cancel" class="rounded-lg bg-white/20 px-3 py-2 text-xs font-semibold">Cancelar</button><button data-m="save" class="rounded-lg bg-emerald-500 px-3 py-2 text-xs font-bold shadow">Salvar</button></span>`;
+  moveBar.classList.remove("hidden"); editBar.classList.add("hidden");   // a barra de cima troca de lugar com esta enquanto a mudança não é salva
 }
 moveBar.addEventListener("click",e=>{
-  const b=e.target.closest("button"); if(!b||!pendMove) return;
+  const b=e.target.closest("button"); if(!b) return;
+  if(b.dataset.m==="cont"){ moveDone=null; updateMoveBar(); return; }
+  if(b.dataset.m==="lock"){ moveDone=null; setEdit(false); return; }
+  if(!pendMove) return;
   const it=byId[pendMove.id], m=it&&markers[it.id];
-  if(b.dataset.m==="cancel"){ if(m) m.setLatLng([pendMove.lat,pendMove.lng]); pendMove=null; updateMoveBar(); }
-  else if(b.dataset.m==="save"){ if(it&&m) applyMove(it,m); pendMove=null; updateMoveBar(); }
+  if(b.dataset.m==="cancel"){ if(m) m.setLatLng([pendMove.lat,pendMove.lng]); pendMove=null; moveDone=null; updateMoveBar(); }
+  else if(b.dataset.m==="save"){ if(it&&m) applyMove(it,m); moveDone=it?it.id:null; pendMove=null; updateMoveBar(); }
 });
 function editPick(id){
   if(pendMove&&pendMove.id!==id){ toast("Salve ou cancele a mudança de lugar primeiro"); return; }
-  if(editSel===id) return;
+  moveDone=null;
+  if(editSel===id){ updateEditBar(); return; }
   editSel=id; render(); updateEditBar();
 }
 /* ======================= AJUSTAR CABOS ======================= */
@@ -2002,7 +2088,9 @@ function placeCabUI(){
   setTopVar();
   const tb=document.getElementById("tabs"); const top=Math.max(60,Math.round(tb.getBoundingClientRect().bottom+6));
   cabBar.style.top=top+"px"; cabChip.style.top=top+"px";
-  cabStyle.style.top=(cabBar.classList.contains("hidden")?top:Math.round(cabBar.getBoundingClientRect().bottom+6))+"px";
+  const sv=document.getElementById("cabSave"), svOn=sv&&!sv.classList.contains("hidden"); let bot=cabBar.classList.contains("hidden")?top-6:Math.round(cabBar.getBoundingClientRect().bottom);
+  if(svOn){ sv.style.top=bot+"px"; bot=Math.round(sv.getBoundingClientRect().bottom); }
+  cabStyle.style.top=(bot+6)+"px";
 }
 window.addEventListener("resize",()=>{ if(cabMode||!cabChip.classList.contains("hidden")) placeCabUI(); });
 function cabPush(){ cabUndo.push(JSON.stringify(net.lines)); if(cabUndo.length>60) cabUndo.shift(); cabRedo=[]; cabDirty=true; drawCabBar(); }
@@ -2129,14 +2217,14 @@ function cabTapAt(ev){
   hideCabPick();
   const hits=cabHits(ll);
   if(!hits.length) return;
-  if(hits.length===1) cabChoose(hits[0],ll); else cabPickShow(hits,ll,ev.containerPoint);
+  if(hits.length===1&&cabMode) cabChoose(hits[0],ll); else cabPickShow(hits,ll,ev.containerPoint);
 }
 const cabPick=document.getElementById("cabPick");
 function hideCabPick(){ cabPick.classList.add("hidden"); cabPick.innerHTML=""; }
 function cabPickShow(hits,ll,cp){
   const lens=hits.map(li=>cabFmt(cabMeters(net.lines[li][1])));
   cabPick.innerHTML=hits.map((li,i)=>{ const t=net.lines[li][0]==="p", dup=hits.some((o,j)=>j!==i&&(net.lines[o][0]==="p")===t);
-    return `<button data-li="${li}" class="cpk"><i style="background:${t?"#1d4ed8":"#38bdf8"}"></i>${cabName(li)}${dup?" · "+lens[i]:""}</button>`; }).join("");
+    return `<button data-li="${li}" class="cpk"><i style="background:${t?"#1d4ed8":"#38bdf8"}"></i>${cabName(li)}${dup?" · "+lens[i]:""}${cabMode?"":'<b class="cpe">✏</b>'}</button>`; }).join("");
   cabPick.classList.remove("hidden");
   const r=map.getContainer().getBoundingClientRect(), pt=cp||{x:r.width/2,y:r.height/2}, w=cabPick.offsetWidth||170, hh=cabPick.offsetHeight||70;
   let x=Math.max(6,Math.min(innerWidth-w-6,r.left+pt.x-w/2)), y=r.top+pt.y+22; if(y+hh>innerHeight-10) y=Math.max(6,r.top+pt.y-hh-22);
@@ -2177,8 +2265,7 @@ document.getElementById("pcCancel").onclick=closePc;
 function cabTap(li){
   if(cabMode) return;
   if(selMode||placing) return;
-  cabChipLi=li; document.getElementById("cabChipTxt").textContent="🧵 "+cabName(li);
-  cabChip.classList.remove("hidden"); placeCabUI(); clearTimeout(cabChipT); cabChipT=setTimeout(hideChip,8000);
+  hideChip(); setCab(true); if(!cabMode) return; cabSel=li; cabSelSnap=JSON.stringify(net.lines); render(); drawCabBar();
 }
 cabChip.addEventListener("click",e=>{ const bt=e.target.closest("[data-c]"); if(!bt) return;
   if(bt.dataset.c==="x") return hideChip();
@@ -2214,7 +2301,7 @@ document.getElementById("ptDel").onclick=()=>{
   render();
 };
 function drawCabBar(){
-  if(!cabMode){ cabBar.classList.add("hidden"); cabLenDraw(); return; }
+  if(!cabMode){ cabBar.classList.add("hidden"); document.getElementById("cabSave").classList.add("hidden"); cabLenDraw(); return; }
   cabBar.classList.remove("hidden");
   const b=(c,txt,cls="",dis=false)=>`<button data-c="${c}" class="cbtn ${cls}${dis?" dis":""}">${txt}</button>`;
   let top, row;
@@ -2229,12 +2316,15 @@ function drawCabBar(){
     const sel=cabSel!==null&&net.lines[cabSel];
     const mv=sel&&cabMove===cabSel;
     top=mv?`<span class="font-semibold">✋ Movendo o ${cabName(cabSel).toLowerCase()}${cabTotTxt(net.lines[cabSel][1])}</span><span class="block text-xs opacity-80">Arraste a mãozinha para mover o cabo inteiro. As emendas com outros cabos se soltam. Dá para desfazer com ↶</span>`
-      :sel?`<span class="font-semibold">🧵 ${cabName(cabSel)} selecionado${cabTotTxt(net.lines[cabSel][1])}</span><span class="block text-xs opacity-80">Arraste as bolinhas · toque numa bolinha para continuar o cabo dali · toque no cabo para apagar o pedaço · segure a bolinha para apagar o ponto</span>`
+      :sel?`<span class="font-semibold">🧵 ${cabName(cabSel)} selecionado${cabTotTxt(net.lines[cabSel][1])}</span><span class="block text-xs opacity-80">Arraste as bolinhas · toque numa para continuar o cabo · toque no cabo para apagar o pedaço</span>`
           :`<span class="font-semibold">🧵 Ajustando cabos</span><span class="block text-xs opacity-80">Toque num cabo para escolher (um por vez) · depois arraste os pontos</span>`;
-    row=b("undo","↶","",!cabUndo.length)+b("redo","↷","",!cabRedo.length)+(sel?b("mv","✋ Mover cabo",mv?"on":"")+b("style","🎨 Estilo",cabStyleOpen?"on":"")+b("delcab","🗑 Apagar cabo"):"")+b("new","＋ Novo cabo")+b("view","💾 Salvar e ver","go")+b("cancel","Cancelar");
+    row=b("undo","↶","",!cabUndo.length)+b("redo","↷","",!cabRedo.length)+(sel?b("mv","✋ Mover cabo",mv?"on":"")+b("style","🎨 Estilo",cabStyleOpen?"on":"")+b("delcab","🗑 Apagar cabo"):"")+b("new","＋ Novo cabo")+(cabDirty?"":b("cancel","✕ Sair"));
   }
   const flt=(cabState==="edit")?`<div class="flex items-center gap-1.5 text-xs"><span class="opacity-80">Mostrar:</span>${[["all","Todos"],["f","Só cabos de 6"],["p","Só cabos de 24"]].map(([k,n])=>b("fl_"+k,n,cabFilter===k?"on":"")).join("")}</div>`:"";
   cabBar.innerHTML=`<div>${top}</div><div class="flex flex-wrap gap-1.5">${row}</div>${flt}`;
+  const sv=document.getElementById("cabSave"), svOn=cabState==="edit"&&cabDirty;
+  sv.classList.toggle("hidden",!svOn); cabBar.style.borderRadius=svOn?"12px 12px 0 0":"";
+  if(svOn) sv.innerHTML=`<b>Cabo mudou</b><span class="flex gap-1.5">${b("cancel","Cancelar")}${b("view","💾 Salvar e ver","go")}</span>`;
   placeCabUI(); cabLenDraw();
 }
 function setCab(on){
@@ -2250,7 +2340,7 @@ function setCab(on){
   }
 }
 function cabDiscard(){ net.lines=JSON.parse(cabSnap); cabDirty=false; setCab(false); computeLinks(); render(); toast("Cabos voltaram como estavam"); }
-cabBar.addEventListener("click",e=>{
+const cabBarClick=e=>{
   const bt=e.target.closest("[data-c]"); if(!bt||bt.classList.contains("dis")) return; const c=bt.dataset.c;
   if(c.startsWith("fl_")){ cabFilter=c.slice(3); hideCabPick(); if(cabSel!==null&&!cabVis(cabSel)){ cabSel=null; closeCabStyle(); } render(); drawCabBar(); return; }
   if(c==="undo"){ if(cabState==="draw"){ cabDraw.pts.pop(); cabLayer.clearLayers(); cabDrawTemp(); drawCabBar(); } else cabStep(cabUndo,cabRedo); }
@@ -2270,7 +2360,8 @@ cabBar.addEventListener("click",e=>{
     toast(d?"✔ Cabos aplicados"+(nw.length?" · 🔗 "+nw.slice(0,4).map(x=>esc(nameOf(x))+" ligada à "+esc(nameOf(byId[linkMap[x.id]]))).join(", ")+(nw.length>4?" e mais "+(nw.length-4):""):""):"Nada foi alterado"); }
   else if(c==="discard"){ if(confirm("Descartar tudo e voltar os cabos como estavam?")) cabDiscard(); }
   else if(c==="cancel"){ if(!cabDirty || confirm("Descartar as mudanças nos cabos?")) cabDiscard(); }
-});
+};
+cabBar.addEventListener("click",cabBarClick); document.getElementById("cabSave").addEventListener("click",cabBarClick);
 /* ======================= ROMPIMENTO ======================= */
 const rpBar=document.getElementById("rpBar"), rpCfm=document.getElementById("rpCfm"), rpWin=document.getElementById("rpWin"), rpDelModal=document.getElementById("rpDelModal");
 let rpHoldId=null;
@@ -2545,6 +2636,8 @@ function drawPer(){
   S.conta=`<div><p class="text-xs opacity-70 mb-2">Quem pode editar o mapa</p>
     <div class="trow" style="cursor:default"><span class="tic">👤</span><div class="flex-1 min-w-0"><b>${esc(MAIN_EMAIL.split("@")[0].replace(/mapa$/,"")||"Principal").replace(/^./,c=>c.toUpperCase())}</b><small>${esc(MAIN_EMAIL)} · principal</small></div><span class="text-xs font-bold opacity-70 rounded-full bg-slate-200 px-2 py-1">sempre</span></div>
     ${lockables().map(em=>{ const v=accessViewers.includes(em), nm=nameFromEmail(em), mem=accessMembers.includes(em); return `<div class="trow mt-2" style="cursor:default"><span class="tic">${v?"🔒":"✏️"}</span><div class="flex-1 min-w-0"><b>${esc(nm)}</b><small style="overflow:hidden;text-overflow:ellipsis">${esc(em)} · ${v?"só visualiza":"pode editar"}</small></div><button type="button" data-acc="tg" data-em="${esc(em)}" role="switch" aria-checked="${v?"false":"true"}" class="swt ${v?"":"on"}"></button>${mem?`<button type="button" data-acc="rm" data-em="${esc(em)}" title="Tirar o acesso" aria-label="Tirar o acesso" style="width:30px;height:30px;border-radius:9px;border:1px solid #fca5a5;color:#ef4444;flex:none;display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/></svg></button>`:""}</div>`; }).join("")}
+    <p class="text-xs opacity-70 mt-4 mb-1">Quem vê os 📦 Recolhidos (você, conta principal, envia e acompanha)</p>
+    ${lockables().map(em=>{ const on=accessRec.includes(em); return `<div class="trow mt-2" style="cursor:default"><span class="tic">📦</span><div class="flex-1 min-w-0"><b>${esc(nameFromEmail(em))}</b><small style="overflow:hidden;text-overflow:ellipsis">${on?"vê e marca os recolhimentos":"sem acesso aos recolhimentos"}</small></div><button type="button" data-acc="rec" data-em="${esc(em)}" role="switch" aria-checked="${on?"true":"false"}" class="swt ${on?"on":""}"></button></div>`; }).join("")}
     <button type="button" id="accAdd" class="w-full mt-2 rounded-xl border-2 border-dashed border-sky-300 text-sky-600 py-3 font-bold" style="font-size:15.5px">＋ Adicionar pessoa</button>
     <p class="text-xs opacity-70 mt-3">Desligada: a conta só vê o mapa. Não consegue editar nem salvar.</p></div>`;
   let hc=`<div>`;
@@ -2571,6 +2664,7 @@ perBody.addEventListener("click",e=>{
   const b=e.target.closest("button"); if(!b) return;
   if(b.dataset.acc==="tg"){ toggleAccess(b.dataset.em); return; }
   if(b.dataset.acc==="rm"){ removeMember(b.dataset.em); return; }
+  if(b.dataset.acc==="rec"){ toggleRecAcc(b.dataset.em); return; }
   if(b.id==="accAdd"){ document.getElementById("accEmail").value=""; document.getElementById("accModal").classList.remove("hidden"); setTimeout(()=>document.getElementById("accEmail").focus(),50); return; }
   if(b.dataset.ra){ startPlaceSpecial(b.dataset.ra); return; }
   if(b.dataset.rg){ const x=byId[b.dataset.rg]; if(x){ closePer(); if(region!=="all"&&x.region!==region){ region=x.region; drawTabs(); render(); } map.setView([x.lat,x.lng],18); openSheet(x.id); } return; }
@@ -2633,7 +2727,7 @@ function setEdit(on,selId){
   if(on&&RO){ toast("Conta só para visualizar"); return; }
   if(on&&cabMode) return;
   if(on&&selMode) setSel(false);
-  pendMove=null; editSel=on?(selId||null):null;
+  pendMove=null; moveDone=null; editSel=on?(selId||null):null;
   editMode=on; placing=false; placingFor=null; placingKind=null; editToggle.checked=on; closeSheet();
   map.getContainer().classList.toggle("editing",on); updateEditBar(); render();
   if(on) menu.classList.add("hidden");
@@ -2641,6 +2735,7 @@ function setEdit(on,selId){
 function cancelPlacing(){ if(placing){ placing=false; placingFor=null; placingKind=null; updateEditBar(); } }
 function onMoved(it,m){
   const nl=m.getLatLng();
+  moveDone=null;
   if(!pendMove||pendMove.id!==it.id) pendMove={id:it.id,lat:it.lat,lng:it.lng};
   if(Math.abs(nl.lat-pendMove.lat)<1e-9 && Math.abs(nl.lng-pendMove.lng)<1e-9) pendMove=null;
   updateMoveBar();
@@ -2923,7 +3018,7 @@ document.getElementById("accEmail").addEventListener("keydown",e=>{ if(e.key==="
 document.getElementById("lockIco").onclick=()=>toast(RO?"Conta só para visualizar":"Você pode editar");
 function startSync(){
   stopSync();
-  unsubAcc=fbDb.collection("rede").doc(DOC_ACC).onSnapshot(snap=>{ const d=snap.exists?snap.data():null; accessViewers=(d&&Array.isArray(d.viewers)?d.viewers:[]).map(x=>String(x).toLowerCase()); accessMembers=(d&&Array.isArray(d.members)?d.members:[]).map(x=>String(x).toLowerCase()); applyAccess(); if(isMain()&&!perModal.classList.contains("hidden")&&perSec==="conta") drawPer(); }, ()=>{});
+  unsubAcc=fbDb.collection("rede").doc(DOC_ACC).onSnapshot(snap=>{ const d=snap.exists?snap.data():null; accessViewers=(d&&Array.isArray(d.viewers)?d.viewers:[]).map(x=>String(x).toLowerCase()); accessMembers=(d&&Array.isArray(d.members)?d.members:[]).map(x=>String(x).toLowerCase()); try{ accessRec=(d&&Array.isArray(d.recolhe)?d.recolhe:[]).map(x=>String(x).toLowerCase()); recSync(); }catch(_){} applyAccess(); if(isMain()&&!perModal.classList.contains("hidden")&&perSec==="conta") drawPer(); }, ()=>{});
   unsubNet=fbDb.collection("rede").doc(DOC_NET).onSnapshot(snap=>{
     if(snap.metadata.hasPendingWrites||!snap.exists) return;
     const d=snap.data(); if(!d||typeof d.data!=="string"||d.data===JSON.stringify(net)) return;
@@ -2941,7 +3036,7 @@ function startSync(){
     fixState(); jset(KEY_STATE,state); refreshAll(); setCloudStatus("☁ Atualizado agora há pouco"+lastInfo);
   }, ()=>setCloudStatus("☁ Sem conexão com a nuvem"));
 }
-function stopSync(){ if(unsubAcc){unsubAcc();unsubAcc=null;} accessViewers=[]; accessMembers=[]; if(typeof applyAccess==="function") applyAccess(); if(unsubState){unsubState();unsubState=null;} if(unsubNet){unsubNet();unsubNet=null;} }
+function stopSync(){ if(unsubAcc){unsubAcc();unsubAcc=null;} accessViewers=[]; accessMembers=[]; try{ accessRec=[]; recSync(); }catch(_){} if(typeof applyAccess==="function") applyAccess(); if(unsubState){unsubState();unsubState=null;} if(unsubNet){unsubNet();unsubNet=null;} }
 if(CLOUD_ON){
   firebase.initializeApp(FIREBASE_CONFIG);
   fbAuth=firebase.auth(); fbDb=firebase.firestore();
@@ -3308,7 +3403,28 @@ nearCard.addEventListener("click",e=>{
   if(n==="o"){ const o=nearList[+b.dataset.i]; if(o) openSheet(o.x.id); return; }
   nearPick(+n);
 });
-/* segurar o dedo no mapa = marcar o ponto do cliente */
+/* segurar o dedo no mapa: popup pequeno (ponto do cliente / nova caixa) */
+const mapMenu=document.getElementById("mapMenu"); let mapMenuLL=null;
+function hideMapMenu(){ if(mapMenu) mapMenu.classList.add("hidden"); mapMenuLL=null; }
+function mapMenuShow(x,y,ll){
+  mapMenuLL=ll; mapMenu.classList.remove("hidden");
+  const w=mapMenu.offsetWidth||170, h=mapMenu.offsetHeight||70;
+  let left=Math.max(6,Math.min(innerWidth-w-6,x-w/2)), top=y+16; if(top+h>innerHeight-10) top=Math.max(6,y-h-16);
+  mapMenu.style.left=left+"px"; mapMenu.style.top=top+"px";
+}
+mapMenu.addEventListener("click",e=>{
+  const b=e.target.closest("[data-mm]"); if(!b) return; const ll=mapMenuLL; hideMapMenu(); if(!ll) return;
+  if(b.dataset.mm==="pt"){ closeSheet(); showNear(ll.lat,ll.lng,"Ponto marcado",true); }
+  else if(b.dataset.mm==="box"){
+    if(RO){ toast("Conta só para visualizar"); return; }
+    if(cabMode) return;
+    if(!editMode){ setEdit(true); if(!editMode) return; }
+    placing=true; updateEditBar(); openNewBox(ll);
+  }
+});
+document.addEventListener("pointerdown",e=>{ if(!mapMenu.classList.contains("hidden")&&!e.target.closest("#mapMenu")) hideMapMenu(); },true);
+map.on("movestart zoomstart",hideMapMenu);
+/* segurar o dedo no mapa = popup (ponto do cliente / nova caixa) */
 (function(){
   const mc=map.getContainer(); let t=null, st=null;
   const stop=()=>{ if(t){ clearTimeout(t); t=null; } };
@@ -3318,7 +3434,7 @@ nearCard.addEventListener("click",e=>{
     if(e.target.closest(".leaflet-marker-icon,.leaflet-control,.leaflet-popup,button,a,path.leaflet-interactive")) return;
     st={x:e.clientX,y:e.clientY};
     t=setTimeout(()=>{ t=null; const ll=map.mouseEventToLatLng({clientX:st.x,clientY:st.y}); lpMapBlock=true; setTimeout(()=>{ lpMapBlock=false; },900); try{ navigator.vibrate&&navigator.vibrate(40); }catch(_){}
-      closeSheet(); showNear(ll.lat,ll.lng,"Ponto marcado",true); },600);
+      closeSheet(); mapMenuShow(st.x,st.y,ll); },600);
   });
   mc.addEventListener("pointermove",e=>{ if(t&&st&&Math.hypot(e.clientX-st.x,e.clientY-st.y)>8) stop(); });
   ["pointerup","pointercancel","pointerleave"].forEach(ev=>mc.addEventListener(ev,stop));
@@ -3400,6 +3516,291 @@ applyTheme();
 new MutationObserver(()=>{ if(RO) document.querySelectorAll("#sheetBody input,#sheetBody select,#sheetBody textarea").forEach(e=>{ e.disabled=true; }); }).observe(document.getElementById("sheetBody"),{childList:true,subtree:true});
 
 /* ======================= VERSÃO / MODO TESTE ======================= */
+/* ======================= LEITOR (QR Code Pix / código de barras) + CONTRATO ======================= */
+const scanModal=document.getElementById("scanModal"), scVid=document.getElementById("scVid"), scRes=document.getElementById("scRes"), scMsg=document.getElementById("scMsg");
+let scStream=null, scDet=null, scRun=false, scTorchOn=false, scTab="r";
+function brl(n){ return "R$ "+(Math.round(n*100)/100).toFixed(2).replace(".",",").replace(/\B(?=(\d{3})+(?!\d))/g,"."); }
+function mod10(s){ let sum=0,m=2; for(let i=s.length-1;i>=0;i--){ let p=(+s[i])*m; if(p>9) p=Math.floor(p/10)+p%10; sum+=p; m=m===2?1:2; } const r=sum%10; return r===0?0:10-r; }
+function mod11c(s){ let sum=0,m=2; for(let i=s.length-1;i>=0;i--){ sum+=(+s[i])*m; m=m===9?2:m+1; } const r=sum%11; return (r===0||r===1)?0:(r===10?1:11-r); }
+function barToLinha(code){                 // 44 números do código de barras -> linha digitável (47 ou 48 números)
+  if(code[0]==="8"){ const f=(code[2]==="6"||code[2]==="7")?mod10:mod11c; let o=""; for(let i=0;i<4;i++){ const b=code.slice(i*11,i*11+11); o+=b+f(b); } return o; }
+  const c1=code.slice(0,4)+code.slice(19,24), c2=code.slice(24,34), c3=code.slice(34,44);
+  return c1+mod10(c1)+c2+mod10(c2)+c3+mod10(c3)+code[4]+code.slice(5,19);
+}
+function emvParse(s){ const o={}; let i=0; while(i+4<=s.length){ const t=s.substr(i,2), l=parseInt(s.substr(i+2,2),10); if(isNaN(l)||i+4+l>s.length) break; o[t]=s.substr(i+4,l); i+=4+l; } return o; }
+function scanClassify(raw){          // devolve {kind,label,copy,info[]}
+  const t=String(raw||"").trim(), digits=t.replace(/[\s.\-]/g,"");
+  if(/^000201/.test(t) && /br\.gov\.bcb\.pix/i.test(t)){
+    const o=emvParse(t), info=[]; if(o["54"]) info.push("Valor: <b>"+brl(parseFloat(o["54"]))+"</b>"); if(o["59"]) info.push("Recebedor: <b>"+esc(o["59"])+"</b>"+(o["60"]?" · "+esc(o["60"]):""));
+    return {kind:"pix",label:"PIX · copia e cola",copy:t,info};
+  }
+  if(/^\d{44}$/.test(digits)||/^\d{47}$/.test(digits)||/^\d{48}$/.test(digits)){
+    const line=digits.length===44?barToLinha(digits):digits, info=[];
+    if(line[0]!=="8" && line.length===47){ const v=parseInt(line.slice(37,47),10)/100; if(v>0) info.push("Valor: <b>"+brl(v)+"</b>"); }
+    else if(line[0]==="8") info.push("Conta de consumo / convênio");
+    return {kind:"boleto",label:"BOLETO · números para pagar",copy:line,info};
+  }
+  if(/^https?:\/\//i.test(t)) return {kind:"link",label:"LINK",copy:t,info:[]};
+  return {kind:"texto",label:"TEXTO",copy:t,info:[]};
+}
+async function copyTxt(txt){
+  try{ if(navigator.clipboard&&window.isSecureContext){ await navigator.clipboard.writeText(txt); return true; } }catch(e){}
+  try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;left:-999px;top:0;opacity:0"; document.body.appendChild(ta); ta.focus(); ta.select(); const ok=document.execCommand("copy"); ta.remove(); return ok; }catch(e){ return false; }
+}
+function waOpen(txt){ window.open("https://wa.me/?text="+encodeURIComponent(txt),"_blank"); }
+function scStop(){
+  scRun=false; scTorchOn=false;
+  try{ if(scStream) scStream.getTracks().forEach(t=>t.stop()); }catch(e){}
+  scStream=null; try{ scVid.srcObject=null; }catch(e){}
+}
+function scShowRes(raw){
+  scStop(); const r=scanClassify(raw);
+  document.getElementById("scCam").classList.add("hidden"); document.getElementById("scBtns").classList.add("hidden");
+  scRes.classList.remove("hidden"); window.__scLast=r;
+  scRes.innerHTML=`<div class="font-extrabold text-lg mb-2" style="color:#047857">✔ Código lido</div><span class="inline-block rounded-full px-3 py-1 text-xs font-extrabold" style="background:#dcfce7;color:#166534">${r.label}</span>`
+    +(r.info.length?`<div class="mt-2 text-sm leading-relaxed">${r.info.join("<br>")}</div>`:"")
+    +`<div id="scCode" class="my-3 rounded-xl p-3 text-xs break-all" style="background:#f1f5f9;color:#334155;font-family:ui-monospace,monospace;max-height:26vh;overflow:auto">${esc(r.copy)}</div>`
+    +`<button id="scCopy" type="button" class="scbig">📋 Copiar código</button>`
+    +`<button id="scWa" type="button" class="scb w-full mt-2">💬 Enviar no WhatsApp</button>`
+    +`<button id="scAgain" type="button" class="scb w-full mt-2" style="border:1px solid #cbd5e1">Ler outro</button>`;
+}
+scRes.addEventListener("click",async e=>{
+  const b=e.target.closest("button"); if(!b) return; const r=window.__scLast;
+  if(b.id==="scCopy"&&r){ const ok=await copyTxt(r.copy); toast(ok?"✔ Código copiado":"Não consegui copiar. Segure no código para copiar."); }
+  else if(b.id==="scWa"&&r) waOpen(r.copy);
+  else if(b.id==="scAgain") scStart();
+});
+async function scDetector(){
+  if(!("BarcodeDetector" in window)) return null;
+  if(scDet) return scDet;
+  let fm=["qr_code","itf","code_128","ean_13","code_39","codabar"];
+  try{ const sup=await BarcodeDetector.getSupportedFormats(); fm=fm.filter(f=>sup.includes(f)); }catch(e){}
+  try{ scDet=fm.length?new BarcodeDetector({formats:fm}):new BarcodeDetector(); }catch(e){ try{ scDet=new BarcodeDetector(); }catch(_){ scDet=null; } }
+  return scDet;
+}
+async function scStart(){
+  scStop(); scRes.classList.add("hidden"); scRes.innerHTML="";
+  document.getElementById("scCam").classList.remove("hidden"); document.getElementById("scBtns").classList.remove("hidden");
+  document.getElementById("scTorch").classList.add("hidden");
+  scMsg.textContent="Aponte para o QR Code ou código de barras";
+  const det=await scDetector();
+  if(!det){ scMsg.textContent="Este navegador não tem leitor de código. Atualize o Chrome do celular."; return; }
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){ scMsg.textContent="A câmera não está disponível aqui. Use “Foto da galeria”."; return; }
+  try{
+    scStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:"environment"}},audio:false});
+  }catch(e){
+    scMsg.textContent=(e&&e.name==="NotAllowedError")?"Permita o uso da câmera para este app e toque em “Ler outro”. Ou use “Foto da galeria”.":"Não consegui abrir a câmera. Use “Foto da galeria”.";
+    return;
+  }
+  scVid.srcObject=scStream; try{ await scVid.play(); }catch(e){}
+  try{ const tr=scStream.getVideoTracks()[0], cp=tr.getCapabilities&&tr.getCapabilities(); if(cp&&cp.torch) document.getElementById("scTorch").classList.remove("hidden"); }catch(e){}
+  scRun=true;
+  const tick=async()=>{
+    if(!scRun) return;
+    try{ if(scVid.readyState>=2){ const r=await det.detect(scVid); if(r&&r.length&&r[0].rawValue){ try{ navigator.vibrate&&navigator.vibrate(60); }catch(e){} scShowRes(r[0].rawValue); return; } } }catch(e){}
+    setTimeout(tick,220);
+  };
+  tick();
+}
+document.getElementById("scTorch").onclick=async()=>{
+  try{ const tr=scStream&&scStream.getVideoTracks()[0]; if(!tr) return; scTorchOn=!scTorchOn; await tr.applyConstraints({advanced:[{torch:scTorchOn}]}); }catch(e){ toast("Lanterna não disponível"); }
+};
+document.getElementById("scFile").onchange=async e=>{
+  const f=e.target.files&&e.target.files[0]; e.target.value=""; if(!f) return;
+  const det=await scDetector(); if(!det){ toast("Este navegador não tem leitor de código"); return; }
+  try{ const bmp=await createImageBitmap(f); const r=await det.detect(bmp); if(r&&r.length&&r[0].rawValue) scShowRes(r[0].rawValue); else toast("Não achei código nessa foto. Tente outra mais de perto."); }
+  catch(err){ toast("Não consegui ler essa foto"); }
+};
+function scTabSet(t){
+  scTab=t; document.getElementById("scTabR").classList.toggle("on",t==="r"); document.getElementById("scTabC").classList.toggle("on",t==="c");
+  document.getElementById("scRead").classList.toggle("hidden",t!=="r"); document.getElementById("scCtr").classList.toggle("hidden",t!=="c");
+  if(t==="r") scStart(); else { scStop(); ctrDraw(); }
+}
+function openScan(tab){ if(cabMode) return; scanModal.classList.remove("hidden"); menu.classList.add("hidden"); closeSheet(); scTabSet(tab||"r"); }
+function closeScan(){ scStop(); scanModal.classList.add("hidden"); }
+document.getElementById("scClose").onclick=closeScan;
+document.getElementById("scTabR").onclick=()=>scTabSet("r");
+document.getElementById("scTabC").onclick=()=>scTabSet("c");
+document.getElementById("btnScan").onclick=()=>openScan("r");
+document.getElementById("btnScanTop").onclick=()=>openScan("r");
+/* ---- contrato: valor × dias que faltam ÷ dias do contrato ---- */
+function ctrCfg(){ const c=state.ctr||{}; return {val:(+c.val>0?+c.val:250), meses:(+c.meses>0?Math.round(+c.meses):12)}; }
+function ctrCalc(startStr,cfg,today){
+  const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(startStr||""); if(!m) return null;
+  const y=+m[1], mo=+m[2]-1, d=+m[3], DAY=864e5, s=Date.UTC(y,mo,d), e=Date.UTC(y,mo+cfg.meses,d);
+  const now=today||new Date(), t=Date.UTC(now.getFullYear(),now.getMonth(),now.getDate());
+  const total=Math.round((e-s)/DAY), used=Math.min(total,Math.max(0,Math.round((t-s)/DAY))), rem=Math.max(0,total-used);
+  return {total,used,rem,valor:Math.round(cfg.val*rem/total*100)/100,future:t<s,done:t>=e,fim:new Date(e)};
+}
+function ctrSub(){ const el=document.getElementById("ctrSub"); if(el) el.textContent=brl(ctrCfg().val)+" ✏"; }
+function ctrDraw(){
+  const cfg=ctrCfg(), out=document.getElementById("ctrOut"), r=ctrCalc(document.getElementById("ctrDate").value,cfg);
+  document.getElementById("ctrNote").textContent="Contrato de "+brl(cfg.val)+" por "+cfg.meses+" meses · para mudar: ⚙ Configurações → Contrato";
+  if(!r){ out.innerHTML=""; return; }
+  const fim=r.fim.toLocaleDateString("pt-BR",{timeZone:"UTC"});
+  out.innerHTML=`<div class="rounded-xl p-4 text-center" style="background:#ecfdf5;border:1px solid #6ee7b7"><div class="text-sm" style="color:#334155">Valor a pagar hoje</div><div class="font-extrabold" style="font-size:30px;color:#047857">${brl(r.valor)}</div><div class="text-xs" style="color:#475569">${r.used} de ${r.total} dias usados · contrato vai até ${fim}</div>${r.future?'<div class="text-xs mt-1" style="color:#b45309">A data de início é no futuro.</div>':""}${r.done?'<div class="text-xs mt-1" style="color:#166534">O contrato já foi cumprido: nada a pagar.</div>':""}</div><button id="ctrCopy" type="button" class="scbig mt-3">📋 Copiar valor</button><button id="ctrWa" type="button" class="scb w-full mt-2">💬 Enviar no WhatsApp</button>`;
+  window.__ctrLast=brl(r.valor);
+}
+document.getElementById("ctrDate").addEventListener("input",ctrDraw);
+document.getElementById("ctrOut").addEventListener("click",async e=>{
+  const b=e.target.closest("button"); if(!b) return;
+  if(b.id==="ctrCopy"){ const ok=await copyTxt(window.__ctrLast); toast(ok?"✔ Valor copiado":"Não consegui copiar"); }
+  else if(b.id==="ctrWa") waOpen(window.__ctrLast);
+});
+const ctrModal=document.getElementById("ctrModal");
+document.getElementById("btnCtr").onclick=()=>{ const c=ctrCfg(); document.getElementById("ctrVal").value=c.val; document.getElementById("ctrMes").value=c.meses; menu.classList.add("hidden"); ctrModal.classList.remove("hidden"); };
+document.getElementById("ctrCancel").onclick=()=>ctrModal.classList.add("hidden");
+document.getElementById("ctrSaveBtn").onclick=()=>{
+  const v=parseFloat(String(document.getElementById("ctrVal").value).replace(",",".")), m=parseInt(document.getElementById("ctrMes").value,10);
+  if(!(v>0)||!(m>0)){ toast("Digite um valor e os meses (maiores que zero)"); return; }
+  state.ctr={val:Math.round(v*100)/100,meses:m}; save(); ctrSub(); ctrModal.classList.add("hidden"); toast("✔ Contrato: "+brl(state.ctr.val)+" por "+m+" meses");
+  if(!scanModal.classList.contains("hidden")&&scTab==="c") ctrDraw();
+};
+ctrSub();
+/* atalho discreto do leitor (embaixo da engrenagem) */
+function placeScanTop(){ const b=document.getElementById("btnScanTop"), tb=document.getElementById("tabs"), g=document.getElementById("btnMenu"); if(!b||!tb) return; const r=tb.getBoundingClientRect(); b.style.top=Math.round(r.top+Math.max(0,(r.height-30)/2))+"px"; if(g){ const gr=g.getBoundingClientRect(); if(gr.width>0) b.style.right=Math.round(innerWidth-(gr.left+gr.width/2)-15)+"px"; } }
+placeScanTop(); window.addEventListener("resize",placeScanTop); try{ new ResizeObserver(placeScanTop).observe(document.getElementById("hdr")); }catch(e){}
+/* ======================= RECOLHIDOS (equipamentos) ======================= */
+const REC_KIND=TEST_MODE?"rec_teste":"rec", REC_PFX=TEST_MODE?"rec_t_":"rec_";
+const REC_ST={pend:["Pendente","#fee2e2","#991b1b"],nao:["🚪 Não encontrou","#ffedd5","#9a3412"],pagar:["💰 Vai pagar","#fef3c7","#92400e"],esperar:["⏳ Esperar","#fef3c7","#92400e"],ok:["✔ Recolhido","#dcfce7","#166534"]};
+let recItems=[], unsubRec=null, accessRec=[], recOpenId=null, recEditId=null, recPend=false; const recDraft={};
+const recModal=document.getElementById("recModal"), recList=document.getElementById("recList"), recAddModal=document.getElementById("recAddModal"), recEditModal=document.getElementById("recEditModal");
+const canRec=()=>!!cloudUser&&(isMain()||accessRec.includes(myEmail()));
+const recSeenKey=()=>"rec_seen_"+(TEST_MODE?"t_":"")+myEmail();
+const recEv=x=>x.ev||x.upd||x.created||0, recEvBy=x=>String(x.evby||x.by||"").toLowerCase();
+function recSeen(){ try{ return +localStorage.getItem(recSeenKey())||0; }catch(e){ return 0; } }
+function recUnseen(){ const s=recSeen(), me=myEmail(); return recItems.filter(x=>recEv(x)>s&&recEvBy(x)!==me).length; }
+function recBadge(){
+  const ok=canRec(), n=ok?recUnseen():0, dot=document.getElementById("recDot"), bd=document.getElementById("recBadge"), bt=document.getElementById("btnRec");
+  if(bt) bt.hidden=!ok; if(dot) dot.classList.toggle("hidden",!n);
+  if(bd){ bd.classList.toggle("hidden",!n); bd.textContent=n+(n>1?" novos":" novo"); }
+}
+function recMarkSeen(){ try{ localStorage.setItem(recSeenKey(),String(Date.now())); }catch(e){} recBadge(); }
+function recSync(){
+  const want=!!(fbDb&&canRec());
+  if(want&&!unsubRec){
+    unsubRec=fbDb.collection("rede").where("kind","==",REC_KIND).onSnapshot(q=>{
+      recItems=q.docs.map(d=>d.data());
+      if(!recModal.classList.contains("hidden")){ recMarkSeen(); if(recList.contains(document.activeElement)&&/INPUT|TEXTAREA/.test(document.activeElement.tagName)) recPend=true; else recDraw(); } else recBadge();
+    },()=>{});
+  } else if(!want&&unsubRec){ try{ unsubRec(); }catch(e){} unsubRec=null; recItems=[]; }
+  recBadge();
+}
+const recDt=ms=>{ try{ return new Date(ms).toLocaleString("pt-BR",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"}); }catch(e){ return ""; } };
+const recDay=s=>{ const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(s||""); return m?m[3]+"/"+m[2]:""; };
+function recTitle(s){ const sm=["de","da","do","das","dos","e"]; return s.toLowerCase().split(/(\s+)/).map((w,i)=>{ if(!w||/^\s+$/.test(w)) return w; if(i>0&&sm.includes(w)) return w; return w.charAt(0).toUpperCase()+w.slice(1); }).join(""); }
+const recFix=s=>{ s=String(s||"").trim(); return (s&&s===s.toUpperCase()&&/[A-ZÀ-Ú]/.test(s))?recTitle(s):s; };
+function recParse(t){      // linhas copiadas da planilha: nome [TAB] endereço [TAB] observação
+  const out=[];
+  String(t||"").split(/\r?\n/).forEach(l=>{
+    l=l.trim(); if(!l) return;
+    let p=l.split("\t").map(x=>x.trim()).filter(Boolean);
+    if(p.length<2) p=l.split(/\s{2,}|;|\s\|\s/).map(x=>x.trim()).filter(Boolean);
+    const nome=recFix(p[0]||""), end=recFix(p[1]||""), obs=p.slice(2).join(" ").trim();
+    if(!nome) return; if(/^nome$/i.test(nome)&&/^endere/i.test(end)) return;
+    out.push({nome,end,obs});
+  });
+  return out;
+}
+function recCard(x){
+  const main=isMain(), st=REC_ST[x.status]||REC_ST.pend, d=recDraft[x.id]||{}, done=x.status==="ok";
+  const showOpts=!main&&(!done||recOpenId===x.id);
+  const tag=`<span class="inline-block rounded-full px-2 py-0.5 text-[10.5px] font-extrabold" style="background:${st[1]};color:${st[2]}">${st[0]}${x.status==="esperar"&&x.until?" até "+recDay(x.until):""}</span>`;
+  let h=`<div class="rc" data-id="${esc(x.id)}"><div><b>${esc(x.nome)}</b> ${tag}</div>`
+    +(x.end?`<div class="rcs">📍 ${esc(x.end)}</div>`:"")
+    +(x.obs?`<div class="rcs" style="color:#0056b3">📝 ${esc(x.obs)}</div>`:"")
+    +(x.det?`<div class="rcs">“${esc(x.det)}”</div>`:"")
+    +`<div class="rcs">${x.status==="pend"?"enviado por "+esc(nameFromEmail(x.createdBy||""))+" · "+recDt(x.created):"por "+esc(nameFromEmail(x.by||""))+" · "+recDt(x.upd||x.created)}${x.resent?" · 🔔 reenviado "+recDt(x.resent):""}</div>`;
+  if(main){
+    h+=`<div class="rca">${done?"":`<button type="button" data-rre="${esc(x.id)}" class="rcx" aria-label="Reenviar" title="Reenviar">🔔</button>`}<button type="button" data-red="${esc(x.id)}" class="rcx" aria-label="Editar" title="Editar">✏</button><button type="button" data-rdel="${esc(x.id)}" class="rcx del" aria-label="Apagar" title="Apagar">🗑</button></div>`;
+  }
+  if(showOpts){
+    const sel=d.st||"";
+    h+=`<div class="mt-2 flex flex-wrap gap-1.5">${[["ok","✔ Recolhido"],["nao","🚪 Não encontrou"],["pagar","💰 Vai pagar"],["esperar","⏳ Esperar até…"]].map(([k,n])=>`<button type="button" data-rs="${k}" data-id="${esc(x.id)}" class="rcb${sel===k?" on":""}">${n}</button>`).join("")}</div>`;
+    if(sel){
+      h+=(sel==="esperar"?`<input type="date" data-rdate="${esc(x.id)}" value="${esc(d.until||"")}" class="rci mt-2">`:"")
+        +`<div class="flex gap-2 mt-2"><input type="text" maxlength="140" data-rdet="${esc(x.id)}" value="${esc(d.det!==undefined?d.det:(x.det||""))}" placeholder="Detalhe (opcional)" class="rci" style="flex:1"><button type="button" data-rsave="${esc(x.id)}" class="scbig" style="width:auto;padding:8px 16px;font-size:14px">Salvar</button></div>`;
+    }
+  }
+  return h+`</div>`;
+}
+function recDraw(){
+  recPend=false;
+  const arr=recItems.slice().sort((a,b)=>{ const ao=a.status==="ok", bo=b.status==="ok"; if(ao!==bo) return ao?1:-1; return (b.created||0)-(a.created||0); });
+  recList.innerHTML=arr.length?arr.map(recCard).join(""):`<div class="text-center text-sm opacity-60 py-10">Nenhum recolhimento por enquanto.</div>`;
+  const main=isMain(), pend=arr.filter(x=>x.status!=="ok").length;
+  document.getElementById("recAdd").classList.toggle("hidden",!main);
+  document.getElementById("recFoot").classList.toggle("hidden",!(main&&arr.length));
+  const ra=document.getElementById("recResendAll"); ra.classList.toggle("hidden",!pend); ra.textContent="🔔 Reenviar pendentes ("+pend+")";
+}
+function openRec(){ if(!canRec()) return; menu.classList.add("hidden"); closeSheet(); recModal.classList.remove("hidden"); recMarkSeen(); recDraw(); }
+function closeRec(){ recModal.classList.add("hidden"); recAddModal.classList.add("hidden"); recEditModal.classList.add("hidden"); recMarkSeen(); }
+document.getElementById("btnRec").onclick=openRec;
+document.getElementById("recClose").onclick=closeRec;
+recList.addEventListener("focusout",()=>{ setTimeout(()=>{ if(recPend&&!recModal.classList.contains("hidden")&&!(recList.contains(document.activeElement)&&/INPUT|TEXTAREA/.test(document.activeElement.tagName))) recDraw(); },150); });
+const recRef=id=>fbDb.collection("rede").doc(REC_PFX+id);
+recList.addEventListener("click",e=>{
+  const del=e.target.closest("[data-rdel]");
+  if(del){ const id=del.dataset.rdel, x=recItems.find(y=>y.id===id); if(!x||!isMain()) return;
+    if(confirm("Apagar "+x.nome+" da lista?\n\nSome para todas as contas.")) recRef(id).delete().catch(()=>toast("Não consegui apagar. Veja a internet.")); return; }
+  const re=e.target.closest("[data-rre]");
+  if(re){ if(!isMain()) return; const now=Date.now(); recRef(re.dataset.rre).update({ev:now,evby:myEmail(),resent:now}).then(()=>toast("🔔 Reenviado")).catch(()=>toast("Não consegui reenviar. Veja a internet.")); return; }
+  const ed=e.target.closest("[data-red]");
+  if(ed){ const x=recItems.find(y=>y.id===ed.dataset.red); if(!x||!isMain()) return; recEditId=x.id; document.getElementById("recENome").value=x.nome||""; document.getElementById("recEEnd").value=x.end||""; document.getElementById("recEObs").value=x.obs||""; recEditModal.classList.remove("hidden"); return; }
+  const rs=e.target.closest("[data-rs]"); if(rs){ const id=rs.dataset.id; recDraft[id]=Object.assign(recDraft[id]||{},{st:rs.dataset.rs}); recDraw(); return; }
+  const sv=e.target.closest("[data-rsave]");
+  if(sv){ const id=sv.dataset.rsave, d=recDraft[id]||{}, x=recItems.find(y=>y.id===id); if(!x) return;
+    if(!d.st){ toast("Escolha uma opção primeiro"); return; }
+    if(d.st==="esperar"&&!d.until){ toast("Escolha até que dia"); return; }
+    const det=(d.det!==undefined?d.det:(x.det||"")).trim(), now=Date.now();
+    recRef(id).update({status:d.st,det,until:d.st==="esperar"?d.until:"",by:myEmail(),upd:now,ev:now,evby:myEmail()}).then(()=>{ delete recDraft[id]; recOpenId=null; toast("✔ Salvo"); }).catch(()=>toast("Não consegui salvar. Veja a internet."));
+    return; }
+  if(e.target.closest("a,input,button")) return;
+  const c=e.target.closest(".rc"); if(!c||isMain()) return; const id=c.dataset.id, x=recItems.find(y=>y.id===id);
+  if(x&&x.status==="ok"){ recOpenId=(recOpenId===id)?null:id; recDraw(); }
+});
+recList.addEventListener("input",e=>{ const id=e.target.dataset.rdet||e.target.dataset.rdate; if(!id) return; recDraft[id]=Object.assign(recDraft[id]||{},e.target.dataset.rdet?{det:e.target.value}:{until:e.target.value}); });
+document.getElementById("recEditOk").onclick=()=>{
+  if(!isMain()||!recEditId) return; const nome=document.getElementById("recENome").value.trim(); if(!nome){ document.getElementById("recENome").focus(); return; }
+  const now=Date.now(); recRef(recEditId).update({nome,end:document.getElementById("recEEnd").value.trim(),obs:document.getElementById("recEObs").value.trim(),ev:now,evby:myEmail()})
+    .then(()=>{ recEditModal.classList.add("hidden"); toast("✔ Salvo"); }).catch(()=>toast("Não consegui salvar. Veja a internet."));
+};
+document.getElementById("recEditCancel").onclick=()=>recEditModal.classList.add("hidden");
+document.getElementById("recResendAll").onclick=()=>{
+  if(!isMain()) return; const p=recItems.filter(x=>x.status!=="ok"); if(!p.length) return;
+  if(!confirm("Reenviar os "+p.length+" pendentes?\n\nOs funcionários recebem o aviso de novo.")) return;
+  const now=Date.now(), b=fbDb.batch(); p.forEach(x=>b.update(recRef(x.id),{ev:now,evby:myEmail(),resent:now})); b.commit().then(()=>toast("🔔 Pendentes reenviados")).catch(()=>toast("Não consegui reenviar. Veja a internet."));
+};
+document.getElementById("recClean").onclick=()=>{
+  if(!isMain()||!recItems.length) return; const ok=recItems.filter(x=>x.status==="ok").length, pe=recItems.length-ok;
+  if(!confirm("Apagar TODA a lista ("+recItems.length+")?\n\n"+ok+" já recolhidos"+(pe?" e "+pe+" AINDA PENDENTES":"")+".\nSome para todas as contas e não dá para desfazer.")) return;
+  const b=fbDb.batch(); recItems.forEach(x=>b.delete(recRef(x.id))); b.commit().then(()=>toast("✔ Lista limpa")).catch(()=>toast("Não consegui apagar. Veja a internet."));
+};
+/* gaveta de adicionar */
+const recPaste=document.getElementById("recPaste"); let recParsed=[];
+function recTab(t){ document.getElementById("recTabP").classList.toggle("on",t==="p"); document.getElementById("recTabU").classList.toggle("on",t==="u"); document.getElementById("recPaneP").classList.toggle("hidden",t!=="p"); document.getElementById("recPaneU").classList.toggle("hidden",t!=="u"); }
+function recPrev(){
+  const pv=document.getElementById("recPrev"), ok=document.getElementById("recPasteOk");
+  pv.innerHTML=recParsed.length?`<div class="text-xs font-extrabold mt-2 mb-1" style="color:#047857">✔ ${recParsed.length} cliente${recParsed.length>1?"s":""} encontrado${recParsed.length>1?"s":""}</div>`+recParsed.map((x,i)=>`<div class="recpv"><span class="min-w-0"><b>${esc(x.nome)}</b>${x.end?" · "+esc(x.end):' · <i style="color:#b45309">sem endereço</i>'}${x.obs?" · 📝 "+esc(x.obs):""}</span><button type="button" data-rpx="${i}" aria-label="Tirar">✕</button></div>`).join(""):"";
+  ok.classList.toggle("hidden",!recParsed.length); ok.textContent="Adicionar "+(recParsed.length>1?"os "+recParsed.length:"o cliente");
+}
+recPaste.addEventListener("input",()=>{ recParsed=recParse(recPaste.value); recPrev(); });
+document.getElementById("recPrev").addEventListener("click",e=>{ const b=e.target.closest("[data-rpx]"); if(!b) return; recParsed.splice(+b.dataset.rpx,1); recPrev(); });
+document.getElementById("recAdd").onclick=()=>{ if(!isMain()) return; recPaste.value=""; recParsed=[]; recPrev(); ["recNome","recEnd","recObs"].forEach(i=>document.getElementById(i).value=""); recTab("p"); recAddModal.classList.remove("hidden"); setTimeout(()=>recPaste.focus(),60); };
+document.getElementById("recTabP").onclick=()=>recTab("p"); document.getElementById("recTabU").onclick=()=>{ recTab("u"); setTimeout(()=>document.getElementById("recNome").focus(),50); };
+document.getElementById("recAddClose").onclick=()=>recAddModal.classList.add("hidden");
+function recNew(x,now,i){ const id=now.toString(36)+i+Math.random().toString(36).slice(2,5); return {id,doc:{kind:REC_KIND,id,nome:x.nome,end:x.end||"",obs:x.obs||"",status:"pend",det:"",until:"",created:now+i,upd:now+i,ev:now+i,evby:myEmail(),by:myEmail(),createdBy:myEmail()}}; }
+document.getElementById("recPasteOk").onclick=()=>{
+  if(!isMain()||!fbDb||!recParsed.length) return; const now=Date.now(), b=fbDb.batch(), n=recParsed.length;
+  recParsed.forEach((x,i)=>{ const o=recNew(x,now,i); b.set(recRef(o.id),o.doc); });
+  b.commit().then(()=>{ toast("✔ "+n+" adicionado"+(n>1?"s":"")); recPaste.value=""; recParsed=[]; recPrev(); recAddModal.classList.add("hidden"); }).catch(()=>toast("Não consegui adicionar. Veja a internet."));
+};
+document.getElementById("recAddOk").onclick=()=>{
+  if(!isMain()||!fbDb) return; const nome=document.getElementById("recNome").value.trim(); if(!nome){ document.getElementById("recNome").focus(); return; }
+  const o=recNew({nome,end:document.getElementById("recEnd").value.trim(),obs:document.getElementById("recObs").value.trim()},Date.now(),0);
+  recRef(o.id).set(o.doc).then(()=>{ toast("✔ "+nome+" adicionado"); ["recNome","recEnd","recObs"].forEach(i=>document.getElementById(i).value=""); document.getElementById("recNome").focus(); }).catch(()=>toast("Não consegui adicionar. Veja a internet."));
+};
+function toggleRecAcc(em){ if(!isMain()||!fbDb) return; const has=accessRec.includes(em); accWrite({recolhe:has?accessRec.filter(x=>x!==em):accessRec.concat(em)}); }
 document.getElementById("verTxt").textContent="Versão "+APP_VERSION+(TEST_MODE?" (teste)":"");
 if(TEST_MODE){
   document.getElementById("testBanner").classList.remove("hidden"); document.body.classList.add("test");
