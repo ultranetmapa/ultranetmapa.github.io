@@ -90,6 +90,8 @@
   .sw input:checked+i{background:#16a34a}
   .sw input:checked+i:after{transform:translateX(22px)}
   .editing .pill.esel{cursor:grab;animation:eselp 1.4s ease-in-out infinite}
+  .pill.cbsel{cursor:grab;animation:cbp 1s ease-in-out infinite}
+  @keyframes cbp{0%,100%{transform:translate(-50%,-50%) scale(1);box-shadow:0 0 0 3px #fff,0 0 0 7px rgba(37,99,235,.55)}50%{transform:translate(-50%,-50%) scale(1.15);box-shadow:0 0 0 3px #fff,0 0 0 11px rgba(37,99,235,.15)}}
   @keyframes eselp{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.18)}}
   #moveBar{touch-action:manipulation}
   .placing.leaflet-container,.placing .leaflet-interactive{cursor:crosshair!important}
@@ -484,8 +486,9 @@
 </div>
 <div id="recModal" class="hidden fixed inset-0 z-[1300] flex justify-center">
   <div id="recPanel">
-    <div class="flex items-center gap-2 px-3 py-2 border-b border-slate-200" style="padding-top:calc(env(safe-area-inset-top) + 8px)"><button id="recClose" type="button" class="text-2xl px-2 leading-none" aria-label="Fechar">✕</button><b class="flex-1 min-w-0 truncate">📦 Recolhidos</b><button id="recBack" type="button" class="volta">‹ Voltar</button><button id="recAdd" type="button" class="hidden rounded-lg px-2.5 py-2 text-xs font-bold" style="background:#dbeafe;color:#0056b3">＋ Adicionar</button></div>
+    <div class="flex items-center gap-2 px-3 py-2 border-b border-slate-200" style="padding-top:calc(env(safe-area-inset-top) + 8px)"><button id="recClose" type="button" class="text-2xl px-2 leading-none" aria-label="Fechar">✕</button><b class="flex-1 min-w-0 truncate">📦 Recolhidos</b><button id="recBack" type="button" class="volta">‹ Voltar</button></div>
     <div id="recList" class="flex-1 overflow-y-auto px-3 py-2 space-y-2"></div>
+    <div id="recAddBar" class="hidden px-3 pt-2"><button id="recAdd" type="button" class="scbig" style="width:100%;font-size:15px">＋ Adicionar</button></div>
     <div id="recFoot" class="hidden px-3 py-2 border-t border-slate-200 flex gap-2" style="padding-bottom:calc(env(safe-area-inset-bottom) + 8px)"><button id="recResendAll" type="button" class="scb flex-1" style="font-size:12.5px">↻ Reenviar pendentes</button><button id="recClean" type="button" class="scb flex-1" style="font-size:12.5px">🧹 Limpar lista</button></div>
   </div>
 </div>
@@ -974,7 +977,7 @@ function rebuildRegions(){            // nomes das cidades: padrão + renomeadas
   Object.keys(REGION_DEF).forEach(k=>{ REGIONS[k]=(state.cityNames&&state.cityNames[k])||REGION_DEF[k]; });
   (state.cityExtra||[]).forEach(c=>{ REGIONS[c.id]=c.name; });
 }
-const APP_VERSION = "3.59";
+const APP_VERSION = "3.60";
 const TEST_MODE = false;   // true = arquivo de teste (usa uma cópia dos dados) · false = site real
 const KEY_STATE = TEST_MODE?"ftth_state_test":"ftth_state_v1", KEY_NET = TEST_MODE?"ftth_net_test":"ftth_net_v1";
 const DOC_STATE = TEST_MODE?"state_teste":"state", DOC_NET = TEST_MODE?"net_teste":"net";
@@ -1142,6 +1145,7 @@ const markLayer = L.layerGroup().addTo(map);
 const cabLayer = L.layerGroup().addTo(map), cabLenLayer = L.layerGroup().addTo(map);
 rpLayer = L.layerGroup().addTo(map);
 var rpDirty=true, rpRes={}, rpStopped={}, rpOpenId=null, rpMode=null, rpT="p", rpPend=null, rpLayer;
+let cabBoxOn=false, cabBoxSel=new Set(), cabBoxSnap={};
 let cabMode=false, cabSnap=null, cabDirty=false, cabPoly={}, cabHalo={}, cabSel=null, hideCto=false, hideCeo=false, hideFib=false; try{ hideFib=localStorage.getItem("ftth_hidefib")==="1"; hideCto=localStorage.getItem("ftth_hidecto")==="1"; hideCeo=localStorage.getItem("ftth_hideceo")==="1"; }catch(e){}
 const markers = {}, stMk = {};
 function zoomCls(){ const z=map.getZoom(), c=map.getContainer().classList; c.toggle("zl16",z>=16); c.toggle("zl17",z>=17); }
@@ -1186,7 +1190,9 @@ function iconFor(it){
       }
     }
   }
-  let rpb=""; if(rpStopped[it.id]){ const rr=(state.rp||[]).find(x=>x.id===rpStopped[it.id]); if(rr&&!rr.hide) rpb='<i class="rpw">⚠</i>'; }
+  let rpb=""; if(rpStopped[it.id]){ const rr=(state.rp||[]).find(x=>x.id===rpStopped[it.id]); if(rr&&!rr.hide){ rpb='<i class="rpw">⚠</i>';
+    if(rr.t==="f"&&it.type==="cto"){ const bc0=boxCol(it); if(bc0){ const bc=`border-color:${bc0};border-width:4px;box-shadow:0 0 0 2px rgba(0,0,0,.75),0 1px 4px rgba(0,0,0,.6)`; sty = sty ? sty.replace(/"$/,";"+bc+'"') : ` style="${bc}"`; } } } }
+  if(cabBoxOn && cabRawNow() && cabBoxSel.has(it.id)) cls += " cbsel";
   return L.divIcon({className:"",html:`<span class="pill ${cls}"${sty}>${label}${rpb}</span>`,iconSize:[0,0]});
 }
 const zOf = it => (hl&&hl.has(it.id)) ? 2000 : (isFull(it)&&!isPlanned(it)) ? 1000 : it.type==="cto" ? 500 : (it.type==="arm"||it.type==="rural") ? 300 : 0;
@@ -1194,6 +1200,9 @@ function stIcon(o){
   return L.divIcon({className:"",iconSize:[0,0],html:`<span class="st${o.tot>220?" long":""}${hlSt.has(o.s[0])?" on":""}" style="transform:translate(-50%,-50%) rotate(${o.ang.toFixed(1)}deg) translateY(-17px)">${esc(stName(o.s[0]))}</span>`});
 }
 
+const HEXNAME={"#00b050":"VERDE","#ffe600":"AMARELA","#ffffff":"BRANCA","#00b0f0":"AZUL","#ff1a1a":"VERMELHA","#7030a0":"VIOLETA","#a5682a":"MARROM","#f97316":"LARANJA","#ec4899":"ROSA","#94a3b8":"CINZA","#111111":"PRETA"};
+const colName=h=>HEXNAME[String(h||"").toLowerCase()]||"PERSONALIZADA";
+function boxCol(it){ const o=state.qcol[it.id]; if(HEX.test(o||"")) return o; const m=/^\s*Q\s*(\d+)/i.exec(nameOf(it)||""); return m?(Q_FIBER[+m[1]-1]||null):null; }
 const Q_FIBER=["#00b050","#ffe600","#ffffff","#00b0f0","#ff1a1a","#7030a0","#a5682a","#ffe600"];   // Q1 verde, Q2 amarelo, Q3 branco, Q4 azul, Q5 vermelho, Q6 violeta, Q7 marrom, Q8 amarelo
 let linkV=null, fiberCache=null, linkLP=[];
 function fiberSegs(){
@@ -1333,10 +1342,11 @@ function render(){
     if(hideCto && (it.type==="cto"||it.type==="imenda"||it.type==="loja"||it.type==="rural"||it.type==="arm")) return;   // "Caixas" apagada esconde também emendas, loja, rural e armário
     if(hideCeo && it.type==="ceo") return;
     const movable = it.type==="cto"||it.type==="ceo"||it.type==="rural"||it.type==="arm";
-    const canDrag = editMode && movable && it.id===editSel;
-    const m = L.marker([it.lat,it.lng],{icon:iconFor(it),zIndexOffset:zOf(it),riseOnHover:true,draggable:canDrag,interactive:!cabRawNow()}).addTo(markLayer);
-    m.on("click",()=>{ if(placing||lpBlock||rpMode) return; if(selMode){ if(it.type==="cto") toggleSel(it.id); return; } if(editMode && movable){ editPick(it.id); return; } openSheet(it.id); });
-    if(canDrag){ m.on("dragstart",closeSheet); m.on("dragend",()=>onMoved(it,m)); }
+    const cabBx = cabRawNow() && cabBoxOn && movable;
+    const canDrag = (editMode && movable && it.id===editSel) || (cabBx && cabBoxSel.has(it.id));
+    const m = L.marker([it.lat,it.lng],{icon:iconFor(it),zIndexOffset:zOf(it),riseOnHover:true,draggable:canDrag,interactive:!cabRawNow()||cabBx}).addTo(markLayer);
+    m.on("click",()=>{ if(cabBx){ cabBoxToggle(it.id); return; } if(placing||lpBlock||rpMode) return; if(selMode){ if(it.type==="cto") toggleSel(it.id); return; } if(editMode && movable){ editPick(it.id); return; } openSheet(it.id); });
+    if(canDrag){ m.on("dragstart",closeSheet); m.on("dragend",()=>{ if(cabBx) cabBoxMoved(it,m); else onMoved(it,m); }); }
     markers[it.id]=m; bounds.push([it.lat,it.lng]);
   });
   if(cabRawNow()) cabBuild();
@@ -1500,9 +1510,9 @@ function parseCeo(d){
   return { fibra:m(/\bF\s*(\d+)/i), card:m(/CA[RD]{1,2}\s*(\d+)/i), pon:m(/PON\s*-?\s*(\d+)/i), tubo:m(/\bT\s*(\d)/i),
            cor:(d.match(/VERDE|AMARELA|BRANCA|AZUL|VERMELHA|ROXA|LARANJA|MARROM|ROSA|CINZA|PRETA|VIOLETA/i)||[null])[0] };
 }
-function chips(o){
+function chips(o,corLb){
   const c=[]; if(o.fibra)c.push(["Fibra","F"+o.fibra]); if(o.card)c.push(["Card",o.card]); if(o.pon)c.push(["PON",o.pon]);
-  if(o.tubo)c.push(["Tubo","T"+o.tubo]); if(o.cor)c.push(["Cor",o.cor.toUpperCase()]);
+  if(o.tubo)c.push(["Tubo","T"+o.tubo]); if(o.cor)c.push([corLb||"Cor",o.cor.toUpperCase()]);
   return c.map(([k,v])=>`<div class="bg-white border border-indigo-200 rounded-lg px-3 py-1 text-center"><div class="text-[10px] uppercase text-indigo-400">${k}</div><div class="font-bold text-indigo-900">${esc(v)}</div></div>`).join("");
 }
 let histAll=false, colEdit=null, showAddSel=false, placingFor=null; const nextColBy={};
@@ -1516,10 +1526,13 @@ function linkBlock(it){
   if(it.type==="cto"){
     const man=state.links[it.id], ceo=byId[linkMap[it.id]];
     let h=`<div class="flex justify-between items-center mb-1"><span class="text-sm font-bold text-indigo-900">🔌 Ligação (CEO / Card / PON)</span><button data-a="link" class="text-xs rounded-md border border-indigo-300 text-indigo-700 px-2 py-1 font-semibold">✏ Editar</button></div>`;
+    const bcol=boxCol(it), SWB=["#00b050","#ffe600","#ffffff","#00b0f0","#ff1a1a","#7030a0","#a5682a","#f97316","#ec4899","#94a3b8","#111111"];
+    h+=`<div class="flex items-center gap-2 mb-1.5"><span class="text-xs text-indigo-700">Caixa · cor</span><button data-a="qcol" data-id="${it.id}" title="Toque para mudar a cor desta caixa" class="inline-flex items-center gap-1.5 rounded-lg border border-indigo-200 bg-white px-2 py-1"><span class="inline-block w-3.5 h-3.5 rounded-sm shrink-0" style="${bcol?"background:"+bcol+";":""}box-shadow:0 0 0 1px #64748b"></span><b class="text-sm text-indigo-900">${bcol?colName(bcol):"—"}</b><span class="text-slate-400 text-xs">✎</span></button></div>`;
+    if(colEdit===it.id) h+=`<div class="mb-1.5 flex flex-wrap items-center gap-1.5 rounded-lg bg-white border border-indigo-200 px-2 py-1.5"><span class="text-xs text-slate-500">Cor da fibra:</span>${SWB.map(c=>`<button data-a="qpick" data-c="${c}" class="w-6 h-6 rounded-full" style="background:${c};box-shadow:0 0 0 1px #64748b"></button>`).join("")}<button data-a="qpick" data-c="" class="text-xs underline text-indigo-700 ml-1">Padrão</button></div>`;
     if(ceo){
       const p=parseCeo(ceo.desc);
       h+=`<div class="text-xs text-indigo-700 mb-1.5">Vem da <b>${esc(nameOf(ceo))}${p.fibra?" F"+p.fibra:""}</b> (pelo traçado da fibra) · <button data-a="gotoCeo" data-id="${ceo.id}" class="underline">ver no mapa</button></div>`;
-      const ch=chips(p); h+= ch ? `<div class="flex flex-wrap gap-1.5">${ch}</div>` : `<div class="text-xs text-slate-500">Essa CEO não tem Card/PON anotados no KML.</div>`;
+      const ch=chips(p,"Cor da CEO"); h+= ch ? `<div class="flex flex-wrap gap-1.5">${ch}</div>` : `<div class="text-xs text-slate-500">Essa CEO não tem Card/PON anotados no KML.</div>`;
       if(ceo.desc) h+=`<div class="text-xs text-slate-500 mt-1.5">${esc(ceo.desc)}</div>`;
     } else h+=`<div class="text-xs text-slate-500">CEO não identificada automaticamente. Use "editar" para anotar.</div>`;
     if(man) h+=`<div class="mt-1.5 text-sm text-indigo-900 border-t border-indigo-200 pt-1.5">✍ ${esc(man)}</div>`;
@@ -1577,6 +1590,7 @@ function openSheet(id){
   if(draftDirty && id!==currentId) settleDraft();
   if(id!==currentId){ sheet.style.removeProperty("max-height"); colEdit=null; showAddSel=false; vlOpen=false; portMark=false; currentId=id; takeBase(); draftDirty=false; drawDraftBar(); const _p=byId[id]; if(_p&&(_p.type==="ceo"||_p.type==="cto")) loadPhotos(id); }
   drawSheet(); sheet.classList.remove("closed");
+  { const _a=byId[id]; if(_a&&_a.type==="arm") sheet.style.setProperty("max-height",Math.max(220,window.innerHeight-90)+"px","important"); }
   const it=byId[id]; map.panTo([it.lat,it.lng],{animate:true});
   setTimeout(()=>{ const p=map.latLngToContainerPoint([it.lat,it.lng]); const h=sheet.offsetHeight; if(p.y>window.innerHeight-h-30) map.panBy([0,p.y-(window.innerHeight-h)/2]); },300);
 }
@@ -2356,14 +2370,29 @@ function drawCabBar(){
     top=mv?`<span class="font-semibold">✋ Movendo o ${cabName(cabSel).toLowerCase()}${cabTotTxt(net.lines[cabSel][1])}</span><span class="block text-xs opacity-80">Arraste a mãozinha para mover o cabo inteiro. As emendas com outros cabos se soltam. Dá para desfazer com ↶</span>`
       :sel?`<span class="font-semibold">🧵 ${cabName(cabSel)} selecionado${cabTotTxt(net.lines[cabSel][1])}</span><span class="block text-xs opacity-80">Arraste as bolinhas · toque numa para continuar o cabo · toque no cabo para apagar o pedaço</span>`
           :`<span class="font-semibold">🧵 Ajustando cabos</span><span class="block text-xs opacity-80">Toque num cabo para escolher (um por vez) · depois arraste os pontos</span>`;
-    row=b("undo","↶","",!cabUndo.length)+b("redo","↷","",!cabRedo.length)+(sel?b("mv","✋ Mover cabo",mv?"on":"")+b("style","🎨 Estilo",cabStyleOpen?"on":"")+b("delcab","🗑 Apagar cabo"):"")+b("new","＋ Novo cabo")+(cabDirty?"":b("cancel","✕ Sair"));
+    row=b("undo","↶","",!cabUndo.length)+b("redo","↷","",!cabRedo.length)+(sel?b("mv","✋ Mover cabo",mv?"on":"")+b("style","🎨 Estilo",cabStyleOpen?"on":"")+b("delcab","🗑 Apagar cabo"):"")+b("boxes","📦 Selecionar caixas",cabBoxOn?"on":"")+b("new","＋ Novo cabo")+(cabDirty?"":b("cancel","✕ Sair"));
   }
+  if(cabState==="edit"&&cabBoxOn) top+=`<span class="block text-xs font-semibold" style="color:#fde047">📦 Toque nas caixas para escolher (elas piscam) · arraste a caixa escolhida para o lugar certo${cabBoxSel.size?" · "+cabBoxSel.size+" escolhida"+(cabBoxSel.size>1?"s":""):""}</span>`;
   const flt=(cabState==="edit")?`<div class="flex items-center gap-1.5 text-xs"><span class="opacity-80">Mostrar:</span>${[["all","Todos"],["f","Só cabos de 6"],["p","Só cabos de 24"]].map(([k,n])=>b("fl_"+k,n,cabFilter===k?"on":"")).join("")}</div>`:"";
   cabBar.innerHTML=`<div>${top}</div><div class="flex flex-wrap gap-1.5">${row}</div>${flt}`;
   const sv=document.getElementById("cabSave"), svOn=cabState==="edit"&&cabDirty;
   sv.classList.toggle("hidden",!svOn); cabBar.style.borderRadius=svOn?"12px 12px 0 0":"";
-  if(svOn) sv.innerHTML=`<b>Cabo mudou</b><span class="flex gap-1.5">${b("cancel","Cancelar")}${b("view","💾 Salvar e ver","go")}</span>`;
+  if(svOn) sv.innerHTML=`<b>Mudou</b><span class="flex gap-1.5">${b("cancel","Cancelar")}${b("view","💾 Salvar e ver","go")}</span>`;
   placeCabUI(); cabLenDraw();
+}
+function cabBoxToggle(id){ if(cabBoxSel.has(id)) cabBoxSel.delete(id); else cabBoxSel.add(id); render(); drawCabBar(); }
+function cabBoxMoved(it,m){
+  const ll=m.getLatLng(); if(!cabBoxSnap[it.id]) cabBoxSnap[it.id]={lat:it.lat,lng:it.lng,pos:state.pos[it.id]?state.pos[it.id].slice():null};
+  it.lat=ll.lat; it.lng=ll.lng;
+  if(it.custom){ const c=state.custom.find(x=>x.id===it.id); if(c){ c.lat=it.lat; c.lng=it.lng; } it.lat0=it.lat; it.lng0=it.lng; }
+  else state.pos[it.id]=[it.lat,it.lng];
+  cabDirty=true; computeStreets(); computeLinks(); render(); drawCabBar();
+}
+function cabBoxUndoAll(){
+  Object.keys(cabBoxSnap).forEach(id=>{ const it=byId[id], o=cabBoxSnap[id]; if(!it) return; it.lat=o.lat; it.lng=o.lng;
+    if(it.custom){ const c=state.custom.find(x=>x.id===id); if(c){ c.lat=o.lat; c.lng=o.lng; } it.lat0=o.lat; it.lng0=o.lng; }
+    else if(o.pos) state.pos[id]=o.pos; else delete state.pos[id]; });
+  cabBoxSnap={};
 }
 function setCab(on){
   if(on===cabMode) return;
@@ -2372,17 +2401,18 @@ function setCab(on){
   if(on){
     if(selMode) setSel(false); if(editMode) setEdit(false);
     closeSheet(); menu.classList.add("hidden");
-    cabSnap=JSON.stringify(net.lines); cabLinkBase=Object.assign({},linkMap); cabLost=[]; cabMove=null; cabDirty=false; cabUndo=[]; cabRedo=[]; cabDraw=null; cabSel=null; cabFilter="all"; cabSelSnap=""; cabState="edit"; cabMode=true; drawCabBar(); render();
+    cabBoxOn=false; cabBoxSel=new Set(); cabBoxSnap={}; cabSnap=JSON.stringify(net.lines); cabLinkBase=Object.assign({},linkMap); cabLost=[]; cabMove=null; cabDirty=false; cabUndo=[]; cabRedo=[]; cabDraw=null; cabSel=null; cabFilter="all"; cabSelSnap=""; cabState="edit"; cabMode=true; drawCabBar(); render();
   } else {
-    cabMode=false; cabMove=null; cabState="edit"; cabDraw=null; cabSel=null; cabFilter="all"; cabUndo=[]; cabRedo=[]; closeCabStyle(); closePt(); closePc(); hideCabPick(); cabLayer.clearLayers(); cabPoly={}; cabHalo={}; drawCabBar();
+    cabMode=false; cabBoxOn=false; cabBoxSel=new Set(); cabMove=null; cabState="edit"; cabDraw=null; cabSel=null; cabFilter="all"; cabUndo=[]; cabRedo=[]; closeCabStyle(); closePt(); closePc(); hideCabPick(); cabLayer.clearLayers(); cabPoly={}; cabHalo={}; drawCabBar();
   }
 }
-function cabDiscard(){ net.lines=JSON.parse(cabSnap); cabDirty=false; setCab(false); computeLinks(); render(); toast("Cabos voltaram como estavam"); }
+function cabDiscard(){ net.lines=JSON.parse(cabSnap); cabBoxUndoAll(); cabDirty=false; setCab(false); computeLinks(); render(); toast("Cabos voltaram como estavam"); }
 const cabBarClick=e=>{
   const bt=e.target.closest("[data-c]"); if(!bt||bt.classList.contains("dis")) return; const c=bt.dataset.c;
   if(c.startsWith("fl_")){ cabFilter=c.slice(3); hideCabPick(); if(cabSel!==null&&!cabVis(cabSel)){ cabSel=null; closeCabStyle(); } render(); drawCabBar(); return; }
   if(c==="undo"){ if(cabState==="draw"){ cabDraw.pts.pop(); cabLayer.clearLayers(); cabDrawTemp(); drawCabBar(); } else cabStep(cabUndo,cabRedo); }
   else if(c==="redo") cabStep(cabRedo,cabUndo);
+  else if(c==="boxes"){ cabBoxOn=!cabBoxOn; if(!cabBoxOn) cabBoxSel=new Set(); hideCabPick(); closeCabStyle(); cabMove=null; drawCabBar(); render(); }
   else if(c==="new"){ closeCabStyle(); hideCabPick(); cabSel=null; cabState="draw"; cabDraw={t:"f",pts:[]}; drawCabBar(); render(); }
   else if(c==="t6"||c==="t24"){ cabDraw.t=c==="t6"?"f":"p"; cabLayer.clearLayers(); cabDrawTemp(); drawCabBar(); }
   else if(c==="done"){ cabPush(); net.lines.push([cabDraw.t,cabDraw.pts,{reg:region}]); cabSel=net.lines.length-1; cabSelSnap=JSON.stringify(net.lines); cabDraw=null; cabState="edit"; drawCabBar(); render(); }
@@ -2393,7 +2423,7 @@ const cabBarClick=e=>{
   else if(c==="view"){ closeCabStyle(); cabMove=null; cabState="preview"; computeLinks();
     cabLost=items.filter(x=>x.type==="cto"&&cabLinkBase[x.id]&&!linkMap[x.id]); drawCabBar(); render(); }
   else if(c==="back"){ cabState="edit"; cabSelSnap=JSON.stringify(net.lines); drawCabBar(); render(); }
-  else if(c==="apply"){ if(cabDirty){ jset(KEY_NET,net); cloudPushNet(); } const old=Object.assign({},linkMap); computeLinks(); const d=cabDirty; setCab(false); render();
+  else if(c==="apply"){ if(cabDirty){ jset(KEY_NET,net); cloudPushNet(); } if(Object.keys(cabBoxSnap).length){ save(); cabBoxSnap={}; } const old=Object.assign({},linkMap); computeLinks(); const d=cabDirty; setCab(false); render();
     const nw=items.filter(x=>x.type==="cto" && linkMap[x.id] && linkMap[x.id]!==old[x.id]);
     toast(d?"✔ Cabos aplicados"+(nw.length?" · 🔗 "+nw.slice(0,4).map(x=>esc(nameOf(x))+" ligada à "+esc(nameOf(byId[linkMap[x.id]]))).join(", ")+(nw.length>4?" e mais "+(nw.length-4):""):""):"Nada foi alterado"); }
   else if(c==="discard"){ if(confirm("Descartar tudo e voltar os cabos como estavam?")) cabDiscard(); }
@@ -2531,7 +2561,7 @@ function rpDraw(){
       else {
         h+=`<div class="rcn ${nd===n?"all":""}" style="margin-top:6px">${nd===n?"✔ Tudo resolvido":nd+" de "+n+" feitos"}</div>`;
         h+=`<details><summary>Caixas paradas (${n})</summary>`+res.items.map((id,i)=>{ const b=byId[id]; if(!b) return ""; const m=/^\s*Q\s*(\d+)/i.exec(nameOf(b)||""), col=m?(HEX.test(state.qcol[id]||"")?state.qcol[id]:Q_FIBER[+m[1]-1]):null;
-          return `<label class="rit${done[id]?" dn":""}"><input type="checkbox" data-r="chk" data-k="${id}" ${done[id]?"checked":""}${ro}><span class="rno">${i+1}</span><span class="min-w-0"><span class="rnm">${esc(nameOf(b))}</span>${col?`<span class="rln"><span>${rpDash(col)}fibra desta caixa</span></span>`:""}</span></label>`; }).join("")+`</details>`;
+          return `<label class="rit${done[id]?" dn":""}"><input type="checkbox" data-r="chk" data-k="${id}" ${done[id]?"checked":""}${ro}><span class="rno">${i+1}</span><span class="min-w-0"><span class="rnm">${esc(nameOf(b))}</span>${col?`<span class="rln"><span>${rpDash(col)}<b>${colName(col)}</b></span></span>`:""}</span></label>`; }).join("")+`</details>`;
         h+=`<div class="rft">${res.nBox} caixa${res.nBox===1?"":"s"} · ${res.clients} cliente${res.clients===1?"":"s"} parado${res.clients===1?"":"s"}</div>`;
       }
     }
@@ -3823,7 +3853,7 @@ function recDraw(){
   const arr=recItems.slice().sort((a,b)=>{ const ao=a.status==="ok", bo=b.status==="ok"; if(ao!==bo) return ao?1:-1; return (b.created||0)-(a.created||0); });
   recList.innerHTML=arr.length?arr.map(recCard).join(""):`<div class="text-center text-sm opacity-60 py-10">Nenhum recolhimento por enquanto.</div>`;
   const main=isMain(), pend=arr.filter(x=>x.status!=="ok").length;
-  document.getElementById("recAdd").classList.toggle("hidden",!main);
+  document.getElementById("recAddBar").classList.toggle("hidden",!main);
   document.getElementById("recFoot").classList.toggle("hidden",!(main&&arr.length));
   const ra=document.getElementById("recResendAll"); ra.classList.toggle("hidden",!pend); ra.textContent="↻ Reenviar pendentes ("+pend+")";
 }
