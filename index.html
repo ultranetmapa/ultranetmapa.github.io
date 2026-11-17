@@ -796,8 +796,9 @@
     <div class="pt-2 text-[11px] font-extrabold uppercase tracking-wide text-slate-500">Rede e problemas</div>
     <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">⚠ Rompimento</summary><ol class="list-decimal pl-5 space-y-1 mt-2"><li>Menu → <b>⚠ Rompimento</b> e escolha <b>Cabo de 24</b> ou <b>Cabo de 6</b>.</li><li><b>Toque no cabo</b>, no ponto onde ele rompeu. Confira o ponto e confirme.</li><li>A ficha do rompimento mostra as caixas que ficam sem sinal e o que fazer. Marque cada item quando resolver: no fim vira <b>Resolvido ✔</b>.</li><li>Para apagar um rompimento, segure o marcador dele.</li></ol><p class="mt-2 text-xs text-slate-500">Enquanto aberto, as caixas sem sinal ganham borda grossa na cor da fibra.</p></details>
     <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">📦 Recolhidos (equipamentos e avisos)</summary><ol class="list-decimal pl-5 space-y-1 mt-2">
-      <li>Abra <b>⚙ Configurações → 📦 Recolhidos</b>. A conta principal vê a lista e toca em <b>＋ Adicionar</b> (embaixo). As outras contas, mesmo as que só visualizam o mapa, também veem a aba: a lista fica vazia até a principal enviar.</li>
-      <li><b>Conta do funcionário:</b> ele toca em <b>✔ Recolhido</b>, <b>🚪 Não encontrou</b>, <b>💰 Vai pagar</b> ou <b>⏳ Esperar até…</b>, escreve o detalhe se quiser e toca em <b>Salvar</b> (um cliente por vez). Marcar os Recolhidos é a única coisa que uma conta “só visualiza” pode gravar.</li>
+      <li>Abra <b>⚙ Configurações → 📦 Recolhidos</b>. Quem tem a chavinha <b>📦 Envia Recolhidos</b> (o Gustavo sempre tem) toca em <b>＋ Adicionar</b> (embaixo). <b>Todas as contas</b>, mesmo as que só visualizam o mapa, veem a mesma lista.</li>
+      <li><b>Marcar:</b> qualquer conta (inclusive a principal) toca em <b>✔ Recolhido</b>, <b>🚪 Não encontrou</b>, <b>💰 Vai pagar</b> ou <b>⏳ Esperar até…</b>, escreve o detalhe se quiser e toca em <b>Salvar</b> (um cliente por vez). Marcar os Recolhidos é a única coisa que uma conta “só visualiza” pode gravar. Quando alguém marca, a bolinha vermelha avisa as outras contas.</li>
+      <li><b>Dar a chavinha (só o Gustavo):</b> <b>⚙ Configurações → Conta</b>. Em cada pessoa há duas chavinhas: <b>✏️ Edita o mapa</b> e <b>📦 Envia Recolhidos</b>. Ligue a 📦 para quem pode mandar a lista (por exemplo, o patrão).</li>
       <li>Na janela, a lista dos clientes lidos fica em cima e tudo que você mexe fica embaixo: a caixa de colar/digitar, o botão <b>📁 Escolher imagem</b>, o <b>Adicionar</b> e as abas <b>📋 Colar print / células</b> e <b>✍ Um por um</b>.</li>
       <li><b>Print da planilha:</b> tire o print no computador, copie e aperte <b>Ctrl+V</b> na caixa (ou toque em <b>📁 Escolher imagem</b>). O app lê <b>nome</b> e <b>endereço</b> e, se tiver, a data e o valor, que entram como aviso (ex.: Desde 15/07/2026). <b>Confira a lista</b> e tire com ✕ o que estiver errado: a leitura da imagem pode errar uma letra ou um número.</li>
       <li><b>Células copiadas:</b> cole o texto copiado da planilha na mesma caixa (ou digite). Cada linha vira um cliente.</li>
@@ -1010,7 +1011,7 @@ function rebuildRegions(){            // nomes das cidades: padrão + renomeadas
   Object.keys(REGION_DEF).forEach(k=>{ REGIONS[k]=(state.cityNames&&state.cityNames[k])||REGION_DEF[k]; });
   (state.cityExtra||[]).forEach(c=>{ REGIONS[c.id]=c.name; });
 }
-const APP_VERSION = "3.65";
+const APP_VERSION = "3.66";
 const TEST_MODE = false;   // true = arquivo de teste (usa uma cópia dos dados) · false = site real
 const KEY_STATE = TEST_MODE?"ftth_state_test":"ftth_state_v1", KEY_NET = TEST_MODE?"ftth_net_test":"ftth_net_v1";
 const DOC_STATE = TEST_MODE?"state_teste":"state", DOC_NET = TEST_MODE?"net_teste":"net";
@@ -2776,11 +2777,11 @@ function drawPer(){
       <div class="mt-3 text-sm font-semibold">Clientes zona rural (${rl.length})</div><div class="mt-1">${rl.map(row).join("")||'<div class="text-xs opacity-60">Nenhum ainda.</div>'}</div>
       <div class="mt-2 text-sm font-semibold">Armários (${al.length})</div><div class="mt-1">${al.map(row).join("")||'<div class="text-xs opacity-60">Nenhum ainda.</div>'}</div>
       <p class="text-xs opacity-70 mt-2">Toque num nome da lista para ir até o ponto. Na contagem lá embaixo, os clientes de rádio aparecem <b>separados</b> dos clientes da fibra.</p></div>`; }
-  S.conta=`<div><p class="text-xs opacity-70 mb-2">Quem pode editar o mapa</p>
+  S.conta=`<div><p class="text-xs opacity-70 mb-2">Quem pode editar o mapa e enviar Recolhidos</p>
     <div class="trow" style="cursor:default"><span class="tic">👤</span><div class="flex-1 min-w-0"><b>${esc(MAIN_EMAIL.split("@")[0].replace(/mapa$/,"")||"Principal").replace(/^./,c=>c.toUpperCase())}</b><small>${esc(MAIN_EMAIL)} · principal</small></div><span class="text-xs font-bold opacity-70 rounded-full bg-slate-200 px-2 py-1">sempre</span></div>
-    ${lockables().map(em=>{ const v=accessViewers.includes(em), nm=nameFromEmail(em), mem=accessMembers.includes(em); return `<div class="trow mt-2" style="cursor:default"><span class="tic">${v?"🔒":"✏️"}</span><div class="flex-1 min-w-0"><b>${esc(nm)}</b><small style="overflow:hidden;text-overflow:ellipsis">${esc(em)} · ${v?"só visualiza":"pode editar"}</small></div><button type="button" data-acc="tg" data-em="${esc(em)}" role="switch" aria-checked="${v?"false":"true"}" class="swt ${v?"":"on"}"></button>${mem?`<button type="button" data-acc="rm" data-em="${esc(em)}" title="Tirar o acesso" aria-label="Tirar o acesso" style="width:30px;height:30px;border-radius:9px;border:1px solid #fca5a5;color:#ef4444;flex:none;display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/></svg></button>`:""}</div>`; }).join("")}
+    ${lockables().map(em=>{ const v=accessViewers.includes(em), sd=accessSenders.includes(em), nm=nameFromEmail(em), mem=accessMembers.includes(em); return `<div class="trow mt-2" style="cursor:default;height:auto;flex-wrap:wrap;padding:8px 14px"><span class="tic">${v?"🔒":"✏️"}</span><div class="flex-1 min-w-0"><b>${esc(nm)}</b><small style="overflow:hidden;text-overflow:ellipsis">${esc(em)} · ${v?"só visualiza":"pode editar"}</small></div><button type="button" data-acc="tg" data-em="${esc(em)}" role="switch" aria-checked="${v?"false":"true"}" class="swt ${v?"":"on"}"></button>${mem?`<button type="button" data-acc="rm" data-em="${esc(em)}" title="Tirar o acesso" aria-label="Tirar o acesso" style="width:30px;height:30px;border-radius:9px;border:1px solid #fca5a5;color:#ef4444;flex:none;display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/></svg></button>`:""}<div style="flex-basis:100%;display:flex;align-items:center;gap:10px;border-top:1px solid rgba(148,163,184,.35);padding-top:7px"><span class="tic" style="width:30px;height:30px;font-size:15px">📦</span><div class="flex-1 min-w-0"><b style="font-size:13.5px">Envia Recolhidos</b><small>${sd?"pode adicionar clientes":"só recebe e marca"}</small></div><button type="button" data-acc="sd" data-em="${esc(em)}" role="switch" aria-checked="${sd?"true":"false"}" class="swt ${sd?"on":""}"></button></div></div>`; }).join("")}
     <button type="button" id="accAdd" class="w-full mt-2 rounded-xl border-2 border-dashed border-sky-300 text-sky-600 py-3 font-bold" style="font-size:15.5px">＋ Adicionar pessoa</button>
-    <p class="text-xs opacity-70 mt-3">Desligada: a conta só vê o mapa. Não consegue editar nem salvar.</p></div>`;
+    <p class="text-xs opacity-70 mt-3">✏️ desligada: a conta só vê o mapa e não edita. 📦 ligada: a conta pode adicionar clientes na lista de Recolhidos. Todas as contas veem a lista e marcam Recolhido.</p></div>`;
   let hc=`<div>`;
   Object.entries(REGIONS).forEach(([k,n])=>{
     const ex=(state.cityExtra||[]).find(c=>c.id===k);
@@ -2804,6 +2805,7 @@ perModal.addEventListener("click",e=>{ if(e.target===perModal) closePer(); });
 perBody.addEventListener("click",e=>{
   const b=e.target.closest("button"); if(!b) return;
   if(b.dataset.acc==="tg"){ toggleAccess(b.dataset.em); return; }
+  if(b.dataset.acc==="sd"){ toggleSender(b.dataset.em); return; }
   if(b.dataset.acc==="rm"){ removeMember(b.dataset.em); return; }
   if(b.id==="accAdd"){ document.getElementById("accEmail").value=""; document.getElementById("accModal").classList.remove("hidden"); setTimeout(()=>document.getElementById("accEmail").focus(),50); return; }
   if(b.dataset.ra){ startPlaceSpecial(b.dataset.ra); return; }
@@ -3125,11 +3127,12 @@ function seedFromReal(){
 }
 /* ======================= CONTA: quem pode editar ======================= */
 const MAIN_EMAIL="gustavomapa@gmail.com", BASE_LOCKABLE=["ultranetmapa@gmail.com"], DOC_ACC="acesso";
-let accessViewers=[], accessMembers=[], unsubAcc=null, accLoaded=true;
+let accessViewers=[], accessMembers=[], accessSenders=[], unsubAcc=null, accLoaded=true;
 const lockables=()=>[...new Set(BASE_LOCKABLE.concat(accessMembers))].filter(e=>e!==MAIN_EMAIL);
 const nameFromEmail=em=>{ const n=String(em).split("@")[0].replace(/mapa$/,"")||String(em); return n.charAt(0).toUpperCase()+n.slice(1); };
 const myEmail=()=>String((cloudUser&&cloudUser.email)||"").toLowerCase();
 const isMain=()=>!!cloudUser&&myEmail()===MAIN_EMAIL;
+const canSend=()=>isMain()||(!!cloudUser&&accessSenders.includes(myEmail()));   // pode adicionar/apagar/editar clientes nos Recolhidos
 function applyAccess(){
   const me=myEmail(), was=RO;
   if(accLoaded){ RO=!!me&&me!==MAIN_EMAIL&&accessViewers.includes(me); try{ if(me) localStorage.setItem("ftth_ro_"+me,RO?"1":"0"); }catch(e){} }
@@ -3147,6 +3150,11 @@ function toggleAccess(em){
   const cur=accessViewers.includes(em), next=cur?accessViewers.filter(x=>x!==em):accessViewers.concat(em);
   accWrite({viewers:next});
 }
+function toggleSender(em){
+  if(!isMain()||!fbDb) return;
+  const cur=accessSenders.includes(em), next=cur?accessSenders.filter(x=>x!==em):accessSenders.concat(em);
+  accWrite({senders:next});
+}
 function accWrite(o){
   o.updatedAt=firebase.firestore.FieldValue.serverTimestamp(); o.by=cloudUser.email;
   return fbDb.collection("rede").doc(DOC_ACC).set(o,{merge:true}).then(()=>toast("✔ Salvo")).catch(()=>toast("Não foi possível salvar. Veja a internet."));
@@ -3155,12 +3163,12 @@ function addMember(raw){
   const em=String(raw||"").trim().toLowerCase();
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){ toast("Escreva um e-mail válido (ex.: nome@gmail.com)."); return false; }
   if(em===MAIN_EMAIL||lockables().includes(em)){ toast("Essa pessoa já está na lista."); return false; }
-  accWrite({members:accessMembers.concat(em),viewers:accessViewers}); return true;
+  accWrite({members:accessMembers.concat(em),viewers:accessViewers,senders:accessSenders}); return true;
 }
 function removeMember(em){
   if(!isMain()||!accessMembers.includes(em)) return;
   if(!confirm(`Tirar o acesso de ${nameFromEmail(em)}?\n\n${em} deixa de abrir os dados do mapa. Dá para adicionar de novo depois.`)) return;
-  accWrite({members:accessMembers.filter(x=>x!==em),viewers:accessViewers.filter(x=>x!==em)});
+  accWrite({members:accessMembers.filter(x=>x!==em),viewers:accessViewers.filter(x=>x!==em),senders:accessSenders.filter(x=>x!==em)});
 }
 document.getElementById("accCancel").onclick=()=>document.getElementById("accModal").classList.add("hidden");
 document.getElementById("accOk").onclick=()=>{ if(addMember(document.getElementById("accEmail").value)) document.getElementById("accModal").classList.add("hidden"); };
@@ -3168,7 +3176,7 @@ document.getElementById("accEmail").addEventListener("keydown",e=>{ if(e.key==="
 document.getElementById("lockIco").onclick=()=>toast(RO?"Conta só para visualizar":"Você pode editar");
 function startSync(){
   stopSync();
-  unsubAcc=fbDb.collection("rede").doc(DOC_ACC).onSnapshot(snap=>{ const d=snap.exists?snap.data():null; accessViewers=(d&&Array.isArray(d.viewers)?d.viewers:[]).map(x=>String(x).toLowerCase()); accessMembers=(d&&Array.isArray(d.members)?d.members:[]).map(x=>String(x).toLowerCase()); accLoaded=true; try{ accessRec=(d&&Array.isArray(d.recolhe)?d.recolhe:[]).map(x=>String(x).toLowerCase()); recSync(); }catch(_){} applyAccess(); if(isMain()&&!perModal.classList.contains("hidden")&&perSec==="conta") drawPer(); }, ()=>{});
+  unsubAcc=fbDb.collection("rede").doc(DOC_ACC).onSnapshot(snap=>{ const d=snap.exists?snap.data():null; accessViewers=(d&&Array.isArray(d.viewers)?d.viewers:[]).map(x=>String(x).toLowerCase()); accessMembers=(d&&Array.isArray(d.members)?d.members:[]).map(x=>String(x).toLowerCase()); accessSenders=(d&&Array.isArray(d.senders)?d.senders:[]).map(x=>String(x).toLowerCase()); accLoaded=true; try{ if(!recModal.classList.contains("hidden")) recDraw(); }catch(_){} try{ accessRec=(d&&Array.isArray(d.recolhe)?d.recolhe:[]).map(x=>String(x).toLowerCase()); recSync(); }catch(_){} applyAccess(); if(isMain()&&!perModal.classList.contains("hidden")&&perSec==="conta") drawPer(); }, ()=>{});
   unsubNet=fbDb.collection("rede").doc(DOC_NET).onSnapshot(snap=>{
     if(snap.metadata.hasPendingWrites||!snap.exists) return;
     const d=snap.data(); if(!d||typeof d.data!=="string"||d.data===JSON.stringify(net)) return;
@@ -3186,7 +3194,7 @@ function startSync(){
     fixState(); jset(KEY_STATE,state); refreshAll(); setCloudStatus("☁ Atualizado agora há pouco"+lastInfo);
   }, ()=>setCloudStatus("☁ Sem conexão com a nuvem"));
 }
-function stopSync(){ if(unsubAcc){unsubAcc();unsubAcc=null;} accLoaded=false; accessViewers=[]; accessMembers=[]; try{ accessRec=[]; recSync(); }catch(_){} if(typeof applyAccess==="function") applyAccess(); if(unsubState){unsubState();unsubState=null;} if(unsubNet){unsubNet();unsubNet=null;} }
+function stopSync(){ if(unsubAcc){unsubAcc();unsubAcc=null;} accLoaded=false; accessViewers=[]; accessMembers=[]; accessSenders=[]; try{ accessRec=[]; recSync(); }catch(_){} if(typeof applyAccess==="function") applyAccess(); if(unsubState){unsubState();unsubState=null;} if(unsubNet){unsubNet();unsubNet=null;} }
 if(CLOUD_ON){
   firebase.initializeApp(FIREBASE_CONFIG);
   fbAuth=firebase.auth(); fbDb=firebase.firestore();
@@ -3977,8 +3985,8 @@ function recParse(t,ocr){      // aceita células copiadas (TAB) ou texto lido d
   return out;
 }
 function recCard(x){
-  const main=isMain(), st=REC_ST[x.status]||REC_ST.pend, d=recDraft[x.id]||{}, done=x.status==="ok";
-  const showOpts=!main&&(!done||recOpenId===x.id);
+  const main=canSend(), st=REC_ST[x.status]||REC_ST.pend, d=recDraft[x.id]||{}, done=x.status==="ok";
+  const showOpts=(!done||recOpenId===x.id);
   const tag=`<span class="inline-block rounded-full px-2 py-0.5 text-[10.5px] font-extrabold" style="background:${st[1]};color:${st[2]}">${st[0]}${x.status==="esperar"&&x.until?" até "+recDay(x.until):""}</span>`;
   let h=`<div class="rc" data-id="${esc(x.id)}"><div><b>${esc(x.nome)}</b> ${tag}</div>`
     +(x.end?`<div class="rcs">📍 ${esc(x.end)}</div>`:"")
@@ -4002,7 +4010,7 @@ function recDraw(){
   recPend=false;
   const arr=recItems.slice().sort((a,b)=>{ const ao=a.status==="ok", bo=b.status==="ok"; if(ao!==bo) return ao?1:-1; return (b.created||0)-(a.created||0); });
   recList.innerHTML=arr.length?arr.map(recCard).join(""):`<div class="text-center text-sm opacity-60 py-10">Nenhum recolhimento por enquanto.</div>`;
-  const main=isMain(), pend=arr.filter(x=>x.status!=="ok").length;
+  const main=canSend(), pend=arr.filter(x=>x.status!=="ok").length;
   document.getElementById("recAddBar").classList.toggle("hidden",!main);
   document.getElementById("recFoot").classList.toggle("hidden",!(main&&arr.length));
   const ra=document.getElementById("recResendAll"); ra.classList.toggle("hidden",!pend); ra.textContent="↻ Reenviar pendentes ("+pend+")";
@@ -4017,14 +4025,14 @@ const recFail=(e,msg)=>{ toast(e&&e.code==="permission-denied"?"Sem permissão. 
 const recRef=id=>fbDb.collection("rede").doc(REC_PFX+id);
 recList.addEventListener("click",e=>{
   const del=e.target.closest("[data-rdel]");
-  if(del){ const id=del.dataset.rdel, x=recItems.find(y=>y.id===id); if(!x||!isMain()) return;
+  if(del){ const id=del.dataset.rdel, x=recItems.find(y=>y.id===id); if(!x||!canSend()) return;
     if(del.dataset.busy) return; del.dataset.busy="1"; del.classList.add("flash");     // apaga direto: o botão pisca vermelho e o cartão some
     const card=del.closest(".rc"); setTimeout(()=>{ if(card) card.classList.add("gone"); },160);
     setTimeout(()=>{ recRef(id).delete().catch(e=>{ recFail(e,"Não consegui apagar."); recDraw(); }); },360); return; }
   const re=e.target.closest("[data-rre]");
-  if(re){ if(!isMain()) return; const now=Date.now(); recRef(re.dataset.rre).update({ev:now,evby:myEmail(),resent:now}).then(()=>toast("↻ Reenviado")).catch(e=>recFail(e,"Não consegui reenviar.")); return; }
+  if(re){ if(!canSend()) return; const now=Date.now(); recRef(re.dataset.rre).update({ev:now,evby:myEmail(),resent:now}).then(()=>toast("↻ Reenviado")).catch(e=>recFail(e,"Não consegui reenviar.")); return; }
   const ed=e.target.closest("[data-red]");
-  if(ed){ const x=recItems.find(y=>y.id===ed.dataset.red); if(!x||!isMain()) return; recEditId=x.id; document.getElementById("recENome").value=x.nome||""; document.getElementById("recEEnd").value=x.end||""; document.getElementById("recEObs").value=x.obs||""; recEditModal.classList.remove("hidden"); return; }
+  if(ed){ const x=recItems.find(y=>y.id===ed.dataset.red); if(!x||!canSend()) return; recEditId=x.id; document.getElementById("recENome").value=x.nome||""; document.getElementById("recEEnd").value=x.end||""; document.getElementById("recEObs").value=x.obs||""; recEditModal.classList.remove("hidden"); return; }
   const rs=e.target.closest("[data-rs]"); if(rs){ const id=rs.dataset.id; recDraft[id]=Object.assign(recDraft[id]||{},{st:rs.dataset.rs}); recDraw(); return; }
   const sv=e.target.closest("[data-rsave]");
   if(sv){ const id=sv.dataset.rsave, d=recDraft[id]||{}, x=recItems.find(y=>y.id===id); if(!x) return;
@@ -4034,23 +4042,23 @@ recList.addEventListener("click",e=>{
     recRef(id).update({status:d.st,det,until:d.st==="esperar"?d.until:"",by:myEmail(),upd:now,ev:now,evby:myEmail()}).then(()=>{ delete recDraft[id]; recOpenId=null; toast("✔ Salvo"); }).catch(e=>recFail(e,"Não consegui salvar."));
     return; }
   if(e.target.closest("a,input,button")) return;
-  const c=e.target.closest(".rc"); if(!c||isMain()) return; const id=c.dataset.id, x=recItems.find(y=>y.id===id);
+  const c=e.target.closest(".rc"); if(!c) return; const id=c.dataset.id, x=recItems.find(y=>y.id===id);
   if(x&&x.status==="ok"){ recOpenId=(recOpenId===id)?null:id; recDraw(); }
 });
 recList.addEventListener("input",e=>{ const id=e.target.dataset.rdet||e.target.dataset.rdate; if(!id) return; recDraft[id]=Object.assign(recDraft[id]||{},e.target.dataset.rdet?{det:e.target.value}:{until:e.target.value}); });
 document.getElementById("recEditOk").onclick=()=>{
-  if(!isMain()||!recEditId) return; const nome=document.getElementById("recENome").value.trim(); if(!nome){ document.getElementById("recENome").focus(); return; }
+  if(!canSend()||!recEditId) return; const nome=document.getElementById("recENome").value.trim(); if(!nome){ document.getElementById("recENome").focus(); return; }
   const now=Date.now(); recRef(recEditId).update({nome,end:document.getElementById("recEEnd").value.trim(),obs:document.getElementById("recEObs").value.trim(),ev:now,evby:myEmail()})
     .then(()=>{ recEditModal.classList.add("hidden"); toast("✔ Salvo"); }).catch(e=>recFail(e,"Não consegui salvar."));
 };
 document.getElementById("recEditCancel").onclick=()=>recEditModal.classList.add("hidden");
 document.getElementById("recResendAll").onclick=()=>{
-  if(!isMain()) return; const p=recItems.filter(x=>x.status!=="ok"); if(!p.length) return;
+  if(!canSend()) return; const p=recItems.filter(x=>x.status!=="ok"); if(!p.length) return;
   if(!confirm("Reenviar os "+p.length+" pendentes?\n\nOs funcionários recebem o aviso de novo.")) return;
   const now=Date.now(), b=fbDb.batch(); p.forEach(x=>b.update(recRef(x.id),{ev:now,evby:myEmail(),resent:now})); b.commit().then(()=>toast("↻ Pendentes reenviados")).catch(e=>recFail(e,"Não consegui reenviar."));
 };
 document.getElementById("recClean").onclick=()=>{
-  if(!isMain()||!recItems.length) return; const ok=recItems.filter(x=>x.status==="ok").length, pe=recItems.length-ok;
+  if(!canSend()||!recItems.length) return; const ok=recItems.filter(x=>x.status==="ok").length, pe=recItems.length-ok;
   if(!confirm("Apagar TODA a lista ("+recItems.length+")?\n\n"+ok+" já recolhidos"+(pe?" e "+pe+" AINDA PENDENTES":"")+".\nSome para todas as contas e não dá para desfazer.")) return;
   const b=fbDb.batch(); recItems.forEach(x=>b.delete(recRef(x.id))); b.commit().then(()=>toast("✔ Lista limpa")).catch(e=>recFail(e,"Não consegui apagar."));
 };
@@ -4065,7 +4073,7 @@ function recPrev(){
 }
 recPaste.addEventListener("input",()=>{ recParsed=recParse(recPaste.value); recPrev(); });
 document.getElementById("recPrev").addEventListener("click",e=>{ const b=e.target.closest("[data-rpx]"); if(!b) return; recParsed.splice(+b.dataset.rpx,1); recPrev(); });
-document.getElementById("recAdd").onclick=()=>{ if(!isMain()) return; recPaste.value=""; recParsed=[]; recPrev(); recOcrMsg(""); ["recNome","recEnd","recObs"].forEach(i=>document.getElementById(i).value=""); recTab("p"); recAddModal.classList.remove("hidden"); setTimeout(()=>recPaste.focus(),60); };
+document.getElementById("recAdd").onclick=()=>{ if(!canSend()) return; recPaste.value=""; recParsed=[]; recPrev(); recOcrMsg(""); ["recNome","recEnd","recObs"].forEach(i=>document.getElementById(i).value=""); recTab("p"); recAddModal.classList.remove("hidden"); setTimeout(()=>recPaste.focus(),60); };
 document.getElementById("recTabP").onclick=()=>recTab("p"); document.getElementById("recTabU").onclick=()=>{ recTab("u"); setTimeout(()=>document.getElementById("recNome").focus(),50); };
 document.getElementById("recAddClose").onclick=()=>recAddModal.classList.add("hidden");
 /* ---- ler um print da planilha (imagem): precisa de internet na 1ª vez; não é 100% certo, por isso mostra para conferir ---- */
@@ -4130,12 +4138,12 @@ document.addEventListener("paste",e=>{   // Ctrl+V com um print copiado (só qua
 });
 function recNew(x,now,i){ const id=now.toString(36)+i+Math.random().toString(36).slice(2,5); return {id,doc:{kind:REC_KIND,id,nome:x.nome,end:x.end||"",obs:x.obs||"",status:"pend",det:"",until:"",created:now+i,upd:now+i,ev:now+i,evby:myEmail(),by:myEmail(),createdBy:myEmail()}}; }
 document.getElementById("recPasteOk").onclick=()=>{
-  if(!isMain()||!fbDb||!recParsed.length) return; const now=Date.now(), b=fbDb.batch(), n=recParsed.length;
+  if(!canSend()||!fbDb||!recParsed.length) return; const now=Date.now(), b=fbDb.batch(), n=recParsed.length;
   recParsed.forEach((x,i)=>{ const o=recNew(x,now,i); b.set(recRef(o.id),o.doc); });
   b.commit().then(()=>{ toast("✔ "+n+" adicionado"+(n>1?"s":"")); recPaste.value=""; recParsed=[]; recPrev(); recAddModal.classList.add("hidden"); }).catch(e=>recFail(e,"Não consegui adicionar."));
 };
 document.getElementById("recAddOk").onclick=()=>{
-  if(!isMain()||!fbDb) return; const nome=document.getElementById("recNome").value.trim(); if(!nome){ document.getElementById("recNome").focus(); return; }
+  if(!canSend()||!fbDb) return; const nome=document.getElementById("recNome").value.trim(); if(!nome){ document.getElementById("recNome").focus(); return; }
   const o=recNew({nome,end:document.getElementById("recEnd").value.trim(),obs:document.getElementById("recObs").value.trim()},Date.now(),0);
   recRef(o.id).set(o.doc).then(()=>{ toast("✔ "+nome+" adicionado"); ["recNome","recEnd","recObs"].forEach(i=>document.getElementById(i).value=""); document.getElementById("recNome").focus(); }).catch(e=>recFail(e,"Não consegui adicionar."));
 };
