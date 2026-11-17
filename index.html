@@ -264,7 +264,7 @@
   html.dark .rcx{border-color:#3a3a40;color:#f5f5f5;background:#0b0b0d}html.dark .rcx.re{color:#8ab4ff;border-color:#2a4a8a;background:#101c33}html.dark .rcx.del{border-color:#3a3a40;color:#9ca3af}html.dark .rcx:active{background:#1b2a4a}html.dark .rcx.del.flash{background:#ef4444;border-color:#ef4444;color:#fff}
   .rcb{border-radius:8px;padding:7px 10px;font-weight:700;font-size:12px;background:#e2e8f0;color:#0f172a}.rcb.on{background:#0056b3;color:#fff}
   .rci{display:block;width:100%;border:1px solid #cbd5e1;border-radius:9px;padding:8px 10px;font-size:14px;background:#fff;color:#0f172a}
-  html.dark #recModal,html.dark #recAddModal>div{background:#121212;color:#f5f5f5}
+  html.dark #recModal{color:#f5f5f5}html.dark #recAddModal>div{background:#121212;color:#f5f5f5}
   html.dark .rc{background:#1c1c20;border-color:#2e2e32;color:#f5f5f5}html.dark .rcs{color:#a1a1aa}html.dark .rcm{color:#6aaeff}
   html.dark .rcb{background:#2a2a2e;color:#f5f5f5}html.dark .rcb.on{background:#0056b3;color:#fff}
   html.dark .rci{background:#1c1c20;color:#f5f5f5;border-color:#3a3a40}html.dark #recModal .scb{background:#2a2a2e;color:#f5f5f5}
@@ -1010,7 +1010,7 @@ function rebuildRegions(){            // nomes das cidades: padrão + renomeadas
   Object.keys(REGION_DEF).forEach(k=>{ REGIONS[k]=(state.cityNames&&state.cityNames[k])||REGION_DEF[k]; });
   (state.cityExtra||[]).forEach(c=>{ REGIONS[c.id]=c.name; });
 }
-const APP_VERSION = "3.64";
+const APP_VERSION = "3.65";
 const TEST_MODE = false;   // true = arquivo de teste (usa uma cópia dos dados) · false = site real
 const KEY_STATE = TEST_MODE?"ftth_state_test":"ftth_state_v1", KEY_NET = TEST_MODE?"ftth_net_test":"ftth_net_v1";
 const DOC_STATE = TEST_MODE?"state_teste":"state", DOC_NET = TEST_MODE?"net_teste":"net";
