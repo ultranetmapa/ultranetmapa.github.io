@@ -32,6 +32,7 @@
   .pill.arm{background:#0f766e;color:#fff}
   .pill.imenda{background:#6b7280}
   .pill.loja{background:#7c3aed}
+  .pill.pers{background:#0ea5e9;color:#fff}
   @keyframes pulse{50%{box-shadow:0 0 0 7px rgba(220,38,38,.15),0 1px 5px rgba(0,0,0,.7)}}
   #sheet{transition:transform .25s ease,max-height .22s ease;max-height:68vh}
   /* barra de rolagem fina e escura (tema escuro) */
@@ -140,7 +141,8 @@
   html.dark #perModal>div,html.dark #accModal>div{background:#000000}
   .mbtn{border-radius:.5rem;color:#fff;padding:.45rem .6rem;font-size:13px;font-weight:600;line-height:1.2;text-align:left;transition:filter .12s,transform .12s;-webkit-tap-highlight-color:transparent}
   .mbtn:active{filter:brightness(.8);transform:scale(.97)}
-  .cbtn{border-radius:.5rem;padding:.4rem .65rem;font-weight:600;background:rgba(255,255,255,.2);color:#fff;transition:filter .12s,transform .12s;-webkit-tap-highlight-color:transparent}
+  .cflt .cbtn{padding:.28rem .38rem;font-size:12px}
+  .cbtn{border-radius:.5rem;padding:.28rem .5rem;font-size:12.5px;line-height:1.25;font-weight:600;background:rgba(255,255,255,.2);color:#fff;transition:filter .12s,transform .12s;-webkit-tap-highlight-color:transparent}
   .cbtn:active{filter:brightness(.75);transform:scale(.94)}
   .cbtn.on{background:#fff;color:#0056b3}
   .cbtn.go{background:#10b981}
@@ -246,10 +248,11 @@
   #recDot{position:absolute;top:1px;right:1px;width:12px;height:12px;border-radius:50%;background:#ef4444;border:2px solid #fff;pointer-events:none}
   #btnRec[hidden]{display:none!important}
   #recModal{background:#fff}#recPanel{width:100%;max-width:640px;display:flex;flex-direction:column;min-height:0;background:#fff;color:#0f172a}
-  @media(min-width:700px){#recModal{background:rgba(0,0,0,.5);padding:24px 0}#recPanel{border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,.5);overflow:hidden}}
+  #scanModal{top:auto!important;bottom:0!important;left:50%!important;right:auto!important;transform:translateX(-50%)!important;width:min(480px,100vw)!important;height:auto!important;max-height:92vh;padding-top:0!important;border-radius:20px 20px 0 0;box-shadow:0 -6px 30px rgba(0,0,0,.45);overflow:hidden}#scanModal #scCam{height:min(40vh,300px)!important}#scanModal{padding-bottom:env(safe-area-inset-bottom)}
+  @media(min-width:700px){#recModal{background:transparent;pointer-events:none;padding:24px 0}#recPanel{pointer-events:auto;border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,.5);overflow:hidden}#recAddModal,#recEditModal{background:transparent!important}#recAddBox{box-shadow:0 -4px 30px rgba(0,0,0,.4)}}
   .rca{display:flex;justify-content:flex-end;gap:7px;margin-top:8px}
   .recpv{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12.5px;border-bottom:1px solid #f1f5f9;padding:6px 0}.recpv button{color:#ef4444;font-weight:800;padding:2px 8px;flex:none}
-  html.dark #recModal{background:#121212}@media(min-width:700px){html.dark #recModal{background:rgba(0,0,0,.6)}}html.dark #recPanel,html.dark #recAddBox,html.dark #recEditModal>div{background:#121212;color:#f5f5f5}html.dark .recpv{border-color:#2e2e32}
+  html.dark #recModal{background:#121212}@media(min-width:700px){html.dark #recModal{background:transparent}}html.dark #recPanel,html.dark #recAddBox,html.dark #recEditModal>div{background:#121212;color:#f5f5f5}html.dark .recpv{border-color:#2e2e32}
   .rc{border:1px solid #e2e8f0;border-radius:12px;padding:10px;font-size:13.5px;color:#0f172a;background:#fff}
   .rcs{color:#64748b;font-size:11.5px;margin-top:3px}.rcm{color:#0056b3;text-decoration:none;font-weight:600}
   .rcx{flex:none;height:40px;min-width:40px;padding:0 10px;border-radius:11px;border:1px solid #cbd5e1;color:#334155;font-size:17px;font-weight:800;background:#fff;display:inline-flex;align-items:center;justify-content:center;transition:transform .12s,background .12s,box-shadow .15s;-webkit-tap-highlight-color:transparent}
@@ -492,11 +495,13 @@
     <div id="recFoot" class="hidden px-3 py-2 border-t border-slate-200 flex gap-2" style="padding-bottom:calc(env(safe-area-inset-bottom) + 8px)"><button id="recResendAll" type="button" class="scb flex-1" style="font-size:12.5px">↻ Reenviar pendentes</button><button id="recClean" type="button" class="scb flex-1" style="font-size:12.5px">🧹 Limpar lista</button></div>
   </div>
 </div>
-<div id="recAddModal" class="hidden fixed inset-0 z-[1350] bg-black/50 flex items-end justify-center"><div id="recAddBox" class="bg-white w-full max-w-xl rounded-t-2xl p-3" style="padding-bottom:calc(env(safe-area-inset-bottom) + 12px);max-height:82vh;overflow-y:auto">
-  <div class="flex gap-2 mb-2"><button id="recTabP" type="button" class="sctab on">📋 Colar da planilha</button><button id="recTabU" type="button" class="sctab">Um por um</button></div>
-  <div id="recPaneP"><textarea id="recPaste" rows="3" class="rci" placeholder="Copie as células da planilha (nome e endereço) e cole aqui"></textarea><div class="flex items-center gap-2 mt-2 flex-wrap"><label class="recimg"><input id="recImg" type="file" accept="image/*" class="hidden">📁 Escolher imagem</label><span class="hidden md:inline text-[11px] opacity-60">ou aperte Ctrl+V com um print copiado</span></div><div id="recOcr" class="hidden text-xs mt-1 font-semibold"></div><div id="recPrev"></div><button id="recPasteOk" type="button" class="scbig mt-2 hidden"></button></div>
-  <div id="recPaneU" class="hidden space-y-2"><input id="recNome" type="text" maxlength="80" placeholder="Nome do cliente" class="rci"><input id="recEnd" type="text" maxlength="140" placeholder="Endereço" class="rci"><input id="recObs" type="text" maxlength="140" placeholder="Descrição (opcional)" class="rci"><button id="recAddOk" type="button" class="scbig" style="padding:11px">Adicionar</button></div>
-  <button id="recAddClose" type="button" class="scb w-full mt-2">Fechar</button>
+<div id="recAddModal" class="hidden fixed inset-0 z-[1350] bg-black/50 flex items-end justify-center"><div id="recAddBox" class="bg-white w-full max-w-xl rounded-t-2xl p-3" style="padding-bottom:calc(env(safe-area-inset-bottom) + 12px);max-height:88vh;display:flex;flex-direction:column;overflow:hidden">
+  <div id="recTop" class="flex-1 min-h-0 overflow-y-auto" style="min-height:64px"><div class="font-bold text-sm mb-1">＋ Adicionar</div><div id="recOcr" class="hidden text-xs mt-1 font-semibold"></div><div id="recPrev"></div><div id="recTopHint" class="text-xs opacity-60">Os clientes lidos aparecem aqui. Cole o print ou escolha a imagem aí embaixo.</div></div>
+  <div class="shrink-0 pt-2" style="border-top:1px solid rgba(100,116,139,.25)">
+  <div id="recPaneP"><textarea id="recPaste" rows="3" class="rci" placeholder="Aperte Ctrl+V aqui: print da planilha ou células copiadas (nome e endereço). Também dá para digitar."></textarea><div class="flex items-center gap-2 mt-2 flex-wrap"><label class="recimg"><input id="recImg" type="file" accept="image/*" class="hidden">📁 Escolher imagem</label><span class="hidden md:inline text-[11px] opacity-60">ou aperte Ctrl+V com um print copiado</span></div><button id="recPasteOk" type="button" class="scbig mt-2 hidden"></button></div>
+  <div id="recPaneU" class="hidden space-y-2"><input id="recNome" type="text" maxlength="80" placeholder="Nome do cliente" class="rci"><input id="recEnd" type="text" maxlength="140" placeholder="Endereço" class="rci"><input id="recObs" type="text" maxlength="140" placeholder="Aviso ou descrição (opcional)" class="rci"><button id="recAddOk" type="button" class="scbig" style="padding:11px">Adicionar</button></div>
+  <div class="flex gap-2 mt-3"><button id="recTabP" type="button" class="sctab on">📋 Colar print / células</button><button id="recTabU" type="button" class="sctab">✍ Um por um</button></div>
+  <button id="recAddClose" type="button" class="scb w-full mt-2">Fechar</button></div>
 </div></div>
 <div id="recEditModal" class="hidden fixed inset-0 z-[1360] bg-black/60 flex items-center justify-center p-4"><div class="bg-white rounded-2xl p-4 w-full max-w-sm space-y-2">
   <b class="text-base">Editar recolhimento</b>
@@ -637,7 +642,7 @@
     <div class="grid gap-2">
       <button id="btnScan" type="button" class="pbtn"><span>📷 Ler QR Code / código de barras</span><span>›</span></button>
       <button id="btnRec" type="button" class="pbtn" hidden><span>📦 Recolhidos</span><span id="recBadge" class="hidden" style="background:#ef4444;color:#fff;border-radius:99px;font-size:11px;font-weight:800;padding:1px 9px"></span></button>
-      <button id="btnCtr" type="button" class="pbtn"><span>💲 Contrato</span><span id="ctrSub" class="font-bold opacity-90"></span></button>
+      <button id="btnCtr" type="button" class="pbtn"><span>💲 Configurações do contrato</span><span id="ctrSub" class="font-bold opacity-90"></span></button>
     </div>
     <p class="msec">Personalizar</p>
     <div class="grid gap-2">
@@ -716,7 +721,8 @@
 <div id="helpModal" class="hidden fixed inset-0 z-[1400] bg-black/60 flex items-end sm:items-center justify-center">
   <div class="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-4 space-y-2 max-h-[88vh] overflow-y-auto text-sm text-slate-700" style="padding-bottom:calc(env(safe-area-inset-bottom) + 16px)">
     <div class="flex items-center"><h2 class="font-bold text-slate-800 flex-1">❓ Como usar</h2><button id="helpClose" class="text-2xl text-slate-500 px-1 leading-none">×</button></div>
-    <p class="text-xs text-slate-500">Toque num assunto para abrir os detalhes.</p>
+    <p class="text-xs text-slate-500">Toque num assunto para abrir. Os de “Editar o mapa” têm imagem com o passo a passo.</p>
+    <div class="pt-2 text-[11px] font-extrabold uppercase tracking-wide text-slate-500">Ver o mapa</div>
     <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">📍 No mapa (caixas e cores)</summary><ul class="list-disc pl-5 space-y-1 mt-2">
       <li><b>Tocar numa caixa</b> abre a ficha dela: clientes, rua, VLAN e ligação (CEO / CARD / PON). Mudanças dentro da ficha só valem quando você toca em <b>Salvar</b> (ou <b>Cancelar</b> para desfazer).</li>
       <li><b>Cores da caixa:</b> verde = tem vaga · amarela ⚠ = atenção (você marca) · vermelha = lotada · colorida com 🛠 = a instalar.</li>
@@ -737,9 +743,9 @@
       <li><b>🧭 Ir com Google Maps:</b> fica por último na ficha, depois de Anotação.</li>
       <li><b>Rua desta caixa:</b> toque no campo e escolha a rua na tela que abre (o <b>×</b> fecha). Para tirar a rua, toque de novo na rua que está marcada. Para <b>adicionar, apagar ou renomear</b> ruas, toque em <b>➕ Adicionar rua</b>: a tela que abre serve para adicionar, apagar e renomear. Se você não escolher, a caixa fica <b>sem rua</b> (não há mais rua automática).</li>
       <li><b>VLAN:</b> fica em cima das portas, ao lado de <b>☑ Marcar ocupadas</b>. Toque no número (ex.: <b>VLAN 205 ▾</b>) para trocar de VLAN, no <b>✏</b> para editar, na <b>🗑</b> para apagar a VLAN, ou em <b>＋ VLAN</b> para escolher/criar uma. Na lista que abre: <b>＋ Nova VLAN</b>, <b>Nenhuma</b> e <b>Fechar</b>.</li>
-      <li><b>🔌 Ligação:</b> mostra de qual CEO a caixa vem (pelo traçado da fibra), com Card, PON, Fibra e Tubo. <b>✏ Editar</b> anota algo a mais.</li>
+      <li><b>🔌 Ligação:</b> mostra de qual CEO a caixa vem (pelo traçado da fibra), com Card, PON, Fibra e Tubo. <b>✏ Editar</b> anota algo a mais. A linha <b>Caixa · cor</b> mostra a cor da fibra dela: toque para trocar.</li>
       <li><b>Caixa planejada / a instalar:</b> marque a opção e escolha a cor do pino. A caixa fica colorida com 🛠 até você desmarcar.</li>
-      <li><b>Renomear · Anotação:</b> mudam o nome e guardam um recado sobre a caixa. <b>🗑 Excluir caixa</b> só aparece nas caixas que você criou.</li>
+      <li><b>Renomear:</b> o lápis ao lado do nome. <b>🗒 Anotação:</b> escreva na caixa de texto da própria ficha (vale para qualquer ponto) e toque em <b>Salvar anotação</b>. <b>🗑 Excluir caixa</b> só aparece nas caixas que você criou.</li>
       <li><b>🧭 Ir com Google Maps</b> abre o caminho até a caixa.</li>
     </ul></details>
     <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">🔵 CEO (emenda)</summary><ul class="list-disc pl-5 space-y-1 mt-2">
@@ -751,7 +757,7 @@
       <li><b>📜 Histórico da rede:</b> escreva rompimentos e serviços e toque em <b>Salvar</b>. Cada anotação guarda a data. Mostra as 3 últimas; <b>ver todos</b> mostra o resto e <b>×</b> apaga uma.</li>
       <li><b>Dados da CEO (✏ lápis pequeno):</b> abre um formulário com Card, PON, Fibra, Tubo, cor da fibra e saídas do split. Vale para qualquer CEO. Deixando tudo vazio, ela volta aos dados originais do arquivo. Na ficha da CEO a ordem é: nome, dados, split e caixas, histórico da rede e, por último, o 🧭 Ir com Google Maps.</li>
     </ul></details>
-    <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">🧭 O que mostrar no mapa (botão do olho 👁)</summary><ul class="list-disc pl-5 space-y-1 mt-2">
+    <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">👁 O que mostrar no mapa (botão do olho)</summary><ul class="list-disc pl-5 space-y-1 mt-2">
       <li><b>Card · PON:</b> mostra Caixa / CARD / PON / Fibra / VLAN no lugar do nome, com a borda na cor do tubo.</li>
       <li><b>Cabos:</b> liga e desliga o desenho dos cabos.</li>
       <li><b>👤 Conta (só no login do Gustavo):</b> em ⚙ Configurações, toque em <b>Conta</b>. A chavinha da <b>Ultranet</b> liga e desliga a edição: desligada, essa conta só vê o mapa (olhinho, caixas e clientes continuam abrindo) e não consegue editar nem salvar. Na conta travada aparece um <b>cadeadinho</b> ao lado do ?: fechado = só visualiza, aberto = pode editar. Para uma pessoa nova: crie o login dela no Firebase (Authentication → Add user) e depois toque em <b>＋ Adicionar pessoa</b> e digite o e-mail. A lixeira tira o acesso.</li>
@@ -760,27 +766,37 @@
       <li><b>CEO:</b> liga e desliga as CEOs.</li>
       <li>Bolinha acesa (colorida) = aparecendo; apagada (cinza) = escondida. A cor é a da barra de cima. As escolhas ficam lembradas no aparelho. Ao abrir o editor de cabos, os cabos aparecem de novo para você poder mexer.</li>
     </ul></details>
-    <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">➕ Adicionar no mapa (caixa ou CEO)</summary><ul class="list-disc pl-5 space-y-1 mt-2">
-      <li><b>Segurar 1 segundo numa caixa ou numa CEO</b> liga o modo edição. A barra de cima mostra <b>+ Nova Caixa</b>, <b>☑ Selecionar</b> e <b>🔒 Travar</b> (para sair).</li>
-      <li><b>+ Nova Caixa:</b> toque no lugar do mapa. Na janela escolha <b>📦 Caixa de cliente</b> ou <b>🔵 CEO</b>.</li>
-      <li><b>Caixa de cliente:</b> nome (ex.: Q9), rua, <b>Pertence à CEO</b> (automática pela fibra ou escolha a CEO) e, se quiser, caixa planejada. Nasce com 16 portas livres.</li>
-      <li><b>CEO:</b> nome, Card, PON, Fibra (F), cor da fibra e quantas saídas tem o split (o padrão é 8). Dá para deixar vazio e preencher depois. Se a CEO ficar em cima de um cabo de 6 fibras, ela liga as caixas sozinha; se não, adicione pela lista na ficha.</li>
-      <li><b>Arrastar</b> uma caixa ou uma CEO (qualquer uma) move de lugar. Aparece Salvar / Cancelar. A CEO não perde as caixas ligadas a ela ao ser movida.</li>
-      <li><b>☑ Selecionar:</b> escolha várias caixas e troque de uma vez a rua, o status lotada ou a VLAN.</li>
-    </ul></details>
     <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">🧵 Cabos e cores</summary><ul class="list-disc pl-5 space-y-1 mt-2">
       <li>A linha grossa azul é o cabo primário (24 fibras) e a fina azul-clara é o de 6 fibras.</li>
       <li>As cores de cada trecho seguem a caixa onde chegam: Q1 verde, Q2 amarelo, Q3 branco, Q4 azul, Q5 vermelho, Q6 violeta, Q7 marrom, Q8 amarelo.</li>
       <li>Cabos com cor ou grossura escolhida por você ficam por cima das cores automáticas.</li>
+      <li><b>Q1 colada na CEO:</b> quando a Q1 está a até uns 15 m da CEO, o cabo verde dela não é pintado (não precisa). A cor da Q1 continua na ficha.</li>
+      <li><b>Rompimento:</b> as caixas que ficam sem sinal ganham uma borda grossa na cor da fibra delas. Só aparece enquanto o rompimento estiver aberto.</li>
       <li><b>Cabo novo liga a caixa sozinho:</b> se você cria uma caixa (ex.: Q7) perto da última (Q6) e desenha o cabo de 6 fibras da Q6 até ela, o app percebe que ela é da mesma CEO e já usa os dados e a cor dela. Ao tocar em <b>✔ Aplicar</b>, aparece um aviso dizendo quais caixas foram ligadas. Se o cabo não encostar nas caixas, nada muda.</li>
     </ul></details>
-    <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">✂ Ajustar cabos, passo a passo</summary><ol class="list-decimal pl-5 space-y-1 mt-2">
-      <li>Abra <b>⚙ Configurações → 🧵 Editar cabos de fibra</b> (ou toque rapidinho em cima de um cabo no mapa e em <b>✏ Editar cabo</b>). Aparecem bolinhas nos cabos.</li>
-      <li><b>Arraste a bolinha grande</b> para a rua certa. <b>Puxe a bolinha pequena do meio</b> da linha para fazer uma curva. <b>Toque numa bolinha</b> para apagar o ponto.</li>
-      <li><b>＋ Novo cabo</b>: escolha 6 ou 24 fibras, toque no mapa marcando o caminho (encostando perto de outro cabo, ele se liga) e toque em Concluir. Enquanto você marca, a <b>📏 distância total em metros</b> aparece no meio do traçado e na barra azul.</li>
-      <li><b>Toque numa linha</b> para escolher aquele cabo. Aí aparecem <b>🎨 Estilo</b> (grossura e cor) e <b>🗑 Apagar cabo</b>. Para mudar só uma parte do cabo, toque numa bolinha e escolha <b>✂ Dividir</b>.</li>
-      <li><b>↶ ↷</b> desfazem e refazem qualquer passo, quantas vezes precisar.</li>
-      <li><b>💾 Salvar e ver</b> mostra como ficou, mas ainda não vale. Se gostar, toque em <b>✔ Aplicar</b>. Se não aplicar, tudo volta como estava.</li>
+    <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">🗺 Mapa e temas</summary><ul class="list-disc pl-5 space-y-1 mt-2">
+      <li>O botão de camadas (canto de cima, à direita) troca entre <b>Satélite</b> e <b>Ruas</b>. Os nomes das ruas que aparecem no mapa “Ruas” são do próprio mapa.</li>
+      <li>Se o zoom passar do que o satélite tem, a imagem é esticada (fica mais desfocada, mas não aparece quadrado cinza).</li>
+      <li><b>Modo escuro:</b> fica em ⚙ Configurações, na primeira opção (chavinha). Ligado, os fundos ficam bem pretos.</li>
+      <li><b>Personalização por cidade:</b> em ⚙ Configurações, <b>Personalização CEO</b>, <b>Cores das caixas no mapa</b> e <b>Vagas ocupadas</b> têm um seletor de cidade no alto. A cor vale só para a cidade escolhida (e só neste aparelho). Só vale depois de tocar em <b>Salvar</b>; <b>Cancelar</b> volta como estava.</li>
+      <li><b>Armário e cliente rural:</b> o que você muda nessas fichas só vale quando toca em <b>Salvar</b> (barra amarela no alto da ficha). <b>Cancelar</b> desfaz tudo o que mudou. A barra <b>Rede de fibra</b> separa a parte da torre (AP e PON) da parte da OLT e das placas.</li>
+      <li><b>Janelas de rua e de ligar caixa:</b> o tracinho no alto abaixa e sobe a janela. A busca fica embaixo: digite um pedaço do nome.</li>
+      <li>Para o app atualizar no celular, feche por completo e abra de novo.</li>
+    </ul></details>
+    <div class="pt-2 text-[11px] font-extrabold uppercase tracking-wide text-slate-500">Editar o mapa</div>
+    <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">✋ Mover uma caixa</summary><div class="mt-2"><svg viewBox="0 0 300 250" width="100%" xmlns="http://www.w3.org/2000/svg" style="display:block;border-radius:8px"><rect width="300" height="250" fill="#3b4a38"/><g stroke="#6b7280" stroke-width="16" fill="none" opacity=".55"><path d="M0 120 H300"/><path d="M150 0 V250"/></g><g stroke="#9ca3af" stroke-width="1.2" stroke-dasharray="6 5" fill="none" opacity=".9"><path d="M0 120 H300"/><path d="M150 0 V250"/></g><path d="M10 120 H290" stroke="#f59e0b" stroke-width="3.5" fill="none"/><rect x="40" y="111" width="34" height="18" rx="9" fill="#16a34a" stroke="#fff" stroke-width="3"/><text x="49" y="124" font-size="10" font-weight="800" fill="#fff">Q1</text><rect x="90" y="111" width="34" height="18" rx="9" fill="#16a34a" stroke="#fff" stroke-width="3"/><text x="99" y="124" font-size="10" font-weight="800" fill="#fff">Q2</text><rect x="88" y="109" width="38" height="22" rx="11" fill="none" stroke="#3b82f6" stroke-width="3"><animate attributeName="opacity" values=".2;1;.2" dur="1s" repeatCount="indefinite"/></rect><circle cx="107" cy="136" r="11" fill="#fff" opacity=".35"/><circle cx="107" cy="136" r="5" fill="#fff"/><defs><marker id="am1" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#fff"/></marker></defs><path d="M128 120 L196 70" stroke="#fff" stroke-width="2" stroke-dasharray="3 3" marker-end="url(#am1)"/><rect x="196" y="56" width="34" height="18" rx="9" fill="none" stroke="#fff" stroke-dasharray="3 3"/><rect x="70" y="196" width="170" height="26" rx="13" fill="#111827" opacity=".92"/><text x="82" y="213" font-size="10" fill="#fff" opacity="1">✔ Q2 movida · <tspan font-weight="800" text-decoration="underline">Desfazer</tspan></text><circle cx="26" cy="30" r="9" fill="#0056b3"/><text x="22.6" y="33.8" font-size="11" font-weight="800" fill="#fff">1</text><circle cx="262" cy="48" r="9" fill="#0056b3"/><text x="258.6" y="51.8" font-size="11" font-weight="800" fill="#fff">2</text><circle cx="26" cy="208" r="9" fill="#0056b3"/><text x="22.6" y="211.8" font-size="11" font-weight="800" fill="#fff">3</text><text x="40" y="34" font-size="9.2" fill="#fff" opacity="1">Segure 1 segundo na caixa (ela pisca)</text><text x="206" y="52" font-size="9.2" fill="#fff" opacity="1">Arraste</text><text x="206" y="92" font-size="9.2" fill="#fff" opacity="1">e solte</text><text x="40" y="228" font-size="8.6" fill="#fff" opacity="0.9">Já fica salvo</text></svg></div><ol class="list-decimal pl-5 space-y-1 mt-2"><li>Segure <b>1 segundo</b> numa caixa, CEO, emenda, casa/loja ou armário. Ela <b>pisca</b> e aparece <b>✏ Edição ativa</b>.</li><li><b>Arraste</b> para o lugar certo e solte. <b>Já fica salvo</b> (aparece ✔ com <b>Desfazer</b> por uns segundos).</li><li>Para parar de mexer nela, <b>toque de novo na caixa</b>. O <b>🔒 Travar</b> sai da edição.</li></ol><p class="mt-2 text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2 py-1">Mover a caixa não muda a CEO dela, nem o desenho dos cabos.</p></details>
+    <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">📦 Mover várias caixas de uma vez</summary><div class="mt-2"><svg viewBox="0 0 300 250" width="100%" xmlns="http://www.w3.org/2000/svg" style="display:block;border-radius:8px"><rect width="300" height="250" fill="#3b4a38"/><g stroke="#6b7280" stroke-width="16" fill="none" opacity=".55"><path d="M0 120 H300"/><path d="M0 0"/></g><g stroke="#9ca3af" stroke-width="1.2" stroke-dasharray="6 5" fill="none" opacity=".9"><path d="M0 120 H300"/><path d="M0 0"/></g><path d="M10 120 H290" stroke="#f59e0b" stroke-width="3.5" fill="none"/><rect x="30" y="111" width="34" height="18" rx="9" fill="#16a34a" stroke="#fff" stroke-width="3"/><text x="39" y="124" font-size="10" font-weight="800" fill="#fff">Q1</text><rect x="100" y="111" width="34" height="18" rx="9" fill="#16a34a" stroke="#fff" stroke-width="3"/><text x="109" y="124" font-size="10" font-weight="800" fill="#fff">Q2</text><rect x="98" y="109" width="38" height="22" rx="11" fill="none" stroke="#3b82f6" stroke-width="3"><animate attributeName="opacity" values=".2;1;.2" dur="1s" repeatCount="indefinite"/></rect><rect x="170" y="111" width="34" height="18" rx="9" fill="#16a34a" stroke="#fff" stroke-width="3"/><text x="179" y="124" font-size="10" font-weight="800" fill="#fff">Q3</text><rect x="168" y="109" width="38" height="22" rx="11" fill="none" stroke="#3b82f6" stroke-width="3"><animate attributeName="opacity" values=".2;1;.2" dur="1s" repeatCount="indefinite"/></rect><defs><marker id="av1" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#fff"/></marker></defs><path d="M187 108 L187 62" stroke="#fff" stroke-width="2" stroke-dasharray="3 3" marker-end="url(#av1)"/><rect x="170" y="42" width="34" height="18" rx="9" fill="none" stroke="#fff" stroke-dasharray="3 3"/><rect x="100" y="42" width="34" height="18" rx="9" fill="none" stroke="#fff" stroke-dasharray="3 3" opacity=".6"/><circle cx="26" cy="26" r="9" fill="#0056b3"/><text x="22.6" y="29.8" font-size="11" font-weight="800" fill="#fff">1</text><circle cx="118" cy="160" r="9" fill="#0056b3"/><text x="114.6" y="163.8" font-size="11" font-weight="800" fill="#fff">2</text><circle cx="262" cy="66" r="9" fill="#0056b3"/><text x="258.6" y="69.8" font-size="11" font-weight="800" fill="#fff">3</text><text x="42" y="30" font-size="9.2" fill="#fff" opacity="1">Toque em 📦 Caixas (barra de cima)</text><text x="134" y="164" font-size="9.2" fill="#fff" opacity="1">Toque nas caixas: elas piscam</text><text x="214" y="56" font-size="8.6" fill="#fff" opacity="1">Arraste uma:</text><text x="214" y="67" font-size="8.6" fill="#fff" opacity="1">todas andam juntas</text><text x="100" y="226" font-size="8.8" fill="#fff" opacity="0.95">Ao soltar, já fica salvo (Desfazer)</text></svg></div><ol class="list-decimal pl-5 space-y-1 mt-2"><li>Na barra de cima (<b>✏ Edição ativa</b> ou <b>editar cabos</b>) toque em <b>📦 Caixas</b>.</li><li><b>Toque nas caixas</b> que quer mexer (de qualquer tipo): elas piscam. Toque de novo numa para soltar.</li><li><b>Arraste uma</b>: todas andam juntas e <b>já ficam salvas</b>. Se errar, toque em <b>Desfazer</b>.</li><li>Toque em <b>📦 Caixas</b> de novo para sair dessa escolha.</li></ol><p class="mt-2 text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2 py-1">No <b>☑ Selecionar</b> (Preencher vagas) nada mudou: ele serve para trocar rua, lotada e VLAN de várias caixas.</p></details>
+    <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">🧵 Editar cabo de fibra</summary><div class="mt-2"><svg viewBox="0 0 300 250" width="100%" xmlns="http://www.w3.org/2000/svg" style="display:block;border-radius:8px"><rect width="300" height="250" fill="#3b4a38"/><g stroke="#6b7280" stroke-width="16" fill="none" opacity=".55"><path d="M0 120 H300"/><path d="M110 0 V250"/></g><g stroke="#9ca3af" stroke-width="1.2" stroke-dasharray="6 5" fill="none" opacity=".9"><path d="M0 120 H300"/><path d="M110 0 V250"/></g><path d="M14 120 L110 120 L110 40" stroke="#f59e0b" stroke-width="3.5" fill="none"/><g fill="#fff" stroke="#111" stroke-width="2"><circle cx="14" cy="120" r="6"/><circle cx="62" cy="120" r="6"/><circle cx="110" cy="120" r="6"/><circle cx="110" cy="80" r="6"/><circle cx="110" cy="40" r="6"/></g><rect x="180" y="111" width="34" height="18" rx="9" fill="#16a34a" stroke="#fff" stroke-width="3"/><text x="189" y="124" font-size="10" font-weight="800" fill="#fff">Q4</text><rect x="178" y="109" width="38" height="22" rx="11" fill="none" stroke="#3b82f6" stroke-width="3"><animate attributeName="opacity" values=".2;1;.2" dur="1s" repeatCount="indefinite"/></rect><path d="M110 80 Q150 70 190 111" stroke="#60a5fa" stroke-width="2.5" stroke-dasharray="3 4" fill="none"/><circle cx="28" cy="52" r="9" fill="#0056b3"/><text x="24.6" y="55.8" font-size="11" font-weight="800" fill="#fff">1</text><circle cx="62" cy="150" r="9" fill="#0056b3"/><text x="58.6" y="153.8" font-size="11" font-weight="800" fill="#fff">2</text><circle cx="220" cy="84" r="9" fill="#0056b3"/><text x="216.6" y="87.8" font-size="11" font-weight="800" fill="#fff">3</text><circle cx="246" cy="150" r="9" fill="#0056b3"/><text x="242.6" y="153.8" font-size="11" font-weight="800" fill="#fff">4</text><circle cx="232" cy="214" r="9" fill="#0056b3"/><text x="228.6" y="217.8" font-size="11" font-weight="800" fill="#fff">5</text><text x="44" y="46" font-size="9.2" fill="#fff" opacity="1">Menu ≡ → 🧵 Editar cabos</text><text x="44" y="58" font-size="9.2" fill="#fff" opacity="0.85">e toque no cabo</text><text x="76" y="154" font-size="8.8" fill="#fff" opacity="1">Arraste a bolinha branca</text><text x="76" y="165" font-size="8.8" fill="#fff" opacity="0.85">até a rua certa</text><text x="160" y="84" font-size="8.6" fill="#fff" opacity="1">Segure uma caixa:</text><text x="160" y="95" font-size="8.6" fill="#fff" opacity="1">pisca e já anda</text><text x="100" y="214" font-size="8.8" fill="#fff" opacity="1">Cabo: Salvar e ver → Aplicar</text></svg></div><ol class="list-decimal pl-5 space-y-1 mt-2"><li>Abra <b>⚙ Configurações → 🧵 Editar cabos de fibra</b> (ou toque rapidinho num cabo e em <b>✏ Editar cabo</b>). Aparecem bolinhas nos cabos.</li><li><b>Arraste a bolinha grande</b> para a rua certa. <b>Puxe a pequena do meio</b> para fazer uma curva. <b>Toque numa bolinha</b> para apagar o ponto ou continuar o cabo.</li><li>A barra tem <b>↶ ↷</b>, <b>✋ Mover</b>, <b>🎨 Estilo</b> e <b>🗑 Apagar</b> (com um cabo escolhido), <b>📦 Caixas</b> e <b>＋ Novo</b>. No canto, o filtro <b>Todos / Só 6 / Só 24</b>.</li><li><b>Segure uma caixa</b>: ela pisca e já dá para arrastar. A caixa é salva na hora (não depende do Aplicar). Tocar exatamente em cima de uma caixa pega a caixa, não o cabo que passa por baixo.</li><li><b>＋ Novo</b>: escolha 6 ou 24 fibras, toque no mapa marcando o caminho (perto de outro cabo, ele se liga) e toque em Concluir. A <b>📏 distância</b> aparece no meio do traçado.</li><li><b>💾 Salvar e ver</b> mostra como ficou; se gostar, <b>✔ Aplicar</b>. Se não aplicar, os cabos voltam como estavam.</li></ol><p class="mt-2 text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2 py-1">O <b>Cancelar</b> desfaz só os cabos. As caixas que você moveu continuam onde estão (use o Desfazer logo depois de mover).</p></details>
+    <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">➕ Adicionar caixa, CEO ou ponto</summary><div class="mt-2"><svg viewBox="0 0 300 250" width="100%" xmlns="http://www.w3.org/2000/svg" style="display:block;border-radius:8px"><rect width="300" height="250" fill="#3b4a38"/><rect x="0" y="0" width="300" height="46" fill="#0056b3"/><text x="12" y="18" font-size="10" fill="#fff" opacity="1">✏ Edição ativa</text><rect x="12" y="24" width="82" height="16" rx="8" fill="#10b981"/><text x="20" y="35" font-size="9" fill="#fff" opacity="1">+ Nova Caixa</text><rect x="100" y="24" width="64" height="16" rx="8" fill="#ffffff" opacity=".25"/><text x="108" y="35" font-size="9" fill="#fff" opacity="1">📦 Caixas</text><g stroke="#6b7280" stroke-width="16" fill="none" opacity=".55"><path d="M0 130 H300"/></g><path d="M10 130 H290" stroke="#f59e0b" stroke-width="3.5"/><rect x="60" y="121" width="34" height="18" rx="9" fill="#16a34a" stroke="#fff" stroke-width="3"/><text x="69" y="134" font-size="10" font-weight="800" fill="#fff">Q6</text><circle cx="200" cy="150" r="9" fill="#fff" opacity=".35"/><circle cx="200" cy="150" r="4" fill="#fff"/><rect x="40" y="172" width="220" height="62" rx="10" fill="#fff"/><rect x="48" y="180" width="64" height="20" rx="6" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="1.5"/><text x="55" y="194" font-size="9" fill="#0c4a6e" font-weight="700">📦 Cliente</text><rect x="118" y="180" width="54" height="20" rx="6" fill="none" stroke="#94a3b8" stroke-width="1.5"/><text x="127" y="194" font-size="9" fill="#475569" font-weight="700">🔵 CEO</text><rect x="178" y="180" width="74" height="20" rx="6" fill="none" stroke="#94a3b8" stroke-width="1.5"/><text x="184" y="194" font-size="9" fill="#475569" font-weight="700">🎨 Personalizada</text><text x="48" y="222" font-size="8.6" fill="#475569">Nome · cor · anotação</text><circle cx="276" cy="16" r="9" fill="#0056b3"/><text x="272.6" y="19.8" font-size="11" font-weight="800" fill="#fff">1</text><circle cx="222" cy="150" r="9" fill="#0056b3"/><text x="218.6" y="153.8" font-size="11" font-weight="800" fill="#fff">2</text><circle cx="26" cy="202" r="9" fill="#0056b3"/><text x="22.6" y="205.8" font-size="11" font-weight="800" fill="#fff">3</text><text x="172" y="17" font-size="8.4" fill="#fff" opacity="0.95">Segure numa caixa</text><text x="214" y="166" font-size="8.4" fill="#fff" opacity="1">Toque onde fica</text><text x="214" y="176" font-size="9.2" fill="#fff" opacity="1"></text><text x="70" y="157" font-size="9.2" fill="#fff" opacity="1"></text></svg></div><ol class="list-decimal pl-5 space-y-1 mt-2"><li>Segure 1 segundo numa caixa para entrar na <b>✏ Edição ativa</b> e toque em <b>+ Nova Caixa</b>.</li><li>Toque no <b>lugar do mapa</b> onde ela fica.</li><li>Escolha o tipo: <b>📦 Cliente</b> (nome, rua, CEO, 16 portas livres, planejada se quiser), <b>🔵 CEO</b> (Card, PON, Fibra, cor e saídas do split) ou <b>🎨 Personalizada</b> (só nome, cor e anotação: sem portas e não conta como cliente).</li></ol><p class="mt-2 text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2 py-1">Perto de um cabo de 6, a CEO liga as caixas sozinha. Se não, adicione pela lista na ficha dela.</p><ul class="list-disc pl-5 space-y-1 mt-2"><li><b>✏ Nome e cor:</b> na ficha da emenda, da casa/loja, do armário e da personalizada. Escolha a cor do ponto no mapa; <b>Voltar ao padrão</b> desfaz.</li><li><b>🗑 Apagar ponto</b> aparece nos pontos que você criou.</li><li>Zona rural e armário: <b>⚙ Configurações → Zona rural e armário (rádio)</b>.</li></ul></details>
+    <div class="pt-2 text-[11px] font-extrabold uppercase tracking-wide text-slate-500">Rede e problemas</div>
+    <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">⚠ Rompimento</summary><ol class="list-decimal pl-5 space-y-1 mt-2"><li>Menu → <b>⚠ Rompimento</b> e escolha <b>Cabo de 24</b> ou <b>Cabo de 6</b>.</li><li><b>Toque no cabo</b>, no ponto onde ele rompeu. Confira o ponto e confirme.</li><li>A ficha do rompimento mostra as caixas que ficam sem sinal e o que fazer. Marque cada item quando resolver: no fim vira <b>Resolvido ✔</b>.</li><li>Para apagar um rompimento, segure o marcador dele.</li></ol><p class="mt-2 text-xs text-slate-500">Enquanto aberto, as caixas sem sinal ganham borda grossa na cor da fibra.</p></details>
+    <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">📦 Recolhidos (equipamentos e avisos)</summary><ol class="list-decimal pl-5 space-y-1 mt-2">
+      <li>Abra <b>⚙ Configurações → 📦 Recolhidos</b>. A conta principal vê a lista e toca em <b>＋ Adicionar</b> (embaixo).</li>
+      <li>Na janela, a lista dos clientes lidos fica em cima e tudo que você mexe fica embaixo: a caixa de colar/digitar, o botão <b>📁 Escolher imagem</b>, o <b>Adicionar</b> e as abas <b>📋 Colar print / células</b> e <b>✍ Um por um</b>.</li>
+      <li><b>Print da planilha:</b> tire o print no computador, copie e aperte <b>Ctrl+V</b> na caixa (ou toque em <b>📁 Escolher imagem</b>). O app lê <b>nome</b> e <b>endereço</b> e, se tiver, a data e o valor, que entram como aviso (ex.: Desde 15/07/2026). <b>Confira a lista</b> e tire com ✕ o que estiver errado: a leitura da imagem pode errar uma letra ou um número.</li>
+      <li><b>Células copiadas:</b> cole o texto copiado da planilha na mesma caixa (ou digite). Cada linha vira um cliente.</li>
+      <li><b>Um por um:</b> escreva nome, endereço e, se quiser, um aviso ou descrição.</li>
+      <li>Em cada cliente da lista: <b>↻ Reenviar</b> o aviso, <b>✏ Editar</b> para corrigir e <b>🗑 Apagar</b>. Embaixo: <b>↻ Reenviar pendentes</b> e <b>🧹 Limpar lista</b>.</li>
     </ol></details>
     <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">📍 Caixa mais próxima do cliente</summary><ul class="list-disc pl-5 space-y-1 mt-2">
       <li><b>Segure o dedo no mapa</b> (meio segundo), na casa do cliente. O 📍 aparece ali, o mapa dá zoom e as <b>2 caixas mais próximas com vaga</b> ficam maiores. A lista mostra a distância em linha reta e as vagas.</li>
@@ -794,15 +810,7 @@
       <li>A foto é reduzida automaticamente. Toque numa miniatura para ver grande, com data e quem colocou; <b>🗑 Apagar</b> remove.</li>
       <li>Com a nuvem ligada, as fotos aparecem nos outros aparelhos também. Se a nuvem não aceitar, a foto fica só no aparelho e o app avisa.</li>
     </ul></details>
-    <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">🗺 Mapa e temas</summary><ul class="list-disc pl-5 space-y-1 mt-2">
-      <li>O botão de camadas (canto de cima, à direita) troca entre <b>Satélite</b> e <b>Ruas</b>. Os nomes das ruas que aparecem no mapa “Ruas” são do próprio mapa.</li>
-      <li>Se o zoom passar do que o satélite tem, a imagem é esticada (fica mais desfocada, mas não aparece quadrado cinza).</li>
-      <li><b>Modo escuro:</b> fica em ⚙ Configurações, na primeira opção (chavinha). Ligado, os fundos ficam bem pretos.</li>
-      <li><b>Personalização por cidade:</b> em ⚙ Configurações, <b>Personalização CEO</b>, <b>Cores das caixas no mapa</b> e <b>Vagas ocupadas</b> têm um seletor de cidade no alto. A cor vale só para a cidade escolhida (e só neste aparelho). Só vale depois de tocar em <b>Salvar</b>; <b>Cancelar</b> volta como estava.</li>
-      <li><b>Armário e cliente rural:</b> o que você muda nessas fichas só vale quando toca em <b>Salvar</b> (barra amarela no alto da ficha). <b>Cancelar</b> desfaz tudo o que mudou. A barra <b>Rede de fibra</b> separa a parte da torre (AP e PON) da parte da OLT e das placas.</li>
-      <li><b>Janelas de rua e de ligar caixa:</b> o tracinho no alto abaixa e sobe a janela. A busca fica embaixo: digite um pedaço do nome.</li>
-      <li>Para o app atualizar no celular, feche por completo e abra de novo.</li>
-    </ul></details>
+    <div class="pt-2 text-[11px] font-extrabold uppercase tracking-wide text-slate-500">Outros</div>
     <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">⚙ Configurações</summary><ul class="list-disc pl-5 space-y-1 mt-2">
       <li><b>⚙ Configurações → Personalizar:</b> cada item abre a sua própria tela. <b>Cor da barra de cima</b> (no tema escuro ela fica preta) · <b>Vagas ocupadas</b> · <b>Cores das caixas no mapa</b> (Disponível, Lotada e Atenção) · <b>Cores das CEOs no mapa</b> (normal, quase cheia e lotada; a borda continua com a cor da fibra) · <b>Cidades</b> (nome, <b>➕ Adicionar cidade</b> com o mapa já na cidade nova, 📍 muda o lugar e a lixeira apaga se não tiver caixas nem cabos). As cores valem só neste aparelho.</li>
       <li><b>Vagas ocupadas (dentro das caixas):</b> na tela <b>Vagas ocupadas</b>, escolha a cor do fundo e a cor do nome das portas ocupadas. A prévia mostra como fica. A primeira bolinha de cada linha volta ao padrão. A cor da barra e a das vagas valem só no aparelho em que você escolheu; as chaves de ver caixas, CEOs e fibra e o tema escuro também.</li>
@@ -836,7 +844,13 @@
   <div class="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl p-4 space-y-3 max-h-[92vh] overflow-y-auto" style="padding-bottom:calc(env(safe-area-inset-bottom) + 16px)">
     <div class="flex items-center justify-between gap-2 sticky top-0 z-10 bg-white -mt-4 pt-4 pb-2 -mx-4 px-4"><h2 class="font-bold text-slate-800">+ Nova caixa</h2><button type="button" data-xmod="#nbCancel" class="text-2xl leading-none text-slate-500 px-2 shrink-0" aria-label="Fechar">×</button></div>
     <label class="block text-xs text-slate-500">Nome da caixa<input id="nbName" maxlength="40" placeholder="Ex.: Q9" class="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2.5 text-base text-slate-900 focus:outline-none focus:border-sky-500"></label>
-    <div class="grid grid-cols-2 gap-2 text-sm font-semibold"><button type="button" id="nbTCto" class="rounded-lg border-2 border-sky-500 bg-sky-50 text-sky-900 py-2">📦 Caixa de cliente</button><button type="button" id="nbTCeo" class="rounded-lg border-2 border-slate-300 text-slate-600 py-2">🔵 CEO</button></div>
+    <div class="grid grid-cols-3 gap-1.5 text-xs font-semibold"><button type="button" id="nbTCto" class="rounded-lg border-2 border-sky-500 bg-sky-50 text-sky-900 py-2">📦 Cliente</button><button type="button" id="nbTCeo" class="rounded-lg border-2 border-slate-300 text-slate-600 py-2">🔵 CEO</button><button type="button" id="nbTPers" class="rounded-lg border-2 border-slate-300 text-slate-600 py-2">🎨 Personalizada</button></div>
+    <div id="nbPersBox" class="hidden space-y-2 rounded-lg border border-sky-200 bg-sky-50 px-3 py-2">
+      <div class="text-xs text-sky-800 font-semibold">Ponto livre: só nome, cor e anotação (sem portas, não conta como cliente)</div>
+      <div class="text-xs text-slate-500">Cor no mapa</div>
+      <div class="flex flex-wrap items-center gap-1.5"><span id="nbPSw" class="flex flex-wrap items-center gap-1.5"></span><input type="color" id="nbPColor" value="#0ea5e9" title="Outra cor" class="w-9 h-8 p-0 border-0 bg-transparent cursor-pointer"></div>
+      <div><span id="nbPPrev" class="pill pers" style="position:static;transform:none">Nome</span></div>
+    </div>
     <div id="nbCeoBox" class="hidden space-y-2 rounded-lg border border-indigo-200 bg-indigo-50 px-3 py-2">
       <div class="text-xs text-indigo-800 font-semibold">Dados da CEO (pode deixar vazio e preencher depois)</div>
       <div class="grid grid-cols-3 gap-2">
@@ -977,7 +991,7 @@ function rebuildRegions(){            // nomes das cidades: padrão + renomeadas
   Object.keys(REGION_DEF).forEach(k=>{ REGIONS[k]=(state.cityNames&&state.cityNames[k])||REGION_DEF[k]; });
   (state.cityExtra||[]).forEach(c=>{ REGIONS[c.id]=c.name; });
 }
-const APP_VERSION = "3.60";
+const APP_VERSION = "3.63";
 const TEST_MODE = false;   // true = arquivo de teste (usa uma cópia dos dados) · false = site real
 const KEY_STATE = TEST_MODE?"ftth_state_test":"ftth_state_v1", KEY_NET = TEST_MODE?"ftth_net_test":"ftth_net_v1";
 const DOC_STATE = TEST_MODE?"state_teste":"state", DOC_NET = TEST_MODE?"net_teste":"net";
@@ -1028,7 +1042,7 @@ function buildItems(net){
   out.forEach(it=>{ const o=state.pos[it.id]; if(o && isFinite(o[0]) && isFinite(o[1])){ it.lat=o[0]; it.lng=o[1]; } });
   out.forEach(it=>{ if(it.type==="ceo" && state.ceoDesc && typeof state.ceoDesc[it.id]==="string") it.desc=state.ceoDesc[it.id]; });   // dados da CEO editados por você
   // Caixas criadas pelo usuário (state.custom)
-  state.custom.forEach(c=>out.push({ id:c.id, name:c.name, lng:c.lng, lat:c.lat, lng0:c.lng, lat0:c.lat, desc:c.desc||"", type:c.type==="ceo"?"ceo":(c.type==="rural"||c.type==="arm")?c.type:"cto", region:c.region||regionOf(c.lng), seedFull:false, seedWarn:false, custom:true }));
+  state.custom.forEach(c=>out.push({ id:c.id, name:c.name, lng:c.lng, lat:c.lat, lng0:c.lng, lat0:c.lat, desc:c.desc||"", type:c.type==="ceo"?"ceo":(c.type==="rural"||c.type==="arm"||c.type==="pers")?c.type:"cto", region:c.region||regionOf(c.lng), seedFull:false, seedWarn:false, custom:true }));
   return out;
 }
 
@@ -1036,7 +1050,7 @@ let net   = jget(KEY_NET, null) || { pts:PTS, lines:LINES };
 let state = jget(KEY_STATE, null);
 function fixState(){
   if(!state||typeof state!=="object") state={};
-  ["clients","full","warn","names","notes","links","sn","so","pos","plan","vlan","vlanNames","cityNames","ceoOf","hist","ceoCap","ceoDesc","qcol","sdel","ceoCol","rur","arm"].forEach(k=>{ if(!state[k]||typeof state[k]!=="object"||Array.isArray(state[k])) state[k]={}; });
+  ["clients","full","warn","names","notes","links","sn","so","pos","plan","vlan","vlanNames","cityNames","ceoOf","hist","ceoCap","ceoDesc","qcol","sdel","ceoCol","rur","arm","pcol"].forEach(k=>{ if(!state[k]||typeof state[k]!=="object"||Array.isArray(state[k])) state[k]={}; });
   ["custom","cst","cityExtra","rp"].forEach(k=>{ if(!Array.isArray(state[k])) state[k]=[]; });
   rebuildRegions();
   if(!Array.isArray(state.vlanList)) state.vlanList=["205","206"];
@@ -1101,6 +1115,22 @@ function planEditor(it){
       ${on?`<div class="mt-2 text-xs text-violet-800">Cor do pino no mapa</div>
       <div class="mt-1 flex flex-wrap items-center gap-2">${swatches(col,'data-a="plancolor"')}<input type="color" data-a="plancustom" value="${col}" title="Outra cor" class="w-9 h-8 p-0 border-0 bg-transparent cursor-pointer"></div>`:""}
     </div>`;
+}
+let pcOpen=null;
+const PC_DEF={imenda:"#6b7280",loja:"#7c3aed",arm:"#0f766e",pers:"#0ea5e9"}, PC_SW=["#6b7280","#7c3aed","#0ea5e9","#16a34a","#f59e0b","#dc2626","#db2777","#0f766e","#111111","#ffffff"];
+function pcolBlock(it){
+  if(!PC_DEF[it.type]) return "";
+  const own=state.pcol[it.id], on=HEX.test(own||""), cur=on?own:PC_DEF[it.type];
+  if(pcOpen!==it.id) return `<div class="mt-2"><button data-a="pcopen" class="inline-flex items-center gap-2 rounded-lg border border-slate-300 text-slate-700 px-3 py-1.5 text-xs font-semibold"><span class="inline-block w-3.5 h-3.5 rounded-full" style="background:${cur};box-shadow:0 0 0 1px #94a3b8"></span>✏ Nome e cor</button></div>`;
+  const nm=it.type==="arm"?"":`<label class="block text-xs text-slate-500">Nome<input data-a="pcname" value="${esc(nameOf(it)).replace(/"/g,"&quot;")}" maxlength="40" class="${INP}"></label>`;
+  return `<div class="mt-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 space-y-2">${nm}
+    <div class="text-xs text-slate-500">Cor no mapa</div>
+    <div class="flex flex-wrap items-center gap-1.5">${PC_SW.map(c=>`<button type="button" data-a="pcpick" data-c="${c}" class="w-7 h-7 rounded-full shadow border-2 ${on&&own.toLowerCase()===c?"border-sky-500 ring-2 ring-sky-300":"border-white"}" style="background:${c};box-shadow:0 0 0 1px #94a3b8"></button>`).join("")}<input type="color" data-a="pccustom" value="${cur}" title="Outra cor" class="w-9 h-8 p-0 border-0 bg-transparent cursor-pointer"></div>
+    <div class="flex items-center justify-between gap-2"><span class="pill ${it.type}" style="position:static;transform:none;background:${cur};color:${textOn(cur)}">${it.type==="arm"?"🗄 ":it.type==="loja"?"🏠 ":""}${esc(nameOf(it))}</span><span class="flex gap-2">${on?`<button data-a="pcdef" class="text-xs underline text-slate-600">Voltar ao padrão</button>`:""}<button data-a="pcopen" class="rounded-lg bg-[#0056b3] text-white px-3 py-1 text-xs font-bold">OK</button></span></div></div>`;
+}
+function noteBox(it){
+  const v=state.notes[it.id]||"";
+  return `<div class="mt-3"><label class="block text-xs text-slate-500">🗒 Anotação<textarea id="ptNote" rows="2" maxlength="600" ${RO?"readonly ":""}placeholder="Escreva uma anotação sobre este ponto" class="${INP}">${esc(v)}</textarea></label>${RO?"":`<div class="mt-1 flex items-center gap-2"><button data-a="notesave" class="rounded-lg bg-[#0056b3] text-white px-3 py-1.5 text-xs font-bold">Salvar anotação</button>${v?`<button data-a="notedel" class="rounded-lg border border-slate-300 text-slate-600 px-3 py-1.5 text-xs">Apagar</button>`:""}</div>`}</div>`;
 }
 const esc = s => String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
@@ -1173,6 +1203,7 @@ function iconFor(it){
   } else if(it.type==="arm"){
     cls="arm"; label="🗄 "+esc(nameOf(it));
   } else { cls=it.type; label=(it.type==="loja"?"🏠 ":"")+esc(nameOf(it)); }
+  { const pc=state.pcol[it.id]; if(HEX.test(pc||"") && (it.type==="imenda"||it.type==="loja"||it.type==="arm"||it.type==="pers")) sty=` style="background:${pc};color:${textOn(pc)}"`; }
   if(hl) cls += hl.has(it.id) ? " hl" : " dim";
   if(selSet.has(it.id)){ cls += " sel"; label = "✔ "+label; }
   if(editMode && editSel===it.id) cls += " esel";
@@ -1192,7 +1223,7 @@ function iconFor(it){
   }
   let rpb=""; if(rpStopped[it.id]){ const rr=(state.rp||[]).find(x=>x.id===rpStopped[it.id]); if(rr&&!rr.hide){ rpb='<i class="rpw">⚠</i>';
     if(rr.t==="f"&&it.type==="cto"){ const bc0=boxCol(it); if(bc0){ const bc=`border-color:${bc0};border-width:4px;box-shadow:0 0 0 2px rgba(0,0,0,.75),0 1px 4px rgba(0,0,0,.6)`; sty = sty ? sty.replace(/"$/,";"+bc+'"') : ` style="${bc}"`; } } } }
-  if(cabBoxOn && cabRawNow() && cabBoxSel.has(it.id)) cls += " cbsel";
+  if((cabRawNow()||editMode) && cabBoxSel.has(it.id)) cls += " cbsel";
   return L.divIcon({className:"",html:`<span class="pill ${cls}"${sty}>${label}${rpb}</span>`,iconSize:[0,0]});
 }
 const zOf = it => (hl&&hl.has(it.id)) ? 2000 : (isFull(it)&&!isPlanned(it)) ? 1000 : it.type==="cto" ? 500 : (it.type==="arm"||it.type==="rural") ? 300 : 0;
@@ -1253,6 +1284,7 @@ function fiberSegs(){
         else if(an.du>old.d+0.3){ edges.push([an.li,an.ku,an.kt,an.q,old.q]); partial[key]={d:an.du,q:an.q}; } }
       else if(b.v===cv) return;
       if(!edges.length) return;
+      if(b.n===1 && dist([c.lng,c.lat],[b.it.lng,b.it.lat])<=15) return;      // Q1 colada na CO: não pinta a fibra verde (a cor continua na ficha e no rompimento)
       out.push({n:b.n,col,pts:seg.map(x=>[V[x].p[1],V[x].p[0]]),edges,region:b.region});
     });
   });
@@ -1309,10 +1341,15 @@ function render(){
     (f.edges||[]).forEach(([li,ka,kb,qE,qS])=>{
       const m=rmap[li]; if(!m){ cur=null; return; } const a=m.mid[ka], b=m.mid[kb]; if(a==null||b==null){ cur=null; return; }
       if(qE||qS){ const first=qS?[qS[1],qS[0]]:m.pp[a], last=qE?[qE[1],qE[0]]:m.pp[b];       // pedaço que começa ou termina onde a caixa está
-        if(!qS&&cur&&cur.li===li&&cur.pts[cur.pts.length-1]===first) cur.pts.push(last); else { cur={li,pts:[first,last]}; runs.push(cur); }
+        if(!qS&&cur&&cur.li===li&&cur.pts[cur.pts.length-1]===first){ cur.pts.push(last); cur.ek=kb; } else { cur={li,pts:[first,last],ek:kb}; runs.push(cur); }
         if(qE) cur=null; return; }
       const seg=a<=b?m.pp.slice(a,b+1):m.pp.slice(b,a+1).reverse();
-      if(cur&&cur.li===li&&cur.pts[cur.pts.length-1]===seg[0]) cur.pts.push(...seg.slice(1)); else { cur={li,pts:seg}; runs.push(cur); }
+      if(cur&&cur.li===li&&cur.pts[cur.pts.length-1]===seg[0]){ cur.pts.push(...seg.slice(1)); cur.ek=kb; }
+      else {
+        // pontos do cabo muito juntos (menos de 6 m) viram um ponto só no cálculo e o pedacinho entre eles ficava sem tinta (aparecia o fio azul por baixo): liga esse pedaço
+        if(cur&&cur.li===li&&cur.ek!=null&&cur.ek!==ka&&linkLP[li]){ const lp=linkLP[li], lo=Math.min(cur.ek,ka), hi=Math.max(cur.ek,ka); let same=true; for(let k=lo;k<=hi;k++) if(lp[k]!==lp[ka]){ same=false; break; }
+          if(same){ const ca=m.mid[cur.ek]; if(ca!=null){ const gap=ca<=a?m.pp.slice(ca+1,a+1):m.pp.slice(a,ca).reverse(); cur.pts.push(...gap); cur.pts.push(...seg.slice(1)); cur.ek=kb; return; } } }
+        cur={li,pts:seg,ek:kb}; runs.push(cur); }
     });
     runs.forEach(r=>{ if(r.pts.length<2) return;
       L.polyline(r.pts,{color:"#0b1b3a",weight:5,opacity:.28,lineCap:"round",lineJoin:"round",interactive:false}).addTo(lineLayer);
@@ -1339,14 +1376,16 @@ function render(){
   });
   items.forEach(it=>{
     if(it.region!==region) return;
-    if(hideCto && (it.type==="cto"||it.type==="imenda"||it.type==="loja"||it.type==="rural"||it.type==="arm")) return;   // "Caixas" apagada esconde também emendas, loja, rural e armário
+    if(hideCto && (it.type==="cto"||it.type==="imenda"||it.type==="loja"||it.type==="rural"||it.type==="arm"||it.type==="pers")) return;   // "Caixas" apagada esconde também emendas, loja, rural e armário
     if(hideCeo && it.type==="ceo") return;
-    const movable = it.type==="cto"||it.type==="ceo"||it.type==="rural"||it.type==="arm";
-    const cabBx = cabRawNow() && cabBoxOn && movable;
-    const canDrag = (editMode && movable && it.id===editSel) || (cabBx && cabBoxSel.has(it.id));
-    const m = L.marker([it.lat,it.lng],{icon:iconFor(it),zIndexOffset:zOf(it),riseOnHover:true,draggable:canDrag,interactive:!cabRawNow()||cabBx}).addTo(markLayer);
-    m.on("click",()=>{ if(cabBx){ cabBoxToggle(it.id); return; } if(placing||lpBlock||rpMode) return; if(selMode){ if(it.type==="cto") toggleSel(it.id); return; } if(editMode && movable){ editPick(it.id); return; } openSheet(it.id); });
-    if(canDrag){ m.on("dragstart",closeSheet); m.on("dragend",()=>{ if(cabBx) cabBoxMoved(it,m); else onMoved(it,m); }); }
+    const movable = it.type==="cto"||it.type==="ceo"||it.type==="rural"||it.type==="arm"||it.type==="imenda"||it.type==="loja"||it.type==="pers";
+    const bxM = (cabRawNow()||editMode) && movable;          // modo de mover caixas (edição de cabos ou edição ativa)
+    const cabBx = bxM && cabBoxOn;                           // "Caixas" ligado: toque escolhe / solta
+    const inSel = bxM && cabBoxSel.has(it.id);                // caixa piscando: já pode arrastar
+    const canDrag = (editMode && !cabBoxOn && movable && it.id===editSel) || inSel;
+    const m = L.marker([it.lat,it.lng],{icon:iconFor(it),zIndexOffset:zOf(it),riseOnHover:true,draggable:canDrag,interactive:!cabRawNow()||movable}).addTo(markLayer);
+    m.on("click",()=>{ if(lpBlock) return; if(cabBx||inSel){ cabBoxToggle(it.id); return; } if(cabRawNow()) return; if(placing||rpMode) return; if(selMode){ if(it.type==="cto") toggleSel(it.id); return; } if(editMode && movable){ editPick(it.id); return; } openSheet(it.id); });
+    if(canDrag){ m.on("dragstart",closeSheet); m.on("dragend",()=>{ if(inSel) boxesMoved(it,m,[...cabBoxSel].filter(id=>markers[id]||id===it.id)); else onMoved(it,m); }); }
     markers[it.id]=m; bounds.push([it.lat,it.lng]);
   });
   if(cabRawNow()) cabBuild();
@@ -1588,7 +1627,7 @@ function openSheet(id){
   if(id!==currentId) apEd={};
   if(rpOpenId) rpClose();
   if(draftDirty && id!==currentId) settleDraft();
-  if(id!==currentId){ sheet.style.removeProperty("max-height"); colEdit=null; showAddSel=false; vlOpen=false; portMark=false; currentId=id; takeBase(); draftDirty=false; drawDraftBar(); const _p=byId[id]; if(_p&&(_p.type==="ceo"||_p.type==="cto")) loadPhotos(id); }
+  if(id!==currentId){ sheet.style.removeProperty("max-height"); colEdit=null; pcOpen=null; showAddSel=false; vlOpen=false; portMark=false; currentId=id; takeBase(); draftDirty=false; drawDraftBar(); const _p=byId[id]; if(_p&&(_p.type==="ceo"||_p.type==="cto")) loadPhotos(id); }
   drawSheet(); sheet.classList.remove("closed");
   { const _a=byId[id]; if(_a&&_a.type==="arm") sheet.style.setProperty("max-height",Math.max(220,window.innerHeight-90)+"px","important"); }
   const it=byId[id]; map.panTo([it.lat,it.lng],{animate:true});
@@ -1667,12 +1706,13 @@ function drawSheet(){
   sheet.classList.toggle("ceo",it.type==="ceo");
   const cl = clientsOf(it.id), c=cl.length, co=c, st=status(it), sid=stOf(it);
   const gm = `https://www.google.com/maps/dir/?api=1&destination=${it.lat},${it.lng}&travelmode=driving`;
-  const kind = it.type==="cto"?(isPlanned(it)?"Caixa planejada":"Caixa"):it.type==="ceo"?"CEO (emenda)":it.type==="imenda"?"Caixa de emenda":it.type==="rural"?"Cliente zona rural (rádio)":it.type==="arm"?"Armário / Torre":"Local";
+  const kind = it.type==="cto"?(isPlanned(it)?"Caixa planejada":"Caixa"):it.type==="ceo"?"CEO (emenda)":it.type==="imenda"?"Caixa de emenda":it.type==="rural"?"Cliente zona rural (rádio)":it.type==="arm"?"Armário / Torre":it.type==="pers"?"Ponto personalizado":"Local";
   let h = `<div class="flex items-start justify-between gap-2 mt-1">
       <div class="min-w-0"><div class="text-xs text-slate-500">${REGIONS[it.region]} · ${kind}${sid?" · 🛣 "+esc(stLabel(sid)):""}</div>
       <div class="flex items-center gap-1.5 min-w-0"><h2 id="spTitle" class="text-lg font-extrabold text-slate-900 truncate">${it.type==="cto"?"Caixa ":""}${esc(nameOf(it))}</h2>${(it.type==="rural"||it.type==="arm")?"":`<button data-a="rename" title="Renomear" class="ibtn shrink-0">${ICO_PEN}</button>`}</div></div>
       </div>`;
-  if(it.type==="rural"||it.type==="arm"){ body.innerHTML=h+specialSheet(it,gm); return; }
+  h += pcolBlock(it);
+  if(it.type==="rural"||it.type==="arm"){ body.innerHTML=h+specialSheet(it,gm)+noteBox(it); return; }
   if(isPlanned(it)){
     const pc=planOf(it).color;
     h += `<div class="mt-2 flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-800"><span class="inline-block w-4 h-4 rounded-full border border-white shadow shrink-0" style="background:${pc};box-shadow:0 0 0 1px #94a3b8"></span>🛠 Caixa planejada / a instalar<button data-a="planapply" class="ml-auto shrink-0 rounded-lg bg-emerald-600 text-white px-3 py-1.5 text-xs font-bold">✔ Aplicar</button></div>`;
@@ -1684,7 +1724,7 @@ function drawSheet(){
     if(st==="warn") h += `<div class="mt-1.5 text-sm font-semibold" style="color:var(--c-warn,#b45309)">⚠ Atenção marcada manualmente (manutenção preventiva).</div>`;
   }
   const descH = (it.desc && it.type!=="ceo") ? `<div class="mt-2 text-sm bg-amber-50 border border-amber-200 text-amber-900 rounded-lg px-3 py-2">📝 ${esc(it.desc)}</div>` : "";
-  const noteH = state.notes[it.id] ? `<div class="mt-2 text-sm bg-sky-50 border border-sky-200 text-sky-900 rounded-lg px-3 py-2">🗒 ${esc(state.notes[it.id])}</div>` : "";
+  const noteH = "";      // v3.61: a anotação fica na caixa de texto logo abaixo (noteBox)
   const gmH = `<div class="mt-2"><a href="${gm}" target="_blank" rel="noopener" class="inline-block rounded-md bg-blue-600 text-white px-3 py-1.5 font-semibold text-xs">🧭 Ir com Google Maps</a></div>`;
   if(it.type!=="cto" && it.type!=="ceo") h += descH + noteH;   // caixa de cliente: isso vem depois das portas
   if(it.type==="cto"){
@@ -1721,7 +1761,7 @@ function drawSheet(){
   h += linkBlock(it);
   h += photoBlock(it);
   if(it.type==="ceo") h += noteH;
-  h += `<div class="mt-3 flex gap-2 text-xs"><button data-a="note" class="rounded-lg border border-slate-300 text-slate-600 px-3 py-2">Anotação</button>${it.custom?`<button data-a="delbox" class="rounded-lg border border-red-300 text-red-600 px-3 py-2">🗑 Excluir caixa</button>`:""}</div>`+gmH;
+  h += noteBox(it)+gmH+(it.custom?`<div class="mt-3 flex gap-2 text-xs"><button data-a="delbox" class="rounded-lg border border-red-300 text-red-600 px-3 py-2">${it.type==="pers"?"🗑 Apagar ponto":"🗑 Excluir caixa"}</button></div>`:"");
   body.innerHTML = h;
   drawPhotos(it.id);
 }
@@ -1813,16 +1853,21 @@ body.addEventListener("click",e=>{
     ar.towers.splice(i,1); armTw[it.id]=0; armEd[it.id]=false; save(); drawSheet(); return; }
   if(a==="delbox"){
     if(it.type==="rural"||it.type==="arm"){ if(!confirm(`Excluir ${it.type==="rural"?"o cliente":"o armário"} "${nameOf(it)}"? Não dá para desfazer.`)) return; }
+    else if(it.type==="pers"){ if(!confirm(`Apagar o ponto "${nameOf(it)}"? Não dá para desfazer.`)) return; }
     else if(!confirm(`Excluir a caixa "${nameOf(it)}" e seus ${cl.length} cliente(s)? Não dá para desfazer.`)) return;
     const id=it.id; state.custom=state.custom.filter(x=>x.id!==id);
-    ["clients","full","warn","names","notes","links","so","plan","vlan","ceoOf","hist","ceoCap","qcol","ceoCol","rur","arm"].forEach(k=>delete state[k][id]);
+    ["clients","full","warn","names","notes","links","so","plan","vlan","ceoOf","hist","ceoCap","qcol","ceoCol","rur","arm","pcol"].forEach(k=>delete state[k][id]);
     stageOn=false; draftDirty=false; save(); closeSheet(); rebuild(); computeStreets(); computeLinks(); render(); return; }
   if(a==="del"){ const i=+b.dataset.i; if(confirm(`Excluir "${cl[i].n}" desta caixa?`)){ const pn=+cl[i].p, fl=forcedFull(it); cl.splice(i,1); if(fl){ freeFaux(it,pn); } else { save(); drawSheet(); refreshMarker(it.id); } } return; }
   if(a==="rename"){ openEbOne(it); return; }
   if(a==="planapply"){ const pp=state.plan[it.id]||{}; state.plan[it.id]={on:false,color:HEX.test(pp.color||"")?pp.color:PLAN_DEF}; stageOn=false; draftDirty=false; save(); computeStreets(); computeLinks(); drawSheet(); render(); toast("✔ Caixa instalada"); return; }
   if(a==="ceocolor"){ if(b.dataset.c) state.ceoCol[it.id]=b.dataset.c; else delete state.ceoCol[it.id]; save(); drawSheet(); refreshMarker(it.id); return; }
   if(a==="plancolor"){ state.plan[it.id]={on:true,color:b.dataset.c}; save(); drawSheet(); refreshMarker(it.id); return; }
-  if(a==="note"){ const n=prompt("Anotação sobre este ponto:",state.notes[it.id]||""); if(n!==null){ if(n.trim()) state.notes[it.id]=n.trim(); else delete state.notes[it.id]; save(); drawSheet(); } return; }
+  if(a==="notesave"){ const t=document.getElementById("ptNote"), n=t?t.value.trim():""; if(n) state.notes[it.id]=n; else delete state.notes[it.id]; save(); drawSheet(); toast("✔ Anotação salva"); return; }
+  if(a==="notedel"){ delete state.notes[it.id]; save(); drawSheet(); return; }
+  if(a==="pcopen"){ pcOpen=(pcOpen===it.id)?null:it.id; drawSheet(); return; }
+  if(a==="pcpick"){ state.pcol[it.id]=b.dataset.c; save(); drawSheet(); refreshMarker(it.id); return; }
+  if(a==="pcdef"){ delete state.pcol[it.id]; save(); drawSheet(); refreshMarker(it.id); return; }
 });
 body.addEventListener("change",e=>{
   if(RO) return;
@@ -1839,6 +1884,8 @@ body.addEventListener("change",e=>{
   if(a==="force" && it){ state.full[it.id]=e.target.checked; save(); drawSheet(); refreshMarker(it.id); }
   if(a==="warnchk" && it){ state.warn[it.id]=e.target.checked; save(); drawSheet(); refreshMarker(it.id); }
   if(a==="planchk" && it){ const p=state.plan[it.id]||{}; state.plan[it.id]={on:e.target.checked,color:HEX.test(p.color||"")?p.color:PLAN_DEF}; save(); drawSheet(); refreshMarker(it.id); }
+  if(a==="pccustom" && it && HEX.test(e.target.value)){ state.pcol[it.id]=e.target.value; save(); drawSheet(); refreshMarker(it.id); }
+  if(a==="pcname" && it){ if(v) state.names[it.id]=v; else delete state.names[it.id]; save(); drawSheet(); refreshMarker(it.id); }
   if(a==="ceocustom" && it && HEX.test(e.target.value)){ state.ceoCol[it.id]=e.target.value; save(); drawSheet(); refreshMarker(it.id); }
   if(a==="plancustom" && it && HEX.test(e.target.value)){ state.plan[it.id]={on:true,color:e.target.value}; save(); drawSheet(); refreshMarker(it.id); }
 });
@@ -2098,7 +2145,7 @@ function updateEditBar(){
   map.getContainer().classList.toggle("placing",placing);
   editBar.innerHTML = placing
     ? `<span class="font-semibold leading-tight">👆 Toque no mapa onde ${placingFor?"fica a "+esc(placingFor.name)+" desta CEO":placingKind==="rural"?"fica o cliente da zona rural":placingKind==="arm"?"fica o armário":"a nova caixa ficará"}</span><button data-e="cancel" class="shrink-0 rounded-lg bg-white/20 px-3 py-2 font-semibold">Cancelar</button>`
-    : `<div class="flex items-start justify-between gap-2 w-full"><span class="font-semibold leading-tight">✏ Edição ativa<span class="block text-xs font-normal opacity-80">${editSel&&byId[editSel]?"movendo "+esc(nameOf(byId[editSel]))+" — arraste para mudar de lugar":"toque numa caixa ou CEO para movê-la"}</span></span><button data-e="off" class="shrink-0 rounded-lg bg-white/20 px-2.5 py-2 text-xs font-semibold">🔒 Travar</button></div><span class="flex flex-wrap gap-1.5 w-full"><button data-e="sel" class="rounded-lg bg-white/20 px-2.5 py-2 text-xs font-semibold">☑ Selecionar</button><button data-e="add" class="rounded-lg bg-emerald-500 px-2.5 py-2 text-xs font-bold shadow">+ Nova Caixa</button>${editSel&&byId[editSel]?`<button data-e="open" class="rounded-lg bg-white/20 px-2.5 py-2 text-xs font-semibold">📂 Abrir caixa</button>`:""}</span>`;
+    : `<div class="flex items-start justify-between gap-2 w-full"><span class="font-semibold leading-tight">✏ Edição ativa<span class="block text-xs font-normal opacity-80">${cabBoxOn?"escolhendo várias caixas":editSel&&byId[editSel]?esc(nameOf(byId[editSel]))+" piscando — arraste (já salva) · toque nela para parar":"toque numa caixa ou CEO para movê-la"}</span></span><button data-e="off" class="shrink-0 rounded-lg bg-white/20 px-2.5 py-2 text-xs font-semibold">🔒 Travar</button></div><span class="flex flex-wrap gap-1.5 w-full"><button data-e="sel" class="rounded-lg bg-white/20 px-2.5 py-2 text-xs font-semibold">☑ Selecionar</button><button data-e="add" class="rounded-lg bg-emerald-500 px-2.5 py-2 text-xs font-bold shadow">+ Nova Caixa</button>${editSel&&byId[editSel]?`<button data-e="open" class="rounded-lg bg-white/20 px-2.5 py-2 text-xs font-semibold">📂 Abrir caixa</button>`:""}<button data-e="grp" class="rounded-lg px-2.5 py-2 text-xs font-semibold ${cabBoxOn?"bg-amber-300 text-slate-900":"bg-white/20"}">📦 <span class="hidden sm:inline">Selecionar </span>Caixas</button></span>${cabBoxOn?`<span class="block text-xs font-semibold w-full" style="color:#fde047">Toque nas caixas (elas piscam) e arraste uma: todas andam juntas${cabBoxSel.size?" · "+cabBoxSel.size+" escolhida"+(cabBoxSel.size>1?"s":""):""}</span>`:""}`;
   updateMoveBar();
 }
 const moveBar=document.getElementById("moveBar");
@@ -2124,7 +2171,7 @@ moveBar.addEventListener("click",e=>{
 function editPick(id){
   if(pendMove&&pendMove.id!==id){ toast("Salve ou cancele a mudança de lugar primeiro"); return; }
   moveDone=null;
-  if(editSel===id){ updateEditBar(); return; }
+  if(editSel===id){ editSel=null; render(); updateEditBar(); return; }      // tocar de novo na caixa piscando = parar
   editSel=id; render(); updateEditBar();
 }
 /* ======================= AJUSTAR CABOS ======================= */
@@ -2370,23 +2417,32 @@ function drawCabBar(){
     top=mv?`<span class="font-semibold">✋ Movendo o ${cabName(cabSel).toLowerCase()}${cabTotTxt(net.lines[cabSel][1])}</span><span class="block text-xs opacity-80">Arraste a mãozinha para mover o cabo inteiro. As emendas com outros cabos se soltam. Dá para desfazer com ↶</span>`
       :sel?`<span class="font-semibold">🧵 ${cabName(cabSel)} selecionado${cabTotTxt(net.lines[cabSel][1])}</span><span class="block text-xs opacity-80">Arraste as bolinhas · toque numa para continuar o cabo · toque no cabo para apagar o pedaço</span>`
           :`<span class="font-semibold">🧵 Ajustando cabos</span><span class="block text-xs opacity-80">Toque num cabo para escolher (um por vez) · depois arraste os pontos</span>`;
-    row=b("undo","↶","",!cabUndo.length)+b("redo","↷","",!cabRedo.length)+(sel?b("mv","✋ Mover cabo",mv?"on":"")+b("style","🎨 Estilo",cabStyleOpen?"on":"")+b("delcab","🗑 Apagar cabo"):"")+b("boxes","📦 Selecionar caixas",cabBoxOn?"on":"")+b("new","＋ Novo cabo")+(cabDirty?"":b("cancel","✕ Sair"));
+    row=b("undo","↶","",!cabUndo.length)+b("redo","↷","",!cabRedo.length)+(sel?b("mv","✋ Mover",mv?"on":"")+b("style","🎨 Estilo",cabStyleOpen?"on":"")+b("delcab","🗑 Apagar"):"")+b("boxes","📦 Caixas",cabBoxOn?"on":"")+b("new","＋ Novo")+(cabDirty?"":b("cancel","Sair"));
   }
-  if(cabState==="edit"&&cabBoxOn) top+=`<span class="block text-xs font-semibold" style="color:#fde047">📦 Toque nas caixas para escolher (elas piscam) · arraste a caixa escolhida para o lugar certo${cabBoxSel.size?" · "+cabBoxSel.size+" escolhida"+(cabBoxSel.size>1?"s":""):""}</span>`;
-  const flt=(cabState==="edit")?`<div class="flex items-center gap-1.5 text-xs"><span class="opacity-80">Mostrar:</span>${[["all","Todos"],["f","Só cabos de 6"],["p","Só cabos de 24"]].map(([k,n])=>b("fl_"+k,n,cabFilter===k?"on":"")).join("")}</div>`:"";
-  cabBar.innerHTML=`<div>${top}</div><div class="flex flex-wrap gap-1.5">${row}</div>${flt}`;
+  if(cabState==="edit"&&(cabBoxOn||cabBoxSel.size)) top+=`<span class="block text-xs font-semibold" style="color:#fde047">${cabBoxOn?"📦 Toque nas caixas (elas piscam) e arraste para o lugar certo":"📦 Caixa piscando: arraste · toque nela para parar"}${cabBoxSel.size?" · "+cabBoxSel.size+" escolhida"+(cabBoxSel.size>1?"s":""):""}</span>`;
+  const flt=(cabState==="edit")?`<span class="flex items-center gap-1 ml-auto cflt">${[["all","Todos"],["f","Só 6"],["p","Só 24"]].map(([k,n])=>b("fl_"+k,n,cabFilter===k?"on":"")).join("")}</span>`:"";
+  cabBar.innerHTML=`<div>${top}</div><div class="flex flex-wrap gap-1">${row}${flt}</div>`;
   const sv=document.getElementById("cabSave"), svOn=cabState==="edit"&&cabDirty;
   sv.classList.toggle("hidden",!svOn); cabBar.style.borderRadius=svOn?"12px 12px 0 0":"";
   if(svOn) sv.innerHTML=`<b>Mudou</b><span class="flex gap-1.5">${b("cancel","Cancelar")}${b("view","💾 Salvar e ver","go")}</span>`;
   placeCabUI(); cabLenDraw();
 }
-function cabBoxToggle(id){ if(cabBoxSel.has(id)) cabBoxSel.delete(id); else cabBoxSel.add(id); render(); drawCabBar(); }
-function cabBoxMoved(it,m){
-  const ll=m.getLatLng(); if(!cabBoxSnap[it.id]) cabBoxSnap[it.id]={lat:it.lat,lng:it.lng,pos:state.pos[it.id]?state.pos[it.id].slice():null};
-  it.lat=ll.lat; it.lng=ll.lng;
-  if(it.custom){ const c=state.custom.find(x=>x.id===it.id); if(c){ c.lat=it.lat; c.lng=it.lng; } it.lat0=it.lat; it.lng0=it.lng; }
-  else state.pos[it.id]=[it.lat,it.lng];
-  cabDirty=true; computeStreets(); computeLinks(); render(); drawCabBar();
+function cabBoxToggle(id){ if(cabBoxSel.has(id)) cabBoxSel.delete(id); else cabBoxSel.add(id); render(); drawCabBar(); if(editMode) updateEditBar(); }
+/* mover caixa(s): aplica e salva na hora (o desenho do cabo não é tocado) e mostra "Desfazer" */
+function setBoxPos(x,lat,lng,pos){
+  x.lat=lat; x.lng=lng;
+  if(x.custom){ const c=state.custom.find(q=>q.id===x.id); if(c){ c.lat=lat; c.lng=lng; } x.lat0=lat; x.lng0=lng; }
+  else if(pos) state.pos[x.id]=pos; else state.pos[x.id]=[lat,lng];
+}
+function boxesMoved(it,m,ids){
+  const ll=m.getLatLng(), dLat=ll.lat-it.lat, dLng=ll.lng-it.lng;
+  if(Math.abs(dLat)<1e-9&&Math.abs(dLng)<1e-9) return;
+  const prev=[]; if(ids.indexOf(it.id)<0) ids=ids.concat([it.id]);
+  ids.forEach(id=>{ const x=byId[id]; if(!x) return; prev.push({id,lat:x.lat,lng:x.lng,pos:state.pos[id]?state.pos[id].slice():null,had:!!state.pos[id]}); setBoxPos(x,x.lat+dLat,x.lng+dLng); });
+  save(); computeStreets(); computeLinks(); render(); if(cabMode) drawCabBar(); if(editMode) updateEditBar(); if(currentId&&byId[currentId]) drawSheet();
+  toast("✔ "+(prev.length>1?prev.length+" caixas movidas":esc(nameOf(it))+" movida"),()=>{
+    prev.forEach(o=>{ const x=byId[o.id]; if(!x) return; setBoxPos(x,o.lat,o.lng,o.pos); if(!o.had&&!x.custom) delete state.pos[o.id]; });
+    save(); computeStreets(); computeLinks(); render(); if(cabMode) drawCabBar(); if(editMode) updateEditBar(); });
 }
 function cabBoxUndoAll(){
   Object.keys(cabBoxSnap).forEach(id=>{ const it=byId[id], o=cabBoxSnap[id]; if(!it) return; it.lat=o.lat; it.lng=o.lng;
@@ -2787,7 +2843,7 @@ fibraPanel.addEventListener("click",e=>{
   if(f==="info"){ infoMode=!infoMode; try{ localStorage.setItem("ftth_info",infoMode?"1":"0"); }catch(e){} applyInfo(); }
   else if(f==="fib"){ hideFib=!hideFib; try{ localStorage.setItem("ftth_hidefib",hideFib?"1":"0"); }catch(e){} }
   else if(f==="ceo"){ hideCeo=!hideCeo; try{ localStorage.setItem("ftth_hideceo",hideCeo?"1":"0"); }catch(e){} if(hideCeo && currentId && byId[currentId] && byId[currentId].type==="ceo") closeSheet(); }
-  else if(f==="cto"){ hideCto=!hideCto; try{ localStorage.setItem("ftth_hidecto",hideCto?"1":"0"); }catch(e){} if(hideCto && currentId && byId[currentId] && ["cto","imenda","loja","rural","arm"].includes(byId[currentId].type)) closeSheet(); }
+  else if(f==="cto"){ hideCto=!hideCto; try{ localStorage.setItem("ftth_hidecto",hideCto?"1":"0"); }catch(e){} if(hideCto && currentId && byId[currentId] && ["cto","imenda","loja","rural","arm","pers"].includes(byId[currentId].type)) closeSheet(); }
   drawFibraPanel(); render();
 });
 
@@ -2795,19 +2851,13 @@ function setEdit(on,selId){
   if(on&&RO){ toast("Conta só para visualizar"); return; }
   if(on&&cabMode) return;
   if(on&&selMode) setSel(false);
-  pendMove=null; moveDone=null; editSel=on?(selId||null):null;
+  pendMove=null; moveDone=null; editSel=on?(selId||null):null; cabBoxOn=false; cabBoxSel=new Set();
   editMode=on; placing=false; placingFor=null; placingKind=null; editToggle.checked=on; closeSheet();
   map.getContainer().classList.toggle("editing",on); updateEditBar(); render();
   if(on) menu.classList.add("hidden");
 }
 function cancelPlacing(){ if(placing){ placing=false; placingFor=null; placingKind=null; updateEditBar(); } }
-function onMoved(it,m){
-  const nl=m.getLatLng();
-  moveDone=null;
-  if(!pendMove||pendMove.id!==it.id) pendMove={id:it.id,lat:it.lat,lng:it.lng};
-  if(Math.abs(nl.lat-pendMove.lat)<1e-9 && Math.abs(nl.lng-pendMove.lng)<1e-9) pendMove=null;
-  updateMoveBar();
-}
+function onMoved(it,m){ boxesMoved(it,m,[it.id]); }      // v3.61: ao soltar a caixa já fica salva (sem Salvar/Cancelar)
 function applyMove(it,m){
   const ll=m.getLatLng(); it.lat=ll.lat; it.lng=ll.lng;
   if(it.custom){ const c=state.custom.find(x=>x.id===it.id); if(c){ c.lat=it.lat; c.lng=it.lng; } it.lat0=it.lat; it.lng0=it.lng; }
@@ -2835,14 +2885,21 @@ document.getElementById("ceOk").onclick=()=>{
 let nbKind="cto";
 const FCORES=["VERDE","AMARELA","BRANCA","AZUL","VERMELHA","ROXA","LARANJA","MARROM","ROSA","CINZA","PRETA"];
 document.getElementById("nbFcor").innerHTML='<option value="">—</option>'+FCORES.map(c=>`<option value="${c}">${c[0]+c.slice(1).toLowerCase()}</option>`).join("");
+let nbPCol="#0ea5e9";
+function drawNbP(){ document.getElementById("nbPSw").innerHTML=PC_SW.map(c=>`<button type="button" data-nbp="1" data-c="${c}" class="w-7 h-7 rounded-full shadow border-2 ${nbPCol.toLowerCase()===c?"border-sky-500 ring-2 ring-sky-300":"border-white"}" style="background:${c};box-shadow:0 0 0 1px #94a3b8"></button>`).join(""); document.getElementById("nbPColor").value=nbPCol;
+  const pv=document.getElementById("nbPPrev"); pv.style.background=nbPCol; pv.style.color=textOn(nbPCol); pv.textContent=nbName.value.trim()||"Nome"; }
+document.getElementById("nbPSw").addEventListener("click",e=>{ const b=e.target.closest("[data-nbp]"); if(!b) return; nbPCol=b.dataset.c; drawNbP(); });
+document.getElementById("nbPColor").addEventListener("input",e=>{ if(HEX.test(e.target.value)){ nbPCol=e.target.value; drawNbP(); } });
 function setNbKind(k){
-  nbKind=k; const ceo=k==="ceo";
-  document.getElementById("nbCeoBox").classList.toggle("hidden",!ceo); document.getElementById("nbCtoBox").classList.toggle("hidden",ceo);
-  document.getElementById("nbTCto").className="rounded-lg border-2 py-2 "+(ceo?"border-slate-300 text-slate-600":"border-sky-500 bg-sky-50 text-sky-900");
-  document.getElementById("nbTCeo").className="rounded-lg border-2 py-2 "+(ceo?"border-sky-500 bg-sky-50 text-sky-900":"border-slate-300 text-slate-600");
-  nbName.placeholder=ceo?"Ex.: CEO 3":"Ex.: Q9";
+  nbKind=k; const ceo=k==="ceo", pers=k==="pers";
+  document.getElementById("nbCeoBox").classList.toggle("hidden",!ceo); document.getElementById("nbCtoBox").classList.toggle("hidden",ceo||pers); document.getElementById("nbPersBox").classList.toggle("hidden",!pers);
+  const cl=(on)=>"rounded-lg border-2 py-2 "+(on?"border-sky-500 bg-sky-50 text-sky-900":"border-slate-300 text-slate-600");
+  document.getElementById("nbTCto").className=cl(k==="cto"); document.getElementById("nbTCeo").className=cl(ceo); document.getElementById("nbTPers").className=cl(pers);
+  nbName.placeholder=ceo?"Ex.: CEO 3":pers?"Ex.: Poste 5":"Ex.: Q9";
+  if(pers) drawNbP();
 }
-document.getElementById("nbTCto").onclick=()=>setNbKind("cto"); document.getElementById("nbTCeo").onclick=()=>setNbKind("ceo");
+nbName.addEventListener("input",()=>{ if(nbKind==="pers") drawNbP(); });
+document.getElementById("nbTCto").onclick=()=>setNbKind("cto"); document.getElementById("nbTCeo").onclick=()=>setNbKind("ceo"); document.getElementById("nbTPers").onclick=()=>setNbKind("pers");
 function placeQ(ll){
   const pf=placingFor, ceo=pf&&byId[pf.ceo]; placingFor=null; placing=false;
   if(!ceo){ updateEditBar(); return; }
@@ -2877,6 +2934,11 @@ document.getElementById("nbCancel").onclick=()=>{ nbModal.classList.add("hidden"
 document.getElementById("nbOk").onclick=()=>{
   const name=nbName.value.trim(); if(!name){ nbName.focus(); return; }
   const id="c"+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+  if(nbKind==="pers"){
+    state.custom.push({id,name,lat:pendingLL.lat,lng:pendingLL.lng,region,type:"pers"}); state.pcol[id]=HEX.test(nbPCol)?nbPCol:"#0ea5e9";
+    save(); placing=false; nbModal.classList.add("hidden");
+    rebuild(); computeStreets(); computeLinks(); editSel=id; render(); updateEditBar(); toast("✔ Ponto criado. Toque nele para anotar."); return;
+  }
   if(nbKind==="ceo"){
     const g=i=>document.getElementById(i).value.trim().replace(/\D/g,""), cor=document.getElementById("nbFcor").value, cap=Math.max(1,+g("nbCap")||8);
     const desc=[g("nbCard")?"CARD"+g("nbCard"):"", g("nbPon")?"PON"+g("nbPon"):"", g("nbFib")?"F"+g("nbFib"):"", cor].filter(Boolean).join(" ");
@@ -2899,6 +2961,7 @@ editBar.addEventListener("click",e=>{
   else if(b.dataset.e==="cancel") cancelPlacing();
   else if(b.dataset.e==="open"){ if(editSel&&byId[editSel]) openSheet(editSel); }
   else if(b.dataset.e==="off"){ if(pendMove){ toast("Salve ou cancele a mudança de lugar antes de travar"); return; } setEdit(false); }
+  else if(b.dataset.e==="grp"){ cabBoxOn=!cabBoxOn; editSel=null; if(!cabBoxOn) cabBoxSel=new Set(); closeSheet(); render(); updateEditBar(); }
   else if(b.dataset.e==="sel"){ if(pendMove){ toast("Salve ou cancele a mudança de lugar primeiro"); return; } setSel(true); }
 });
 editToggle.addEventListener("change",()=>setEdit(editToggle.checked));
@@ -3371,12 +3434,16 @@ document.getElementById("vlOk").onclick=()=>{
   const mc=map.getContainer(); let t=null, st=null;
   const stop=()=>{ if(t){ clearTimeout(t); t=null; } };
   mc.addEventListener("pointerdown",e=>{
-    if(editMode||selMode||placing) return;
-    const ic=e.target.closest(".leaflet-marker-icon"); if(!ic||!ic.querySelector(".pill.ok,.pill.warn,.pill.full,.pill.plan,.pill.ceo")) return;
+    if(editMode||selMode||placing||rpMode) return;
+    if(cabMode&&cabState!=="edit") return;
+    const ic=e.target.closest(".leaflet-marker-icon"); if(!ic||!ic.querySelector(".pill")) return;
     const pid=Object.keys(markers).find(k=>markers[k]&&markers[k]._icon===ic)||null;
+    const pit=pid&&byId[pid]; if(!pit||!["cto","ceo","rural","arm","imenda","loja","pers"].includes(pit.type)) return;
     st={x:e.clientX,y:e.clientY}; stop();
-    t=setTimeout(()=>{ t=null; lpBlock=true; setTimeout(()=>{ lpBlock=false; },800); setEdit(true,pid); try{ navigator.vibrate&&navigator.vibrate(40); }catch(_){}
-      hintOnce("editon","✏ Edição ativa: só a caixa marcada se move. Toque em outra para trocar. Depois Salvar ou Cancelar."); },600);
+    t=setTimeout(()=>{ t=null; lpBlock=true; setTimeout(()=>{ lpBlock=false; },800); try{ navigator.vibrate&&navigator.vibrate(40); }catch(_){}
+      if(cabRawNow()){ cabBoxSel.add(pid); render(); drawCabBar(); hintOnce("cabbx","📦 A caixa pisca: arraste para o lugar certo (já fica salvo). Toque nela de novo para parar."); return; }
+      setEdit(true,pid);
+      hintOnce("editon","✏ A caixa pisca: arraste para o lugar certo (já fica salvo). Toque nela de novo para parar."); },600);
   });
   mc.addEventListener("pointermove",e=>{ if(t&&st&&Math.hypot(e.clientX-st.x,e.clientY-st.y)>8) stop(); });
   ["pointerup","pointercancel","pointerleave"].forEach(ev=>mc.addEventListener(ev,stop));
@@ -3813,15 +3880,21 @@ const recDt=ms=>{ try{ return new Date(ms).toLocaleString("pt-BR",{day:"2-digit"
 const recDay=s=>{ const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(s||""); return m?m[3]+"/"+m[2]:""; };
 function recTitle(s){ const sm=["de","da","do","das","dos","e"]; return s.toLowerCase().split(/(\s+)/).map((w,i)=>{ if(!w||/^\s+$/.test(w)) return w; if(i>0&&sm.includes(w)) return w; return w.charAt(0).toUpperCase()+w.slice(1); }).join(""); }
 const recFix=s=>{ s=String(s||"").trim(); return (s&&s===s.toUpperCase()&&/[A-ZÀ-Ú]/.test(s))?recTitle(s):s; };
-function recParse(t,ocr){      // linhas copiadas da planilha: nome [TAB] endereço [TAB] observação
-  const out=[];
+const RC_ST="(?:Rua|R\\.|Av\\.?|Avenida|Travessa|Tv\\.|Pra[cç]a|Estrada|Rodovia|Rod\\.|Alameda|Al\\.|Beco|Largo|Vila|S[ií]tio|Fazenda|Loteamento|Conjunto)";
+const RC_STREET=new RegExp("^"+RC_ST+"(?=\\s|$)","i"), RC_STREET_IN=new RegExp("(?:^|\\s)("+RC_ST+"\\s.+)$","i");
+function recParse(t,ocr){      // aceita células copiadas (TAB) ou texto lido de um print: acha nome, endereço, data e valor
+  const out=[]; let dlab="";
   String(t||"").split(/\r?\n/).forEach(l=>{
-    l=l.trim(); if(!l) return;
-    let p=l.split("\t").map(x=>x.trim()).filter(Boolean);
-    if(p.length<2) p=l.split(/\s{2,}|;|\s\|\s/).map(x=>x.trim()).filter(Boolean);
-    if(p.length<2&&ocr){ const m=l.match(/^(.+?)\s+((?:Rua|R\.|Av\.?|Avenida|Travessa|Tv\.|Pra[cç]a|Estrada|Rodovia|Rod\.|Alameda|Al\.|Beco|Largo|Vila|Sítio|Sitio|Fazenda|Loteamento)\s.+)$/i); if(m) p=[m[1].trim(),m[2].trim()]; }
-    const nome=recFix(p[0]||""), end=recFix(p[1]||""), obs=p.slice(2).join(" ").trim();
-    if(!nome) return; if(/^nome$/i.test(nome)&&/^endere/i.test(end)) return;
+    l=l.replace(/[|¦\[\]_]+/g," ").replace(/[  ]+$/,"").trim(); if(!l) return;
+    const lc=l.replace(/\s+/g," "); if(lc.length<70&&/(cliente|nome)/i.test(lc)&&/\bender/i.test(lc)){ const m=lc.match(/^(.*?)(?:cliente|nome)/i); dlab=(m&&m[1]||"").replace(/[^\wÀ-ú ]+/g," ").trim(); return; }     // linha de títulos (Desde / Cliente / Endereço)
+    const dates=l.match(/\b\d{1,2}\/\d{1,2}\/\d{2,4}\b/g)||[]; l=l.replace(/\b\d{1,2}\/\d{1,2}\/\d{2,4}\b/g,"\t");
+    let val=""; const mv=l.match(/(?:^|[\t ])(?:R\$\s*)?(\d{1,3}(?:\.\d{3})*,\d{2})\s*$/); if(mv){ val=mv[1]; l=l.slice(0,l.length-mv[0].length); }
+    let cells=l.split(/\t|\s{2,}|;|\s\|\s/).map(x=>x.trim()).filter(Boolean), nome="", end="", extra=[];
+    cells.forEach(c=>{ if(!end&&RC_STREET.test(c)) end=c; else if(!nome) nome=c; else extra.push(c); });
+    if(!end){ const m=nome.match(RC_STREET_IN); if(m){ end=m[1].trim(); nome=nome.slice(0,nome.length-m[1].length).trim(); } else if(extra.length){ end=extra.shift(); } }
+    nome=recFix(nome.replace(/^[\s\-–.,:]+|[\s\-–.,:]+$/g,"")); end=recFix(end.replace(/[\s,.;]+$/,""));
+    if(!nome||!/[A-Za-zÀ-ú]{2}/.test(nome)) return;
+    const obs=[].concat(dates.map(d=>(dlab?dlab+" ":"")+d),val?["R$ "+val]:[],extra).join(" · ");
     out.push({nome,end,obs});
   });
   return out;
@@ -3905,10 +3978,11 @@ document.getElementById("recClean").onclick=()=>{
 };
 /* gaveta de adicionar */
 const recPaste=document.getElementById("recPaste"); let recParsed=[];
-function recTab(t){ document.getElementById("recTabP").classList.toggle("on",t==="p"); document.getElementById("recTabU").classList.toggle("on",t==="u"); document.getElementById("recPaneP").classList.toggle("hidden",t!=="p"); document.getElementById("recPaneU").classList.toggle("hidden",t!=="u"); }
+function recTab(t){ document.getElementById("recTabP").classList.toggle("on",t==="p"); document.getElementById("recTabU").classList.toggle("on",t==="u"); document.getElementById("recPaneP").classList.toggle("hidden",t!=="p"); document.getElementById("recPaneU").classList.toggle("hidden",t!=="u"); document.getElementById("recTop").classList.toggle("hidden",t!=="p"); }
 function recPrev(){
   const pv=document.getElementById("recPrev"), ok=document.getElementById("recPasteOk");
-  pv.innerHTML=recParsed.length?`<div class="text-xs font-extrabold mt-2 mb-1" style="color:#047857">✔ ${recParsed.length} cliente${recParsed.length>1?"s":""} encontrado${recParsed.length>1?"s":""}</div>`+recParsed.map((x,i)=>`<div class="recpv"><span class="min-w-0"><b>${esc(x.nome)}</b>${x.end?" · "+esc(x.end):' · <i style="color:#b45309">sem endereço</i>'}${x.obs?" · 📝 "+esc(x.obs):""}</span><button type="button" data-rpx="${i}" aria-label="Tirar">✕</button></div>`).join(""):"";
+  pv.innerHTML=recParsed.length?`<div class="text-xs font-extrabold mt-2 mb-1" style="color:#047857">✔ ${recParsed.length} cliente${recParsed.length>1?"s":""} encontrado${recParsed.length>1?"s":""}</div>`+recParsed.map((x,i)=>{ const k=x.nome.toLowerCase(), dup=recParsed.some((y,j)=>j<i&&y.nome.toLowerCase()===k)||(typeof recItems!=="undefined"&&recItems.some(r=>String(r.nome||"").toLowerCase()===k)); return `<div class="recpv"><span class="min-w-0"><b>${esc(x.nome)}</b>${x.end?" · "+esc(x.end):' · <i style="color:#b45309">sem endereço</i>'}${x.obs?" · 📝 "+esc(x.obs):""}${dup?' · <i style="color:#b45309">⚠ já na lista</i>':""}</span><button type="button" data-rpx="${i}" aria-label="Tirar">✕</button></div>`; }).join(""):"";
+  const th=document.getElementById("recTopHint"); if(th) th.classList.toggle("hidden",!!recParsed.length);
   ok.classList.toggle("hidden",!recParsed.length); ok.textContent="Adicionar "+(recParsed.length>1?"os "+recParsed.length:"o cliente");
 }
 recPaste.addEventListener("input",()=>{ recParsed=recParse(recPaste.value); recPrev(); });
@@ -3920,9 +3994,26 @@ document.getElementById("recAddClose").onclick=()=>recAddModal.classList.add("hi
 let recOcrBusy=false;
 function recOcrMsg(t,err){ const el=document.getElementById("recOcr"); if(!el) return; el.textContent=t||""; el.style.color=err?"#b91c1c":""; el.classList.toggle("hidden",!t); }
 function recLoadOcr(){ return new Promise((ok,no)=>{ if(window.Tesseract) return ok(); const sc=document.createElement("script"); sc.src="https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js"; sc.onload=()=>window.Tesseract?ok():no(new Error("x")); sc.onerror=()=>no(new Error("net")); document.head.appendChild(sc); }); }
-async function recImgPrep(file){
-  try{ const bmp=await createImageBitmap(file), m=Math.max(bmp.width,bmp.height), k=m>2400?2400/m:(m<1000?Math.min(2,1000/m):1); if(k===1) return file;
-    const c=document.createElement("canvas"); c.width=Math.round(bmp.width*k); c.height=Math.round(bmp.height*k); c.getContext("2d").drawImage(bmp,0,0,c.width,c.height); return c; }catch(e){ return file; }
+async function recImgPrep(file,raw){
+  try{
+    const bmp=await createImageBitmap(file), m0=Math.max(bmp.width,bmp.height);
+    if(raw){ const k=m0>2400?2400/m0:(m0<1000?Math.min(2,1000/m0):1); if(k===1) return file;
+      const c=document.createElement("canvas"); c.width=Math.round(bmp.width*k); c.height=Math.round(bmp.height*k); c.getContext("2d").drawImage(bmp,0,0,c.width,c.height); return c; }
+    const k0=m0>2600?2600/m0:1, W=Math.round(bmp.width*k0), H=Math.round(bmp.height*k0), N=W*H;
+    const c0=document.createElement("canvas"); c0.width=W; c0.height=H; const x0=c0.getContext("2d",{willReadFrequently:true}); x0.fillStyle="#fff"; x0.fillRect(0,0,W,H); x0.drawImage(bmp,0,0,W,H);
+    const d=x0.getImageData(0,0,W,H).data, g=new Uint8Array(N), dk=new Uint8Array(N), mk=new Uint8Array(N);
+    for(let i=0;i<N;i++){ const v=(d[i*4]*299+d[i*4+1]*587+d[i*4+2]*114)/1000; g[i]=v; dk[i]=v<110?1:0; }
+    const hR=Math.max(36,Math.round(W*0.06)), vR=Math.max(22,Math.round(W*0.036));      // linhas compridas = bordas da tabela
+    for(let y=0;y<H;y++){ let x=0; while(x<W){ if(dk[y*W+x]){ let x2=x; while(x2<W&&dk[y*W+x2]) x2++; if(x2-x>hR) for(let k=x;k<x2;k++) mk[y*W+k]=1; x=x2; } else x++; } }
+    for(let x=0;x<W;x++){ let y=0; while(y<H){ if(dk[y*W+x]){ let y2=y; while(y2<H&&dk[y2*W+x]) y2++; if(y2-y>vR) for(let k=y;k<y2;k++) mk[k*W+x]=1; y=y2; } else y++; } }
+    const kill=new Uint8Array(N);
+    for(let y=0;y<H;y++) for(let x=0;x<W;x++) if(mk[y*W+x]){ for(let dy=-1;dy<=1;dy++){ const yy=y+dy; if(yy<0||yy>=H) continue; for(let dx=-1;dx<=1;dx++){ const xx=x+dx; if(xx>=0&&xx<W) kill[yy*W+xx]=1; } } }
+    const out=x0.createImageData(W,H), o=out.data;
+    for(let i=0;i<N;i++){ const v=(kill[i]||g[i]>170)?255:0; o[i*4]=o[i*4+1]=o[i*4+2]=v; o[i*4+3]=255; }
+    x0.putImageData(out,0,0);
+    const sc=Math.max(1,Math.min(3,2400/Math.max(W,H))), pad=Math.round(40*sc), c=document.createElement("canvas"); c.width=Math.round(W*sc)+pad*2; c.height=Math.round(H*sc)+pad*2;
+    const cx=c.getContext("2d"); cx.fillStyle="#fff"; cx.fillRect(0,0,c.width,c.height); cx.imageSmoothingEnabled=true; cx.imageSmoothingQuality="high"; cx.drawImage(c0,pad,pad,Math.round(W*sc),Math.round(H*sc)); return c;
+  }catch(e){ return file; }
 }
 function recOcrText(data){     // junta as palavras de cada linha; espaço grande vira TAB (separa nome e endereço)
   const out=[];
@@ -3934,12 +4025,20 @@ function recOcrText(data){     // junta as palavras de cada linha; espaço grand
   });
   return out.length?out.join("\n"):String(data.text||"");
 }
+async function recOcrRun(img){
+  const lg={logger:m=>{ if(m&&m.status){ recOcrMsg(m.status==="recognizing text"?"Lendo a imagem… "+Math.round((m.progress||0)*100)+"%":"Baixando o leitor de imagem (só na 1ª vez)…"); } }};
+  try{ const w=await Tesseract.createWorker("por",1,lg); try{ await w.setParameters({tessedit_pageseg_mode:"6",preserve_interword_spaces:"1"}); const r=await w.recognize(img); return r.data; } finally{ try{ await w.terminate(); }catch(_){} } }
+  catch(e){ const r=await Tesseract.recognize(img,"por",lg); return r.data; }
+}
 async function recFromImage(file){
   if(!file||recOcrBusy) return; recOcrBusy=true; recOcrMsg("Preparando a leitura da imagem…");
   try{
-    await recLoadOcr(); const img=await recImgPrep(file);
-    const r=await Tesseract.recognize(img,"por",{logger:m=>{ if(m&&m.status){ recOcrMsg(m.status==="recognizing text"?"Lendo a imagem… "+Math.round((m.progress||0)*100)+"%":"Baixando o leitor de imagem (só na 1ª vez)…"); } }});
-    const txt=recOcrText(r.data); recPaste.value=txt; recParsed=recParse(txt,true); recPrev();
+    await recLoadOcr();
+    const q=a=>a.length?a.filter(x=>RC_STREET.test(x.end)).length/a.length:0;      // quantos têm endereço com cara de endereço
+    let txt=recOcrText(await recOcrRun(await recImgPrep(file))), got=recParse(txt,true);
+    if(!got.length||q(got)<1){ const t2=recOcrText(await recOcrRun(await recImgPrep(file,true))), g2=recParse(t2,true);      // plano B: imagem sem tratamento (ex.: célula pintada de verde)
+      if(!got.length||q(g2)>q(got)){ txt=t2; got=g2; } }
+    recPaste.value=txt; recParsed=got; recPrev();
     recOcrMsg(recParsed.length?"✔ Imagem lida. Confira abaixo (dá para corrigir o texto na caixa).":"Não achei nomes nessa imagem. Tente um print mais nítido.",!recParsed.length);
   }catch(e){ recOcrMsg("Não consegui ler a imagem. Precisa de internet na 1ª vez.",true); }
   recOcrBusy=false;
