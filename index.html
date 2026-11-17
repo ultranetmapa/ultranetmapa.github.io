@@ -141,8 +141,8 @@
   html.dark #perModal>div,html.dark #accModal>div{background:#000000}
   .mbtn{border-radius:.5rem;color:#fff;padding:.45rem .6rem;font-size:13px;font-weight:600;line-height:1.2;text-align:left;transition:filter .12s,transform .12s;-webkit-tap-highlight-color:transparent}
   .mbtn:active{filter:brightness(.8);transform:scale(.97)}
-  .cflt .cbtn{padding:.28rem .38rem;font-size:12px}
-  .cbtn{border-radius:.5rem;padding:.28rem .5rem;font-size:12.5px;line-height:1.25;font-weight:600;background:rgba(255,255,255,.2);color:#fff;transition:filter .12s,transform .12s;-webkit-tap-highlight-color:transparent}
+  .cflt .cbtn{padding:.36rem .42rem;font-size:12.5px}
+  .cbtn{border-radius:.55rem;padding:.4rem .58rem;font-size:14px;line-height:1.25;font-weight:600;background:rgba(255,255,255,.2);color:#fff;transition:filter .12s,transform .12s;-webkit-tap-highlight-color:transparent}
   .cbtn:active{filter:brightness(.75);transform:scale(.94)}
   .cbtn.on{background:#fff;color:#0056b3}
   .cbtn.go{background:#10b981}
@@ -248,7 +248,7 @@
   #recDot{position:absolute;top:1px;right:1px;width:12px;height:12px;border-radius:50%;background:#ef4444;border:2px solid #fff;pointer-events:none}
   #btnRec[hidden]{display:none!important}
   #recModal{background:#fff}#recPanel{width:100%;max-width:640px;display:flex;flex-direction:column;min-height:0;background:#fff;color:#0f172a}
-  #scanModal{top:auto!important;bottom:0!important;left:50%!important;right:auto!important;transform:translateX(-50%)!important;width:min(480px,100vw)!important;height:auto!important;max-height:92vh;padding-top:0!important;border-radius:20px 20px 0 0;box-shadow:0 -6px 30px rgba(0,0,0,.45);overflow:hidden}#scanModal #scCam{height:min(40vh,300px)!important}#scanModal{padding-bottom:env(safe-area-inset-bottom)}
+  #scanModal{top:auto!important;bottom:0!important;left:50%!important;right:auto!important;transform:translateX(-50%)!important;width:min(480px,100vw)!important;height:min(calc(100vh - 56px),760px)!important;max-height:calc(100vh - 16px);padding-top:0!important;border-radius:20px 20px 0 0;box-shadow:0 -6px 30px rgba(0,0,0,.45);overflow:hidden;padding-bottom:env(safe-area-inset-bottom)}#scanModal.scshort{height:min(560px,92vh)!important}#scanModal #scCam{height:min(52vh,460px)!important}#scanModal.scshort #scCam{height:min(36vh,270px)!important}#scGrip{display:block;margin:0 auto;padding:8px 40px 2px;flex:0 0 auto;touch-action:none}#scGrip span{display:block;width:46px;height:5px;border-radius:99px;background:#cbd5e1}html.dark #scGrip span{background:#55555c}#scZoom{position:absolute;right:10px;bottom:12px;width:24px;height:118px;border-radius:12px;background:rgba(255,255,255,.16);touch-action:none;z-index:3}#scZoom.hidden{display:none}#scZoom .zt{position:absolute;left:10.5px;top:8px;bottom:8px;width:3px;border-radius:2px;background:rgba(255,255,255,.35)}#scZoom .zf{position:absolute;left:10.5px;bottom:8px;width:3px;border-radius:2px;background:#2f7bff}#scZoom .zk{position:absolute;left:-1px;width:26px;height:26px;border-radius:50%;background:#fff;color:#0b3fbf;font-weight:800;font-size:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 6px rgba(0,0,0,.55);pointer-events:none}#scCtr:not(.hidden){display:flex;flex-direction:column}#ctrDateTxt{padding-right:46px}#ctrCal{position:absolute;right:4px;top:4px;bottom:4px;width:40px;border-radius:8px;background:rgba(100,116,139,.18);font-size:16px;line-height:1}
   @media(min-width:700px){#recModal{background:transparent;pointer-events:none;padding:24px 0}#recPanel{pointer-events:auto;border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,.5);overflow:hidden}#recAddModal,#recEditModal{background:transparent!important}#recAddBox{box-shadow:0 -4px 30px rgba(0,0,0,.4)}}
   .rca{display:flex;justify-content:flex-end;gap:7px;margin-top:8px}
   .recpv{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12.5px;border-bottom:1px solid #f1f5f9;padding:6px 0}.recpv button{color:#ef4444;font-weight:800;padding:2px 8px;flex:none}
@@ -293,7 +293,7 @@
   html.dark .msec{color:#a5a5aa}
   .cpon{background:rgba(59,130,246,.14);color:#3b82f6}
   html.dark .cpon{background:rgba(59,130,246,.18);color:#6aaeff}
-  @media(max-width:639px){#menuBox{height:58vh;max-height:92vh;transition:height .28s ease;overscroll-behavior:contain}#menuBox.up{height:92vh}}
+  @media(max-width:639px){#menuBox{height:92vh;max-height:92vh;transition:height .28s ease;overscroll-behavior:contain}#menuBox.dn{height:58vh}}
   @media(min-width:640px){#menuBox{height:90vh;max-height:90vh;transition:height .28s ease;overscroll-behavior:contain}#menuBox.dn{height:58vh}}
   /* v3.46: conta só para visualizar */
   [hidden]{display:none!important}
@@ -473,18 +473,22 @@
 <div id="mapMenu" class="hidden"><button data-mm="pt" type="button">📍 Marcar ponto do cliente</button><button data-mm="box" type="button">➕ Nova caixa aqui</button></div>
 <button id="btnScanTop" type="button" title="Ler QR Code / código de barras" aria-label="Ler QR Code / código de barras"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M4 12h16"/></svg></button>
 <div id="scanModal" class="hidden fixed inset-0 z-[1300] bg-white flex flex-col" style="padding-top:env(safe-area-inset-top)">
+  <button type="button" id="scGrip" aria-label="Subir, abaixar ou fechar a janela"><span></span></button>
   <div class="flex items-center gap-2 px-3 py-2 border-b border-slate-200"><button id="scClose" type="button" class="text-2xl px-2 leading-none" aria-label="Fechar">✕</button><b class="flex-1">📷 Leitor</b><button id="scBack" type="button" class="volta">‹ Voltar</button></div>
   <div id="scTabs" class="flex gap-2 px-3 pt-2"><i id="scPill"></i><button id="scTabR" type="button" class="sctab on">Ler código</button><button id="scTabC" type="button" class="sctab">Calcular contrato</button></div>
   <div id="scRead" class="flex-1 flex flex-col min-h-0 overflow-y-auto">
-    <div id="scCam" class="relative bg-black mx-3 mt-2 rounded-xl overflow-hidden" style="height:52vh;flex:none"><video id="scVid" playsinline muted class="w-full h-full" style="object-fit:cover"></video><div class="absolute inset-0 flex items-center justify-center pointer-events-none"><div style="width:62%;aspect-ratio:1;border:3px solid #fff;border-radius:18px;box-shadow:0 0 0 999px rgba(0,0,0,.45)"></div></div><div id="scMsg" class="absolute left-0 right-0 bottom-2 text-center text-white text-xs px-3"></div><div id="scZoom" class="hidden absolute right-2 top-2 flex gap-1.5"><button id="scZ1" type="button" class="zb on">1x</button><button id="scZ2" type="button" class="zb">2x</button></div></div>
+    <div id="scCam" class="relative bg-black mx-3 mt-2 rounded-xl overflow-hidden" style="height:52vh;flex:none"><video id="scVid" playsinline muted class="w-full h-full" style="object-fit:cover"></video><div class="absolute inset-0 flex items-center justify-center pointer-events-none"><div style="width:62%;aspect-ratio:1;border:3px solid #fff;border-radius:18px;box-shadow:0 0 0 999px rgba(0,0,0,.45)"></div></div><div id="scZoom" class="hidden"><div class="zt"></div><div id="scZF" class="zf"></div><div id="scZK" class="zk">1x</div></div></div>
+    <div id="scMsgRow" class="flex items-center gap-2 px-3 mt-2" style="min-height:28px"><div id="scMsg" class="flex-1 text-xs opacity-80"></div></div>
     <div id="scBtns" class="flex flex-col gap-2 px-3 py-2"><label class="scb w-full"><input id="scFileCam" type="file" accept="image/*" capture="environment" class="hidden">📷 Foto com a câmera do celular</label><div class="flex gap-2"><label class="scb flex-1"><input id="scFile" type="file" accept="image/*" class="hidden">🖼 Foto da galeria</label><button id="scTorch" type="button" class="scb flex-1 hidden">🔦 Lanterna</button></div></div>
     <div id="scRes" class="hidden px-4 py-3"></div>
   </div>
-  <div id="scCtr" class="hidden flex-1 px-4 py-3 overflow-y-auto">
+  <div id="scCtr" class="hidden flex-1 min-h-0">
+    <div id="ctrTop" class="flex-1 min-h-0 overflow-y-auto px-4 pt-3"><div id="ctrOut"></div><div id="ctrHint" class="text-sm opacity-70 text-center py-6">Digite a data em que o cliente iniciou, aí embaixo, para ver o valor.</div><p id="ctrNote" class="text-xs text-slate-400 mt-3"></p></div>
+    <div class="shrink-0 px-4 pt-2 pb-3" style="border-top:1px solid rgba(100,116,139,.25)">
     <label class="text-xs font-bold text-slate-500">Data em que o cliente iniciou</label>
-    <input id="ctrDate" type="date" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-base mt-1 mb-3">
-    <div id="ctrOut"></div>
-    <p id="ctrNote" class="text-xs text-slate-400 mt-3"></p>
+    <div class="relative mt-1 mb-2"><input id="ctrDateTxt" type="text" inputmode="numeric" maxlength="10" autocomplete="off" placeholder="dd/mm/aaaa" class="w-full rounded-lg border border-slate-300 px-3 py-2 text-base"><button id="ctrCal" type="button" aria-label="Abrir calendário">▾</button><input id="ctrDate" type="date" tabindex="-1" aria-hidden="true" style="position:absolute;left:0;bottom:0;width:1px;height:1px;opacity:0;pointer-events:none"></div>
+      <div id="ctrAct"></div>
+    </div>
   </div>
 </div>
 <div id="recModal" class="hidden fixed inset-0 z-[1300] flex justify-center">
@@ -642,7 +646,8 @@
     <div class="grid gap-2">
       <button id="btnScan" type="button" class="pbtn"><span>📷 Ler QR Code / código de barras</span><span>›</span></button>
       <button id="btnRec" type="button" class="pbtn" hidden><span>📦 Recolhidos</span><span id="recBadge" class="hidden" style="background:#ef4444;color:#fff;border-radius:99px;font-size:11px;font-weight:800;padding:1px 9px"></span></button>
-      <button id="btnCtr" type="button" class="pbtn"><span>💲 Configurações do contrato</span><span id="ctrSub" class="font-bold opacity-90"></span></button>
+      <button id="btnSpeed" type="button" class="pbtn"><span>⚡ Ir para o Speedtest</span><span>↗</span></button>
+      <button id="btnCtr" type="button" class="pbtn"><span>💲 Configurações do contrato</span><span id="ctrSub" class="font-bold opacity-90">›</span></button>
     </div>
     <p class="msec">Personalizar</p>
     <div class="grid gap-2">
@@ -785,13 +790,14 @@
     </ul></details>
     <div class="pt-2 text-[11px] font-extrabold uppercase tracking-wide text-slate-500">Editar o mapa</div>
     <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">✋ Mover uma caixa</summary><div class="mt-2"><svg viewBox="0 0 300 250" width="100%" xmlns="http://www.w3.org/2000/svg" style="display:block;border-radius:8px"><rect width="300" height="250" fill="#3b4a38"/><g stroke="#6b7280" stroke-width="16" fill="none" opacity=".55"><path d="M0 120 H300"/><path d="M150 0 V250"/></g><g stroke="#9ca3af" stroke-width="1.2" stroke-dasharray="6 5" fill="none" opacity=".9"><path d="M0 120 H300"/><path d="M150 0 V250"/></g><path d="M10 120 H290" stroke="#f59e0b" stroke-width="3.5" fill="none"/><rect x="40" y="111" width="34" height="18" rx="9" fill="#16a34a" stroke="#fff" stroke-width="3"/><text x="49" y="124" font-size="10" font-weight="800" fill="#fff">Q1</text><rect x="90" y="111" width="34" height="18" rx="9" fill="#16a34a" stroke="#fff" stroke-width="3"/><text x="99" y="124" font-size="10" font-weight="800" fill="#fff">Q2</text><rect x="88" y="109" width="38" height="22" rx="11" fill="none" stroke="#3b82f6" stroke-width="3"><animate attributeName="opacity" values=".2;1;.2" dur="1s" repeatCount="indefinite"/></rect><circle cx="107" cy="136" r="11" fill="#fff" opacity=".35"/><circle cx="107" cy="136" r="5" fill="#fff"/><defs><marker id="am1" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#fff"/></marker></defs><path d="M128 120 L196 70" stroke="#fff" stroke-width="2" stroke-dasharray="3 3" marker-end="url(#am1)"/><rect x="196" y="56" width="34" height="18" rx="9" fill="none" stroke="#fff" stroke-dasharray="3 3"/><rect x="70" y="196" width="170" height="26" rx="13" fill="#111827" opacity=".92"/><text x="82" y="213" font-size="10" fill="#fff" opacity="1">✔ Q2 movida · <tspan font-weight="800" text-decoration="underline">Desfazer</tspan></text><circle cx="26" cy="30" r="9" fill="#0056b3"/><text x="22.6" y="33.8" font-size="11" font-weight="800" fill="#fff">1</text><circle cx="262" cy="48" r="9" fill="#0056b3"/><text x="258.6" y="51.8" font-size="11" font-weight="800" fill="#fff">2</text><circle cx="26" cy="208" r="9" fill="#0056b3"/><text x="22.6" y="211.8" font-size="11" font-weight="800" fill="#fff">3</text><text x="40" y="34" font-size="9.2" fill="#fff" opacity="1">Segure 1 segundo na caixa (ela pisca)</text><text x="206" y="52" font-size="9.2" fill="#fff" opacity="1">Arraste</text><text x="206" y="92" font-size="9.2" fill="#fff" opacity="1">e solte</text><text x="40" y="228" font-size="8.6" fill="#fff" opacity="0.9">Já fica salvo</text></svg></div><ol class="list-decimal pl-5 space-y-1 mt-2"><li>Segure <b>1 segundo</b> numa caixa, CEO, emenda, casa/loja ou armário. Ela <b>pisca</b> e aparece <b>✏ Edição ativa</b>.</li><li><b>Arraste</b> para o lugar certo e solte. <b>Já fica salvo</b> (aparece ✔ com <b>Desfazer</b> por uns segundos).</li><li>Para parar de mexer nela, <b>toque de novo na caixa</b>. O <b>🔒 Travar</b> sai da edição.</li></ol><p class="mt-2 text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2 py-1">Mover a caixa não muda a CEO dela, nem o desenho dos cabos.</p></details>
-    <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">📦 Mover várias caixas de uma vez</summary><div class="mt-2"><svg viewBox="0 0 300 250" width="100%" xmlns="http://www.w3.org/2000/svg" style="display:block;border-radius:8px"><rect width="300" height="250" fill="#3b4a38"/><g stroke="#6b7280" stroke-width="16" fill="none" opacity=".55"><path d="M0 120 H300"/><path d="M0 0"/></g><g stroke="#9ca3af" stroke-width="1.2" stroke-dasharray="6 5" fill="none" opacity=".9"><path d="M0 120 H300"/><path d="M0 0"/></g><path d="M10 120 H290" stroke="#f59e0b" stroke-width="3.5" fill="none"/><rect x="30" y="111" width="34" height="18" rx="9" fill="#16a34a" stroke="#fff" stroke-width="3"/><text x="39" y="124" font-size="10" font-weight="800" fill="#fff">Q1</text><rect x="100" y="111" width="34" height="18" rx="9" fill="#16a34a" stroke="#fff" stroke-width="3"/><text x="109" y="124" font-size="10" font-weight="800" fill="#fff">Q2</text><rect x="98" y="109" width="38" height="22" rx="11" fill="none" stroke="#3b82f6" stroke-width="3"><animate attributeName="opacity" values=".2;1;.2" dur="1s" repeatCount="indefinite"/></rect><rect x="170" y="111" width="34" height="18" rx="9" fill="#16a34a" stroke="#fff" stroke-width="3"/><text x="179" y="124" font-size="10" font-weight="800" fill="#fff">Q3</text><rect x="168" y="109" width="38" height="22" rx="11" fill="none" stroke="#3b82f6" stroke-width="3"><animate attributeName="opacity" values=".2;1;.2" dur="1s" repeatCount="indefinite"/></rect><defs><marker id="av1" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#fff"/></marker></defs><path d="M187 108 L187 62" stroke="#fff" stroke-width="2" stroke-dasharray="3 3" marker-end="url(#av1)"/><rect x="170" y="42" width="34" height="18" rx="9" fill="none" stroke="#fff" stroke-dasharray="3 3"/><rect x="100" y="42" width="34" height="18" rx="9" fill="none" stroke="#fff" stroke-dasharray="3 3" opacity=".6"/><circle cx="26" cy="26" r="9" fill="#0056b3"/><text x="22.6" y="29.8" font-size="11" font-weight="800" fill="#fff">1</text><circle cx="118" cy="160" r="9" fill="#0056b3"/><text x="114.6" y="163.8" font-size="11" font-weight="800" fill="#fff">2</text><circle cx="262" cy="66" r="9" fill="#0056b3"/><text x="258.6" y="69.8" font-size="11" font-weight="800" fill="#fff">3</text><text x="42" y="30" font-size="9.2" fill="#fff" opacity="1">Toque em 📦 Caixas (barra de cima)</text><text x="134" y="164" font-size="9.2" fill="#fff" opacity="1">Toque nas caixas: elas piscam</text><text x="214" y="56" font-size="8.6" fill="#fff" opacity="1">Arraste uma:</text><text x="214" y="67" font-size="8.6" fill="#fff" opacity="1">todas andam juntas</text><text x="100" y="226" font-size="8.8" fill="#fff" opacity="0.95">Ao soltar, já fica salvo (Desfazer)</text></svg></div><ol class="list-decimal pl-5 space-y-1 mt-2"><li>Na barra de cima (<b>✏ Edição ativa</b> ou <b>editar cabos</b>) toque em <b>📦 Caixas</b>.</li><li><b>Toque nas caixas</b> que quer mexer (de qualquer tipo): elas piscam. Toque de novo numa para soltar.</li><li><b>Arraste uma</b>: todas andam juntas e <b>já ficam salvas</b>. Se errar, toque em <b>Desfazer</b>.</li><li>Toque em <b>📦 Caixas</b> de novo para sair dessa escolha.</li></ol><p class="mt-2 text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2 py-1">No <b>☑ Selecionar</b> (Preencher vagas) nada mudou: ele serve para trocar rua, lotada e VLAN de várias caixas.</p></details>
+    <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">📦 Escolher várias caixas e mover uma de cada vez</summary><div class="mt-2"><svg viewBox="0 0 300 250" width="100%" xmlns="http://www.w3.org/2000/svg" style="display:block;border-radius:8px"><rect width="300" height="250" fill="#3b4a38"/><g stroke="#6b7280" stroke-width="16" fill="none" opacity=".55"><path d="M0 120 H300"/><path d="M0 0"/></g><g stroke="#9ca3af" stroke-width="1.2" stroke-dasharray="6 5" fill="none" opacity=".9"><path d="M0 120 H300"/><path d="M0 0"/></g><path d="M10 120 H290" stroke="#f59e0b" stroke-width="3.5" fill="none"/><rect x="30" y="111" width="34" height="18" rx="9" fill="#16a34a" stroke="#fff" stroke-width="3"/><text x="39" y="124" font-size="10" font-weight="800" fill="#fff">Q1</text><rect x="100" y="111" width="34" height="18" rx="9" fill="#16a34a" stroke="#fff" stroke-width="3"/><text x="109" y="124" font-size="10" font-weight="800" fill="#fff">Q2</text><rect x="98" y="109" width="38" height="22" rx="11" fill="none" stroke="#3b82f6" stroke-width="3"><animate attributeName="opacity" values=".2;1;.2" dur="1s" repeatCount="indefinite"/></rect><rect x="170" y="111" width="34" height="18" rx="9" fill="#16a34a" stroke="#fff" stroke-width="3"/><text x="179" y="124" font-size="10" font-weight="800" fill="#fff">Q3</text><rect x="168" y="109" width="38" height="22" rx="11" fill="none" stroke="#3b82f6" stroke-width="3"><animate attributeName="opacity" values=".2;1;.2" dur="1s" repeatCount="indefinite"/></rect><defs><marker id="av1" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="#fff"/></marker></defs><path d="M187 108 L187 62" stroke="#fff" stroke-width="2" stroke-dasharray="3 3" marker-end="url(#av1)"/><rect x="170" y="42" width="34" height="18" rx="9" fill="none" stroke="#fff" stroke-dasharray="3 3"/><rect x="100" y="42" width="34" height="18" rx="9" fill="none" stroke="#fff" stroke-dasharray="3 3" opacity=".6"/><circle cx="26" cy="26" r="9" fill="#0056b3"/><text x="22.6" y="29.8" font-size="11" font-weight="800" fill="#fff">1</text><circle cx="118" cy="160" r="9" fill="#0056b3"/><text x="114.6" y="163.8" font-size="11" font-weight="800" fill="#fff">2</text><circle cx="262" cy="66" r="9" fill="#0056b3"/><text x="258.6" y="69.8" font-size="11" font-weight="800" fill="#fff">3</text><text x="42" y="30" font-size="9.2" fill="#fff" opacity="1">Toque em 📦 Caixas (barra de cima)</text><text x="134" y="164" font-size="9.2" fill="#fff" opacity="1">Toque nas caixas: elas piscam</text><text x="214" y="56" font-size="8.6" fill="#fff" opacity="1">Arraste uma:</text><text x="214" y="67" font-size="8.6" fill="#fff" opacity="1">todas andam juntas</text><text x="100" y="226" font-size="8.8" fill="#fff" opacity="0.95">Ao soltar, já fica salvo (Desfazer)</text></svg></div><ol class="list-decimal pl-5 space-y-1 mt-2"><li>Na barra de cima (<b>✏ Edição ativa</b> ou <b>editar cabos</b>) toque em <b>📦 Caixas</b>.</li><li><b>Toque nas caixas</b> que quer mexer (de qualquer tipo): elas piscam. Toque de novo numa para soltar.</li><li><b>Arraste uma</b>: só ela anda (as outras continuam piscando, paradas) e <b>já fica salva</b>. Se errar, toque em <b>Desfazer</b>. Toque nela de novo para <b>parar</b>, ande pelo mapa e faça igual com a próxima.</li><li>Toque em <b>📦 Caixas</b> de novo para sair dessa escolha.</li></ol><p class="mt-2 text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2 py-1">No <b>☑ Selecionar</b> (Preencher vagas) nada mudou: ele serve para trocar rua, lotada e VLAN de várias caixas.</p></details>
     <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">🧵 Editar cabo de fibra</summary><div class="mt-2"><svg viewBox="0 0 300 250" width="100%" xmlns="http://www.w3.org/2000/svg" style="display:block;border-radius:8px"><rect width="300" height="250" fill="#3b4a38"/><g stroke="#6b7280" stroke-width="16" fill="none" opacity=".55"><path d="M0 120 H300"/><path d="M110 0 V250"/></g><g stroke="#9ca3af" stroke-width="1.2" stroke-dasharray="6 5" fill="none" opacity=".9"><path d="M0 120 H300"/><path d="M110 0 V250"/></g><path d="M14 120 L110 120 L110 40" stroke="#f59e0b" stroke-width="3.5" fill="none"/><g fill="#fff" stroke="#111" stroke-width="2"><circle cx="14" cy="120" r="6"/><circle cx="62" cy="120" r="6"/><circle cx="110" cy="120" r="6"/><circle cx="110" cy="80" r="6"/><circle cx="110" cy="40" r="6"/></g><rect x="180" y="111" width="34" height="18" rx="9" fill="#16a34a" stroke="#fff" stroke-width="3"/><text x="189" y="124" font-size="10" font-weight="800" fill="#fff">Q4</text><rect x="178" y="109" width="38" height="22" rx="11" fill="none" stroke="#3b82f6" stroke-width="3"><animate attributeName="opacity" values=".2;1;.2" dur="1s" repeatCount="indefinite"/></rect><path d="M110 80 Q150 70 190 111" stroke="#60a5fa" stroke-width="2.5" stroke-dasharray="3 4" fill="none"/><circle cx="28" cy="52" r="9" fill="#0056b3"/><text x="24.6" y="55.8" font-size="11" font-weight="800" fill="#fff">1</text><circle cx="62" cy="150" r="9" fill="#0056b3"/><text x="58.6" y="153.8" font-size="11" font-weight="800" fill="#fff">2</text><circle cx="220" cy="84" r="9" fill="#0056b3"/><text x="216.6" y="87.8" font-size="11" font-weight="800" fill="#fff">3</text><circle cx="246" cy="150" r="9" fill="#0056b3"/><text x="242.6" y="153.8" font-size="11" font-weight="800" fill="#fff">4</text><circle cx="232" cy="214" r="9" fill="#0056b3"/><text x="228.6" y="217.8" font-size="11" font-weight="800" fill="#fff">5</text><text x="44" y="46" font-size="9.2" fill="#fff" opacity="1">Menu ≡ → 🧵 Editar cabos</text><text x="44" y="58" font-size="9.2" fill="#fff" opacity="0.85">e toque no cabo</text><text x="76" y="154" font-size="8.8" fill="#fff" opacity="1">Arraste a bolinha branca</text><text x="76" y="165" font-size="8.8" fill="#fff" opacity="0.85">até a rua certa</text><text x="160" y="84" font-size="8.6" fill="#fff" opacity="1">Segure uma caixa:</text><text x="160" y="95" font-size="8.6" fill="#fff" opacity="1">pisca e já anda</text><text x="100" y="214" font-size="8.8" fill="#fff" opacity="1">Cabo: Salvar e ver → Aplicar</text></svg></div><ol class="list-decimal pl-5 space-y-1 mt-2"><li>Abra <b>⚙ Configurações → 🧵 Editar cabos de fibra</b> (ou toque rapidinho num cabo e em <b>✏ Editar cabo</b>). Aparecem bolinhas nos cabos.</li><li><b>Arraste a bolinha grande</b> para a rua certa. <b>Puxe a pequena do meio</b> para fazer uma curva. <b>Toque numa bolinha</b> para apagar o ponto ou continuar o cabo.</li><li>A barra tem <b>↶ ↷</b>, <b>✋ Mover</b>, <b>🎨 Estilo</b> e <b>🗑 Apagar</b> (com um cabo escolhido), <b>📦 Caixas</b> e <b>＋ Novo</b>. No canto, o filtro <b>Todos / Só 6 / Só 24</b>.</li><li><b>Segure uma caixa</b>: ela pisca e já dá para arrastar. A caixa é salva na hora (não depende do Aplicar). Tocar exatamente em cima de uma caixa pega a caixa, não o cabo que passa por baixo.</li><li><b>＋ Novo</b>: escolha 6 ou 24 fibras, toque no mapa marcando o caminho (perto de outro cabo, ele se liga) e toque em Concluir. A <b>📏 distância</b> aparece no meio do traçado.</li><li><b>💾 Salvar e ver</b> mostra como ficou; se gostar, <b>✔ Aplicar</b>. Se não aplicar, os cabos voltam como estavam.</li></ol><p class="mt-2 text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2 py-1">O <b>Cancelar</b> desfaz só os cabos. As caixas que você moveu continuam onde estão (use o Desfazer logo depois de mover).</p></details>
     <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">➕ Adicionar caixa, CEO ou ponto</summary><div class="mt-2"><svg viewBox="0 0 300 250" width="100%" xmlns="http://www.w3.org/2000/svg" style="display:block;border-radius:8px"><rect width="300" height="250" fill="#3b4a38"/><rect x="0" y="0" width="300" height="46" fill="#0056b3"/><text x="12" y="18" font-size="10" fill="#fff" opacity="1">✏ Edição ativa</text><rect x="12" y="24" width="82" height="16" rx="8" fill="#10b981"/><text x="20" y="35" font-size="9" fill="#fff" opacity="1">+ Nova Caixa</text><rect x="100" y="24" width="64" height="16" rx="8" fill="#ffffff" opacity=".25"/><text x="108" y="35" font-size="9" fill="#fff" opacity="1">📦 Caixas</text><g stroke="#6b7280" stroke-width="16" fill="none" opacity=".55"><path d="M0 130 H300"/></g><path d="M10 130 H290" stroke="#f59e0b" stroke-width="3.5"/><rect x="60" y="121" width="34" height="18" rx="9" fill="#16a34a" stroke="#fff" stroke-width="3"/><text x="69" y="134" font-size="10" font-weight="800" fill="#fff">Q6</text><circle cx="200" cy="150" r="9" fill="#fff" opacity=".35"/><circle cx="200" cy="150" r="4" fill="#fff"/><rect x="40" y="172" width="220" height="62" rx="10" fill="#fff"/><rect x="48" y="180" width="64" height="20" rx="6" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="1.5"/><text x="55" y="194" font-size="9" fill="#0c4a6e" font-weight="700">📦 Cliente</text><rect x="118" y="180" width="54" height="20" rx="6" fill="none" stroke="#94a3b8" stroke-width="1.5"/><text x="127" y="194" font-size="9" fill="#475569" font-weight="700">🔵 CEO</text><rect x="178" y="180" width="74" height="20" rx="6" fill="none" stroke="#94a3b8" stroke-width="1.5"/><text x="184" y="194" font-size="9" fill="#475569" font-weight="700">🎨 Personalizada</text><text x="48" y="222" font-size="8.6" fill="#475569">Nome · cor · anotação</text><circle cx="276" cy="16" r="9" fill="#0056b3"/><text x="272.6" y="19.8" font-size="11" font-weight="800" fill="#fff">1</text><circle cx="222" cy="150" r="9" fill="#0056b3"/><text x="218.6" y="153.8" font-size="11" font-weight="800" fill="#fff">2</text><circle cx="26" cy="202" r="9" fill="#0056b3"/><text x="22.6" y="205.8" font-size="11" font-weight="800" fill="#fff">3</text><text x="172" y="17" font-size="8.4" fill="#fff" opacity="0.95">Segure numa caixa</text><text x="214" y="166" font-size="8.4" fill="#fff" opacity="1">Toque onde fica</text><text x="214" y="176" font-size="9.2" fill="#fff" opacity="1"></text><text x="70" y="157" font-size="9.2" fill="#fff" opacity="1"></text></svg></div><ol class="list-decimal pl-5 space-y-1 mt-2"><li>Segure 1 segundo numa caixa para entrar na <b>✏ Edição ativa</b> e toque em <b>+ Nova Caixa</b>.</li><li>Toque no <b>lugar do mapa</b> onde ela fica.</li><li>Escolha o tipo: <b>📦 Cliente</b> (nome, rua, CEO, 16 portas livres, planejada se quiser), <b>🔵 CEO</b> (Card, PON, Fibra, cor e saídas do split) ou <b>🎨 Personalizada</b> (só nome, cor e anotação: sem portas e não conta como cliente).</li></ol><p class="mt-2 text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2 py-1">Perto de um cabo de 6, a CEO liga as caixas sozinha. Se não, adicione pela lista na ficha dela.</p><ul class="list-disc pl-5 space-y-1 mt-2"><li><b>✏ Nome e cor:</b> na ficha da emenda, da casa/loja, do armário e da personalizada. Escolha a cor do ponto no mapa; <b>Voltar ao padrão</b> desfaz.</li><li><b>🗑 Apagar ponto</b> aparece nos pontos que você criou.</li><li>Zona rural e armário: <b>⚙ Configurações → Zona rural e armário (rádio)</b>.</li></ul></details>
     <div class="pt-2 text-[11px] font-extrabold uppercase tracking-wide text-slate-500">Rede e problemas</div>
     <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">⚠ Rompimento</summary><ol class="list-decimal pl-5 space-y-1 mt-2"><li>Menu → <b>⚠ Rompimento</b> e escolha <b>Cabo de 24</b> ou <b>Cabo de 6</b>.</li><li><b>Toque no cabo</b>, no ponto onde ele rompeu. Confira o ponto e confirme.</li><li>A ficha do rompimento mostra as caixas que ficam sem sinal e o que fazer. Marque cada item quando resolver: no fim vira <b>Resolvido ✔</b>.</li><li>Para apagar um rompimento, segure o marcador dele.</li></ol><p class="mt-2 text-xs text-slate-500">Enquanto aberto, as caixas sem sinal ganham borda grossa na cor da fibra.</p></details>
     <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">📦 Recolhidos (equipamentos e avisos)</summary><ol class="list-decimal pl-5 space-y-1 mt-2">
-      <li>Abra <b>⚙ Configurações → 📦 Recolhidos</b>. A conta principal vê a lista e toca em <b>＋ Adicionar</b> (embaixo).</li>
+      <li>Abra <b>⚙ Configurações → 📦 Recolhidos</b>. A conta principal vê a lista e toca em <b>＋ Adicionar</b> (embaixo). As outras contas, mesmo as que só visualizam o mapa, também veem a aba: a lista fica vazia até a principal enviar.</li>
+      <li><b>Conta do funcionário:</b> ele toca em <b>✔ Recolhido</b>, <b>🚪 Não encontrou</b>, <b>💰 Vai pagar</b> ou <b>⏳ Esperar até…</b>, escreve o detalhe se quiser e toca em <b>Salvar</b> (um cliente por vez). Marcar os Recolhidos é a única coisa que uma conta “só visualiza” pode gravar.</li>
       <li>Na janela, a lista dos clientes lidos fica em cima e tudo que você mexe fica embaixo: a caixa de colar/digitar, o botão <b>📁 Escolher imagem</b>, o <b>Adicionar</b> e as abas <b>📋 Colar print / células</b> e <b>✍ Um por um</b>.</li>
       <li><b>Print da planilha:</b> tire o print no computador, copie e aperte <b>Ctrl+V</b> na caixa (ou toque em <b>📁 Escolher imagem</b>). O app lê <b>nome</b> e <b>endereço</b> e, se tiver, a data e o valor, que entram como aviso (ex.: Desde 15/07/2026). <b>Confira a lista</b> e tire com ✕ o que estiver errado: a leitura da imagem pode errar uma letra ou um número.</li>
       <li><b>Células copiadas:</b> cole o texto copiado da planilha na mesma caixa (ou digite). Cada linha vira um cliente.</li>
@@ -811,9 +817,22 @@
       <li>Com a nuvem ligada, as fotos aparecem nos outros aparelhos também. Se a nuvem não aceitar, a foto fica só no aparelho e o app avisa.</li>
     </ul></details>
     <div class="pt-2 text-[11px] font-extrabold uppercase tracking-wide text-slate-500">Outros</div>
+    <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">📷 Leitor (QR Code e contrato)</summary><ul class="list-disc pl-5 space-y-1 mt-2">
+      <li>O Leitor abre <b>alto</b>, por baixo do mapa. Toque ou puxe o <b>tracinho</b> em cima para abaixar a janela; puxe de novo para cima para ela voltar a ficar alta. Puxar para baixo na janela baixa fecha.</li>
+      <li><b>Ler código:</b> aponte a câmera para o QR Code ou código de barras. Se não ler logo, a câmera <b>aproxima sozinha</b> (1 volta só). Para controlar na mão, use o <b>zoom em pé</b> do lado direito da câmera: arraste a bolinha para cima para aproximar. Mexer no zoom desliga o automático. A lanterna e a foto da galeria ficam embaixo.</li>
+      <li><b>Calcular contrato:</b> digite a data de início (dia/mês/ano; as barras entram sozinhas) ou toque na setinha ▾ para abrir o calendário. O valor aparece em cima. <b>Copiar valor</b>, <b>Enviar no WhatsApp</b> e <b>🧹 Limpar</b> ficam embaixo. O valor do contrato muda em <b>⚙ Configurações → 💲 Configurações do contrato</b>; na conta que só visualiza, o valor fica só no aparelho dela.</li>
+    </ul></details>
+    <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">📴 Sem internet</summary><ul class="list-disc pl-5 space-y-1 mt-2">
+      <li>O app guarda a si mesmo e os pedaços do mapa que você já viu. Sem internet ele abre com os dados deste aparelho: mapa, caixas, cabos, clientes e busca.</li>
+      <li>O que você <b>mudar</b> sem internet fica salvo no aparelho e <b>sobe sozinho</b> quando a internet voltar. Aparece um aviso quando a internet cai e quando volta.</li>
+      <li>O fundo de satélite só aparece nos lugares que você já tinha olhado com internet. Fora deles o fundo fica vazio, mas caixas e cabos aparecem normalmente.</li>
+      <li>Precisa de internet: Recolhidos (receber e enviar), ler uma imagem com o Leitor de planilha e ver o que outras pessoas mudaram.</li>
+      <li>Depois de uma atualização do app, abra uma vez com internet para ele guardar a versão nova.</li>
+    </ul></details>
     <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">⚙ Configurações</summary><ul class="list-disc pl-5 space-y-1 mt-2">
       <li><b>⚙ Configurações → Personalizar:</b> cada item abre a sua própria tela. <b>Cor da barra de cima</b> (no tema escuro ela fica preta) · <b>Vagas ocupadas</b> · <b>Cores das caixas no mapa</b> (Disponível, Lotada e Atenção) · <b>Cores das CEOs no mapa</b> (normal, quase cheia e lotada; a borda continua com a cor da fibra) · <b>Cidades</b> (nome, <b>➕ Adicionar cidade</b> com o mapa já na cidade nova, 📍 muda o lugar e a lixeira apaga se não tiver caixas nem cabos). As cores valem só neste aparelho.</li>
       <li><b>Vagas ocupadas (dentro das caixas):</b> na tela <b>Vagas ocupadas</b>, escolha a cor do fundo e a cor do nome das portas ocupadas. A prévia mostra como fica. A primeira bolinha de cada linha volta ao padrão. A cor da barra e a das vagas valem só no aparelho em que você escolheu; as chaves de ver caixas, CEOs e fibra e o tema escuro também.</li>
+      <li><b>⚡ Ir para o Speedtest</b> (em Ferramentas) abre o aplicativo Speedtest do celular; se ele não estiver instalado, abre o site speedtest.net. A janela de Configurações abre alta: toque ou puxe o tracinho para abaixar.</li>
       <li><b>Exportar backup</b> baixa uma cópia de segurança. <b>Importar backup</b> devolve uma cópia.</li>
       <li><b>Importar KML</b> troca a rede inteira por outro arquivo.</li>
       <li><b>Avançado: apagar todos os cadastros</b> (link pequeno no fim) limpa clientes, vagas, caixas e CEOs novas, zona rural e armário, histórico e nomes, em todos os aparelhos. Não tem volta. O app avisa em 2 passos, baixa um backup antes e pede para digitar APAGAR TUDO e esperar 5 segundos.</li>
@@ -991,7 +1010,7 @@ function rebuildRegions(){            // nomes das cidades: padrão + renomeadas
   Object.keys(REGION_DEF).forEach(k=>{ REGIONS[k]=(state.cityNames&&state.cityNames[k])||REGION_DEF[k]; });
   (state.cityExtra||[]).forEach(c=>{ REGIONS[c.id]=c.name; });
 }
-const APP_VERSION = "3.63";
+const APP_VERSION = "3.64";
 const TEST_MODE = false;   // true = arquivo de teste (usa uma cópia dos dados) · false = site real
 const KEY_STATE = TEST_MODE?"ftth_state_test":"ftth_state_v1", KEY_NET = TEST_MODE?"ftth_net_test":"ftth_net_v1";
 const DOC_STATE = TEST_MODE?"state_teste":"state", DOC_NET = TEST_MODE?"net_teste":"net";
@@ -1385,7 +1404,7 @@ function render(){
     const canDrag = (editMode && !cabBoxOn && movable && it.id===editSel) || inSel;
     const m = L.marker([it.lat,it.lng],{icon:iconFor(it),zIndexOffset:zOf(it),riseOnHover:true,draggable:canDrag,interactive:!cabRawNow()||movable}).addTo(markLayer);
     m.on("click",()=>{ if(lpBlock) return; if(cabBx||inSel){ cabBoxToggle(it.id); return; } if(cabRawNow()) return; if(placing||rpMode) return; if(selMode){ if(it.type==="cto") toggleSel(it.id); return; } if(editMode && movable){ editPick(it.id); return; } openSheet(it.id); });
-    if(canDrag){ m.on("dragstart",closeSheet); m.on("dragend",()=>{ if(inSel) boxesMoved(it,m,[...cabBoxSel].filter(id=>markers[id]||id===it.id)); else onMoved(it,m); }); }
+    if(canDrag){ m.on("dragstart",closeSheet); m.on("dragend",()=>{ if(inSel) boxesMoved(it,m,[it.id]); else onMoved(it,m); }); }
     markers[it.id]=m; bounds.push([it.lat,it.lng]);
   });
   if(cabRawNow()) cabBuild();
@@ -2419,7 +2438,7 @@ function drawCabBar(){
           :`<span class="font-semibold">🧵 Ajustando cabos</span><span class="block text-xs opacity-80">Toque num cabo para escolher (um por vez) · depois arraste os pontos</span>`;
     row=b("undo","↶","",!cabUndo.length)+b("redo","↷","",!cabRedo.length)+(sel?b("mv","✋ Mover",mv?"on":"")+b("style","🎨 Estilo",cabStyleOpen?"on":"")+b("delcab","🗑 Apagar"):"")+b("boxes","📦 Caixas",cabBoxOn?"on":"")+b("new","＋ Novo")+(cabDirty?"":b("cancel","Sair"));
   }
-  if(cabState==="edit"&&(cabBoxOn||cabBoxSel.size)) top+=`<span class="block text-xs font-semibold" style="color:#fde047">${cabBoxOn?"📦 Toque nas caixas (elas piscam) e arraste para o lugar certo":"📦 Caixa piscando: arraste · toque nela para parar"}${cabBoxSel.size?" · "+cabBoxSel.size+" escolhida"+(cabBoxSel.size>1?"s":""):""}</span>`;
+  if(cabState==="edit"&&(cabBoxOn||cabBoxSel.size)) top+=`<span class="block text-xs font-semibold" style="color:#fde047">${cabBoxOn?"📦 Toque nas caixas (elas piscam) e arraste para o lugar certo":"📦 Caixa piscando: arraste só ela · toque nela para parar"}${cabBoxSel.size?" · "+cabBoxSel.size+" escolhida"+(cabBoxSel.size>1?"s":""):""}</span>`;
   const flt=(cabState==="edit")?`<span class="flex items-center gap-1 ml-auto cflt">${[["all","Todos"],["f","Só 6"],["p","Só 24"]].map(([k,n])=>b("fl_"+k,n,cabFilter===k?"on":"")).join("")}</span>`:"";
   cabBar.innerHTML=`<div>${top}</div><div class="flex flex-wrap gap-1">${row}${flt}</div>`;
   const sv=document.getElementById("cabSave"), svOn=cabState==="edit"&&cabDirty;
@@ -2760,8 +2779,6 @@ function drawPer(){
   S.conta=`<div><p class="text-xs opacity-70 mb-2">Quem pode editar o mapa</p>
     <div class="trow" style="cursor:default"><span class="tic">👤</span><div class="flex-1 min-w-0"><b>${esc(MAIN_EMAIL.split("@")[0].replace(/mapa$/,"")||"Principal").replace(/^./,c=>c.toUpperCase())}</b><small>${esc(MAIN_EMAIL)} · principal</small></div><span class="text-xs font-bold opacity-70 rounded-full bg-slate-200 px-2 py-1">sempre</span></div>
     ${lockables().map(em=>{ const v=accessViewers.includes(em), nm=nameFromEmail(em), mem=accessMembers.includes(em); return `<div class="trow mt-2" style="cursor:default"><span class="tic">${v?"🔒":"✏️"}</span><div class="flex-1 min-w-0"><b>${esc(nm)}</b><small style="overflow:hidden;text-overflow:ellipsis">${esc(em)} · ${v?"só visualiza":"pode editar"}</small></div><button type="button" data-acc="tg" data-em="${esc(em)}" role="switch" aria-checked="${v?"false":"true"}" class="swt ${v?"":"on"}"></button>${mem?`<button type="button" data-acc="rm" data-em="${esc(em)}" title="Tirar o acesso" aria-label="Tirar o acesso" style="width:30px;height:30px;border-radius:9px;border:1px solid #fca5a5;color:#ef4444;flex:none;display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/></svg></button>`:""}</div>`; }).join("")}
-    <p class="text-xs opacity-70 mt-4 mb-1">Quem vê os 📦 Recolhidos (você, conta principal, envia e acompanha)</p>
-    ${lockables().map(em=>{ const on=accessRec.includes(em); return `<div class="trow mt-2" style="cursor:default"><span class="tic">📦</span><div class="flex-1 min-w-0"><b>${esc(nameFromEmail(em))}</b><small style="overflow:hidden;text-overflow:ellipsis">${on?"vê e marca os recolhimentos":"sem acesso aos recolhimentos"}</small></div><button type="button" data-acc="rec" data-em="${esc(em)}" role="switch" aria-checked="${on?"true":"false"}" class="swt ${on?"on":""}"></button></div>`; }).join("")}
     <button type="button" id="accAdd" class="w-full mt-2 rounded-xl border-2 border-dashed border-sky-300 text-sky-600 py-3 font-bold" style="font-size:15.5px">＋ Adicionar pessoa</button>
     <p class="text-xs opacity-70 mt-3">Desligada: a conta só vê o mapa. Não consegue editar nem salvar.</p></div>`;
   let hc=`<div>`;
@@ -2788,7 +2805,6 @@ perBody.addEventListener("click",e=>{
   const b=e.target.closest("button"); if(!b) return;
   if(b.dataset.acc==="tg"){ toggleAccess(b.dataset.em); return; }
   if(b.dataset.acc==="rm"){ removeMember(b.dataset.em); return; }
-  if(b.dataset.acc==="rec"){ toggleRecAcc(b.dataset.em); return; }
   if(b.id==="accAdd"){ document.getElementById("accEmail").value=""; document.getElementById("accModal").classList.remove("hidden"); setTimeout(()=>document.getElementById("accEmail").focus(),50); return; }
   if(b.dataset.ra){ startPlaceSpecial(b.dataset.ra); return; }
   if(b.dataset.rg){ const x=byId[b.dataset.rg]; if(x){ closePer(); if(region!=="all"&&x.region!==region){ region=x.region; drawTabs(); render(); } map.setView([x.lat,x.lng],18); openSheet(x.id); } return; }
@@ -2987,7 +3003,7 @@ document.getElementById("btnMenu").onclick=()=>{ menuBox.classList.remove("up");
   g.addEventListener("pointerdown",e=>{ y0=e.clientY; mv=false; try{ g.setPointerCapture(e.pointerId); }catch(_){} });
   g.addEventListener("pointermove",e=>{ if(y0!=null&&Math.abs(e.clientY-y0)>8) mv=true; });
   g.addEventListener("pointerup",e=>{ if(y0==null) return; const d=e.clientY-y0; y0=null;
-    const desk=window.matchMedia("(min-width:640px)").matches;   /* computador: abre grande e o tracinho diminui; celular: abre pequeno e o tracinho aumenta */
+    const desk=true;   /* computador: abre grande e o tracinho diminui; celular: abre pequeno e o tracinho aumenta */
     if(d>60) menu.classList.add("hidden"); else if(desk){ if(!mv||Math.abs(d)<=40) menuBox.classList.toggle("dn"); } else if(d<-40) menuBox.classList.add("up"); else if(!mv) menuBox.classList.toggle("up"); });
   g.addEventListener("pointercancel",()=>{ y0=null; });
 })();
@@ -3109,18 +3125,20 @@ function seedFromReal(){
 }
 /* ======================= CONTA: quem pode editar ======================= */
 const MAIN_EMAIL="gustavomapa@gmail.com", BASE_LOCKABLE=["ultranetmapa@gmail.com"], DOC_ACC="acesso";
-let accessViewers=[], accessMembers=[], unsubAcc=null;
+let accessViewers=[], accessMembers=[], unsubAcc=null, accLoaded=true;
 const lockables=()=>[...new Set(BASE_LOCKABLE.concat(accessMembers))].filter(e=>e!==MAIN_EMAIL);
 const nameFromEmail=em=>{ const n=String(em).split("@")[0].replace(/mapa$/,"")||String(em); return n.charAt(0).toUpperCase()+n.slice(1); };
 const myEmail=()=>String((cloudUser&&cloudUser.email)||"").toLowerCase();
 const isMain=()=>!!cloudUser&&myEmail()===MAIN_EMAIL;
 function applyAccess(){
   const me=myEmail(), was=RO;
-  RO=!!me&&me!==MAIN_EMAIL&&accessViewers.includes(me);
+  if(accLoaded){ RO=!!me&&me!==MAIN_EMAIL&&accessViewers.includes(me); try{ if(me) localStorage.setItem("ftth_ro_"+me,RO?"1":"0"); }catch(e){} }
+  else { let hh=null; try{ hh=me?localStorage.getItem("ftth_ro_"+me):null; }catch(e){} RO=!!me&&me!==MAIN_EMAIL&&hh==="1"; }   // nuvem ainda não respondeu: vale o que este aparelho já sabia
   document.body.classList.toggle("ro",RO);
   const lk=document.getElementById("lockIco"); if(lk){ lk.hidden=!(me&&lockables().includes(me)); lk.classList.toggle("closed",RO); lk.setAttribute("aria-label",RO?"Conta só para visualizar":"Você pode editar"); }
   const rc=document.getElementById("rowConta"); if(rc) rc.hidden=!isMain();
   document.body.classList.toggle("ismain",isMain());
+  try{ if(typeof ctrSub==="function") ctrSub(); }catch(e){}
   if(RO&&!was){ try{ if(editMode) setEdit(false); if(cabMode) setCab(false); if(selMode) setSel(false); cancelPlacing(); closeSheet(); render(); }catch(e){} }
   if(!RO&&was){ try{ drawSheet(); render(); }catch(e){} }
 }
@@ -3150,7 +3168,7 @@ document.getElementById("accEmail").addEventListener("keydown",e=>{ if(e.key==="
 document.getElementById("lockIco").onclick=()=>toast(RO?"Conta só para visualizar":"Você pode editar");
 function startSync(){
   stopSync();
-  unsubAcc=fbDb.collection("rede").doc(DOC_ACC).onSnapshot(snap=>{ const d=snap.exists?snap.data():null; accessViewers=(d&&Array.isArray(d.viewers)?d.viewers:[]).map(x=>String(x).toLowerCase()); accessMembers=(d&&Array.isArray(d.members)?d.members:[]).map(x=>String(x).toLowerCase()); try{ accessRec=(d&&Array.isArray(d.recolhe)?d.recolhe:[]).map(x=>String(x).toLowerCase()); recSync(); }catch(_){} applyAccess(); if(isMain()&&!perModal.classList.contains("hidden")&&perSec==="conta") drawPer(); }, ()=>{});
+  unsubAcc=fbDb.collection("rede").doc(DOC_ACC).onSnapshot(snap=>{ const d=snap.exists?snap.data():null; accessViewers=(d&&Array.isArray(d.viewers)?d.viewers:[]).map(x=>String(x).toLowerCase()); accessMembers=(d&&Array.isArray(d.members)?d.members:[]).map(x=>String(x).toLowerCase()); accLoaded=true; try{ accessRec=(d&&Array.isArray(d.recolhe)?d.recolhe:[]).map(x=>String(x).toLowerCase()); recSync(); }catch(_){} applyAccess(); if(isMain()&&!perModal.classList.contains("hidden")&&perSec==="conta") drawPer(); }, ()=>{});
   unsubNet=fbDb.collection("rede").doc(DOC_NET).onSnapshot(snap=>{
     if(snap.metadata.hasPendingWrites||!snap.exists) return;
     const d=snap.data(); if(!d||typeof d.data!=="string"||d.data===JSON.stringify(net)) return;
@@ -3168,11 +3186,10 @@ function startSync(){
     fixState(); jset(KEY_STATE,state); refreshAll(); setCloudStatus("☁ Atualizado agora há pouco"+lastInfo);
   }, ()=>setCloudStatus("☁ Sem conexão com a nuvem"));
 }
-function stopSync(){ if(unsubAcc){unsubAcc();unsubAcc=null;} accessViewers=[]; accessMembers=[]; try{ accessRec=[]; recSync(); }catch(_){} if(typeof applyAccess==="function") applyAccess(); if(unsubState){unsubState();unsubState=null;} if(unsubNet){unsubNet();unsubNet=null;} }
+function stopSync(){ if(unsubAcc){unsubAcc();unsubAcc=null;} accLoaded=false; accessViewers=[]; accessMembers=[]; try{ accessRec=[]; recSync(); }catch(_){} if(typeof applyAccess==="function") applyAccess(); if(unsubState){unsubState();unsubState=null;} if(unsubNet){unsubNet();unsubNet=null;} }
 if(CLOUD_ON){
   firebase.initializeApp(FIREBASE_CONFIG);
   fbAuth=firebase.auth(); fbDb=firebase.firestore();
-  $c("login").classList.remove("hidden");
   $c("cloudStatus").classList.remove("hidden"); $c("btnLogout").classList.remove("hidden");
   fbAuth.onAuthStateChanged(u=>{
     cloudUser=u;
@@ -3194,6 +3211,13 @@ if(CLOUD_ON){
   };
   window.addEventListener("online",()=>{ if(dirty) doPush(); });
 }
+
+/* ======================= MODO SEM INTERNET ======================= */
+try{
+  if("serviceWorker" in navigator && /^https?:$/.test(location.protocol) && !TEST_MODE) window.addEventListener("load",()=>{ navigator.serviceWorker.register("sw.js").catch(()=>{}); });
+  window.addEventListener("offline",()=>toast("📴 Sem internet: o app continua com os dados deste aparelho. O que você mudar sobe quando ela voltar."));
+  window.addEventListener("online",()=>toast("🌐 Internet voltou"));
+}catch(e){}
 
 /* ======================= SELEÇÃO DE VÁRIAS CAIXAS ======================= */
 const bulkModal=document.getElementById("bulkModal");
@@ -3701,13 +3725,13 @@ async function copyTxt(txt){
 }
 function waOpen(txt){ window.open("https://wa.me/?text="+encodeURIComponent(txt),"_blank"); }
 function scStop(){
-  scRun=false; scTorchOn=false;
+  scRun=false; scTorchOn=false; scAuto=null;
   try{ if(scStream) scStream.getTracks().forEach(t=>t.stop()); }catch(e){}
   scStream=null; try{ scVid.srcObject=null; }catch(e){}
 }
 function scShowRes(raw){
   scStop(); const r=scanClassify(raw);
-  document.getElementById("scCam").classList.add("hidden"); document.getElementById("scBtns").classList.add("hidden");
+  document.getElementById("scCam").classList.add("hidden"); document.getElementById("scMsgRow").classList.add("hidden"); document.getElementById("scBtns").classList.add("hidden");
   scRes.classList.remove("hidden"); window.__scLast=r;
   scRes.innerHTML=`<div class="font-extrabold text-lg mb-2" style="color:#047857">✔ Código lido</div><span class="inline-block rounded-full px-3 py-1 text-xs font-extrabold" style="background:#dcfce7;color:#166534">${r.label}</span>`
     +(r.info.length?`<div class="mt-2 text-sm leading-relaxed">${r.info.join("<br>")}</div>`:"")
@@ -3732,7 +3756,7 @@ async function scDetector(){
 }
 async function scStart(){
   scStop(); scRes.classList.add("hidden"); scRes.innerHTML="";
-  document.getElementById("scCam").classList.remove("hidden"); document.getElementById("scBtns").classList.remove("hidden");
+  document.getElementById("scCam").classList.remove("hidden"); document.getElementById("scMsgRow").classList.remove("hidden"); document.getElementById("scBtns").classList.remove("hidden");
   document.getElementById("scTorch").classList.add("hidden"); document.getElementById("scZoom").classList.add("hidden");
   scMsg.textContent="Aponte para o QR Code ou código de barras";
   const det=await scDetector();
@@ -3748,25 +3772,45 @@ async function scStart(){
   try{ const tr=scStream.getVideoTracks()[0], cp=tr.getCapabilities&&tr.getCapabilities();
     if(cp&&cp.torch) document.getElementById("scTorch").classList.remove("hidden");
     if(cp&&cp.focusMode&&cp.focusMode.indexOf("continuous")>=0){ try{ await tr.applyConstraints({advanced:[{focusMode:"continuous"}]}); }catch(e){} }
-    if(cp&&cp.zoom&&cp.zoom.max>1){ scZmin=cp.zoom.min||1; scZmax=cp.zoom.max; document.getElementById("scZoom").classList.remove("hidden"); scZoomSet(1); }
+    if(cp&&cp.zoom&&cp.zoom.max>1){ scZmin=cp.zoom.min||1; scZmax=cp.zoom.max; document.getElementById("scZoom").classList.remove("hidden"); scZoomSet(scZmin); scAutoStart(); }
   }catch(e){}
   scRun=true;
   const tick=async()=>{
     if(!scRun) return;
     try{ if(scVid.readyState>=2){ const r=await det.detect(scVid); if(r&&r.length&&r[0].rawValue){ try{ navigator.vibrate&&navigator.vibrate(60); }catch(e){} scShowRes(r[0].rawValue); return; } } }catch(e){}
-    setTimeout(tick,220);
+    scAutoTick(); setTimeout(tick,220);
   };
   tick();
 }
 document.getElementById("scTorch").onclick=async()=>{
   try{ const tr=scStream&&scStream.getVideoTracks()[0]; if(!tr) return; scTorchOn=!scTorchOn; await tr.applyConstraints({advanced:[{torch:scTorchOn}]}); }catch(e){ toast("Lanterna não disponível"); }
 };
-async function scZoomSet(x){
-  try{ const tr=scStream&&scStream.getVideoTracks()[0]; if(!tr) return; const z=x===1?scZmin:Math.min(2,scZmax); await tr.applyConstraints({advanced:[{zoom:z}]}); }catch(e){}
-  document.getElementById("scZ1").classList.toggle("on",x===1); document.getElementById("scZ2").classList.toggle("on",x!==1);
+let scZcur=1, scZbusy=false, scZwant=null, scAuto=null;
+function scZmaxUse(){ return Math.max(scZmin,Math.min(scZmax,5)); }
+function scZoomUI(z){
+  const mx=scZmaxUse(), mn=scZmin, f=mx>mn?Math.min(1,Math.max(0,(z-mn)/(mx-mn))):0, box=document.getElementById("scZoom"), H=box.clientHeight||118;
+  document.getElementById("scZF").style.height=Math.round(f*(H-16))+"px";
+  const k=document.getElementById("scZK"); k.style.bottom=Math.round(8+f*(H-16)-13)+"px"; const t=(Math.round(z*10)/10); k.textContent=(t%1?t.toFixed(1):t)+"x"; k.style.fontSize=String(k.textContent).length>3?"9px":"10px";
 }
-document.getElementById("scZ1").onclick=()=>scZoomSet(1);
-document.getElementById("scZ2").onclick=()=>scZoomSet(2);
+async function scZoomSet(z){
+  scZcur=Math.min(scZmaxUse(),Math.max(scZmin,z)); scZoomUI(scZcur); scZwant=scZcur;
+  if(scZbusy) return; scZbusy=true;
+  try{ while(scZwant!=null){ const v=scZwant; scZwant=null; const tr=scStream&&scStream.getVideoTracks()[0]; if(!tr) break; try{ await tr.applyConstraints({advanced:[{zoom:v}]}); }catch(e){} } }
+  finally{ scZbusy=false; }
+}
+(function(){ const box=document.getElementById("scZoom"); let on=false;
+  const at=e=>{ const r=box.getBoundingClientRect(), f=1-Math.min(1,Math.max(0,(e.clientY-r.top-8)/(r.height-16))); scAuto=null; scZoomSet(scZmin+f*(scZmaxUse()-scZmin)); };
+  box.addEventListener("pointerdown",e=>{ on=true; try{ box.setPointerCapture(e.pointerId); }catch(_){} at(e); e.preventDefault(); });
+  box.addEventListener("pointermove",e=>{ if(on) at(e); });
+  box.addEventListener("pointerup",()=>{ on=false; }); box.addEventListener("pointercancel",()=>{ on=false; });
+})();
+// zoom automático: se o código não for lido, aproxima um degrau de cada vez (1 volta só). Mexer no zoom desliga.
+function scAutoStart(){ scAuto=(scZmax>scZmin)?{i:0,t:Date.now()+1600,steps:[1.5,2,3,4].filter(x=>x>scZmin&&x<=scZmax)}:null; }
+function scAutoTick(){
+  if(!scAuto) return; if(Date.now()<scAuto.t) return;
+  if(scAuto.i>=scAuto.steps.length){ scAuto=null; scZoomSet(scZmin); scMsg.textContent="Aponte para o QR Code ou código de barras · use o zoom ao lado"; return; }
+  scMsg.textContent="Aproximando sozinho… (mexa no zoom para parar)"; scZoomSet(scAuto.steps[scAuto.i++]); scAuto.t=Date.now()+1800;
+}
 async function scFromFile(f){
   if(!f) return; scBusy=true; scStop();
   const det=await scDetector(); if(!det){ toast("Este navegador não tem leitor de código"); scBusy=false; return; }
@@ -3805,8 +3849,24 @@ function scPillPos(anim){   // a barra azul desliza para a aba marcada
   if(!anim){ void p.offsetWidth; p.style.transition=""; }
 }
 window.addEventListener("resize",()=>scPillPos(false));
-function openScan(tab,from){ if(cabMode) return; scFrom=from||"menu"; scanModal.classList.remove("hidden"); menu.classList.add("hidden"); closeSheet(); scTabSet(tab||"r"); scPillPos(false); }
-function closeScan(){ scStop(); scanModal.classList.add("hidden"); }
+function openScan(tab,from){ if(cabMode) return; scFrom=from||"menu"; scanModal.classList.remove("scshort"); scanModal.classList.remove("hidden"); scKb(); menu.classList.add("hidden"); closeSheet(); scTabSet(tab||"r"); scPillPos(false); }
+function closeScan(){ scStop(); scanModal.classList.add("hidden"); scanModal.style.removeProperty("bottom"); scanModal.style.removeProperty("max-height"); }
+function scKb(){   /* teclado aberto: a janela sobe junto e encolhe para caber */
+  if(scanModal.classList.contains("hidden")) return; const vv=window.visualViewport; if(!vv) return;
+  const kb=Math.max(0,Math.round(window.innerHeight-vv.height-vv.offsetTop));
+  if(kb>40){ scanModal.style.setProperty("bottom",kb+"px","important"); scanModal.style.setProperty("max-height",Math.max(260,Math.round(vv.height-12))+"px","important"); }
+  else { scanModal.style.removeProperty("bottom"); scanModal.style.removeProperty("max-height"); }
+}
+if(window.visualViewport){ window.visualViewport.addEventListener("resize",scKb); window.visualViewport.addEventListener("scroll",scKb); }
+(function(){ const g=document.getElementById("scGrip"); let y0=null, mv=false;
+  g.addEventListener("pointerdown",e=>{ y0=e.clientY; mv=false; try{ g.setPointerCapture(e.pointerId); }catch(_){} });
+  g.addEventListener("pointermove",e=>{ if(y0!=null&&Math.abs(e.clientY-y0)>8) mv=true; });
+  g.addEventListener("pointerup",e=>{ if(y0==null) return; const d=e.clientY-y0, short=scanModal.classList.contains("scshort"); y0=null;
+    if(d>60){ if(short) closeScan(); else scanModal.classList.add("scshort"); }
+    else if(d<-40) scanModal.classList.remove("scshort");
+    else if(!mv) scanModal.classList.toggle("scshort"); });
+  g.addEventListener("pointercancel",()=>{ y0=null; });
+})();
 document.getElementById("scClose").onclick=closeScan;
 document.getElementById("scBack").onclick=()=>{ closeScan(); if(scFrom==="menu") menu.classList.remove("hidden"); };
 document.getElementById("scTabR").onclick=()=>scTabSet("r");
@@ -3814,7 +3874,7 @@ document.getElementById("scTabC").onclick=()=>scTabSet("c");
 document.getElementById("btnScan").onclick=()=>openScan("r","menu");
 document.getElementById("btnScanTop").onclick=()=>openScan("r","home");
 /* ---- contrato: valor × dias que faltam ÷ dias do contrato ---- */
-function ctrCfg(){ const c=state.ctr||{}; return {val:(+c.val>0?+c.val:250), meses:(+c.meses>0?Math.round(+c.meses):12)}; }
+function ctrCfg(){ let c=state.ctr||{}; if(RO){ try{ const l=JSON.parse(localStorage.getItem("ftth_ctr_local")||"null"); if(l) c=l; }catch(e){} } return {val:(+c.val>0?+c.val:250), meses:(+c.meses>0?Math.round(+c.meses):12)}; }
 function ctrCalc(startStr,cfg,today){
   const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(startStr||""); if(!m) return null;
   const y=+m[1], mo=+m[2]-1, d=+m[3], DAY=864e5, s=Date.UTC(y,mo,d), e=Date.UTC(y,mo+cfg.meses,d);
@@ -3822,20 +3882,27 @@ function ctrCalc(startStr,cfg,today){
   const total=Math.round((e-s)/DAY), used=Math.min(total,Math.max(0,Math.round((t-s)/DAY))), rem=Math.max(0,total-used);
   return {total,used,rem,valor:Math.round(cfg.val*rem/total*100)/100,future:t<s,done:t>=e,fim:new Date(e)};
 }
-function ctrSub(){ const el=document.getElementById("ctrSub"); if(el) el.textContent=brl(ctrCfg().val)+" ✏"; }
+function ctrSub(){ const el=document.getElementById("ctrSub"); if(el) el.textContent="›"; }
 function ctrDraw(){
-  const cfg=ctrCfg(), out=document.getElementById("ctrOut"), r=ctrCalc(document.getElementById("ctrDate").value,cfg);
+  const cfg=ctrCfg(), out=document.getElementById("ctrOut"), act=document.getElementById("ctrAct"), hint=document.getElementById("ctrHint"), r=ctrCalc(document.getElementById("ctrDate").value,cfg);
   document.getElementById("ctrNote").textContent="Contrato de "+brl(cfg.val)+" por "+cfg.meses+" meses · para mudar: ⚙ Configurações → Contrato";
-  if(!r){ out.innerHTML=""; return; }
+  if(!r){ out.innerHTML=""; act.innerHTML=""; hint.classList.remove("hidden"); return; }
+  hint.classList.add("hidden");
   const fim=r.fim.toLocaleDateString("pt-BR",{timeZone:"UTC"});
-  out.innerHTML=`<div class="rounded-xl p-4 text-center" style="background:#ecfdf5;border:1px solid #6ee7b7"><div class="text-sm" style="color:#334155">Valor a pagar hoje</div><div class="font-extrabold" style="font-size:30px;color:#047857">${brl(r.valor)}</div><div class="text-xs" style="color:#475569">${r.used} de ${r.total} dias usados · contrato vai até ${fim}</div>${r.future?'<div class="text-xs mt-1" style="color:#b45309">A data de início é no futuro.</div>':""}${r.done?'<div class="text-xs mt-1" style="color:#166534">O contrato já foi cumprido: nada a pagar.</div>':""}</div><button id="ctrCopy" type="button" class="scbig mt-3">📋 Copiar valor</button><button id="ctrWa" type="button" class="scb w-full mt-2">💬 Enviar no WhatsApp</button>`;
+  out.innerHTML=`<div class="rounded-xl p-4 text-center" style="background:#ecfdf5;border:1px solid #6ee7b7"><div class="text-sm" style="color:#334155">Valor a pagar hoje</div><div class="font-extrabold" style="font-size:30px;color:#047857">${brl(r.valor)}</div><div class="text-xs" style="color:#475569">${r.used} de ${r.total} dias usados · contrato vai até ${fim}</div>${r.future?'<div class="text-xs mt-1" style="color:#b45309">A data de início é no futuro.</div>':""}${r.done?'<div class="text-xs mt-1" style="color:#166534">O contrato já foi cumprido: nada a pagar.</div>':""}</div>`;
+  act.innerHTML=`<button id="ctrCopy" type="button" class="scbig">📋 Copiar valor</button><button id="ctrWa" type="button" class="scb w-full mt-2">💬 Enviar no WhatsApp</button><button id="ctrClear" type="button" class="scb w-full mt-2" style="border:1px solid #cbd5e1">🧹 Limpar</button>`;
   window.__ctrLast=brl(r.valor);
 }
-document.getElementById("ctrDate").addEventListener("input",ctrDraw);
-document.getElementById("ctrOut").addEventListener("click",async e=>{
+const ctrIso=t=>{ const m=/^(\d{2})\/(\d{2})\/(\d{4})$/.exec(t); if(!m) return ""; const d=+m[1],mo=+m[2],y=+m[3]; if(y<2000||y>2100||mo<1||mo>12||d<1) return ""; const dt=new Date(Date.UTC(y,mo-1,d)); return (dt.getUTCMonth()===mo-1&&dt.getUTCDate()===d)?`${m[3]}-${m[2]}-${m[1]}`:""; };
+const ctrBr=iso=>{ const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(iso||""); return m?`${m[3]}/${m[2]}/${m[1]}`:""; };
+document.getElementById("ctrDateTxt").addEventListener("input",e=>{ const el=e.target, dg=el.value.replace(/\D/g,"").slice(0,8); let t=dg; if(dg.length>4) t=dg.slice(0,2)+"/"+dg.slice(2,4)+"/"+dg.slice(4); else if(dg.length>2) t=dg.slice(0,2)+"/"+dg.slice(2); el.value=t; document.getElementById("ctrDate").value=ctrIso(t); ctrDraw(); });
+document.getElementById("ctrDate").addEventListener("input",()=>{ document.getElementById("ctrDateTxt").value=ctrBr(document.getElementById("ctrDate").value); ctrDraw(); });
+document.getElementById("ctrCal").onclick=()=>{ const d=document.getElementById("ctrDate"); d.style.pointerEvents="auto"; try{ d.showPicker(); }catch(e){ try{ d.focus(); d.click(); }catch(_){} } setTimeout(()=>{ d.style.pointerEvents="none"; },400); };
+document.getElementById("ctrAct").addEventListener("click",async e=>{
   const b=e.target.closest("button"); if(!b) return;
   if(b.id==="ctrCopy"){ const ok=await copyTxt(window.__ctrLast); toast(ok?"✔ Valor copiado":"Não consegui copiar"); }
   else if(b.id==="ctrWa") waOpen(window.__ctrLast);
+  else if(b.id==="ctrClear"){ document.getElementById("ctrDate").value=""; document.getElementById("ctrDateTxt").value=""; ctrDraw(); document.getElementById("ctrDateTxt").focus(); }
 });
 const ctrModal=document.getElementById("ctrModal");
 document.getElementById("btnCtr").onclick=()=>{ const c=ctrCfg(); document.getElementById("ctrVal").value=c.val; document.getElementById("ctrMes").value=c.meses; menu.classList.add("hidden"); ctrModal.classList.remove("hidden"); };
@@ -3843,10 +3910,20 @@ document.getElementById("ctrCancel").onclick=()=>{ ctrModal.classList.add("hidde
 document.getElementById("ctrSaveBtn").onclick=()=>{
   const v=parseFloat(String(document.getElementById("ctrVal").value).replace(",",".")), m=parseInt(document.getElementById("ctrMes").value,10);
   if(!(v>0)||!(m>0)){ toast("Digite um valor e os meses (maiores que zero)"); return; }
-  state.ctr={val:Math.round(v*100)/100,meses:m}; save(); ctrSub(); ctrModal.classList.add("hidden"); toast("✔ Contrato: "+brl(state.ctr.val)+" por "+m+" meses");
+  const nv={val:Math.round(v*100)/100,meses:m};
+  if(RO){ try{ localStorage.setItem("ftth_ctr_local",JSON.stringify(nv)); }catch(e){} } else { state.ctr=nv; save(); }   // conta só visualiza: o valor fica só neste aparelho
+  ctrSub(); ctrModal.classList.add("hidden"); toast("✔ Contrato: "+brl(nv.val)+" por "+m+" meses"+(RO?" (só neste aparelho)":""));
   if(!scanModal.classList.contains("hidden")&&scTab==="c") ctrDraw();
 };
 ctrSub();
+document.getElementById("btnSpeed").onclick=()=>{   // atalho: abre o app Speedtest; se não tiver, abre o site
+  const site="https://www.speedtest.net/";
+  if(/Android/i.test(navigator.userAgent||"")){
+    let saiu=false; const f=()=>{ if(document.hidden) saiu=true; }; document.addEventListener("visibilitychange",f);
+    setTimeout(()=>{ document.removeEventListener("visibilitychange",f); if(!saiu&&!document.hidden) window.open(site,"_blank"); },1800);
+    location.href="intent://#Intent;package=org.zwanoo.android.speedtest;S.browser_fallback_url="+encodeURIComponent(site)+";end";
+  } else window.open(site,"_blank");
+};
 /* atalho discreto do leitor (embaixo da engrenagem) */
 function placeScanTop(){ const b=document.getElementById("btnScanTop"), tb=document.getElementById("tabs"), g=document.getElementById("btnMenu"); if(!b||!tb) return; const r=tb.getBoundingClientRect(); b.style.top=Math.round(r.top+Math.max(0,(r.height-30)/2))+"px"; if(g){ const gr=g.getBoundingClientRect(); if(gr.width>0) b.style.right=Math.round(innerWidth-(gr.left+gr.width/2)-15)+"px"; } }
 placeScanTop(); window.addEventListener("resize",placeScanTop); try{ new ResizeObserver(placeScanTop).observe(document.getElementById("hdr")); }catch(e){}
@@ -3855,7 +3932,7 @@ const REC_KIND=TEST_MODE?"rec_teste":"rec", REC_PFX=TEST_MODE?"rec_t_":"rec_";
 const REC_ST={pend:["Pendente","#fee2e2","#991b1b"],nao:["🚪 Não encontrou","#ffedd5","#9a3412"],pagar:["💰 Vai pagar","#fef3c7","#92400e"],esperar:["⏳ Esperar","#fef3c7","#92400e"],ok:["✔ Recolhido","#dcfce7","#166534"]};
 let recItems=[], unsubRec=null, accessRec=[], recOpenId=null, recEditId=null, recPend=false; const recDraft={};
 const recModal=document.getElementById("recModal"), recList=document.getElementById("recList"), recAddModal=document.getElementById("recAddModal"), recEditModal=document.getElementById("recEditModal");
-const canRec=()=>!!cloudUser&&(isMain()||accessRec.includes(myEmail()));
+const canRec=()=>!!cloudUser;   // toda conta que entrou vê Recolhidos (fica vazio até a principal enviar)
 const recSeenKey=()=>"rec_seen_"+(TEST_MODE?"t_":"")+myEmail();
 const recEv=x=>x.ev||x.upd||x.created||0, recEvBy=x=>String(x.evby||x.by||"").toLowerCase();
 function recSeen(){ try{ return +localStorage.getItem(recSeenKey())||0; }catch(e){ return 0; } }
@@ -3936,15 +4013,16 @@ document.getElementById("btnRec").onclick=openRec;
 document.getElementById("recClose").onclick=closeRec;
 document.getElementById("recBack").onclick=()=>{ closeRec(); menu.classList.remove("hidden"); };
 recList.addEventListener("focusout",()=>{ setTimeout(()=>{ if(recPend&&!recModal.classList.contains("hidden")&&!(recList.contains(document.activeElement)&&/INPUT|TEXTAREA/.test(document.activeElement.tagName))) recDraw(); },150); });
+const recFail=(e,msg)=>{ toast(e&&e.code==="permission-denied"?"Sem permissão. Avise o Gustavo (regras do Firebase).":msg+" Veja a internet."); };
 const recRef=id=>fbDb.collection("rede").doc(REC_PFX+id);
 recList.addEventListener("click",e=>{
   const del=e.target.closest("[data-rdel]");
   if(del){ const id=del.dataset.rdel, x=recItems.find(y=>y.id===id); if(!x||!isMain()) return;
     if(del.dataset.busy) return; del.dataset.busy="1"; del.classList.add("flash");     // apaga direto: o botão pisca vermelho e o cartão some
     const card=del.closest(".rc"); setTimeout(()=>{ if(card) card.classList.add("gone"); },160);
-    setTimeout(()=>{ recRef(id).delete().catch(()=>{ toast("Não consegui apagar. Veja a internet."); recDraw(); }); },360); return; }
+    setTimeout(()=>{ recRef(id).delete().catch(e=>{ recFail(e,"Não consegui apagar."); recDraw(); }); },360); return; }
   const re=e.target.closest("[data-rre]");
-  if(re){ if(!isMain()) return; const now=Date.now(); recRef(re.dataset.rre).update({ev:now,evby:myEmail(),resent:now}).then(()=>toast("↻ Reenviado")).catch(()=>toast("Não consegui reenviar. Veja a internet.")); return; }
+  if(re){ if(!isMain()) return; const now=Date.now(); recRef(re.dataset.rre).update({ev:now,evby:myEmail(),resent:now}).then(()=>toast("↻ Reenviado")).catch(e=>recFail(e,"Não consegui reenviar.")); return; }
   const ed=e.target.closest("[data-red]");
   if(ed){ const x=recItems.find(y=>y.id===ed.dataset.red); if(!x||!isMain()) return; recEditId=x.id; document.getElementById("recENome").value=x.nome||""; document.getElementById("recEEnd").value=x.end||""; document.getElementById("recEObs").value=x.obs||""; recEditModal.classList.remove("hidden"); return; }
   const rs=e.target.closest("[data-rs]"); if(rs){ const id=rs.dataset.id; recDraft[id]=Object.assign(recDraft[id]||{},{st:rs.dataset.rs}); recDraw(); return; }
@@ -3953,7 +4031,7 @@ recList.addEventListener("click",e=>{
     if(!d.st){ toast("Escolha uma opção primeiro"); return; }
     if(d.st==="esperar"&&!d.until){ toast("Escolha até que dia"); return; }
     const det=(d.det!==undefined?d.det:(x.det||"")).trim(), now=Date.now();
-    recRef(id).update({status:d.st,det,until:d.st==="esperar"?d.until:"",by:myEmail(),upd:now,ev:now,evby:myEmail()}).then(()=>{ delete recDraft[id]; recOpenId=null; toast("✔ Salvo"); }).catch(()=>toast("Não consegui salvar. Veja a internet."));
+    recRef(id).update({status:d.st,det,until:d.st==="esperar"?d.until:"",by:myEmail(),upd:now,ev:now,evby:myEmail()}).then(()=>{ delete recDraft[id]; recOpenId=null; toast("✔ Salvo"); }).catch(e=>recFail(e,"Não consegui salvar."));
     return; }
   if(e.target.closest("a,input,button")) return;
   const c=e.target.closest(".rc"); if(!c||isMain()) return; const id=c.dataset.id, x=recItems.find(y=>y.id===id);
@@ -3963,18 +4041,18 @@ recList.addEventListener("input",e=>{ const id=e.target.dataset.rdet||e.target.d
 document.getElementById("recEditOk").onclick=()=>{
   if(!isMain()||!recEditId) return; const nome=document.getElementById("recENome").value.trim(); if(!nome){ document.getElementById("recENome").focus(); return; }
   const now=Date.now(); recRef(recEditId).update({nome,end:document.getElementById("recEEnd").value.trim(),obs:document.getElementById("recEObs").value.trim(),ev:now,evby:myEmail()})
-    .then(()=>{ recEditModal.classList.add("hidden"); toast("✔ Salvo"); }).catch(()=>toast("Não consegui salvar. Veja a internet."));
+    .then(()=>{ recEditModal.classList.add("hidden"); toast("✔ Salvo"); }).catch(e=>recFail(e,"Não consegui salvar."));
 };
 document.getElementById("recEditCancel").onclick=()=>recEditModal.classList.add("hidden");
 document.getElementById("recResendAll").onclick=()=>{
   if(!isMain()) return; const p=recItems.filter(x=>x.status!=="ok"); if(!p.length) return;
   if(!confirm("Reenviar os "+p.length+" pendentes?\n\nOs funcionários recebem o aviso de novo.")) return;
-  const now=Date.now(), b=fbDb.batch(); p.forEach(x=>b.update(recRef(x.id),{ev:now,evby:myEmail(),resent:now})); b.commit().then(()=>toast("↻ Pendentes reenviados")).catch(()=>toast("Não consegui reenviar. Veja a internet."));
+  const now=Date.now(), b=fbDb.batch(); p.forEach(x=>b.update(recRef(x.id),{ev:now,evby:myEmail(),resent:now})); b.commit().then(()=>toast("↻ Pendentes reenviados")).catch(e=>recFail(e,"Não consegui reenviar."));
 };
 document.getElementById("recClean").onclick=()=>{
   if(!isMain()||!recItems.length) return; const ok=recItems.filter(x=>x.status==="ok").length, pe=recItems.length-ok;
   if(!confirm("Apagar TODA a lista ("+recItems.length+")?\n\n"+ok+" já recolhidos"+(pe?" e "+pe+" AINDA PENDENTES":"")+".\nSome para todas as contas e não dá para desfazer.")) return;
-  const b=fbDb.batch(); recItems.forEach(x=>b.delete(recRef(x.id))); b.commit().then(()=>toast("✔ Lista limpa")).catch(()=>toast("Não consegui apagar. Veja a internet."));
+  const b=fbDb.batch(); recItems.forEach(x=>b.delete(recRef(x.id))); b.commit().then(()=>toast("✔ Lista limpa")).catch(e=>recFail(e,"Não consegui apagar."));
 };
 /* gaveta de adicionar */
 const recPaste=document.getElementById("recPaste"); let recParsed=[];
@@ -4054,14 +4132,13 @@ function recNew(x,now,i){ const id=now.toString(36)+i+Math.random().toString(36)
 document.getElementById("recPasteOk").onclick=()=>{
   if(!isMain()||!fbDb||!recParsed.length) return; const now=Date.now(), b=fbDb.batch(), n=recParsed.length;
   recParsed.forEach((x,i)=>{ const o=recNew(x,now,i); b.set(recRef(o.id),o.doc); });
-  b.commit().then(()=>{ toast("✔ "+n+" adicionado"+(n>1?"s":"")); recPaste.value=""; recParsed=[]; recPrev(); recAddModal.classList.add("hidden"); }).catch(()=>toast("Não consegui adicionar. Veja a internet."));
+  b.commit().then(()=>{ toast("✔ "+n+" adicionado"+(n>1?"s":"")); recPaste.value=""; recParsed=[]; recPrev(); recAddModal.classList.add("hidden"); }).catch(e=>recFail(e,"Não consegui adicionar."));
 };
 document.getElementById("recAddOk").onclick=()=>{
   if(!isMain()||!fbDb) return; const nome=document.getElementById("recNome").value.trim(); if(!nome){ document.getElementById("recNome").focus(); return; }
   const o=recNew({nome,end:document.getElementById("recEnd").value.trim(),obs:document.getElementById("recObs").value.trim()},Date.now(),0);
-  recRef(o.id).set(o.doc).then(()=>{ toast("✔ "+nome+" adicionado"); ["recNome","recEnd","recObs"].forEach(i=>document.getElementById(i).value=""); document.getElementById("recNome").focus(); }).catch(()=>toast("Não consegui adicionar. Veja a internet."));
+  recRef(o.id).set(o.doc).then(()=>{ toast("✔ "+nome+" adicionado"); ["recNome","recEnd","recObs"].forEach(i=>document.getElementById(i).value=""); document.getElementById("recNome").focus(); }).catch(e=>recFail(e,"Não consegui adicionar."));
 };
-function toggleRecAcc(em){ if(!isMain()||!fbDb) return; const has=accessRec.includes(em); accWrite({recolhe:has?accessRec.filter(x=>x!==em):accessRec.concat(em)}); }
 document.getElementById("verTxt").textContent="Versão "+APP_VERSION+(TEST_MODE?" (teste)":"");
 if(TEST_MODE){
   document.getElementById("testBanner").classList.remove("hidden"); document.body.classList.add("test");
