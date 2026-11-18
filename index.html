@@ -371,7 +371,7 @@
   /* Tema escuro (azul Ultranet) */
   html.dark #sheet,html.dark #menu>div,html.dark #nbModal>div,html.dark #stModal>div,html.dark #stPick>div,html.dark #ceoPick>div,html.dark #bulkModal>div,html.dark #cfModal>div,html.dark #vlModal>div,html.dark #vlanModal>div,html.dark #helpModal>div,html.dark #perModal>div,html.dark #ptModal>div,html.dark #ebModal>div,html.dark #loginForm,html.dark .bg-white{background:#000000!important}
   html.dark #tabs .bg-white{background:#e2e8f0!important}
-  html.dark .text-slate-900,html.dark .text-slate-800{color:#f5f5f5!important}
+  html.dark .text-slate-900,html.dark .text-slate-800{color:#f5f5f5!important}html.dark .bg-amber-400.text-slate-900,html.dark .bg-amber-300.text-slate-900,html.dark .bg-yellow-400.text-slate-900{color:#1c1917!important}html.dark #rpCfm [data-r=cfmno]{background:#fff!important;color:#1c1917!important;border:1px solid rgba(0,0,0,.3)}
   html.dark .text-slate-700,html.dark .text-slate-600{color:#d6d6d8!important}
   html.dark .text-slate-500,html.dark .text-slate-400{color:#a5a5aa!important}
   html.dark .border-slate-300,html.dark .border-slate-200,html.dark .border-slate-100{border-color:#2e2e32!important}
@@ -843,7 +843,8 @@
     <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">📷 Leitor (QR Code e contrato)</summary><ul class="list-disc pl-5 space-y-1 mt-2">
       <li>O Leitor abre <b>alto</b>, por baixo do mapa. Toque ou puxe o <b>tracinho</b> em cima para abaixar a janela; puxe de novo para cima para ela voltar a ficar alta. Puxar para baixo na janela baixa fecha.</li>
       <li><b>Ler código:</b> aponte a câmera para o QR Code ou código de barras. Se não ler logo, a câmera <b>aproxima sozinha</b> (1 volta só). Para controlar na mão, use o <b>zoom em pé</b> do lado direito da câmera: arraste a bolinha para cima para aproximar. Mexer no zoom desliga o automático. A lanterna e a foto da galeria ficam embaixo.</li>
-      <li><b>Calcular contrato:</b> digite a data de início (dia/mês/ano; as barras entram sozinhas) ou toque na setinha ▾ para abrir o calendário. O valor aparece em cima. <b>Copiar valor</b>, <b>Enviar no WhatsApp</b> e <b>🧹 Limpar</b> ficam embaixo. O valor do contrato muda em <b>⚙ Configurações → 💲 Configurações do contrato</b>; na conta que só visualiza, o valor fica só no aparelho dela.</li>
+      <li><b>Pix de cobrança:</b> quando o código não traz o valor, o app tenta buscar o valor e a situação (já pago, cancelado, vencimento) no banco. Se o banco não responder, não aparece nada extra.</li>
+      <li><b>Calcular contrato:</b> digite a data de início (dia/mês/ano; as barras entram sozinhas) ou toque na setinha ▾ para abrir o calendário. O valor aparece em cima, com <b>quanto falta</b> para completar os meses do contrato. <b>Copiar valor</b>, <b>Enviar no WhatsApp</b> e <b>🧹 Limpar</b> ficam embaixo. O valor do contrato muda em <b>⚙ Configurações → 💲 Configurações do contrato</b>; na conta que só visualiza, o valor fica só no aparelho dela.</li>
     </ul></details>
     <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">📴 Sem internet</summary><ul class="list-disc pl-5 space-y-1 mt-2">
       <li>O app guarda a si mesmo e os pedaços do mapa que você já viu. Sem internet ele abre com os dados deste aparelho: mapa, caixas, cabos, clientes e busca.</li>
@@ -1033,7 +1034,7 @@ function rebuildRegions(){            // nomes das cidades: padrão + renomeadas
   Object.keys(REGION_DEF).forEach(k=>{ REGIONS[k]=(state.cityNames&&state.cityNames[k])||REGION_DEF[k]; });
   (state.cityExtra||[]).forEach(c=>{ REGIONS[c.id]=c.name; });
 }
-const APP_VERSION = "3.68";
+const APP_VERSION = "3.69";
 const TEST_MODE = false;   // true = arquivo de teste (usa uma cópia dos dados) · false = site real
 const KEY_STATE = TEST_MODE?"ftth_state_test":"ftth_state_v1", KEY_NET = TEST_MODE?"ftth_net_test":"ftth_net_v1";
 const DOC_STATE = TEST_MODE?"state_teste":"state", DOC_NET = TEST_MODE?"net_teste":"net";
@@ -2725,6 +2726,8 @@ function applyCityLook(){ const v=cityLookOf(region); LK.forEach(k=>{ look[k]=v[
 let perCity=null, perD={}, perT={}, perDirty=false;
 const PER_CITY_SECS=["cx","ceo","slot"];
 function perEff(){ if(!perCity||!REGIONS[perCity]) perCity=REGIONS[region]?region:Object.keys(REGIONS)[0]; return perD[perCity]||(perD[perCity]=cityLookOf(perCity)); }
+function menuOrder(main){ const rc=document.getElementById("rowConta"), cid=document.querySelector('#menu [data-per="cid"]'), cx=document.querySelector('#menu [data-per="cx"]'); if(!rc||!cid||!cx||!cid.parentNode) return; const g=cid.parentNode;
+  if(main){ g.insertBefore(rc,g.firstChild); g.insertBefore(cid,cx.nextSibling); } else { g.insertBefore(cid,g.firstChild); g.insertBefore(rc,cx.nextSibling); } }
 function perBarShow(){ const b=document.getElementById("perBar"); if(b) b.classList.toggle("hidden",!(perDirty&&PER_CITY_SECS.includes(perSec))); }
 function perPreview(){ const v=perEff(); LK.forEach(k=>{ look[k]=v[k]||""; }); applySlot(); applyStatusColors(); }
 function perSet(k,v){ perEff()[k]=v; perT[perCity]=true; perDirty=true; perPreview(); perBarShow(); }
@@ -3161,7 +3164,7 @@ function applyAccess(){
   else { let hh=null; try{ hh=me?localStorage.getItem("ftth_ro_"+me):null; }catch(e){} RO=!!me&&me!==MAIN_EMAIL&&hh==="1"; }   // nuvem ainda não respondeu: vale o que este aparelho já sabia
   document.body.classList.toggle("ro",RO);
   const lk=document.getElementById("lockIco"); if(lk){ lk.hidden=!(me&&lockables().includes(me)); lk.classList.toggle("closed",RO); lk.setAttribute("aria-label",RO?"Conta só para visualizar":"Você pode editar"); }
-  const rc=document.getElementById("rowConta"); if(rc) rc.hidden=!isMain();
+  const rc=document.getElementById("rowConta"); if(rc) rc.hidden=!isMain(); menuOrder(isMain());
   document.body.classList.toggle("ismain",isMain());
   try{ if(typeof ctrSub==="function") ctrSub(); }catch(e){}
   if(RO&&!was){ try{ if(editMode) setEdit(false); if(cabMode) setCab(false); if(selMode) setSel(false); cancelPlacing(); closeSheet(); render(); }catch(e){} }
@@ -3727,7 +3730,10 @@ function scanClassify(raw){          // devolve {kind,label,copy,info[]}
   const t=String(raw||"").trim(), digits=t.replace(/[\s.\-]/g,"");
   if(/^000201/.test(t) && /br\.gov\.bcb\.pix/i.test(t)){
     const o=emvParse(t), info=[]; if(o["54"]) info.push("Valor: <b>"+brl(parseFloat(o["54"]))+"</b>"); if(o["59"]) info.push("Recebedor: <b>"+esc(o["59"])+"</b>"+(o["60"]?" · "+esc(o["60"]):""));
-    return {kind:"pix",label:"PIX · copia e cola",copy:t,info};
+    let pu=""; try{ pu=emvParse(o["26"]||"")["25"]||""; }catch(e){}
+    pu=String(pu).replace(/^https?:\/\//i,"");
+    const okU=/^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+\/[A-Za-z0-9._~\/-]+$/i.test(pu)&&!/^\d+\.\d+\.\d+\.\d+/.test(pu);
+    return {kind:"pix",label:"PIX · copia e cola",copy:t,info,pixUrl:(!o["54"]&&okU)?pu:""};
   }
   if(/^\d{44}$/.test(digits)||/^\d{47}$/.test(digits)||/^\d{48}$/.test(digits)){
     const line=digits.length===44?barToLinha(digits):digits, info=[];
@@ -3749,6 +3755,24 @@ function scanClassify(raw){          // devolve {kind,label,copy,info[]}
   if(/^https?:\/\//i.test(t)) return {kind:"link",label:"LINK",copy:t,info:[]};
   return {kind:"texto",label:"TEXTO",copy:t,info:[]};
 }
+async function pixLookup(r){
+  try{
+    const ac=new AbortController(), tmo=setTimeout(()=>ac.abort(),7000);
+    const res=await fetch("https://"+r.pixUrl,{cache:"no-store",credentials:"omit",signal:ac.signal}); clearTimeout(tmo);
+    if(!res.ok) return; const txt=(await res.text()).trim(); let j=null;
+    if(txt[0]==="{") j=JSON.parse(txt);
+    else { const pp=txt.split(".")[1]; if(!pp) return; const b=pp.replace(/-/g,"+").replace(/_/g,"/"); const bin=atob(b+"=".repeat((4-b.length%4)%4)); j=JSON.parse(new TextDecoder().decode(Uint8Array.from(bin,c=>c.charCodeAt(0)))); }
+    if(!j||window.__scLast!==r) return; const el=document.getElementById("scPixInfo"); if(!el) return;
+    const out=[], v=parseFloat((j.valor&&(j.valor.final||j.valor.original))||""); if(v>0) out.push("Valor: <b class=\"scv\">"+brl(v)+"</b>");
+    const st=String(j.status||"").toUpperCase();
+    if(st==="CONCLUIDA") out.push('<span class="vbx vok">✔ Já foi pago</span>');
+    else if(st.indexOf("REMOVIDA")===0) out.push('<span class="vbx vbad">⚠ Cobrança cancelada</span>');
+    else { const vc=j.calendario&&j.calendario.vencimento, mm=/^(\d{4})-(\d{2})-(\d{2})$/.exec(vc||"");
+      if(mm){ const n=new Date(), t=Date.UTC(n.getFullYear(),n.getMonth(),n.getDate()), ms=Date.UTC(+mm[1],+mm[2]-1,+mm[3]), days=Math.round((ms-t)/864e5), ds=mm[3]+"/"+mm[2]+"/"+mm[1], k=Math.abs(days);
+        out.push(days<0?`<span class="vbx vbad">⚠ Vencido · ${ds} (há ${k} dia${k>1?"s":""})</span>`:days===0?`<span class="vbx vwarn">Vence hoje · ${ds}</span>`:`<span class="vbx vok">Vence ${ds} (em ${k} dia${k>1?"s":""})</span>`); } }
+    if(out.length) el.innerHTML=out.join("<br>");
+  }catch(e){}
+}
 async function copyTxt(txt){
   try{ if(navigator.clipboard&&window.isSecureContext){ await navigator.clipboard.writeText(txt); return true; } }catch(e){}
   try{ const ta=document.createElement("textarea"); ta.value=txt; ta.style.cssText="position:fixed;left:-999px;top:0;opacity:0"; document.body.appendChild(ta); ta.focus(); ta.select(); const ok=document.execCommand("copy"); ta.remove(); return ok; }catch(e){ return false; }
@@ -3764,11 +3788,12 @@ function scShowRes(raw){
   document.getElementById("scCam").classList.add("hidden"); document.getElementById("scMsgRow").classList.add("hidden"); document.getElementById("scBtns").classList.add("hidden");
   scRes.classList.remove("hidden"); window.__scLast=r;
   scRes.innerHTML=`<div class="font-extrabold text-lg mb-2" style="color:#047857">✔ Código lido</div><span class="inline-block rounded-full px-3 py-1 text-xs font-extrabold" style="background:#dcfce7;color:#166534">${r.label}</span>`
-    +(r.info.length?`<div class="mt-2 text-sm leading-relaxed">${r.info.join("<br>")}</div>`:"")
+    +(r.info.length?`<div class="mt-2 text-sm leading-relaxed">${r.info.join("<br>")}</div>`:"")+(r.pixUrl?'<div id="scPixInfo" class="mt-1 text-sm leading-relaxed"></div>':"")
     +`<div id="scCode" class="my-3 rounded-xl p-3 text-xs break-all" style="background:#f1f5f9;color:#334155;font-family:ui-monospace,monospace;max-height:26vh;overflow:auto">${esc(r.copy)}</div>`
     +`<button id="scCopy" type="button" class="scbig">📋 Copiar código</button>`
     +`<button id="scWa" type="button" class="scb w-full mt-2">💬 Enviar no WhatsApp</button>`
     +`<button id="scAgain" type="button" class="scb w-full mt-2" style="border:1px solid #cbd5e1">Ler outro</button>`;
+  if(r.pixUrl) pixLookup(r);
 }
 scRes.addEventListener("click",async e=>{
   const b=e.target.closest("button"); if(!b) return; const r=window.__scLast;
@@ -3910,8 +3935,14 @@ function ctrCalc(startStr,cfg,today){
   const y=+m[1], mo=+m[2]-1, d=+m[3], DAY=864e5, s=Date.UTC(y,mo,d), e=Date.UTC(y,mo+cfg.meses,d);
   const now=today||new Date(), t=Date.UTC(now.getFullYear(),now.getMonth(),now.getDate());
   const total=Math.round((e-s)/DAY), used=Math.min(total,Math.max(0,Math.round((t-s)/DAY))), rem=Math.max(0,total-used);
-  return {total,used,rem,valor:Math.round(cfg.val*rem/total*100)/100,future:t<s,done:t>=e,fim:new Date(e)};
+  const ty=now.getFullYear(), tm=now.getMonth(), td=now.getDate(), ed=new Date(e);
+  let mm=(ed.getUTCFullYear()-ty)*12+(ed.getUTCMonth()-tm);
+  const anc=k=>{ const dim=new Date(Date.UTC(ty,tm+k+1,0)).getUTCDate(); return Date.UTC(ty,tm+k,Math.min(td,dim)); };
+  while(mm>0&&anc(mm)>e) mm--; if(mm<0) mm=0;
+  const dd=Math.max(0,Math.round((e-anc(mm))/DAY));
+  return {total,used,rem,valor:Math.round(cfg.val*rem/total*100)/100,future:t<s,done:t>=e,fim:new Date(e),rest:{m:mm,d:dd}};
 }
+function ctrRestTxt(x){ const a=[]; if(x.m) a.push(x.m+(x.m>1?" meses":" mês")); if(x.d) a.push(x.d+(x.d>1?" dias":" dia")); return a.join(" e "); }
 function ctrSub(){ const el=document.getElementById("ctrSub"); if(el) el.textContent="›"; }
 function ctrDraw(){
   const cfg=ctrCfg(), out=document.getElementById("ctrOut"), act=document.getElementById("ctrAct"), hint=document.getElementById("ctrHint"), r=ctrCalc(document.getElementById("ctrDate").value,cfg);
@@ -3919,7 +3950,7 @@ function ctrDraw(){
   if(!r){ out.innerHTML=""; act.innerHTML=""; hint.classList.remove("hidden"); return; }
   hint.classList.add("hidden");
   const fim=r.fim.toLocaleDateString("pt-BR",{timeZone:"UTC"});
-  out.innerHTML=`<div class="rounded-xl p-4 text-center" style="background:#ecfdf5;border:1px solid #6ee7b7"><div class="text-sm" style="color:#334155">Valor a pagar hoje</div><div class="font-extrabold" style="font-size:30px;color:#047857">${brl(r.valor)}</div><div class="text-xs" style="color:#475569">${r.used} de ${r.total} dias usados · contrato vai até ${fim}</div>${r.future?'<div class="text-xs mt-1" style="color:#b45309">A data de início é no futuro.</div>':""}${r.done?'<div class="text-xs mt-1" style="color:#166534">O contrato já foi cumprido: nada a pagar.</div>':""}</div>`;
+  out.innerHTML=`<div class="rounded-xl p-4 text-center" style="background:#ecfdf5;border:1px solid #6ee7b7"><div class="text-sm" style="color:#334155">Valor a pagar hoje</div><div class="font-extrabold" style="font-size:30px;color:#047857">${brl(r.valor)}</div>${(!r.future&&!r.done&&(r.rest.m||r.rest.d))?`<div class="font-bold" style="font-size:16px;color:#065f46;margin:4px 0 2px">⏳ Faltam <b>${ctrRestTxt(r.rest)}</b></div>`:""}<div class="text-xs" style="color:#475569">${r.used} de ${r.total} dias usados · contrato vai até ${fim}</div>${r.future?'<div class="text-xs mt-1" style="color:#b45309">A data de início é no futuro.</div>':""}${r.done?'<div class="text-xs mt-1" style="color:#166534">O contrato já foi cumprido: nada a pagar.</div>':""}</div>`;
   act.innerHTML=`<button id="ctrCopy" type="button" class="scbig">📋 Copiar valor</button><button id="ctrWa" type="button" class="scb w-full mt-2">💬 Enviar no WhatsApp</button><button id="ctrClear" type="button" class="scb w-full mt-2" style="border:1px solid #cbd5e1">🧹 Limpar</button>`;
   window.__ctrLast=brl(r.valor);
 }
