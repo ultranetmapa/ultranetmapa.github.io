@@ -1,8 +1,8 @@
 [{
-  "relation": ["delegate_permission/common.handle_all_urls"],
-  "target": {
-    "namespace": "android_app",
-    "package_name": "UltranetMapa.com",
-    "sha256_cert_fingerprints": ["D4:E6:09:99:89:35:2E:36:05:33:4B:A3:D8:48:DE:F3:49:D9:34:51:0E:17:48:26:91:14:B0:C7:A7:37:3D:E3"]
-  }
-}]
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "io.github.ultranetmapa.twa",
+        "sha256_cert_fingerprints": ["53:75:73:58:C1:93:F7:DF:D8:53:65:06:DC:68:24:AF:70:7B:B5:33:56:86:FD:FC:3A:6A:6E:2C:98:F3:3F:BA"]
+      }
+    }]
