@@ -1033,7 +1033,7 @@ function rebuildRegions(){            // nomes das cidades: padrão + renomeadas
   Object.keys(REGION_DEF).forEach(k=>{ REGIONS[k]=(state.cityNames&&state.cityNames[k])||REGION_DEF[k]; });
   (state.cityExtra||[]).forEach(c=>{ REGIONS[c.id]=c.name; });
 }
-const APP_VERSION = "3.67";
+const APP_VERSION = "3.68";
 const TEST_MODE = false;   // true = arquivo de teste (usa uma cópia dos dados) · false = site real
 const KEY_STATE = TEST_MODE?"ftth_state_test":"ftth_state_v1", KEY_NET = TEST_MODE?"ftth_net_test":"ftth_net_v1";
 const DOC_STATE = TEST_MODE?"state_teste":"state", DOC_NET = TEST_MODE?"net_teste":"net";
@@ -4061,6 +4061,7 @@ function recChrome(){
   const main=canSend(), pend=recItems.filter(x=>!recIsDone(x)).length;
   document.getElementById("recAddBar").classList.toggle("hidden",!main);
   document.getElementById("recFoot").classList.toggle("hidden",!(main&&recItems.length));
+  document.getElementById("recAddBar").style.paddingBottom=(main&&recItems.length)?"":"calc(env(safe-area-inset-bottom) + 14px)";
   const ra=document.getElementById("recResendAll"); ra.classList.toggle("hidden",!pend); ra.textContent="↻ Reenviar pendentes ("+pend+")";
   const g=document.getElementById("recGear"); if(g) g.classList.toggle("hidden",!isMain());
 }
