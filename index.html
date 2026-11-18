@@ -821,6 +821,7 @@
       <li><b>⚙ ao lado de Recolhidos (só o Gustavo):</b> muda o nome das opções e adiciona opções novas (nome, figurinha e cor).</li>
       <li><b>🧹 Limpar lista:</b> apaga na hora, sem pergunta. Por 4 segundos aparece <b>DESFAZER</b>.</li>
       <li><b>Dar a chavinha (só o Gustavo):</b> <b>⚙ Configurações → Conta</b>. Em cada pessoa há duas chavinhas: <b>✏️ Edita o mapa</b> e <b>📦 Envia Recolhidos</b>. Ligue a 📦 para quem pode mandar a lista (por exemplo, o patrão).</li>
+      <li><b>Quem está online (só o Gustavo vê):</b> em <b>⚙ Configurações → Conta</b>, embaixo de cada pessoa aparece 🟢 <b>Online agora</b> ou ⚪ <b>Visto há…</b>, e se ela está no <b>App (APK)</b> ou no <b>site</b>. Só mostra quem está com o app aberto na tela. Serve só para informar: não muda nada no mapa.</li>
       <li>Na janela, a lista dos clientes lidos fica em cima e tudo que você mexe fica embaixo: a caixa de colar/digitar, o botão <b>📁 Escolher imagem</b>, o <b>Adicionar</b> e as abas <b>📋 Colar print / células</b> e <b>✍ Um por um</b>.</li>
       <li><b>Print da planilha:</b> tire o print no computador, copie e aperte <b>Ctrl+V</b> na caixa (ou toque em <b>📁 Escolher imagem</b>). O app lê <b>nome</b> e <b>endereço</b> e, se tiver, a data e o valor, que entram como aviso (ex.: Desde 15/07/2026). <b>Confira a lista</b> e tire com ✕ o que estiver errado: a leitura da imagem pode errar uma letra ou um número.</li>
       <li><b>Células copiadas:</b> cole o texto copiado da planilha na mesma caixa (ou digite). Cada linha vira um cliente.</li>
@@ -1034,7 +1035,7 @@ function rebuildRegions(){            // nomes das cidades: padrão + renomeadas
   Object.keys(REGION_DEF).forEach(k=>{ REGIONS[k]=(state.cityNames&&state.cityNames[k])||REGION_DEF[k]; });
   (state.cityExtra||[]).forEach(c=>{ REGIONS[c.id]=c.name; });
 }
-const APP_VERSION = "3.69";
+const APP_VERSION = "3.70";
 const TEST_MODE = false;   // true = arquivo de teste (usa uma cópia dos dados) · false = site real
 const KEY_STATE = TEST_MODE?"ftth_state_test":"ftth_state_v1", KEY_NET = TEST_MODE?"ftth_net_test":"ftth_net_v1";
 const DOC_STATE = TEST_MODE?"state_teste":"state", DOC_NET = TEST_MODE?"net_teste":"net";
@@ -2804,7 +2805,7 @@ function drawPer(){
       <p class="text-xs opacity-70 mt-2">Toque num nome da lista para ir até o ponto. Na contagem lá embaixo, os clientes de rádio aparecem <b>separados</b> dos clientes da fibra.</p></div>`; }
   S.conta=`<div><p class="text-xs opacity-70 mb-2">Quem pode editar o mapa e enviar Recolhidos</p>
     <div class="trow" style="cursor:default"><span class="tic">👤</span><div class="flex-1 min-w-0"><b>${esc(MAIN_EMAIL.split("@")[0].replace(/mapa$/,"")||"Principal").replace(/^./,c=>c.toUpperCase())}</b><small>${esc(MAIN_EMAIL)} · principal</small></div><span class="text-xs font-bold opacity-70 rounded-full bg-slate-200 px-2 py-1">sempre</span></div>
-    ${lockables().map(em=>{ const v=accessViewers.includes(em), sd=accessSenders.includes(em), nm=nameFromEmail(em), mem=accessMembers.includes(em); return `<div class="trow mt-2" style="cursor:default;height:auto;flex-wrap:wrap;padding:8px 14px"><span class="tic">${v?"🔒":"✏️"}</span><div class="flex-1 min-w-0"><b>${esc(nm)}</b><small style="overflow:hidden;text-overflow:ellipsis">${esc(em)} · ${v?"só visualiza":"pode editar"}</small></div><button type="button" data-acc="tg" data-em="${esc(em)}" role="switch" aria-checked="${v?"false":"true"}" class="swt ${v?"":"on"}"></button>${mem?`<button type="button" data-acc="rm" data-em="${esc(em)}" title="Tirar o acesso" aria-label="Tirar o acesso" style="width:30px;height:30px;border-radius:9px;border:1px solid #fca5a5;color:#ef4444;flex:none;display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/></svg></button>`:""}<div style="flex-basis:100%;display:flex;align-items:center;gap:10px;border-top:1px solid rgba(148,163,184,.35);padding-top:7px"><span class="tic" style="width:30px;height:30px;font-size:15px">📦</span><div class="flex-1 min-w-0"><b style="font-size:13.5px">Envia Recolhidos</b><small>${sd?"pode adicionar clientes":"só recebe e marca"}</small></div><button type="button" data-acc="sd" data-em="${esc(em)}" role="switch" aria-checked="${sd?"true":"false"}" class="swt ${sd?"on":""}"></button></div></div>`; }).join("")}
+    ${lockables().map(em=>{ const v=accessViewers.includes(em), sd=accessSenders.includes(em), nm=nameFromEmail(em), mem=accessMembers.includes(em); return `<div class="trow mt-2" style="cursor:default;height:auto;flex-wrap:wrap;padding:8px 14px"><span class="tic">${v?"🔒":"✏️"}</span><div class="flex-1 min-w-0"><b>${esc(nm)}</b><small style="overflow:hidden;text-overflow:ellipsis">${esc(em)} · ${v?"só visualiza":"pode editar"}</small></div><button type="button" data-acc="tg" data-em="${esc(em)}" role="switch" aria-checked="${v?"false":"true"}" class="swt ${v?"":"on"}"></button>${mem?`<button type="button" data-acc="rm" data-em="${esc(em)}" title="Tirar o acesso" aria-label="Tirar o acesso" style="width:30px;height:30px;border-radius:9px;border:1px solid #fca5a5;color:#ef4444;flex:none;display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/></svg></button>`:""}<div style="flex-basis:100%;display:flex;align-items:center;gap:10px;border-top:1px solid rgba(148,163,184,.35);padding-top:7px"><span class="tic" style="width:30px;height:30px;font-size:15px">📦</span><div class="flex-1 min-w-0"><b style="font-size:13.5px">Envia Recolhidos</b><small>${sd?"pode adicionar clientes":"só recebe e marca"}</small></div><button type="button" data-acc="sd" data-em="${esc(em)}" role="switch" aria-checked="${sd?"true":"false"}" class="swt ${sd?"on":""}"></button></div><div data-pres="${esc(em)}" style="flex-basis:100%;font-size:13.5px;font-weight:600;margin-top:2px"></div></div>`; }).join("")}
     <button type="button" id="accAdd" class="w-full mt-2 rounded-xl border-2 border-dashed border-sky-300 text-sky-600 py-3 font-bold" style="font-size:15.5px">＋ Adicionar pessoa</button>
     <p class="text-xs opacity-70 mt-3">✏️ desligada: a conta só vê o mapa e não edita. 📦 ligada: a conta pode adicionar clientes na lista de Recolhidos. Todas as contas veem a lista e marcam Recolhido.</p></div>`;
   let hc=`<div>`;
@@ -2817,6 +2818,7 @@ function drawPer(){
   S.cid=hc;
   document.getElementById("perTitle").textContent=PER_TITLES[perSec]||PER_TITLES.hdr;
   perBody.innerHTML=S[perSec]||S.hdr;
+  if(perSec==="conta"){ try{ presShow(); }catch(_){} }
   perBarShow();
 }
 document.getElementById("btnCabEd").onclick=()=>{ menu.classList.add("hidden");
@@ -3243,6 +3245,62 @@ if(CLOUD_ON){
     fbAuth.signOut().then(()=>location.reload());
   };
   window.addEventListener("online",()=>{ if(dirty) doPush(); });
+}
+
+/* ======================= ONLINE: quem está usando o app (só informativo) ======================= */
+const PRES_COL="presenca";
+let presLast=0, presCache={}, presAt=0, presErr="";
+function presKind(){
+  try{
+    const mob=/Android|iPhone|iPad|Mobile/i.test(navigator.userAgent||"");
+    let apk=false;
+    try{ if(/^android-app:\/\//.test(document.referrer||"")) sessionStorage.setItem("ftth_apk","1"); apk=sessionStorage.getItem("ftth_apk")==="1"; }catch(_){}
+    const st=!!(window.matchMedia&&(matchMedia("(display-mode: standalone)").matches||matchMedia("(display-mode: fullscreen)").matches||matchMedia("(display-mode: minimal-ui)").matches));
+    if(apk||(mob&&st)) return "apk";
+    if(st) return "pcapp";
+    return mob?"cel":"pc";
+  }catch(_){ return "pc"; }
+}
+function presPing(){
+  try{
+    if(typeof TEST_MODE!=="undefined"&&TEST_MODE) return;
+    if(!fbDb||!cloudUser||document.hidden||navigator.onLine===false) return;
+    const em=myEmail(); if(!em) return;
+    fbDb.collection(PRES_COL).doc(em).set({t:firebase.firestore.FieldValue.serverTimestamp(),k:presKind()}).catch(()=>{});
+  }catch(_){}
+}
+try{
+  setInterval(()=>{ try{ if(!cloudUser||document.hidden) return; const n=Date.now(); if(n-presLast>=60000){ presLast=n; presPing(); } }catch(_){} },5000);
+  document.addEventListener("visibilitychange",()=>{ if(!document.hidden) presLast=0; });
+}catch(_){}
+function presTxt(d){
+  if(!d||!d.t||!d.t.toMillis) return ["⚪ Ainda não apareceu","#64748b"];
+  const ms=d.t.toMillis(), diff=Date.now()-ms, min=Math.floor(diff/60000);
+  const K={apk:"📱 App (APK)",cel:"🌐 Site no celular",pc:"💻 Site no computador",pcapp:"💻 App no computador"};
+  const where=K[d.k]?" · <span style=\"opacity:.85\">"+K[d.k]+"</span>":"";
+  if(diff<150000) return ["🟢 Online agora"+where,"#16a34a"];
+  let w;
+  if(min<60) w="há "+Math.max(min,3)+" min";
+  else if(min<60*24){ const h=Math.floor(min/60); w="há "+h+(h===1?" hora":" horas"); }
+  else { const t=new Date(ms), hh=String(t.getHours()).padStart(2,"0")+":"+String(t.getMinutes()).padStart(2,"0"), ontem=new Date(Date.now()-864e5);
+    w=(t.toDateString()===ontem.toDateString())?"ontem às "+hh:String(t.getDate()).padStart(2,"0")+"/"+String(t.getMonth()+1).padStart(2,"0")+" às "+hh; }
+  return ["⚪ Visto "+w+where,"#64748b"];
+}
+function presPaint(){
+  try{ document.querySelectorAll("#perBody [data-pres]").forEach(el=>{
+    if(presErr){ el.innerHTML="<span style=\"font-weight:500;opacity:.7;font-size:12.5px\">Online: falta colar a regra nova no Firebase</span>"; return; }
+    const em=el.getAttribute("data-pres"); if(!(em in presCache)){ el.innerHTML=""; return; }
+    const r=presTxt(presCache[em]); el.style.color=r[1]; el.innerHTML=r[0]; }); }catch(_){}
+}
+function presShow(){
+  if(!isMain()||!fbDb) return;
+  presPaint();
+  if(Date.now()-presAt<20000) return;
+  presAt=Date.now();
+  lockables().forEach(em=>{
+    fbDb.collection(PRES_COL).doc(em).get().then(sn=>{ presErr=""; presCache[em]=sn.exists?sn.data():null; if(!perModal.classList.contains("hidden")&&perSec==="conta") presPaint(); })
+      .catch(err=>{ if(err&&err.code==="permission-denied"){ presErr="x"; if(!perModal.classList.contains("hidden")&&perSec==="conta") presPaint(); } });
+  });
 }
 
 /* ======================= MODO SEM INTERNET ======================= */
