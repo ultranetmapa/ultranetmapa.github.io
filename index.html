@@ -314,7 +314,7 @@
   .lkb svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;overflow:visible}
   .lkb .sh{transform-origin:8px 11px;transform:rotate(-32deg);transition:transform .38s cubic-bezier(.3,1.4,.5,1)}
   .lkb.closed .sh{transform:rotate(0deg)}
-  body.ro #sheetBody button[data-a]:not([data-a=close]):not([data-a=gotobox]):not([data-a=fview]):not([data-a=hall]):not([data-a=slot]):not([data-a=arminfo]){display:none!important}
+  body.ro #sheetBody button[data-a]:not([data-a=close]):not([data-a=gotobox]):not([data-a=fview]):not([data-a=hall]):not([data-a=slot]):not([data-a=arminfo]):not([data-a=twsel]){display:none!important}
   body.ro #sheetBody .slot,body.ro #sheetBody input,body.ro #sheetBody select,body.ro #sheetBody textarea,body.ro #sheetBody .tg,body.ro #sheetBody .pb,body.ro #sheetBody label{pointer-events:none}
   body.ro #btnCabEd,body.ro #btnRp,body.ro #btnImport,body.ro #btnKml,body.ro .adv,body.ro [data-per=rur],body.ro [data-per=cid],body.ro [data-city=__manage]{display:none!important}
   /* Armário: torres, AP e PON */
@@ -784,7 +784,7 @@
     <details class="rounded-lg border border-slate-200 px-3 py-2"><summary class="font-bold text-slate-800 cursor-pointer">👁 O que mostrar no mapa (botão do olho)</summary><ul class="list-disc pl-5 space-y-1 mt-2">
       <li><b>Card · PON:</b> mostra Caixa / CARD / PON / Fibra / VLAN no lugar do nome, com a borda na cor do tubo.</li>
       <li><b>Cabos:</b> liga e desliga o desenho dos cabos.</li>
-      <li><b>👤 Conta (só no login do Gustavo):</b> em ⚙ Configurações, toque em <b>Conta</b>. A chavinha da <b>Ultranet</b> liga e desliga a edição: desligada, essa conta só vê o mapa (olhinho, caixas e clientes continuam abrindo) e não consegue editar nem salvar. Na conta travada aparece um <b>cadeadinho</b> ao lado do ?: fechado = só visualiza, aberto = pode editar. Para uma pessoa nova: crie o login dela no Firebase (Authentication → Add user) e depois toque em <b>＋ Adicionar pessoa</b> e digite o e-mail. A lixeira tira o acesso.</li>
+      <li><b>👤 Conta (só no login do Gustavo):</b> em ⚙ Configurações, toque em <b>Conta</b>. A chavinha da <b>Ultranet</b> liga e desliga a edição: desligada, essa conta só vê o mapa (olhinho, caixas, clientes e as torres do armário continuam abrindo) e não consegue editar nem salvar. Na conta travada aparece um <b>cadeadinho</b> ao lado do ?: fechado = só visualiza, aberto = pode editar. Para uma pessoa nova: crie o login dela no Firebase (Authentication → Add user) e depois toque em <b>＋ Adicionar pessoa</b> e digite o e-mail. A lixeira tira o acesso.</li>
       <li><b>Armário — torres:</b> na ficha do armário, escolha a torre (Principal, Caixa d'água, Da Pedra). Cada torre tem a sua lista de <b>AP</b> e de <b>PON</b>. O <b>lápis ✏️</b> muda o nome da torre e a faixa de IP (3 primeiros números); o <b>＋</b> cria outra torre. Toque no número do AP, ou na caixinha da PON, para escrever.</li>
       <li><b>Caixas:</b> liga e desliga as caixas dos clientes e também as emendas, casa/loja e outros nomes diferentes, a zona rural e o armário.</li>
       <li><b>CEO:</b> liga e desliga as CEOs.</li>
@@ -1035,7 +1035,7 @@ function rebuildRegions(){            // nomes das cidades: padrão + renomeadas
   Object.keys(REGION_DEF).forEach(k=>{ REGIONS[k]=(state.cityNames&&state.cityNames[k])||REGION_DEF[k]; });
   (state.cityExtra||[]).forEach(c=>{ REGIONS[c.id]=c.name; });
 }
-const APP_VERSION = "3.70";
+const APP_VERSION = "3.71";
 const TEST_MODE = false;   // true = arquivo de teste (usa uma cópia dos dados) · false = site real
 const KEY_STATE = TEST_MODE?"ftth_state_test":"ftth_state_v1", KEY_NET = TEST_MODE?"ftth_net_test":"ftth_net_v1";
 const DOC_STATE = TEST_MODE?"state_teste":"state", DOC_NET = TEST_MODE?"net_teste":"net";
@@ -1708,7 +1708,7 @@ function specialSheet(it,gm){
   }
   const {ar:a,i:twi,t:tw}=armTower(id), olt=a.olt||{}, ed=!!armEd[id];
   const ipP=(tw.ip||"").split("."), ipTxt=tw.ip?`${att(tw.ip)}<em>.___</em>`:`<em>não definida</em>`;
-  const chips=a.towers.map((x,i)=>`<button data-a="twsel" data-i="${i}" class="twc${i===twi?" on":""}">${att(x.n||"Torre")}${i===twi&&!ed?" ✏️":""}</button>`).join("")+`<button data-a="twnew" class="twc plus" title="Adicionar torre">＋</button>`;
+  const chips=a.towers.map((x,i)=>`<button data-a="twsel" data-i="${i}" class="twc${i===twi?" on":""}">${att(x.n||"Torre")}${i===twi&&!ed&&!RO?" ✏️":""}</button>`).join("")+`<button data-a="twnew" class="twc plus" title="Adicionar torre">＋</button>`;
   const ipBox=ed?`<div class="twedit"><div class="l">Nome da torre</div><div class="row"><input id="spTwN" value="${att(tw.n)}" maxlength="30"><button data-a="twok" class="twok" title="Confirmar">✓</button><button data-a="twdel" class="twbin" title="Excluir esta torre">${ICO_TRASH}</button></div>
       <div class="l" style="margin-top:10px">Faixa de IP (3 primeiros números)</div><div class="row"><input id="spIp1" class="oct" inputmode="numeric" maxlength="3" value="${att(ipP[0]||"")}"><span class="dot">.</span><input id="spIp2" class="oct" inputmode="numeric" maxlength="3" value="${att(ipP[1]||"")}"><span class="dot">.</span><input id="spIp3" class="oct" inputmode="numeric" maxlength="3" value="${att(ipP[2]||"")}"><span class="dot">.</span><span class="dot">___</span></div></div>`
     :`<div class="ipbx"><span>Faixa de IP desta torre</span><span style="display:flex;align-items:center;color:inherit"><b>${ipTxt}</b><button data-a="twedit" class="pen" title="Editar nome e faixa de IP">✏️</button></span></div>`;
@@ -1812,7 +1812,7 @@ function drawSheet(){
 body.addEventListener("click",e=>{
   const b=e.target.closest("[data-a]"); if(!b) return;
   const it=byId[currentId]; if(!it) return; const a=b.dataset.a, cl=clientsOf(it.id);
-  if(RO&&!["close","gotobox","fview","hall","arminfo"].includes(a)) return;
+  if(RO&&!["close","gotobox","fview","hall","arminfo","twsel"].includes(a)) return;
   if(a==="close") return closeSheet();
   if(a==="add") return addClient();
   if(a==="pmark"){ portMark=!portMark; drawSheet(); return; }
@@ -1885,7 +1885,7 @@ body.addEventListener("click",e=>{
   if(a==="apdel"){ const {t}=armTower(it.id), i=+b.dataset.i; if(t.aps[i]&&confirm(`Apagar o ${t.aps[i].n||"AP"}?`)){ t.aps.splice(i,1); apEd={}; save(); drawSheet(); } return; }
   if(a==="ponadd"){ const {t}=armTower(it.id); t.pons.push({n:"PON "+(t.pons.length+1)}); save(); drawSheet(); return; }
   if(a==="pondel"){ const {t}=armTower(it.id), i=+b.dataset.i; if(t.pons[i]&&confirm(`Apagar a ${t.pons[i].n||"PON"}?`)){ t.pons.splice(i,1); save(); drawSheet(); } return; }
-  if(a==="twsel"){ const ar=armData(it.id), i=+b.dataset.i; if(i===(armTw[it.id]|0)&&!armEd[it.id]){ armEd[it.id]=true; } else { armTw[it.id]=i; armEd[it.id]=false; } drawSheet(); return; }
+  if(a==="twsel"){ const ar=armData(it.id), i=+b.dataset.i; if(RO){ armTw[it.id]=i; armEd[it.id]=false; drawSheet(); return; } if(i===(armTw[it.id]|0)&&!armEd[it.id]){ armEd[it.id]=true; } else { armTw[it.id]=i; armEd[it.id]=false; } drawSheet(); return; }
   if(a==="twedit"){ armEd[it.id]=true; drawSheet(); return; }
   if(a==="twnew"){ const ar=armData(it.id); ar.towers.push({n:"Nova torre",ip:"",aps:[],pons:[]}); armTw[it.id]=ar.towers.length-1; armEd[it.id]=true; save(); drawSheet(); const f=document.getElementById("spTwN"); if(f){ f.focus(); f.select(); } return; }
   if(a==="twok"){ const {t}=armTower(it.id), g=k=>(document.getElementById(k).value||"").trim(), n=g("spTwN"), q=[g("spIp1"),g("spIp2"),g("spIp3")];
@@ -4014,7 +4014,9 @@ function ctrDraw(){
 }
 const ctrIso=t=>{ const m=/^(\d{2})\/(\d{2})\/(\d{4})$/.exec(t); if(!m) return ""; const d=+m[1],mo=+m[2],y=+m[3]; if(y<2000||y>2100||mo<1||mo>12||d<1) return ""; const dt=new Date(Date.UTC(y,mo-1,d)); return (dt.getUTCMonth()===mo-1&&dt.getUTCDate()===d)?`${m[3]}-${m[2]}-${m[1]}`:""; };
 const ctrBr=iso=>{ const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(iso||""); return m?`${m[3]}/${m[2]}/${m[1]}`:""; };
-document.getElementById("ctrDateTxt").addEventListener("input",e=>{ const el=e.target, dg=el.value.replace(/\D/g,"").slice(0,8); let t=dg; if(dg.length>4) t=dg.slice(0,2)+"/"+dg.slice(2,4)+"/"+dg.slice(4); else if(dg.length>2) t=dg.slice(0,2)+"/"+dg.slice(2); el.value=t; document.getElementById("ctrDate").value=ctrIso(t); ctrDraw(); });
+document.getElementById("ctrDateTxt").addEventListener("input",e=>{ const el=e.target, dg=el.value.replace(/\D/g,"").slice(0,8); let t=dg; if(dg.length>4) t=dg.slice(0,2)+"/"+dg.slice(2,4)+"/"+dg.slice(4); else if(dg.length>2) t=dg.slice(0,2)+"/"+dg.slice(2); el.value=t; document.getElementById("ctrDate").value=ctrIso(t); ctrDraw(); try{ if(dg.length===8&&el.selectionStart===el.value.length&&presKind()==="apk") el.blur(); }catch(_){} });
+try{ const cdt=document.getElementById("ctrDateTxt"); if(presKind()==="apk") cdt.setAttribute("enterkeyhint","done");
+  cdt.addEventListener("keydown",e=>{ try{ if((e.key==="Enter"||e.keyCode===13)&&presKind()==="apk"){ e.preventDefault(); cdt.blur(); } }catch(_){} }); }catch(_){}
 document.getElementById("ctrDate").addEventListener("input",()=>{ document.getElementById("ctrDateTxt").value=ctrBr(document.getElementById("ctrDate").value); ctrDraw(); });
 document.getElementById("ctrCal").onclick=()=>{ const d=document.getElementById("ctrDate"); d.style.pointerEvents="auto"; try{ d.showPicker(); }catch(e){ try{ d.focus(); d.click(); }catch(_){} } setTimeout(()=>{ d.style.pointerEvents="none"; },400); };
 document.getElementById("ctrAct").addEventListener("click",async e=>{
